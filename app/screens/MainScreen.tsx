@@ -53,6 +53,25 @@ const featureBlocks = [
   },
 ];
 
+const heatmapCells = [
+  "#4f80ee",
+  "#89d37d",
+  "#f4d66f",
+  "#f7a56f",
+  "#ee6f6b",
+  "#dfe6ff",
+  "#5d8af0",
+  "#a8dd91",
+  "#f6e08b",
+  "#f7b083",
+  "#f07b78",
+  "#cfd9ff",
+  "#3568df",
+  "#8fd48a",
+  "#f2cf5f",
+  "#e96561",
+];
+
 export function MainScreen() {
   const { width } = useWindowDimensions();
   const isNarrow = width < 360;
@@ -142,13 +161,13 @@ function Header({ onStart, onTeacherPress, isNarrow }: HeaderProps) {
         <ActionButton
           label="Войти как учитель"
           onPress={onTeacherPress}
-          compact={isNarrow}
+          compact
           variant="outline"
         />
         <ActionButton
           label="Начать обучение"
           onPress={onStart}
-          compact={isNarrow}
+          compact
         />
       </View>
     </View>
@@ -332,12 +351,28 @@ function FeatureVisual({ type }: Pick<FeatureBlockProps, "type">) {
 function RoadmapGraphic() {
   return (
     <View style={styles.roadmapCanvas}>
-      <View style={[styles.faintPill, styles.pillOne]} />
-      <View style={[styles.faintPill, styles.pillTwo]} />
-      <View style={[styles.pathDot, styles.pathDotStart]} />
-      <View style={[styles.pathDot, styles.pathDotEnd]} />
-      <View style={styles.pathLineOne} />
-      <View style={styles.pathLineTwo} />
+      <View style={styles.roadmapSurface}>
+        <View style={[styles.roadmapLabel, styles.roadmapLabelTop]}>
+          <Text style={styles.roadmapLabelText}>CHEMISTRY</Text>
+        </View>
+        <View style={[styles.roadmapLabel, styles.roadmapLabelLeft]}>
+          <Text style={styles.roadmapLabelText}>MATH</Text>
+        </View>
+        <View style={[styles.roadmapLabel, styles.roadmapLabelRight]}>
+          <Text style={styles.roadmapLabelText}>PHYSICS</Text>
+        </View>
+        <View style={[styles.roadmapLine, styles.roadmapLineA]} />
+        <View style={[styles.roadmapLine, styles.roadmapLineB]} />
+        <View style={[styles.roadmapLine, styles.roadmapLineC]} />
+        <View style={[styles.roadmapLine, styles.roadmapLineD]} />
+        <View style={[styles.roadmapLine, styles.roadmapLineE]} />
+        <View style={[styles.roadmapNode, styles.roadmapNodeRoot]} />
+        <View style={[styles.roadmapNode, styles.roadmapNodeMid]} />
+        <View style={[styles.roadmapNode, styles.roadmapNodeUpper]} />
+        <View style={[styles.roadmapNode, styles.roadmapNodeLower]} />
+        <View style={[styles.roadmapNode, styles.roadmapNodeRight]} />
+        <View style={[styles.roadmapNode, styles.roadmapNodeFar]} />
+      </View>
     </View>
   );
 }
@@ -398,16 +433,7 @@ function TeacherPortalCard({ onTeacherPress }: { onTeacherPress: () => void }) {
         </View>
         <View style={styles.separator} />
         <View style={styles.heatmap}>
-          {[
-            "#dce3ff",
-            "#4d80ec",
-            "#ffd7c9",
-            "#dce3ff",
-            "#ffd3cf",
-            "#dce3ff",
-            "#2f63e8",
-            "#dce3ff",
-          ].map((color, index) => (
+          {heatmapCells.map((color, index) => (
             <View
               key={`${color}-${index}`}
               style={[styles.heatmapCell, { backgroundColor: color }]}
@@ -464,24 +490,27 @@ const styles = StyleSheet.create({
   },
   header: {
     width: "100%",
-    minHeight: 64,
+    minHeight: 58,
     borderBottomColor: "#e1e4ea",
     borderBottomWidth: 1,
     backgroundColor: colors.page,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 24,
-    paddingVertical: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 9,
   },
   logo: {
     color: colors.muted,
-    fontSize: 24,
+    flexShrink: 0,
+    fontSize: 22,
     fontWeight: "800",
   },
   headerActions: {
+    flexShrink: 1,
     flexDirection: "row",
-    gap: 16,
+    justifyContent: "flex-end",
+    gap: 8,
   },
   actionButton: {
     minHeight: 48,
@@ -506,9 +535,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   compactButton: {
-    minHeight: 40,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    minHeight: 38,
+    borderRadius: 4,
+    paddingHorizontal: 9,
+    paddingVertical: 7,
   },
   pressed: {
     opacity: 0.78,
@@ -533,9 +563,9 @@ const styles = StyleSheet.create({
     lineHeight: 30,
   },
   compactLabel: {
-    maxWidth: 96,
-    fontSize: 12,
-    lineHeight: 14,
+    maxWidth: 82,
+    fontSize: 11,
+    lineHeight: 13,
   },
   heroSection: {
     width: "100%",
@@ -784,7 +814,110 @@ const styles = StyleSheet.create({
   },
   roadmapCanvas: {
     flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
     backgroundColor: "#edf6f7",
+  },
+  roadmapSurface: {
+    width: "86%",
+    maxWidth: 250,
+    height: 116,
+    position: "relative",
+  },
+  roadmapLabel: {
+    position: "absolute",
+    borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.82)",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  roadmapLabelTop: {
+    left: "35%",
+    top: 2,
+  },
+  roadmapLabelLeft: {
+    left: 0,
+    top: 68,
+  },
+  roadmapLabelRight: {
+    right: 0,
+    top: 66,
+  },
+  roadmapLabelText: {
+    color: "rgba(83,99,130,0.58)",
+    fontSize: 9,
+    fontWeight: "800",
+  },
+  roadmapLine: {
+    position: "absolute",
+    height: 5,
+    borderRadius: 5,
+    backgroundColor: "#47a9b0",
+  },
+  roadmapLineA: {
+    left: "19%",
+    top: 62,
+    width: "25%",
+    transform: [{ rotate: "-24deg" }],
+  },
+  roadmapLineB: {
+    left: "38%",
+    top: 54,
+    width: "20%",
+    transform: [{ rotate: "18deg" }],
+  },
+  roadmapLineC: {
+    left: "52%",
+    top: 63,
+    width: "22%",
+    transform: [{ rotate: "-16deg" }],
+  },
+  roadmapLineD: {
+    left: "38%",
+    top: 81,
+    width: "20%",
+    transform: [{ rotate: "-20deg" }],
+  },
+  roadmapLineE: {
+    left: "56%",
+    top: 82,
+    width: "20%",
+    transform: [{ rotate: "21deg" }],
+  },
+  roadmapNode: {
+    position: "absolute",
+    width: 18,
+    height: 18,
+    marginLeft: -9,
+    marginTop: -9,
+    borderRadius: 9,
+    borderWidth: 4,
+    borderColor: "#47a9b0",
+    backgroundColor: "#edf6f7",
+  },
+  roadmapNodeRoot: {
+    left: "20%",
+    top: 70,
+  },
+  roadmapNodeMid: {
+    left: "43%",
+    top: 56,
+  },
+  roadmapNodeUpper: {
+    left: "60%",
+    top: 68,
+  },
+  roadmapNodeLower: {
+    left: "52%",
+    top: 88,
+  },
+  roadmapNodeRight: {
+    left: "76%",
+    top: 56,
+  },
+  roadmapNodeFar: {
+    left: "78%",
+    top: 96,
   },
   faintPill: {
     position: "absolute",
@@ -986,12 +1119,13 @@ const styles = StyleSheet.create({
     marginTop: 16,
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 8,
+    justifyContent: "space-between",
+    rowGap: 8,
   },
   heatmapCell: {
-    width: "21.5%",
-    aspectRatio: 1.45,
-    borderRadius: 2,
+    width: "22%",
+    aspectRatio: 1,
+    borderRadius: 4,
   },
   footer: {
     width: "100%",
