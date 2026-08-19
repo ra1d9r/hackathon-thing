@@ -2,10 +2,12 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import { router } from "expo-router";
 import { useState } from "react";
-import { Image, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
+import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from "react-native";
 import { LineChart } from "react-native-gifted-charts";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { useLearningStats, useUserProfile } from "@/hooks/useData";
+import type { UserProfile } from "@/types/app";
 import { routes } from "@/types/navigation";
 
 type AccountTab = "main" | "stats";
@@ -37,26 +39,29 @@ const gradeChartData = [
 
 export function PersonalAccountScreen() {
   const [activeTab, setActiveTab] = useState<AccountTab>("main");
+  const { user, isLoading, error } = useUserProfile();
 
   const copyUserId = async () => {
-    await Clipboard.setStringAsync(userId);
+    await Clipboard.setStringAsync(user?.id ?? userId);
   };
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
       <View style={styles.root}>
-        <Header />
+        <Header user={user} />
         <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-          <ProfileCard onCopyUserId={copyUserId} />
+          {isLoading ? <ActivityIndicator color={colors.blue} style={{ marginTop: 24 }} /> : null}
+          {error ? <Text style={styles.progressLabel}>{error}</Text> : null}
+          <ProfileCard user={user} onCopyUserId={copyUserId} />
           <SegmentedTabs activeTab={activeTab} onChange={setActiveTab} />
-          {activeTab === "main" ? <MainTab /> : <StatsTab />}
+          {activeTab === "main" ? <MainTab user={user} /> : <StatsTab />}
         </ScrollView>
       </View>
     </SafeAreaView>
   );
 }
 
-function Header() {
+function Header({ user }: { user: UserProfile | null }) {
   return (
     <View style={styles.header}>
       <Text style={styles.logo}>EduPrep</Text>
@@ -66,20 +71,20 @@ function Header() {
         onPress={() => router.back()}
         style={({ pressed }) => [styles.headerAvatarButton, pressed && styles.pressed]}
       >
-        <Image source={{ uri: profileImage }} style={styles.headerAvatar} />
+        <Image source={{ uri: user?.avatarUrl ?? profileImage }} style={styles.headerAvatar} />
       </Pressable>
     </View>
   );
 }
 
-function ProfileCard({ onCopyUserId }: { onCopyUserId: () => void }) {
+function ProfileCard({ user, onCopyUserId }: { user: UserProfile | null; onCopyUserId: () => void }) {
   return (
     <View style={styles.profileCard}>
-      <Image source={{ uri: profileImage }} style={styles.profileAvatar} />
+      <Image source={{ uri: user?.avatarUrl ?? profileImage }} style={styles.profileAvatar} />
       <View style={styles.profileInfo}>
-        <Text style={styles.userName}>Aibar Serikov</Text>
+        <Text style={styles.userName}>{user?.name ?? "Aibar Serikov"}</Text>
         <View style={styles.gradeBadge}>
-          <Text style={styles.gradeText}>Класс 11 А</Text>
+          <Text style={styles.gradeText}>{user?.grade ?? "Класс 11 А"}</Text>
         </View>
         <Pressable
           accessibilityLabel="Copy user ID"
@@ -89,7 +94,7 @@ function ProfileCard({ onCopyUserId }: { onCopyUserId: () => void }) {
         >
           <View>
             <Text style={styles.idLabel}>User ID</Text>
-            <Text style={styles.idValue}>{userId}</Text>
+            <Text style={styles.idValue}>{user?.id ?? userId}</Text>
           </View>
           <Ionicons name="copy-outline" size={24} color={colors.muted} />
         </Pressable>
@@ -121,10 +126,16 @@ function TabButton({ label, active, onPress }: { label: string; active: boolean;
   );
 }
 
-function MainTab() {
+function MainTab({ user }: { user: UserProfile | null }) {
+  const dynamicMetrics = [
+    { ...metrics[0], value: `${user?.streakDays ?? "X"} дней` },
+    { ...metrics[1], value: `${user?.totalPracticeCount ?? "X"} заданий` },
+    { ...metrics[2], value: `${user?.aiUsageCount ?? "X"}` }
+  ];
+
   return (
     <View style={styles.tabContent}>
-      {metrics.map((metric) => (
+      {dynamicMetrics.map((metric) => (
         <MetricCard key={metric.label} {...metric} />
       ))}
       <ProgressCard />
@@ -148,10 +159,14 @@ function MetricCard({ label, value, icon, color, background }: (typeof metrics)[
 }
 
 function ProgressCard() {
+  const { subjectProgress: progressRows, isLoading, error } = useLearningStats();
+
   return (
     <View style={styles.progressCard}>
       <Text style={styles.cardTitle}>Изучено</Text>
       <View style={styles.progressList}>
+        {isLoading ? <ActivityIndicator color={colors.blue} /> : null}
+        {error ? <Text style={styles.progressLabel}>{error}</Text> : null}
         {progressRows.map((item) => (
           <ProgressRow key={item.label} {...item} />
         ))}
@@ -203,6 +218,7 @@ function CriticalAlert() {
 
 function StatsTab() {
   const { width } = useWindowDimensions();
+  const { gradeChartData, isLoading, error } = useLearningStats();
   const chartWidth = Math.min(width - 92, 280);
 
   return (
@@ -210,6 +226,8 @@ function StatsTab() {
       <View style={styles.statsCard}>
         <Text style={styles.cardTitle}>Статистика оценок</Text>
         <View style={styles.chartBox}>
+          {isLoading ? <ActivityIndicator color={colors.blue} /> : null}
+          {error ? <Text style={styles.progressLabel}>{error}</Text> : null}
           <LineChart
             data={gradeChartData}
             color="#3B82F6"

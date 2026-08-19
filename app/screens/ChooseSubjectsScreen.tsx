@@ -2,11 +2,11 @@ import { router } from "expo-router";
 import { useEffect, useMemo, useState } from "react";
 import { Text, View } from "react-native";
 
-import { entMandatorySubjects, generalSubjects, specializedSubjects } from "@/constants/subjects";
 import { OptionCard } from "@/components/OptionCard";
 import { PrimaryButton } from "@/components/PrimaryButton";
 import { ScreenContainer } from "@/components/ScreenContainer";
 import { StateSnapshot } from "@/components/StateSnapshot";
+import { subjectGroups } from "@/services/mockData";
 import { useOnboardingStore } from "@/store/useOnboardingStore";
 import { routes } from "@/types/navigation";
 
@@ -19,7 +19,13 @@ export function ChooseSubjectsScreen() {
   const [localSubjects, setLocalSubjects] = useState<string[]>(selectedSubjects);
 
   const isEnt = target === "ENT";
-  const availableSubjects = useMemo(() => (isEnt ? specializedSubjects : generalSubjects), [isEnt]);
+  const mandatorySubjects = useMemo(() => subjectGroups.ENT_MANDATORY, []);
+  const entMandatorySubjects = useMemo(() => mandatorySubjects.map((subject) => subject.title), [mandatorySubjects]);
+  const availableSubjects = useMemo(() => {
+    if (isEnt) return subjectGroups.ENT_SPECIALIZED;
+    if (target === "OLYMPIAD") return subjectGroups.OLYMPIAD;
+    return subjectGroups.SUBJECTS.filter((subject, index, items) => items.findIndex((item) => item.id === subject.id) === index);
+  }, [isEnt, target]);
   const specializedSelection = localSubjects.filter((subject) => !entMandatorySubjects.includes(subject));
 
   useEffect(() => {
@@ -70,8 +76,8 @@ export function ChooseSubjectsScreen() {
       {isEnt ? (
         <View style={{ gap: 12 }}>
           <Text style={{ color: "#101828", fontSize: 16, fontWeight: "800" }}>Mandatory Subjects</Text>
-          {entMandatorySubjects.map((subject) => (
-            <OptionCard key={subject} title={subject} subtitle="Required for UNT" selected disabled />
+          {mandatorySubjects.map((subject) => (
+            <OptionCard key={subject.id} title={subject.title} subtitle="Required for UNT" selected disabled />
           ))}
         </View>
       ) : null}
@@ -80,13 +86,13 @@ export function ChooseSubjectsScreen() {
         <Text style={{ color: "#101828", fontSize: 16, fontWeight: "800" }}>
           {isEnt ? `Specialized Subjects (${specializedSelection.length}/2)` : "Available Subjects"}
         </Text>
-        {availableSubjects.map((subject) => (
+        {availableSubjects.map((subject, index) => (
           <OptionCard
-            key={subject}
-            title={subject}
-            selected={localSubjects.includes(subject)}
-            disabled={isEnt && specializedSelection.length >= 2 && !localSubjects.includes(subject)}
-            onPress={() => toggleSubject(subject)}
+            key={subject.id || `${subject.title}-${index}`}
+            title={subject.title}
+            selected={localSubjects.includes(subject.title)}
+            disabled={isEnt && specializedSelection.length >= 2 && !localSubjects.includes(subject.title)}
+            onPress={() => toggleSubject(subject.title)}
           />
         ))}
       </View>

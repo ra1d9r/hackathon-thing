@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { nisSubjects } from "@/constants/subjects";
+import { subjectGroups } from "@/services/mockData";
 import { useOnboardingStore } from "@/store/useOnboardingStore";
 import { routes } from "@/types/navigation";
 import type { UserTarget } from "@/types/onboarding";
@@ -64,7 +64,7 @@ export function UsersTargetChooseScreen() {
     await saveUserTarget(pendingTarget);
 
     if (pendingTarget === "NIS") {
-      await saveSelectedSubjects(nisSubjects);
+      await saveSelectedSubjects(subjectGroups.NIS.map((subject) => subject.title));
       router.push(routes.diagnosticTest);
       return;
     }

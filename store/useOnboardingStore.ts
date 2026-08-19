@@ -7,6 +7,8 @@ const simulateApiCall = () =>
     setTimeout(resolve, 450);
   });
 
+const uniqueSubjects = (subjects: string[]) => Array.from(new Set(subjects));
+
 export const useOnboardingStore = create<OnboardingStore>((set) => ({
   target: null,
   selectedSubjects: [],
@@ -14,7 +16,7 @@ export const useOnboardingStore = create<OnboardingStore>((set) => ({
   error: null,
 
   setTarget: (target) => set({ target }),
-  setSelectedSubjects: (selectedSubjects) => set({ selectedSubjects }),
+  setSelectedSubjects: (selectedSubjects) => set({ selectedSubjects: uniqueSubjects(selectedSubjects) }),
   toggleSubject: (subject) =>
     set((state) => {
       const exists = state.selectedSubjects.includes(subject);
@@ -46,7 +48,7 @@ export const useOnboardingStore = create<OnboardingStore>((set) => ({
     set({ isSaving: true, error: null });
     try {
       await simulateApiCall();
-      set({ selectedSubjects, isSaving: false });
+      set({ selectedSubjects: uniqueSubjects(selectedSubjects), isSaving: false });
     } catch {
       set({ error: "Failed to save subjects", isSaving: false });
     }
