@@ -1,0 +1,15 @@
+{
+  "expo": {
+    "name": "EdFront",
+    "slug": "edfront",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "scheme": "edfront",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
