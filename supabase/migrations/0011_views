@@ -1,0 +1,51 @@
+create view public.v_student_weak_topics
+with (security_invoker = true) as
+select
+  m.student_id,
+  m.topic_id,
+  m.subject_id,
+  t.title_ru       as topic_title,
+  s.name_ru        as subject_name,
+  m.mastery_pct,
+  m.confidence,
+  m.priority,
+  m.status,
+  m.last_evidence_at
+from public.student_topic_mastery m
+join public.topics t on t.id = m.topic_id
+join public.subjects s on s.id = m.subject_id
+where m.is_problem;
+
+comment on view public.v_student_weak_topics is
+  'Проблемные темы ученика в порядке приоритета. Освоенные (>= 100%) сюда не попадают.';
+
+create view public.v_student_activity
+with (security_invoker = true) as
+select
+  p.id as student_id,
+  coalesce(a.attempts_graded, 0)   as attempts_graded,
+  coalesce(a.questions_answered, 0) as questions_answered,
+  coalesce(a.attempt_seconds, 0) + coalesce(s.session_seconds, 0) as study_seconds
+from public.profiles p
+left join lateral (
+  select
+    count(*) filter (where at.status = 'graded')          as attempts_graded,
+    coalesce(sum(at.time_spent_sec), 0)                   as attempt_seconds,
+    coalesce(sum(ans.answer_count), 0)                    as questions_answered
+  from public.attempts at
+  left join lateral (
+    select count(*) as answer_count
+      from public.attempt_answers aa
+     where aa.attempt_id = at.id
+  ) ans on true
+  where at.student_id = p.id
+) a on true
+left join lateral (
+  select coalesce(sum(ss.seconds), 0) as session_seconds
+    from public.study_sessions ss
+   where ss.student_id = p.id
+) s on true
+where p.role = 'student';
+
+comment on view public.v_student_activity is
+  'Счётчики для блока аналитики: попытки, отвеченные вопросы и время за обучением.';
