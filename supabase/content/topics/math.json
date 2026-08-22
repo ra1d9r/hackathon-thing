@@ -1,0 +1,18 @@
+{
+  "subject_code": "math",
+  "placeholder": false,
+  "topics": [
+    { "code": "math.progressions", "title_ru": "Прогрессии", "grade_min": 9, "grade_max": 11, "exam_weight": 1.0, "sort_order": 10 },
+    { "code": "math.polynomials", "title_ru": "Многочлены и уравнения высших степеней", "grade_min": 9, "grade_max": 11, "exam_weight": 1.0, "sort_order": 20 },
+    { "code": "math.trigonometry", "title_ru": "Тригонометрические функции и уравнения", "grade_min": 10, "grade_max": 11, "exam_weight": 1.5, "sort_order": 30 },
+    { "code": "math.exponential", "title_ru": "Показательная функция и уравнения", "grade_min": 10, "grade_max": 11, "exam_weight": 1.2, "sort_order": 40 },
+    { "code": "math.logarithms", "title_ru": "Логарифмы и логарифмические уравнения", "grade_min": 10, "grade_max": 11, "exam_weight": 1.3, "sort_order": 50, "prerequisites": ["math.exponential"] },
+    { "code": "math.derivative", "title_ru": "Производная и её применение", "grade_min": 10, "grade_max": 11, "exam_weight": 1.5, "sort_order": 60 },
+    { "code": "math.integral", "title_ru": "Первообразная и интеграл", "grade_min": 11, "grade_max": 11, "exam_weight": 1.2, "sort_order": 70, "prerequisites": ["math.derivative"] },
+    { "code": "math.combinatorics", "title_ru": "Комбинаторика и бином Ньютона", "grade_min": 10, "grade_max": 11, "exam_weight": 1.0, "sort_order": 80 },
+    { "code": "math.probability", "title_ru": "Теория вероятностей", "grade_min": 9, "grade_max": 11, "exam_weight": 1.0, "sort_order": 90 },
+    { "code": "math.vectors", "title_ru": "Векторы и координаты в пространстве", "grade_min": 10, "grade_max": 11, "exam_weight": 1.1, "sort_order": 100 },
+    { "code": "math.stereometry", "title_ru": "Стереометрия: объёмы и площади поверхностей", "grade_min": 11, "grade_max": 11, "exam_weight": 1.3, "sort_order": 110, "prerequisites": ["math.vectors"] },
+    { "code": "math.complex", "title_ru": "Комплексные числа", "grade_min": 11, "grade_max": 11, "exam_weight": 0.8, "sort_order": 120 }
+  ]
+}
