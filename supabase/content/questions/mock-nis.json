@@ -1,0 +1,95 @@
+{
+  "_ЗАГОТОВКА": "Пробник НИШ содержит четыре демонстрационных вопроса вместо полного набора. Как и ЕНТ, этот тест составляется человеком: ИИ его не генерирует и не редактирует, а только анализирует результаты. Замените вопросы настоящими и выполните: npm run content",
+
+  "pool": "exam_mock",
+  "placeholder": true,
+  "exam_code": "nis",
+
+  "mock": {
+    "code": "mock.nis.demo",
+    "title": "Пробник НИШ (демонстрационная форма)",
+    "grade": 11,
+    "time_limit_sec": 1800,
+    "outline": [
+      { "step": 1, "kind": "intro", "title": "Математика", "duration_min": null },
+      { "step": 2, "kind": "intro", "title": "Логика и аналитика", "duration_min": null },
+      { "step": 3, "kind": "intro", "title": "Естествознание", "duration_min": null },
+      { "step": 4, "kind": "intro", "title": "Язык", "duration_min": null }
+    ]
+  },
+
+  "questions": [
+    {
+      "code": "mock.nis.math.progression",
+      "kind": "mcq_single",
+      "topic_code": "math.progressions",
+      "grade": 11,
+      "difficulty": 2,
+      "prompt_md": "В арифметической прогрессии первый член равен 2, разность равна 4. Найдите седьмой член прогрессии.",
+      "options": [
+        { "id": "a", "text_md": "22" },
+        { "id": "b", "text_md": "24" },
+        { "id": "c", "text_md": "26" },
+        { "id": "d", "text_md": "28" },
+        { "id": "e", "text_md": "30" }
+      ],
+      "answer_key": { "correct": ["c"] },
+      "explanation_md": "aₙ = a₁ + (n − 1)d = 2 + 6 · 4 = 26.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.sequence",
+      "kind": "mcq_single",
+      "topic_code": "logic.placeholder_01",
+      "grade": 11,
+      "difficulty": 3,
+      "prompt_md": "Продолжите числовую последовательность: 2, 6, 12, 20, 30, …",
+      "options": [
+        { "id": "a", "text_md": "36" },
+        { "id": "b", "text_md": "40" },
+        { "id": "c", "text_md": "42" },
+        { "id": "d", "text_md": "44" },
+        { "id": "e", "text_md": "48" }
+      ],
+      "answer_key": { "correct": ["c"] },
+      "explanation_md": "Разности растут на 2: 4, 6, 8, 10, значит следующая равна 12, и 30 + 12 = 42.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.natural.atmosphere",
+      "kind": "mcq_single",
+      "topic_code": "nat.placeholder_01",
+      "grade": 11,
+      "difficulty": 1,
+      "prompt_md": "Какой газ составляет наибольшую долю в атмосфере Земли?",
+      "options": [
+        { "id": "a", "text_md": "Кислород" },
+        { "id": "b", "text_md": "Азот" },
+        { "id": "c", "text_md": "Углекислый газ" },
+        { "id": "d", "text_md": "Аргон" },
+        { "id": "e", "text_md": "Водяной пар" }
+      ],
+      "answer_key": { "correct": ["b"] },
+      "explanation_md": "Азот занимает около 78% объёма атмосферы, кислород — около 21%.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.language.synonym",
+      "kind": "mcq_single",
+      "topic_code": "rus.placeholder_01",
+      "grade": 11,
+      "difficulty": 2,
+      "prompt_md": "Укажите слово, которое является синонимом слова «стремительный».",
+      "options": [
+        { "id": "a", "text_md": "Медленный" },
+        { "id": "b", "text_md": "Быстрый" },
+        { "id": "c", "text_md": "Тяжёлый" },
+        { "id": "d", "text_md": "Спокойный" },
+        { "id": "e", "text_md": "Далёкий" }
+      ],
+      "answer_key": { "correct": ["b"] },
+      "explanation_md": "Стремительный означает движущийся с большой скоростью, то есть быстрый.",
+      "points": 1
+    }
+  ]
+}
