@@ -1,0 +1,55 @@
+{
+  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
+  "subject_code": "chemistry",
+  "placeholder": true,
+  "topics": [
+    {
+      "code": "chem.placeholder_01",
+      "title_ru": "Строение атома и периодический закон",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 10
+    },
+    {
+      "code": "chem.placeholder_02",
+      "title_ru": "Химическая связь",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 20
+    },
+    {
+      "code": "chem.placeholder_03",
+      "title_ru": "Растворы и электролитическая диссоциация",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 30
+    },
+    {
+      "code": "chem.placeholder_04",
+      "title_ru": "Скорость реакции и равновесие",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 40
+    },
+    {
+      "code": "chem.placeholder_05",
+      "title_ru": "Неорганическая химия: классы соединений",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 50
+    },
+    {
+      "code": "chem.placeholder_06",
+      "title_ru": "Органическая химия: углеводороды",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 60
+    }
+  ]
+}

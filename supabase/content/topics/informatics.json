@@ -1,0 +1,55 @@
+{
+  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
+  "subject_code": "informatics",
+  "placeholder": true,
+  "topics": [
+    {
+      "code": "inf.placeholder_01",
+      "title_ru": "Алгоритмы и блок-схемы",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 10
+    },
+    {
+      "code": "inf.placeholder_02",
+      "title_ru": "Основы программирования",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 20
+    },
+    {
+      "code": "inf.placeholder_03",
+      "title_ru": "Типы данных и структуры",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 30
+    },
+    {
+      "code": "inf.placeholder_04",
+      "title_ru": "Базы данных и запросы",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 40
+    },
+    {
+      "code": "inf.placeholder_05",
+      "title_ru": "Компьютерные сети",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 50
+    },
+    {
+      "code": "inf.placeholder_06",
+      "title_ru": "Информационная безопасность",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 60
+    }
+  ]
+}

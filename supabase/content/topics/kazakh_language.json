@@ -1,0 +1,55 @@
+{
+  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
+  "subject_code": "kazakh_language",
+  "placeholder": true,
+  "topics": [
+    {
+      "code": "kaz.placeholder_01",
+      "title_ru": "Лексика и фразеология",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 10
+    },
+    {
+      "code": "kaz.placeholder_02",
+      "title_ru": "Морфология",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 20
+    },
+    {
+      "code": "kaz.placeholder_03",
+      "title_ru": "Синтаксис и пунктуация",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 30
+    },
+    {
+      "code": "kaz.placeholder_04",
+      "title_ru": "Стилистика текста",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 40
+    },
+    {
+      "code": "kaz.placeholder_05",
+      "title_ru": "Чтение и понимание",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 50
+    },
+    {
+      "code": "kaz.placeholder_06",
+      "title_ru": "Письменная речь",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 60
+    }
+  ]
+}

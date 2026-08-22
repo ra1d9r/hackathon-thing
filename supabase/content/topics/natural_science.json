@@ -1,0 +1,55 @@
+{
+  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
+  "subject_code": "natural_science",
+  "placeholder": true,
+  "topics": [
+    {
+      "code": "nat.placeholder_01",
+      "title_ru": "Явления природы и измерения",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 10
+    },
+    {
+      "code": "nat.placeholder_02",
+      "title_ru": "Вещества и их превращения",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 20
+    },
+    {
+      "code": "nat.placeholder_03",
+      "title_ru": "Живые организмы",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 30
+    },
+    {
+      "code": "nat.placeholder_04",
+      "title_ru": "Земля и космос",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 40
+    },
+    {
+      "code": "nat.placeholder_05",
+      "title_ru": "Энергия и её формы",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 50
+    },
+    {
+      "code": "nat.placeholder_06",
+      "title_ru": "Научный метод и эксперимент",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 60
+    }
+  ]
+}

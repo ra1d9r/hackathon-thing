@@ -1,0 +1,18 @@
+{
+  "subject_code": "kz_history",
+  "placeholder": false,
+  "topics": [
+    { "code": "kzh.ancient", "title_ru": "Древний Казахстан: саки и гунны", "grade_min": 7, "grade_max": 11, "exam_weight": 1.0, "sort_order": 10 },
+    { "code": "kzh.turkic", "title_ru": "Тюркский каганат и раннесредневековые государства", "grade_min": 7, "grade_max": 11, "exam_weight": 1.1, "sort_order": 20 },
+    { "code": "kzh.medieval", "title_ru": "Караханиды, кыпчаки, монгольское нашествие", "grade_min": 7, "grade_max": 11, "exam_weight": 1.1, "sort_order": 30 },
+    { "code": "kzh.khanate", "title_ru": "Образование и расцвет Казахского ханства", "grade_min": 8, "grade_max": 11, "exam_weight": 1.4, "sort_order": 40 },
+    { "code": "kzh.jungar", "title_ru": "Казахско-джунгарские войны. Абылай хан", "grade_min": 8, "grade_max": 11, "exam_weight": 1.3, "sort_order": 50 },
+    { "code": "kzh.russia", "title_ru": "Присоединение Казахстана к Российской империи", "grade_min": 8, "grade_max": 11, "exam_weight": 1.2, "sort_order": 60 },
+    { "code": "kzh.uprisings", "title_ru": "Национально-освободительные движения XVIII–XIX веков", "grade_min": 8, "grade_max": 11, "exam_weight": 1.2, "sort_order": 70 },
+    { "code": "kzh.alash", "title_ru": "Казахстан в начале XX века. Движение Алаш", "grade_min": 9, "grade_max": 11, "exam_weight": 1.3, "sort_order": 80 },
+    { "code": "kzh.soviet", "title_ru": "Казахстан в советский период. Голод 1930-х годов", "grade_min": 9, "grade_max": 11, "exam_weight": 1.3, "sort_order": 90 },
+    { "code": "kzh.wwii", "title_ru": "Казахстан в годы Великой Отечественной войны", "grade_min": 9, "grade_max": 11, "exam_weight": 1.1, "sort_order": 100 },
+    { "code": "kzh.virgin_lands", "title_ru": "Освоение целины и Декабрьские события 1986 года", "grade_min": 10, "grade_max": 11, "exam_weight": 1.2, "sort_order": 110 },
+    { "code": "kzh.independence", "title_ru": "Независимый Казахстан", "grade_min": 10, "grade_max": 11, "exam_weight": 1.3, "sort_order": 120 }
+  ]
+}

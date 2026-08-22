@@ -1,0 +1,55 @@
+{
+  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
+  "subject_code": "english_language",
+  "placeholder": true,
+  "topics": [
+    {
+      "code": "eng.placeholder_01",
+      "title_ru": "Grammar: Tenses",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 10
+    },
+    {
+      "code": "eng.placeholder_02",
+      "title_ru": "Grammar: Conditionals and Modals",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 20
+    },
+    {
+      "code": "eng.placeholder_03",
+      "title_ru": "Vocabulary and Collocations",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 30
+    },
+    {
+      "code": "eng.placeholder_04",
+      "title_ru": "Reading Comprehension",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 40
+    },
+    {
+      "code": "eng.placeholder_05",
+      "title_ru": "Listening Comprehension",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 50
+    },
+    {
+      "code": "eng.placeholder_06",
+      "title_ru": "Writing: Essays and Emails",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 60
+    }
+  ]
+}

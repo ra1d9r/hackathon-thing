@@ -1,0 +1,12 @@
+{
+  "subject_code": "reading_literacy",
+  "placeholder": false,
+  "topics": [
+    { "code": "read.main_idea", "title_ru": "Определение основной мысли текста", "grade_min": 7, "grade_max": 11, "exam_weight": 1.3, "sort_order": 10 },
+    { "code": "read.retrieval", "title_ru": "Поиск и извлечение информации", "grade_min": 7, "grade_max": 11, "exam_weight": 1.2, "sort_order": 20 },
+    { "code": "read.interpret", "title_ru": "Интерпретация и связывание фрагментов", "grade_min": 7, "grade_max": 11, "exam_weight": 1.3, "sort_order": 30 },
+    { "code": "read.evaluate", "title_ru": "Оценка достоверности и позиции автора", "grade_min": 9, "grade_max": 11, "exam_weight": 1.2, "sort_order": 40 },
+    { "code": "read.noncontinuous", "title_ru": "Несплошные тексты: таблицы и графики", "grade_min": 7, "grade_max": 11, "exam_weight": 1.1, "sort_order": 50 },
+    { "code": "read.vocabulary", "title_ru": "Значение слова в контексте", "grade_min": 7, "grade_max": 11, "exam_weight": 1.0, "sort_order": 60 }
+  ]
+}
