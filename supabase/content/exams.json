@@ -1,0 +1,229 @@
+{
+  "_": "Чертежи экзаменов. Сумма max_points по секциям обязана равняться max_score — загрузчик это проверяет. Чтобы добавить свой экзамен или олимпиаду, скопируйте блок и поменяйте code, max_score и секции.",
+  "exams": [
+    {
+      "code": "ent",
+      "title_ru": "ЕНТ",
+      "goal": "ent",
+      "scale_kind": "points",
+      "max_score": 140,
+      "profile_slot_count": 2,
+      "is_active": true,
+      "sections": [
+        {
+          "slot_kind": "mandatory",
+          "slot_index": 1,
+          "subject_code": "kz_history",
+          "max_points": 20,
+          "question_count": 20,
+          "guess_floor": 0.2
+        },
+        {
+          "slot_kind": "mandatory",
+          "slot_index": 2,
+          "subject_code": "reading_literacy",
+          "max_points": 10,
+          "question_count": 10,
+          "guess_floor": 0.2
+        },
+        {
+          "slot_kind": "mandatory",
+          "slot_index": 3,
+          "subject_code": "math_literacy",
+          "max_points": 10,
+          "question_count": 10,
+          "guess_floor": 0.2
+        },
+        {
+          "slot_kind": "profile",
+          "slot_index": 1,
+          "subject_code": null,
+          "max_points": 50,
+          "question_count": 40,
+          "guess_floor": 0.15
+        },
+        {
+          "slot_kind": "profile",
+          "slot_index": 2,
+          "subject_code": null,
+          "max_points": 50,
+          "question_count": 40,
+          "guess_floor": 0.15
+        }
+      ],
+      "subject_options": [
+        {
+          "subject_code": "kz_history",
+          "slot_kind": "mandatory",
+          "sort_order": 10
+        },
+        {
+          "subject_code": "reading_literacy",
+          "slot_kind": "mandatory",
+          "sort_order": 20
+        },
+        {
+          "subject_code": "math_literacy",
+          "slot_kind": "mandatory",
+          "sort_order": 30
+        },
+        {
+          "subject_code": "math",
+          "slot_kind": "profile",
+          "sort_order": 10
+        },
+        {
+          "subject_code": "physics",
+          "slot_kind": "profile",
+          "sort_order": 20
+        },
+        {
+          "subject_code": "informatics",
+          "slot_kind": "profile",
+          "sort_order": 30
+        },
+        {
+          "subject_code": "chemistry",
+          "slot_kind": "profile",
+          "sort_order": 40
+        },
+        {
+          "subject_code": "biology",
+          "slot_kind": "profile",
+          "sort_order": 50
+        }
+      ]
+    },
+    {
+      "code": "nis",
+      "title_ru": "Экзамен в НИШ",
+      "goal": "nis",
+      "_ЗАГОТОВКА": "Структура НИШ задана по нашему усмотрению. Сверьте распределение баллов с официальными требованиями и поправьте max_points — остальная логика подстроится сама.",
+      "scale_kind": "points",
+      "max_score": 100,
+      "profile_slot_count": 1,
+      "is_active": true,
+      "sections": [
+        {
+          "slot_kind": "mandatory",
+          "slot_index": 1,
+          "subject_code": "math",
+          "max_points": 30,
+          "question_count": 30,
+          "guess_floor": 0.2
+        },
+        {
+          "slot_kind": "mandatory",
+          "slot_index": 2,
+          "subject_code": "logic",
+          "max_points": 30,
+          "question_count": 30,
+          "guess_floor": 0.2
+        },
+        {
+          "slot_kind": "mandatory",
+          "slot_index": 3,
+          "subject_code": "natural_science",
+          "max_points": 20,
+          "question_count": 20,
+          "guess_floor": 0.2
+        },
+        {
+          "slot_kind": "profile",
+          "slot_index": 1,
+          "subject_code": null,
+          "max_points": 20,
+          "question_count": 20,
+          "guess_floor": 0.2
+        }
+      ],
+      "subject_options": [
+        {
+          "subject_code": "math",
+          "slot_kind": "mandatory",
+          "sort_order": 10
+        },
+        {
+          "subject_code": "logic",
+          "slot_kind": "mandatory",
+          "sort_order": 20
+        },
+        {
+          "subject_code": "natural_science",
+          "slot_kind": "mandatory",
+          "sort_order": 30
+        },
+        {
+          "subject_code": "kazakh_language",
+          "slot_kind": "profile",
+          "sort_order": 10
+        },
+        {
+          "subject_code": "russian_language",
+          "slot_kind": "profile",
+          "sort_order": 20
+        },
+        {
+          "subject_code": "english_language",
+          "slot_kind": "profile",
+          "sort_order": 30
+        }
+      ]
+    },
+    {
+      "code": "olympiad_generic",
+      "title_ru": "Олимпиада",
+      "goal": "olympiad",
+      "_НАСТРАИВАЕТСЯ": "Шкала олимпиады зависит от конкретного состязания. Чтобы завести своё: скопируйте этот блок, задайте свой code (например olympiad_math_regional), max_score и секции. Оно появится в онбординге само, без изменений в коде.",
+      "scale_kind": "points",
+      "max_score": 100,
+      "profile_slot_count": 2,
+      "is_active": true,
+      "sections": [
+        {
+          "slot_kind": "profile",
+          "slot_index": 1,
+          "subject_code": null,
+          "max_points": 50,
+          "question_count": null,
+          "guess_floor": 0.05
+        },
+        {
+          "slot_kind": "profile",
+          "slot_index": 2,
+          "subject_code": null,
+          "max_points": 50,
+          "question_count": null,
+          "guess_floor": 0.05
+        }
+      ],
+      "subject_options": [
+        {
+          "subject_code": "math",
+          "slot_kind": "profile",
+          "sort_order": 10
+        },
+        {
+          "subject_code": "physics",
+          "slot_kind": "profile",
+          "sort_order": 20
+        },
+        {
+          "subject_code": "informatics",
+          "slot_kind": "profile",
+          "sort_order": 30
+        },
+        {
+          "subject_code": "chemistry",
+          "slot_kind": "profile",
+          "sort_order": 40
+        },
+        {
+          "subject_code": "biology",
+          "slot_kind": "profile",
+          "sort_order": 50
+        }
+      ]
+    }
+  ]
+}

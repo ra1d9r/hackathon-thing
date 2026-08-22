@@ -1,0 +1,19 @@
+{
+  "subjects": [
+    { "code": "kz_history", "name_ru": "История Казахстана", "name_kk": "Қазақстан тарихы", "name_en": "History of Kazakhstan", "is_ent_mandatory": true, "sort_order": 10 },
+    { "code": "reading_literacy", "name_ru": "Грамотность чтения", "name_kk": "Оқу сауаттылығы", "name_en": "Reading Literacy", "is_ent_mandatory": true, "sort_order": 20 },
+    { "code": "math_literacy", "name_ru": "Математическая грамотность", "name_kk": "Математикалық сауаттылық", "name_en": "Mathematical Literacy", "is_ent_mandatory": true, "sort_order": 30 },
+
+    { "code": "math", "name_ru": "Математика", "name_kk": "Математика", "name_en": "Mathematics", "sort_order": 40 },
+    { "code": "physics", "name_ru": "Физика", "name_kk": "Физика", "name_en": "Physics", "sort_order": 50 },
+    { "code": "informatics", "name_ru": "Информатика", "name_kk": "Информатика", "name_en": "Computer Science", "sort_order": 60 },
+    { "code": "chemistry", "name_ru": "Химия", "name_kk": "Химия", "name_en": "Chemistry", "sort_order": 70 },
+    { "code": "biology", "name_ru": "Биология", "name_kk": "Биология", "name_en": "Biology", "sort_order": 80 },
+
+    { "code": "logic", "name_ru": "Логика и аналитика", "name_kk": "Логика және аналитика", "name_en": "Logical and Analytical Reasoning", "sort_order": 90 },
+    { "code": "natural_science", "name_ru": "Естествознание", "name_kk": "Жаратылыстану", "name_en": "Natural Sciences", "sort_order": 100 },
+    { "code": "kazakh_language", "name_ru": "Казахский язык", "name_kk": "Қазақ тілі", "name_en": "Kazakh Language", "sort_order": 110 },
+    { "code": "russian_language", "name_ru": "Русский язык", "name_kk": "Орыс тілі", "name_en": "Russian Language", "sort_order": 120 },
+    { "code": "english_language", "name_ru": "Английский язык", "name_kk": "Ағылшын тілі", "name_en": "English Language", "sort_order": 130 }
+  ]
+}
