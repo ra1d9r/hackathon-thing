@@ -5,10 +5,14 @@ import type { AiOpType } from '../queue/jobs.js';
 import { promptHash } from './prompt.js';
 import { ModelError, type ModelCaller, type ModelRequest, type ModelResponse } from './types.js';
 
+
+
+
 const MAX_TOKEN_GROWTH = 32_000;
 
 export interface CallLogEntry {
   readonly attemptNo: number;
+  
   readonly ok: boolean;
   readonly httpStatus: number | null;
   readonly errorCode: string | null;
@@ -19,6 +23,7 @@ export interface CallLogEntry {
   readonly latencyMs: number | null;
   readonly requestId: string | null;
 }
+
 
 export type ModelFailureReason =
   | 'invalid_output'
@@ -31,6 +36,7 @@ export type ValidationOutcome<T> =
       readonly ok: true;
       readonly data: T;
       readonly calls: readonly CallLogEntry[];
+      
       readonly repairedBecause: string | null;
     }
   | {
@@ -40,7 +46,11 @@ export type ValidationOutcome<T> =
       readonly calls: readonly CallLogEntry[];
     };
 
+
 function parseStrict(text: string): unknown {
+  
+  
+  
   const trimmed = text.trim();
   const fenced = /^```(?:json)?\s*([\s\S]*?)\s*```$/u.exec(trimmed);
   const payload = fenced?.[1] ?? trimmed;
@@ -67,6 +77,7 @@ export interface CallOptions<Schema extends z.ZodType<EnvelopeShape<unknown>>> {
   readonly schema: Schema;
 }
 
+
 export async function callAndValidate<Schema extends z.ZodType<EnvelopeShape<unknown>>>(
   options: CallOptions<Schema>,
 ): Promise<ValidationOutcome<z.infer<Schema>['data']>> {
@@ -77,6 +88,7 @@ export async function callAndValidate<Schema extends z.ZodType<EnvelopeShape<unk
 
   let repairHint: string | undefined;
   let maxTokens = request.maxTokens;
+  
   let invalidDetail: string | null = null;
 
   for (let attempt = 1; attempt <= 2; attempt += 1) {
@@ -106,12 +118,19 @@ export async function callAndValidate<Schema extends z.ZodType<EnvelopeShape<unk
         requestId: null,
       });
 
+      
+      
+      
+      
+      
       if (failure.kind === 'truncated' && attempt === 1) {
         maxTokens = Math.min(MAX_TOKEN_GROWTH, maxTokens * 2);
         invalidDetail = 'предыдущий ответ не поместился в бюджет';
         continue;
       }
 
+      
+      
       if (failure.kind === 'empty' && attempt === 1) {
         repairHint =
           'предыдущий ответ оказался пустым; весь ответ должен быть в поле content, ' +
@@ -141,6 +160,8 @@ export async function callAndValidate<Schema extends z.ZodType<EnvelopeShape<unk
       requestId: response.requestId,
     };
     calls.push(entry);
+
+    
     const markUnusable = (code: string, detail: string): void => {
       calls[calls.length - 1] = { ...entry, ok: false, errorCode: code };
       invalidDetail = detail;
@@ -178,6 +199,8 @@ export async function callAndValidate<Schema extends z.ZodType<EnvelopeShape<unk
     }
 
     if (parsed.data.insufficient_context) {
+      
+      
       return {
         ok: false,
         reason: 'insufficient_context',
@@ -191,6 +214,7 @@ export async function callAndValidate<Schema extends z.ZodType<EnvelopeShape<unk
 
   return { ok: false, reason: 'invalid_output', message: 'исчерпаны попытки разбора', calls };
 }
+
 
 export async function writeCallLogs(
   sql: SqlExecutor,

@@ -1,18 +1,10 @@
 import { Image, StyleSheet, Text, View } from "react-native";
 
-/**
- * Аватар с инициалами вместо картинки-заглушки.
- *
- * Раньше во всех трёх местах стоял внешний `i.pravatar.cc` — чужой сервис,
- * который в офлайне и без интернета просто не грузится, а у всех учеников
- * показывал одно и то же лицо.
- */
-
 interface AvatarProps {
   uri?: string | null;
   name?: string | null;
   size?: number;
-  /** Цвет фона подложки под инициалами. */
+  
   tone?: "blue" | "light";
 }
 

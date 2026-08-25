@@ -1,3 +1,8 @@
+-- 0009 — учительская часть: классы, рассылка уроков, чат класса.
+--
+-- Требование SPEC: канал рассылки уроков и чат класса — разные сущности.
+-- Здесь они и разведены: material_distributions против chat_channels.
+
 create table public.classes (
   id          uuid primary key default gen_random_uuid(),
   teacher_id  uuid not null references public.profiles(id) on delete cascade,
@@ -15,6 +20,7 @@ create trigger classes_touch
   before update on public.classes
   for each row execute function app.touch_updated_at();
 
+-- Отложенный внешний ключ из 0005.
 alter table public.materials
   add constraint materials_class_fk
   foreign key (class_id) references public.classes(id) on delete cascade;
@@ -33,6 +39,7 @@ create table public.class_members (
 create index class_members_student_idx
   on public.class_members(student_id) where status = 'active';
 
+-- ─── Рассылка материалов ─────────────────────────────────────────────────────
 
 create table public.material_distributions (
   id          uuid primary key default gen_random_uuid(),
@@ -44,6 +51,7 @@ create table public.material_distributions (
   due_at      timestamptz,
   created_at  timestamptz not null default now(),
 
+  -- Адресат ровно один: либо класс, либо конкретный ученик.
   constraint distribution_single_target check ((class_id is null) <> (student_id is null))
 );
 
@@ -65,6 +73,7 @@ create table public.distribution_receipts (
 
 create index distribution_receipts_student_idx on public.distribution_receipts(student_id);
 
+-- ─── Чат ─────────────────────────────────────────────────────────────────────
 
 create table public.chat_channels (
   id         uuid primary key default gen_random_uuid(),
@@ -74,6 +83,8 @@ create table public.chat_channels (
   title      text not null,
   created_at timestamptz not null default now(),
 
+  -- Чат класса привязан к классу, канал ассистента — к ученику.
+  -- Смешение этих двух форм привело бы к каналу без понятного состава участников.
   constraint chat_channels_shape check (
     (kind = 'class_chat'   and class_id is not null and owner_id is null)
     or (kind = 'ai_assistant' and owner_id is not null and class_id is null)
@@ -119,6 +130,7 @@ create table public.chat_messages (
 create index chat_messages_channel_idx
   on public.chat_messages(channel_id, created_at desc);
 
+-- Повтор отправки при обрыве связи не создаёт второе сообщение.
 create unique index chat_messages_idem_idx
   on public.chat_messages(channel_id, sender_id, client_msg_id)
   where client_msg_id is not null;

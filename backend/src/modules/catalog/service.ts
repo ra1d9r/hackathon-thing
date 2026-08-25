@@ -8,6 +8,10 @@ export interface ExamSummary {
   readonly scale: ScaleKind;
   readonly maxScore: number;
   readonly profileSlotCount: number;
+  
+  readonly gradeMin: number | null;
+  readonly gradeMax: number | null;
+  readonly timeLimitSec: number | null;
 }
 
 interface ExamRow {
@@ -17,6 +21,9 @@ interface ExamRow {
   scale_kind: ScaleKind;
   max_score: string;
   profile_slot_count: number;
+  grade_min: number | null;
+  grade_max: number | null;
+  time_limit_sec: number | null;
 }
 
 function toSummary(row: ExamRow): ExamSummary {
@@ -26,6 +33,9 @@ function toSummary(row: ExamRow): ExamSummary {
     scale: row.scale_kind,
     maxScore: Number(row.max_score),
     profileSlotCount: row.profile_slot_count,
+    gradeMin: row.grade_min,
+    gradeMax: row.grade_max,
+    timeLimitSec: row.time_limit_sec,
   };
 }
 
@@ -42,7 +52,8 @@ export async function listGoals(sql: SqlExecutor): Promise<
   `;
 
   const exams = await sql<ExamRow[]>`
-    select code, title_ru, goal, scale_kind, max_score, profile_slot_count
+    select code, title_ru, goal, scale_kind, max_score, profile_slot_count,
+           grade_min, grade_max, time_limit_sec
       from public.exam_profiles
      where is_active
      order by goal, code
@@ -58,7 +69,8 @@ export async function listGoals(sql: SqlExecutor): Promise<
 
 export async function findExam(sql: SqlExecutor, code: string): Promise<ExamSummary & { goal: LearningGoal }> {
   const [row] = await sql<ExamRow[]>`
-    select code, title_ru, goal, scale_kind, max_score, profile_slot_count
+    select code, title_ru, goal, scale_kind, max_score, profile_slot_count,
+           grade_min, grade_max, time_limit_sec
       from public.exam_profiles
      where code = ${code} and is_active
   `;
@@ -78,6 +90,30 @@ export interface SubjectOption {
 export interface SubjectOptions {
   readonly mandatory: SubjectOption[];
   readonly profile: SubjectOption[];
+  
+  readonly profilePairs: { codes: [string, string]; titles: [string, string] }[];
+}
+
+export async function listProfilePairs(
+  sql: SqlExecutor,
+  examCode: string,
+): Promise<SubjectOptions['profilePairs']> {
+  const rows = await sql<
+    { a_code: string; a_name: string; b_code: string; b_name: string }[]
+  >`
+    select a.code as a_code, a.name_ru as a_name, b.code as b_code, b.name_ru as b_name
+      from public.exam_profile_pairs p
+      join public.exam_profiles e on e.id = p.exam_profile_id
+      join public.subjects a on a.id = p.subject_a_id
+      join public.subjects b on b.id = p.subject_b_id
+     where e.code = ${examCode} and p.is_active and a.is_active and b.is_active
+     order by p.sort_order, a.code
+  `;
+
+  return rows.map((row) => ({
+    codes: [row.a_code, row.b_code],
+    titles: [row.a_name, row.b_name],
+  }));
 }
 
 export async function listSubjectOptions(
@@ -91,6 +127,7 @@ export async function listSubjectOptions(
     return {
       mandatory: [],
       profile: rows.map((row) => ({ code: row.code, name: row.name_ru })),
+      profilePairs: [],
     };
   }
 
@@ -110,6 +147,7 @@ export async function listSubjectOptions(
     profile: rows
       .filter((row) => row.slot_kind === 'profile')
       .map((row) => ({ code: row.code, name: row.name_ru })),
+    profilePairs: await listProfilePairs(sql, examCode),
   };
 }
 

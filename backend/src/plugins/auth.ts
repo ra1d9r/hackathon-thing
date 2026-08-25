@@ -67,6 +67,7 @@ async function authPlugin(app: FastifyInstance, options: AuthOptions): Promise<v
     const user = await loadProfile(sql, verified.userId);
 
     if (cache.size >= ROLE_CACHE_MAX_ENTRIES) {
+      
       const oldest = cache.keys().next();
       if (!oldest.done) {
         cache.delete(oldest.value);
@@ -92,6 +93,7 @@ async function authPlugin(app: FastifyInstance, options: AuthOptions): Promise<v
     };
   });
 
+  
   const requireOnboarding: preHandlerAsyncHookHandler = async (request) => {
     await authenticate(request);
 

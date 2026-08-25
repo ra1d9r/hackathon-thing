@@ -10,7 +10,6 @@ import {
 import { operationBlock, schemaBlock, systemCoreBlock } from '../prompt.js';
 import { callAndValidate, type CallLogEntry, type ModelFailureReason } from '../validate.js';
 import type { ModelCaller, PromptBlock } from '../types.js';
-
 const TEMPERATURE = 0;
 
 const MAX_TOKENS = 6_000;
@@ -32,14 +31,19 @@ export interface GradedAnswer {
   readonly isCorrect: boolean;
   readonly feedbackMd: string;
   readonly confidence: number;
+  
   readonly lowTrust: boolean;
 }
 
 export interface GradingOutcome {
+  
   readonly answers: readonly GradedAnswer[] | null;
+  
   readonly calls: readonly CallLogEntry[];
+  
   readonly failure: ModelFailureReason | null;
   readonly reason: string | null;
+  
   readonly repairedBecause: string | null;
   readonly suspiciousCount: number;
   readonly lowTrustCount: number;
@@ -136,6 +140,8 @@ export async function gradeFreeText(
   for (const graded of outcome.data.answers) {
     const candidate = byId.get(graded.question_id);
 
+    
+    
     if (candidate === undefined || seen.has(graded.question_id)) {
       continue;
     }
@@ -144,6 +150,8 @@ export async function gradeFreeText(
     const injection = scanForInjection(candidate.answerText);
     const ratio = clamp(graded.score_ratio, 0, 1);
 
+    
+    
     const diverged = contradictsExpectedNumbers(
       candidate.answerText,
       candidate.expectedPoints,
@@ -164,6 +172,8 @@ export async function gradeFreeText(
       pointsAwarded: roundTo(ratio * candidate.points, 2),
       isCorrect: graded.is_correct,
       feedbackMd: graded.feedback_md,
+      
+      
       confidence: roundTo(
         clamp(graded.confidence * (lowTrust ? SUSPICIOUS_TRUST_FACTOR : 1), 0, 1),
         2,

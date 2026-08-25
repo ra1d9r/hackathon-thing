@@ -1,0 +1,433 @@
+{
+  "pool": "exam_mock",
+  "exam_code": "nis",
+  "_": "Банк математики НИШ. Чертёж требует 40 заданий в секции; здесь первая часть.",
+  "questions": [
+    {
+      "code": "mock.nis.math.frac.1",
+      "kind": "numeric",
+      "topic_code": "math.g5.privedenie-obyknovennyh-drobey-k-obschemu",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "Приведите дроби 5/6 и 7/9 к общему знаменателю. Каким будет наименьший общий знаменатель?",
+      "options": null,
+      "answer_key": {
+        "value": 18,
+        "tolerance": 0
+      },
+      "explanation_md": "НОК(6, 9) = 18. Тогда 5/6 = 15/18, а 7/9 = 14/18.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.frac.2",
+      "kind": "mcq_single",
+      "topic_code": "math.g5.privedenie-obyknovennyh-drobey-k-obschemu",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Какая из дробей наибольшая?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "3/5"
+        },
+        {
+          "id": "b",
+          "text_md": "5/8"
+        },
+        {
+          "id": "c",
+          "text_md": "7/12"
+        },
+        {
+          "id": "d",
+          "text_md": "11/20"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Приведём к знаменателю 120: 3/5 = 72/120, 5/8 = 75/120, 7/12 = 70/120, 11/20 = 66/120. Наибольшая — 75/120, то есть 5/8.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.frac.3",
+      "kind": "numeric",
+      "topic_code": "math.g5.pravilnye-i-nepravilnye-obyknovennye-drobi",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "Представьте смешанное число 7 3/4 в виде неправильной дроби. В ответ запишите числитель.",
+      "options": null,
+      "answer_key": {
+        "value": 31,
+        "tolerance": 0
+      },
+      "explanation_md": "7 · 4 + 3 = 31, знаменатель остаётся 4: получается 31/4.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.frac.4",
+      "kind": "mcq_single",
+      "topic_code": "math.g5.obyknovennaya-drob-chtenie-i-zapis-obyknovennyh",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "Какая дробь является правильной?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "9/7"
+        },
+        {
+          "id": "b",
+          "text_md": "5/5"
+        },
+        {
+          "id": "c",
+          "text_md": "4/9"
+        },
+        {
+          "id": "d",
+          "text_md": "12/11"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "Правильная дробь — та, у которой числитель меньше знаменателя. У 4/9 это выполняется; 5/5 равна единице, остальные больше единицы.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.divisors.1",
+      "kind": "mcq_single",
+      "topic_code": "math.g5.deliteli-i-kratnye-naturalnyh-chisel-prostye-i",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Какое из чисел делится и на 3, и на 4?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "126"
+        },
+        {
+          "id": "b",
+          "text_md": "130"
+        },
+        {
+          "id": "c",
+          "text_md": "144"
+        },
+        {
+          "id": "d",
+          "text_md": "158"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "На 3 делится число с суммой цифр, кратной трём: 126 (9) и 144 (9). На 4 делится то, у которого две последние цифры кратны четырём: у 126 это 26 — нет, у 144 это 44 — да. Обоим признакам отвечает только 144.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.divisors.2",
+      "kind": "numeric",
+      "topic_code": "math.g5.deliteli-i-kratnye-naturalnyh-chisel-prostye-i",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Найдите наибольший общий делитель чисел 84 и 126.",
+      "options": null,
+      "answer_key": {
+        "value": 42,
+        "tolerance": 0
+      },
+      "explanation_md": "84 = 2² · 3 · 7, 126 = 2 · 3² · 7. Берём общие множители в наименьших степенях: 2 · 3 · 7 = 42.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.divisors.3",
+      "kind": "numeric",
+      "topic_code": "math.g5.deliteli-i-kratnye-naturalnyh-chisel-prostye-i",
+      "grade": 5,
+      "difficulty": 4,
+      "prompt_md": "Автобусы одного маршрута отходят каждые 12 минут, другого — каждые 18 минут. Они отошли вместе в 8:00. Через сколько минут они снова отойдут одновременно?",
+      "options": null,
+      "answer_key": {
+        "value": 36,
+        "tolerance": 0
+      },
+      "explanation_md": "Нужен наименьший общий кратный: НОК(12, 18) = 36. Значит следующий совместный отход — в 8:36.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.natural.1",
+      "kind": "numeric",
+      "topic_code": "math.g5.zapis-naturalnyh-chisel",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "Запишите наибольшее трёхзначное число, у которого все цифры различны. Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 987,
+        "tolerance": 0
+      },
+      "explanation_md": "Чтобы число было наибольшим, старший разряд берём наибольшим: 9, затем 8, затем 7. Получается 987.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.percent.1",
+      "kind": "numeric",
+      "topic_code": "math.g6.otnoshenie-dvuh-chisel-procentnoe-otnoshenie",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "В книге 240 страниц. Ученик прочитал 35 % книги. Сколько страниц он прочитал?",
+      "options": null,
+      "answer_key": {
+        "value": 84,
+        "tolerance": 0
+      },
+      "explanation_md": "35 % от 240 — это 240 · 0,35 = 84 страницы.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.percent.2",
+      "kind": "numeric",
+      "topic_code": "math.g6.otnoshenie-dvuh-chisel-procentnoe-otnoshenie",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Число уменьшили на 20 %, а полученное затем увеличили на 20 %. На сколько процентов итог меньше исходного числа? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 4,
+        "tolerance": 0
+      },
+      "explanation_md": "Пусть число равно 100. После уменьшения — 80. После увеличения на 20 %: 80 · 1,2 = 96. Итог меньше исходного на 4 %: проценты берутся от разных величин и потому не компенсируются.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.percent.3",
+      "kind": "numeric",
+      "topic_code": "math.g6.otnoshenie-dvuh-chisel-procentnoe-otnoshenie",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "В классе 30 учеников, из них 18 — девочки. Какой процент класса составляют мальчики? Ответ дайте числом без знака процента.",
+      "options": null,
+      "answer_key": {
+        "value": 40,
+        "tolerance": 0
+      },
+      "explanation_md": "Мальчиков 30 − 18 = 12. Их доля: 12 / 30 = 0,4, то есть 40 %.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.negative.1",
+      "kind": "mcq_single",
+      "topic_code": "math.g6.polozhitelnye-chisla-otricatelnye-chisla",
+      "grade": 6,
+      "difficulty": 2,
+      "prompt_md": "Вычислите: −18 + 25 − 12.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "−5"
+        },
+        {
+          "id": "b",
+          "text_md": "5"
+        },
+        {
+          "id": "c",
+          "text_md": "−55"
+        },
+        {
+          "id": "d",
+          "text_md": "19"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "−18 + 25 = 7; затем 7 − 12 = −5.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.negative.2",
+      "kind": "numeric",
+      "topic_code": "math.g6.polozhitelnye-chisla-otricatelnye-chisla",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Температура была −7 °C, затем понизилась на 9 градусов, а после поднялась на 4 градуса. Какой стала температура? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": -12,
+        "tolerance": 0
+      },
+      "explanation_md": "−7 − 9 = −16; затем −16 + 4 = −12 °C.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.multiply.1",
+      "kind": "numeric",
+      "topic_code": "math.g6.umnozhenie-racionalnyh-chisel",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Вычислите значение выражения (−3) · (−4) · (−2).",
+      "options": null,
+      "answer_key": {
+        "value": -24,
+        "tolerance": 0
+      },
+      "explanation_md": "(−3) · (−4) = 12; далее 12 · (−2) = −24. Нечётное число отрицательных множителей даёт отрицательный результат.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.multiply.2",
+      "kind": "numeric",
+      "topic_code": "math.g6.umnozhenie-racionalnyh-chisel",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Вычислите: (−1,5) · (−6) + (−4) · 2,5.",
+      "options": null,
+      "answer_key": {
+        "value": -1,
+        "tolerance": 0
+      },
+      "explanation_md": "(−1,5) · (−6) = 9; (−4) · 2,5 = −10. Сумма: 9 + (−10) = −1.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.compare.1",
+      "kind": "mcq_single",
+      "topic_code": "math.g6.sravnenie-racionalnyh-chisel",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Какое из чисел наименьшее?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "−2,5"
+        },
+        {
+          "id": "b",
+          "text_md": "−3"
+        },
+        {
+          "id": "c",
+          "text_md": "−2,05"
+        },
+        {
+          "id": "d",
+          "text_md": "−0,3"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "У отрицательных чисел меньше то, чей модуль больше. Наибольший модуль у −3, значит оно и наименьшее.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.compare.2",
+      "kind": "mcq_single",
+      "topic_code": "math.g6.sravnenie-racionalnyh-chisel",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Сравните величины.\n\nКолонка A: −1/2\n\nКолонка B: −2/3",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Приведём к общему знаменателю: −1/2 = −3/6, −2/3 = −4/6. У отрицательных чисел больше то, чей модуль меньше, значит −3/6 больше.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.variable.1",
+      "kind": "numeric",
+      "topic_code": "math.g6.peremennaya",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Найдите значение выражения 3x − 2y при x = 4 и y = −5.",
+      "options": null,
+      "answer_key": {
+        "value": 22,
+        "tolerance": 0
+      },
+      "explanation_md": "3 · 4 − 2 · (−5) = 12 + 10 = 22. Вычитание отрицательного равносильно прибавлению.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.variable.2",
+      "kind": "numeric",
+      "topic_code": "math.g6.peremennaya",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Решите уравнение 5x − 8 = 2x + 7. В ответ запишите значение x.",
+      "options": null,
+      "answer_key": {
+        "value": 5,
+        "tolerance": 0
+      },
+      "explanation_md": "Перенесём: 5x − 2x = 7 + 8, то есть 3x = 15, откуда x = 5.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math.variable.3",
+      "kind": "mcq_single",
+      "topic_code": "math.g6.peremennaya",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Периметр прямоугольника равен 34 см, а одна сторона на 5 см длиннее другой. Чему равна меньшая сторона?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "6 см"
+        },
+        {
+          "id": "b",
+          "text_md": "7 см"
+        },
+        {
+          "id": "c",
+          "text_md": "11 см"
+        },
+        {
+          "id": "d",
+          "text_md": "12 см"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Пусть меньшая сторона равна x, тогда большая — x + 5. Периметр: 2(x + x + 5) = 34, то есть 2x + 5 = 17, откуда x = 6 см.",
+      "points": 1
+    }
+  ]
+}

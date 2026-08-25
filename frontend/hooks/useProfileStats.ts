@@ -2,14 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 
 import { apiGet } from "@/services/api";
 
-/**
- * Статистика профиля — один запрос `/v1/stats/overview`.
- *
- * Backend уже отдаёт всё в готовом к показу виде (проценты округлены,
- * предсказанный балл посчитан), поэтому клиент ничего не досчитывает:
- * иначе два экрана однажды покажут разные числа из одних данных.
- */
-
 export interface PredictedScore {
   scale: string;
   value: number;

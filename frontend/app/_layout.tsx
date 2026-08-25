@@ -7,10 +7,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
 
-/** Экраны, доступные без входа. Корень `/` (лендинг) — тоже, у него пустой сегмент. */
 const PUBLIC_SEGMENTS = new Set(["login", "register"]);
 
-/** Шаги онбординга: сюда пускаем ученика, у которого он ещё не пройден. */
 const ONBOARDING_SEGMENTS = new Set([
   "users-target-choose",
   "choose-subjects",
@@ -18,13 +16,6 @@ const ONBOARDING_SEGMENTS = new Set([
   "diagnostic-results",
 ]);
 
-/**
- * Единственное место, где решается «пускать или нет».
- *
- * До этого защиты не было вовсе: `/dashboard`, `/personal-account` и остальные
- * экраны открывались по прямой ссылке без сессии и падали в бесконечные ошибки
- * API вместо того, чтобы вернуть человека ко входу.
- */
 function useAuthGuard(): void {
   const status = useAuthStore((state) => state.status);
   const me = useAuthStore((state) => state.me);
@@ -33,7 +24,7 @@ function useAuthGuard(): void {
   const navigationState = useRootNavigationState();
 
   useEffect(() => {
-    // Навигатор ещё не смонтирован — router.replace бросит исключение.
+    
     if (!navigationState?.key) return;
     if (status === "bootstrapping") return;
 
@@ -48,7 +39,7 @@ function useAuthGuard(): void {
     const needsOnboarding = me?.requires_onboarding !== false;
     const target = needsOnboarding ? routes.usersTargetChoose : routes.tabsRoot;
 
-    // Вошедшему незачем видеть лендинг и формы входа.
+    
     if (first === undefined || first === "login" || first === "register") {
       router.replace(target);
       return;
@@ -60,7 +51,7 @@ function useAuthGuard(): void {
     }
 
     if (!needsOnboarding && ONBOARDING_SEGMENTS.has(first)) {
-      // Онбординг уже пройден — назад в него не возвращаемся.
+      
       if (first === "users-target-choose") router.replace(routes.tabsRoot);
     }
   }, [status, me, segments, router, navigationState?.key]);
@@ -110,11 +101,6 @@ function SplashScreen() {
   );
 }
 
-/**
- * Экран вместо крэша. В релизной сборке необработанное исключение в React
- * гасит приложение целиком — с границей ошибок человек хотя бы видит,
- * что произошло, и может вернуться назад.
- */
 export function ErrorBoundary({ error, retry }: { error: Error; retry: () => Promise<void> }) {
   return (
     <View style={styles.splash}>

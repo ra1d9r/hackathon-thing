@@ -13,6 +13,16 @@ function rateLimitKey(request: FastifyRequest): string {
   return userId === undefined ? `ip:${request.ip}` : `user:${userId}`;
 }
 
+export function perUser(max: number, timeWindow: number | string): RouteRateLimit {
+  return { max, timeWindow, hook: 'preHandler' };
+}
+
+export interface RouteRateLimit {
+  readonly max: number;
+  readonly timeWindow: number | string;
+  readonly hook: 'preHandler';
+}
+
 async function rateLimitPlugin(app: FastifyInstance, options: RateLimitOptions): Promise<void> {
   const { env } = options;
 

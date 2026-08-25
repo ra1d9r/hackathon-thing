@@ -5,6 +5,8 @@ import { roundTo, type QuestionKind } from '../../contracts/domain.js';
 import { AppError } from '../../contracts/errors.js';
 import { isJsonObject } from '../../contracts/json.js';
 
+
+
 export const answerKeySchema = z.union([
   z.object({ correct: z.array(z.string()).min(1) }),
   z.object({ value: z.number(), tolerance: z.number().min(0).default(0) }),
@@ -12,6 +14,7 @@ export const answerKeySchema = z.union([
 ]);
 
 export type AnswerKey = z.infer<typeof answerKeySchema>;
+
 
 export function parseAnswerKey(raw: unknown): AnswerKey | null {
   if (!isJsonObject(raw)) {
@@ -36,6 +39,7 @@ export interface GradeOutcome {
 
 const PENDING: GradeOutcome = { grader: 'pending', isCorrect: null, pointsAwarded: null };
 
+
 const NUMERIC_EPSILON = 1e-9;
 
 function gradeChoice(
@@ -48,6 +52,10 @@ function gradeChoice(
   if (question.kind === 'mcq_single' && selected.length !== 1) {
     return { grader: 'deterministic', isCorrect: false, pointsAwarded: 0 };
   }
+
+  
+  
+  
   const expected = new Set(key.correct);
   const given = new Set(selected);
   const isCorrect =
@@ -79,6 +87,7 @@ function gradeNumeric(
   };
 }
 
+
 function numericValue(answer: AnswerPayload): number | null {
   if (answer.value !== undefined) {
     return answer.value;
@@ -93,6 +102,7 @@ function numericValue(answer: AnswerPayload): number | null {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
+
 export function gradeAnswer(question: GradableQuestion, answer: AnswerPayload): GradeOutcome {
   if (question.kind === 'free_text') {
     return PENDING;
@@ -100,6 +110,8 @@ export function gradeAnswer(question: GradableQuestion, answer: AnswerPayload): 
 
   const key = question.answerKey;
   if (key === null) {
+    
+    
     return PENDING;
   }
 
@@ -120,11 +132,13 @@ export function gradeAnswer(question: GradableQuestion, answer: AnswerPayload): 
   return PENDING;
 }
 
+
 export const SKIPPED: GradeOutcome = {
   grader: 'deterministic',
   isCorrect: false,
   pointsAwarded: 0,
 };
+
 
 export function assertAnswerShape(kind: QuestionKind, answer: AnswerPayload): void {
   const fail = (message: string): never => {

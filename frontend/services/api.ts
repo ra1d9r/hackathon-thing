@@ -1,9 +1,4 @@
-/**
- * Тонкий клиент над REST API backend'а (docs/openapi.json).
- *
- * Формат ошибок и все пути соответствуют контракту backend'а один в один —
- * см. `backend/src/contracts/errors.ts` и `backend/docs/02-api.md`.
- */
+
 
 export const API_BASE_URL =
   process.env.EXPO_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ?? "http://localhost:3000";
@@ -32,13 +27,11 @@ export class ApiError extends Error {
   }
 }
 
-/** Провайдер токена — назначается один раз из useAuthStore, чтобы избежать циклического импорта. */
 let tokenProvider: (() => string | null) = () => null;
 export function setAuthTokenProvider(fn: () => string | null): void {
   tokenProvider = fn;
 }
 
-/** Вызывается при 401: обычно инициирует выход из аккаунта. */
 let onUnauthorized: (() => void) | null = null;
 export function setUnauthorizedHandler(fn: () => void): void {
   onUnauthorized = fn;
@@ -49,8 +42,8 @@ interface CryptoLike {
 }
 
 function randomId(): string {
-  // Hermes/RN 0.81 и веб дают crypto.randomUUID нативно; на случай окружения,
-  // где его нет (например, старый веб без https), — запасной генератор.
+  
+  
   const globalCrypto = (globalThis as { crypto?: CryptoLike }).crypto;
   if (globalCrypto?.randomUUID) return globalCrypto.randomUUID();
   return `id-${Date.now()}-${Math.random().toString(36).slice(2, 10)}-${Math.random().toString(36).slice(2, 10)}`;
@@ -60,11 +53,11 @@ export interface RequestOptions {
   method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
   body?: unknown;
   query?: Record<string, string | number | boolean | undefined>;
-  /** Ключ идемпотентности для изменяющих запросов; генерируется сам, если не передан. */
+  
   idempotencyKey?: string | null;
-  /** Не слать Idempotency-Key вовсе (эндпоинты, где он не нужен). */
+  
   skipIdempotency?: boolean;
-  /** Не требовать токен (эндпоинты вроде /v1/auth/register). */
+  
   skipAuth?: boolean;
   timeoutMs?: number;
 }
@@ -80,11 +73,11 @@ function encodeQuery(query: RequestOptions["query"]): string {
 }
 
 function buildUrl(path: string, query?: RequestOptions["query"]): string {
-  // `new URL` здесь использовать нельзя. В React Native это урезанный полифил
-  // (react-native/Libraries/Blob/URL.js), который дописывает «/» в конец адреса,
-  // если в нём нет «?» и «#»: `/v1/me` уходит как `/v1/me/`, а Fastify поднят
-  // без `ignoreTrailingSlash` — то есть на устройстве каждый запрос давал 404.
-  // В браузере подставляется настоящий URL, поэтому в вебе баг не проявлялся.
+  
+  
+  
+  
+  
   const base = path.startsWith("http") ? path : `${API_BASE_URL}${path}`;
   const search = encodeQuery(query);
   if (search === "") return base;
@@ -178,8 +171,6 @@ export function apiDelete<T>(path: string, options?: RequestOptions): Promise<T>
   return apiFetch<T>(path, { ...options, method: "DELETE" });
 }
 
-// ─── Отложенный опрос AI-работ (docs/03-ai-integration.md, §8.6) ──────────────
-
 export interface JobStatusResponse {
   job: {
     id: string;
@@ -199,11 +190,6 @@ export interface JobStatusResponse {
 
 const TERMINAL_STATUSES = new Set(["succeeded", "failed", "canceled", "dead_letter"]);
 
-/**
- * Ждёт завершения работы очереди отложенными запросами к серверу.
- * Сервер сам держит соединение открытым (long-poll); здесь — просто цикл
- * до терминального статуса, с разумным пределом по общему времени.
- */
 export async function waitForJob(
   jobId: string,
   options: { totalTimeoutMs?: number; waitMs?: number } = {},

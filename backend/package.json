@@ -25,7 +25,8 @@
     "requeue": "tsx scripts/requeue-jobs.ts",
     "ai:smoke": "tsx scripts/ai-smoke.ts",
     "ai:eval": "tsx scripts/ai-eval.ts",
-    "ai:e2e": "tsx scripts/ai-e2e.ts"
+    "ai:e2e": "tsx scripts/ai-e2e.ts",
+    "ai:assistant": "tsx scripts/ai-assistant-check.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.3.0",

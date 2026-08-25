@@ -1,94 +1,312 @@
 {
-  "_ЗАГОТОВКА": "Пробник НИШ содержит четыре демонстрационных вопроса вместо полного набора. Как и ЕНТ, этот тест составляется человеком: ИИ его не генерирует и не редактирует, а только анализирует результаты. Замените вопросы настоящими и выполните: npm run content",
-
   "pool": "exam_mock",
-  "placeholder": true,
+  "placeholder": false,
   "exam_code": "nis",
-
+  "_": "Короткий вариант комплексного тестирования НИШ: три раздела настоящего экзамена в уменьшенном виде. Полный вариант — 90 заданий; здесь по три на раздел, чтобы приведение к шкале чертежа (900 баллов) работало на настоящих данных.",
   "mock": {
-    "code": "mock.nis.demo",
-    "title": "Пробник НИШ (демонстрационная форма)",
-    "grade": 11,
-    "time_limit_sec": 1800,
+    "code": "mock.nis.short",
+    "title": "Пробное тестирование НИШ — 7 класс (краткая форма)",
+    "grade": 6,
+    "time_limit_sec": 3600,
     "outline": [
-      { "step": 1, "kind": "intro", "title": "Математика", "duration_min": null },
-      { "step": 2, "kind": "intro", "title": "Логика и аналитика", "duration_min": null },
-      { "step": 3, "kind": "intro", "title": "Естествознание", "duration_min": null },
-      { "step": 4, "kind": "intro", "title": "Язык", "duration_min": null }
+      {
+        "step": 1,
+        "kind": "intro",
+        "title": "Математика",
+        "duration_min": null
+      },
+      {
+        "step": 2,
+        "kind": "intro",
+        "title": "Количественные характеристики",
+        "duration_min": null
+      },
+      {
+        "step": 3,
+        "kind": "intro",
+        "title": "Естествознание",
+        "duration_min": null
+      }
     ]
   },
-
   "questions": [
     {
-      "code": "mock.nis.math.progression",
+      "code": "mock.nis.math.1",
       "kind": "mcq_single",
-      "topic_code": "math.progressions",
-      "grade": 11,
-      "difficulty": 2,
-      "prompt_md": "В арифметической прогрессии первый член равен 2, разность равна 4. Найдите седьмой член прогрессии.",
-      "options": [
-        { "id": "a", "text_md": "22" },
-        { "id": "b", "text_md": "24" },
-        { "id": "c", "text_md": "26" },
-        { "id": "d", "text_md": "28" },
-        { "id": "e", "text_md": "30" }
-      ],
-      "answer_key": { "correct": ["c"] },
-      "explanation_md": "aₙ = a₁ + (n − 1)d = 2 + 6 · 4 = 26.",
-      "points": 1
-    },
-    {
-      "code": "mock.nis.logic.sequence",
-      "kind": "mcq_single",
-      "topic_code": "logic.placeholder_01",
-      "grade": 11,
+      "topic_code": "math.g6.umnozhenie-racionalnyh-chisel",
+      "grade": 6,
       "difficulty": 3,
-      "prompt_md": "Продолжите числовую последовательность: 2, 6, 12, 20, 30, …",
+      "prompt_md": "Вычислите: (−2,5) · 4 · (−0,2).",
       "options": [
-        { "id": "a", "text_md": "36" },
-        { "id": "b", "text_md": "40" },
-        { "id": "c", "text_md": "42" },
-        { "id": "d", "text_md": "44" },
-        { "id": "e", "text_md": "48" }
+        {
+          "id": "a",
+          "text_md": "−2"
+        },
+        {
+          "id": "b",
+          "text_md": "2"
+        },
+        {
+          "id": "c",
+          "text_md": "−20"
+        },
+        {
+          "id": "d",
+          "text_md": "20"
+        }
       ],
-      "answer_key": { "correct": ["c"] },
-      "explanation_md": "Разности растут на 2: 4, 6, 8, 10, значит следующая равна 12, и 30 + 12 = 42.",
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "(−2,5) · 4 = −10; −10 · (−0,2) = 2. Два знака минус дают плюс.",
       "points": 1
     },
     {
-      "code": "mock.nis.natural.atmosphere",
-      "kind": "mcq_single",
-      "topic_code": "nat.placeholder_01",
-      "grade": 11,
-      "difficulty": 1,
-      "prompt_md": "Какой газ составляет наибольшую долю в атмосфере Земли?",
-      "options": [
-        { "id": "a", "text_md": "Кислород" },
-        { "id": "b", "text_md": "Азот" },
-        { "id": "c", "text_md": "Углекислый газ" },
-        { "id": "d", "text_md": "Аргон" },
-        { "id": "e", "text_md": "Водяной пар" }
-      ],
-      "answer_key": { "correct": ["b"] },
-      "explanation_md": "Азот занимает около 78% объёма атмосферы, кислород — около 21%.",
+      "code": "mock.nis.math.2",
+      "kind": "numeric",
+      "topic_code": "math.g5.pravilnye-i-nepravilnye-obyknovennye-drobi",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Представьте смешанное число 4 2/5 в виде неправильной дроби. В ответ запишите числитель.",
+      "options": null,
+      "answer_key": {
+        "value": 22,
+        "tolerance": 0
+      },
+      "explanation_md": "4 · 5 + 2 = 22, знаменатель остаётся 5: получается 22/5.",
       "points": 1
     },
     {
-      "code": "mock.nis.language.synonym",
+      "code": "mock.nis.math.3",
       "kind": "mcq_single",
-      "topic_code": "rus.placeholder_01",
-      "grade": 11,
+      "topic_code": "math.g6.peremennaya",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Периметр прямоугольника равен 2(a + b). Чему он равен при a = 7 см и b = 3,5 см?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "10,5 см"
+        },
+        {
+          "id": "b",
+          "text_md": "21 см"
+        },
+        {
+          "id": "c",
+          "text_md": "24,5 см"
+        },
+        {
+          "id": "d",
+          "text_md": "42 см"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "2 · (7 + 3,5) = 2 · 10,5 = 21 см. Ответ 10,5 — забытое умножение на два.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.quant.1",
+      "kind": "mcq_single",
+      "topic_code": "logic.g5.fractions-compare",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Сравните величины.\n\nКолонка A: 1/2 + 1/3 + 1/6\n\nКолонка B: 3/4 + 1/4",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "A: 3/6 + 2/6 + 1/6 = 1. B: 3/4 + 1/4 = 1. Величины равны.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.quant.2",
+      "kind": "mcq_single",
+      "topic_code": "logic.g5.progressions",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Сравните величины.\n\nКолонка A: 1 + 2 + 3 + … + 20\n\nКолонка B: 1 + 3 + 5 + … + 27",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "A = 20 · 21 / 2 = 210. B — сумма первых 14 нечётных чисел (от 1 до 27), она равна 14² = 196. Значит A больше.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.quant.3",
+      "kind": "mcq_single",
+      "topic_code": "logic.g6.insufficient-data",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Известно, что периметр прямоугольника равен 20 см.\n\nКолонка A: площадь этого прямоугольника\n\nКолонка B: 24 см²",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "d"
+        ]
+      },
+      "explanation_md": "Периметр не определяет площадь: при сторонах 4 и 6 площадь 24 см², при 2 и 8 — 16 см², при 5 и 5 — 25 см². Сравнить нельзя.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.1",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.pochemu-my-chuvstvuem-zapahi-na-rasstoyanii",
+      "grade": 5,
       "difficulty": 2,
-      "prompt_md": "Укажите слово, которое является синонимом слова «стремительный».",
+      "prompt_md": "Почему запах духов распространяется по комнате?",
       "options": [
-        { "id": "a", "text_md": "Медленный" },
-        { "id": "b", "text_md": "Быстрый" },
-        { "id": "c", "text_md": "Тяжёлый" },
-        { "id": "d", "text_md": "Спокойный" },
-        { "id": "e", "text_md": "Далёкий" }
+        {
+          "id": "a",
+          "text_md": "Из-за диффузии — частицы вещества движутся и перемешиваются"
+        },
+        {
+          "id": "b",
+          "text_md": "Потому что воздух неподвижен"
+        },
+        {
+          "id": "c",
+          "text_md": "Потому что частицы увеличиваются в размере"
+        },
+        {
+          "id": "d",
+          "text_md": "Из-за притяжения между молекулами"
+        }
       ],
-      "answer_key": { "correct": ["b"] },
-      "explanation_md": "Стремительный означает движущийся с большой скоростью, то есть быстрый.",
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Частицы находятся в непрерывном хаотическом движении и постепенно перемешиваются с частицами воздуха — это диффузия.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.2",
+      "kind": "mcq_single",
+      "topic_code": "nat.g6.v-chem-shodstva-i-razlichiya-mikro-i-makromira",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Каким прибором пользуются для изучения объектов микромира?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Телескопом"
+        },
+        {
+          "id": "b",
+          "text_md": "Микроскопом"
+        },
+        {
+          "id": "c",
+          "text_md": "Барометром"
+        },
+        {
+          "id": "d",
+          "text_md": "Термометром"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Микроскоп увеличивает мелкие объекты; телескоп нужен для удалённых объектов макромира.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.3",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.kakimi-svoystvami-obladayut-razlichnye",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Какое свойство вещества позволяет вытягивать из него проволоку?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Теплопроводность"
+        },
+        {
+          "id": "b",
+          "text_md": "Растворимость"
+        },
+        {
+          "id": "c",
+          "text_md": "Пластичность"
+        },
+        {
+          "id": "d",
+          "text_md": "Прозрачность"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "Пластичность — способность изменять форму под нагрузкой и сохранять её. Благодаря ей металлы вытягивают в проволоку и куют.",
       "points": 1
     }
   ]

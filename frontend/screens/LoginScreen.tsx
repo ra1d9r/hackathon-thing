@@ -30,8 +30,8 @@ export function LoginScreen() {
     setLocalError(null);
     try {
       await login(email.trim().toLowerCase(), password);
-      // Онбординг мог остаться незаконченным — тогда панель ему не покажут,
-      // и вместо мигания экранами ведём сразу на нужный шаг.
+      
+      
       const me = useAuthStore.getState().me;
       router.replace(me?.requires_onboarding === false ? routes.tabsRoot : routes.usersTargetChoose);
     } catch (error) {

@@ -8,13 +8,6 @@ import { ScreenContainer } from "@/components/ScreenContainer";
 import { useOnboardingStore } from "@/store/useOnboardingStore";
 import { routes } from "@/types/navigation";
 
-/**
- * Выбор профильных предметов — по данным `GET /v1/catalog/subjects`.
- *
- * Обязательные предметы уже подставлены в `selectedSubjects` на предыдущем
- * шаге (`loadSubjectOptions`); здесь ученик выбирает ровно `profile_slot_count`
- * профильных — правило и число задаёт backend, а не эта форма.
- */
 export function ChooseSubjectsScreen() {
   const subjectOptions = useOnboardingStore((state) => state.subjectOptions);
   const selectedSubjects = useOnboardingStore((state) => state.selectedSubjects);
@@ -49,7 +42,7 @@ export function ChooseSubjectsScreen() {
     try {
       const response = await completeOnboarding();
       if (response.diagnostic_unavailable_reason) {
-        // Онбординг всё равно завершён — идём сразу на панель.
+        
         router.replace(routes.tabsRoot);
         return;
       }

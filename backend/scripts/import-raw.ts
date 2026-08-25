@@ -66,7 +66,7 @@ function slug(title: string, limit: number): string {
     return base;
   }
 
-  // Обрезка по границе слова: обрубок посреди слова читается как опечатка.
+  
   const cut = base.slice(0, limit);
   const lastDash = cut.lastIndexOf('-');
   return lastDash > limit / 2 ? cut.slice(0, lastDash) : cut;
@@ -140,6 +140,8 @@ function buildTopics(raw: readonly RawTopic[]): Map<string, TopicEntry[]> {
     const prefix = PREFIX[item.subjectCode] ?? item.subjectCode;
     let code = `${prefix}.g${item.grade}.${slug(item.title, 48)}`;
 
+    
+    
     let attempt = 2;
     while (seen.has(code)) {
       code = `${prefix}.g${item.grade}.${slug(item.title, 44)}-${attempt}`;
@@ -154,6 +156,7 @@ function buildTopics(raw: readonly RawTopic[]): Map<string, TopicEntry[]> {
       grade_min: item.grade,
       grade_max: item.grade,
       exam_weight: EXAM_WEIGHT[item.subjectCode] ?? 1,
+      
       sort_order: item.grade * 1000 + Math.min(item.page, 999),
     });
     bySubject.set(item.subjectCode, list);
@@ -165,7 +168,6 @@ function buildTopics(raw: readonly RawTopic[]): Map<string, TopicEntry[]> {
 
   return bySubject;
 }
-
 
 const MATERIAL_DIR = join(RAW_DIR, 'материал (по предметам)');
 
@@ -179,6 +181,9 @@ const PAGED_FILE_SUBJECT: Record<string, string> = {
 };
 
 const TITLED_FILES: Record<string, { grade: number; subjects: string[] }> = {
+  
+  
+  
   'темы_алгебра_и_физика_7_класс': { grade: 7, subjects: ['math', 'physics'] },
   'химия_7_класс_текст': { grade: 7, subjects: ['chemistry'] },
   'информатика 7': { grade: 7, subjects: ['informatics'] },
@@ -242,7 +247,9 @@ const TITLED_FILES: Record<string, { grade: number; subjects: string[] }> = {
 interface RawLesson {
   readonly subjectCode: string;
   readonly grade: number;
+  
   readonly page: number | null;
+  
   readonly topicCode: string | null;
   readonly body: string;
 }
@@ -273,6 +280,7 @@ function parsePagedMaterials(): RawLesson[] {
     const text = readFileSync(join(MATERIAL_DIR, name), 'utf8').replace(/\r\n/gu, '\n');
     const parts = text.split(/^\s*(\d{1,3})\s+СТРАНИЦ[АЫ]?\s*$/gmu);
 
+    
     for (let index = 1; index < parts.length; index += 2) {
       const page = Number(parts[index]);
       const body = (parts[index + 1] ?? '').trim();
@@ -329,6 +337,9 @@ function parseTitledMaterials(topics: ReadonlyMap<string, TopicEntry[]>): {
     const lines = readFileSync(path, 'utf8').replace(/\r\n/gu, '\n').split('\n');
     const normalized = lines.map(normalize);
 
+    
+    
+    
     const found: { topic: TopicEntry; subjectCode: string; line: number }[] = [];
 
     for (const subjectCode of meta.subjects) {
@@ -340,6 +351,13 @@ function parseTitledMaterials(topics: ReadonlyMap<string, TopicEntry[]>): {
         const title = normalize(topic.title_ru);
         const words = title.split(' ');
 
+        
+        
+        
+        
+        
+        
+        
         const shortest = Math.min(3, words.length);
 
         let line = -1;
@@ -347,6 +365,9 @@ function parseTitledMaterials(topics: ReadonlyMap<string, TopicEntry[]>): {
           const key = words.slice(0, length).join(' ');
           line = normalized.findIndex(
             (candidate) =>
+              
+              
+              
               stripNumbering(candidate).startsWith(key) &&
               candidate.length < title.length + TITLE_SLACK,
           );
@@ -408,6 +429,8 @@ function toAiText(body: string): string {
 function summarize(aiText: string): string {
   const sentences = aiText
     .split('\n')
+    
+    
     .filter((line) => {
       const trimmed = line.trim();
       return (
@@ -431,6 +454,7 @@ function summarize(aiText: string): string {
 }
 
 function readMinutes(text: string): number {
+  
   return Math.max(3, Math.min(60, Math.round(text.length / 900)));
 }
 
@@ -459,6 +483,9 @@ function buildLessons(
   for (const lesson of raw) {
     const topics = topicsBySubject.get(lesson.subjectCode) ?? [];
 
+    
+    
+    
     const topic =
       lesson.topicCode === null
         ? topics.find(
@@ -556,6 +583,9 @@ function main(): void {
   for (const [subjectCode, list] of lessons) {
     const path = join(lessonsDir, `${subjectCode}.json`);
 
+    
+    
+    
     const imported = new Set(list.map((lesson) => lesson.topic_code));
     const handWritten = existsSync(path)
       ? readLessons(path).filter((lesson) => !imported.has(lesson.topic_code))
@@ -577,6 +607,8 @@ function main(): void {
     console.log(`  ${subject}: ${list.length}`);
   }
 
+  
+  
   const covered = new Set(
     [...lessons.values()].flatMap((list) => list.map((lesson) => lesson.topic_code)),
   );

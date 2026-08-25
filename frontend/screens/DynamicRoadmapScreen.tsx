@@ -10,7 +10,6 @@ import { useLessonPreview, useRoadmap, useUserProfile } from "@/hooks/useData";
 import { apiGet } from "@/services/api";
 import type { RoadmapNode, Subject } from "@/types/app";
 
-
 interface RoadmapNodeDetail {
   node: { lesson_id: string | null };
 }
@@ -19,10 +18,10 @@ export function DynamicRoadmapScreen() {
   const { user, isLoading: isUserLoading } = useUserProfile();
   const subjects = user?.selectedSubjects ?? [];
 
-  // `subject_id` в `/v1/roadmap` — настоящий UUID, а не код предмета, и ни
-  // `/v1/me`, ни каталог его клиенту не отдают. backend сам выбирает предмет
-  // ученика; какой именно — видно в ответе (`subject`) и подсвечивается ниже
-  // в списке предметов.
+  
+  
+  
+  
   const { nodes, currentScore, subject, isLoading: isRoadmapLoading, error } = useRoadmap();
   const [selectedNode, setSelectedNode] = useState<RoadmapNode | null>(null);
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
@@ -90,12 +89,6 @@ export function DynamicRoadmapScreen() {
   );
 }
 
-/**
- * Список предметов ученика — информационный, не переключатель.
- *
- * Подсвечивается тот, чью карту сейчас показывает backend (см. комментарий
- * в `DynamicRoadmapScreen`); нажатие не меняет запрос.
- */
 function SubjectChips({ subjects, activeCode }: { subjects: Subject[]; activeCode: string | null }) {
   if (subjects.length === 0) return null;
   return (

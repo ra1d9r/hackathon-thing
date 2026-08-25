@@ -10,12 +10,15 @@ import {
   type TokenUsage,
 } from './types.js';
 
+
+
 const JSON_MIME = 'application/json';
 
 interface ChatMessage {
   readonly role: 'system' | 'user';
   readonly content: string;
 }
+
 
 function toMessages(blocks: readonly PromptBlock[], repairHint: string | undefined): ChatMessage[] {
   const stable = blocks.filter((block) => block.cacheable).map((block) => block.text);
@@ -51,6 +54,7 @@ function readUsage(payload: unknown): TokenUsage {
   return {
     input: numberOrNull(usage['prompt_tokens']),
     output: numberOrNull(usage['completion_tokens']),
+    
     cacheRead:
       numberOrNull(usage['prompt_cache_hit_tokens']) ?? numberOrNull(usage['cache_read_input_tokens']),
     cacheWrite:
@@ -74,11 +78,16 @@ function readChoice(payload: unknown): { text: string; stopReason: string | null
   const content = isJsonObject(message) ? message['content'] : null;
 
   if (typeof content !== 'string' || content.trim() === '') {
+    
+    
+    
     if (stopReason === 'length') {
       throw new ModelError('truncated', 'бюджет токенов исчерпан рассуждением', {
         code: 'MAX_TOKENS',
       });
     }
+    
+    
     throw new ModelError('empty', 'ответ провайдера пуст при завершённом вызове', {
       code: 'EMPTY_CONTENT',
     });
@@ -86,6 +95,7 @@ function readChoice(payload: unknown): { text: string; stopReason: string | null
 
   return { text: content, stopReason };
 }
+
 
 function classify(status: number, body: string, retryAfterMs: number | null): ModelError {
   const short = body.slice(0, 300);
@@ -131,6 +141,7 @@ export function createModelCaller(env: Env): ModelCaller {
   const overrides = env.AI_MODEL_OVERRIDES;
   const maxOutputTokens = env.AI_MAX_OUTPUT_TOKENS;
 
+  
   const responseFormat = (request: ModelRequest): { response_format?: unknown } => {
     switch (env.AI_RESPONSE_FORMAT) {
       case 'json_object':

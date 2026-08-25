@@ -8,8 +8,14 @@ import type { SupabaseAdmin } from '../auth/supabase-admin.js';
 import { isJsonObject, type JsonObject } from '../contracts/json.js';
 import type { Sql, SqlExecutor } from '../db/sql.js';
 import { attemptAnalysis } from './handlers/analysis.js';
+import { assistantChat } from './handlers/assistant-chat.js';
+import { dailyPlan } from './handlers/daily-plan.js';
 import { freeTextGrading } from './handlers/free-text-grading.js';
+import { knowledgeCheckGeneration } from './handlers/knowledge-check.js';
+import { moderation } from './handlers/moderation.js';
 import { predictedScore } from './handlers/predicted-score.js';
+import { roadmapPlan } from './handlers/roadmap-plan.js';
+import { taskGeneration } from './handlers/task-generation.js';
 import type { AiJobStatus, AiOpType } from './jobs.js';
 import { runMaintenance, type MaintenanceReport } from './maintenance.js';
 import {
@@ -26,6 +32,12 @@ const HANDLERS: Partial<Record<AiOpType, JobHandler>> = {
   attempt_analysis: attemptAnalysis,
   mock_analysis: attemptAnalysis,
   predicted_score: predictedScore,
+  roadmap_plan: roadmapPlan,
+  knowledge_check_generation: knowledgeCheckGeneration,
+  task_generation: taskGeneration,
+  daily_plan: dailyPlan,
+  assistant_chat: assistantChat,
+  moderation,
 };
 
 export const MAX_RETRY_DELAY_MS = 60_000;
@@ -204,8 +216,8 @@ export class QueueWorker {
       applyOnce: async (effect) => this.applyOnce(job, effect, startedAt),
       model: async () => this.modelFor(job),
       logCalls: async (calls) => this.logCalls(job, calls),
-      // Бюджет считается в попытках очереди: последняя обязана завершиться
-      // расчётом, иначе работа ушла бы в отстойник без результата.
+      
+      
       retryOnModelOutage: () =>
         job.attempts + 1 < Math.min(this.aiRetryBudget, job.maxAttempts - 1),
     };

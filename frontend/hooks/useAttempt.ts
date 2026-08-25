@@ -2,12 +2,6 @@ import { useCallback, useRef, useState } from "react";
 
 import { apiGet, apiPatch, apiPost, waitForJob } from "@/services/api";
 
-/**
- * Прохождение теста: старт/возобновление попытки, локальные ответы,
- * автосохранение и отправка. Общий хук для диагностики и задач дня —
- * оба используют один и тот же контракт `backend/src/contracts/dto/attempts.ts`.
- */
-
 export type QuestionKind = "mcq_single" | "mcq_multi" | "free_text" | "numeric";
 
 export interface QuestionOption {
@@ -169,7 +163,7 @@ export function useAttempt() {
     const unsaved = questions
       .filter((q) => answers[q.id] && !savedQuestionIds.current.has(q.id))
       .map((q) => ({ question_id: q.id, answer: answers[q.id]!, time_spent_sec: 1 }));
-    // Батчами по 50 — предел контракта.
+    
     for (let i = 0; i < unsaved.length; i += 50) {
       const batch = unsaved.slice(i, i + 50);
       if (batch.length === 0) continue;
@@ -216,7 +210,6 @@ export function useAttempt() {
   };
 }
 
-/** Ждёт разбор попытки (для диагностики/пробника) перед показом результата. */
 export async function waitForAttemptJob(jobId: string | null | undefined): Promise<void> {
   if (!jobId) return;
   await waitForJob(jobId, { totalTimeoutMs: 90_000, waitMs: 20_000 }).catch(() => undefined);

@@ -4,14 +4,6 @@ import { create } from "zustand";
 import { apiGet, apiPost, setAuthTokenProvider, setUnauthorizedHandler } from "@/services/api";
 import { refreshSession, signInWithPassword, type SupabaseSession } from "@/services/supabaseAuth";
 
-/**
- * Сессия и профиль ученика/учителя.
- *
- * Backend не выдаёт токены — вход идёт напрямую через Supabase Auth,
- * а `/v1/me` даёт всё, что нужно приложению о текущем пользователе
- * (см. backend/src/contracts/dto/auth.ts, meResponseSchema).
- */
-
 const STORAGE_KEY = "tlek.session.v1";
 
 export type LearningGoal = "ent" | "nis" | "olympiad" | "subjects";
@@ -69,7 +61,7 @@ interface AuthState {
   register: (payload: RegisterPayload) => Promise<void>;
   logout: () => Promise<void>;
   refreshMe: () => Promise<void>;
-  /** Ответы `/v1/me/profile` и `/v1/me/avatar/commit` — это тот же профиль, лишний GET не нужен. */
+  
   setMe: (me: MeResponse) => void;
   clearError: () => void;
 }
@@ -93,8 +85,8 @@ function fromSupabaseSession(session: SupabaseSession): PersistedSession {
 let refreshTimer: ReturnType<typeof setInterval> | null = null;
 
 export const useAuthStore = create<AuthState>((set, get) => {
-  // api.ts не импортирует стор напрямую (циклический импорт) — токен
-  // и обработчик 401 регистрируются здесь, один раз при создании стора.
+  
+  
   setAuthTokenProvider(() => get().session?.access_token ?? null);
   setUnauthorizedHandler(() => {
     void get().logout();
@@ -118,7 +110,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
       await persist(next);
       set({ session: next });
     } catch {
-      // Токен обновления протух или отозван — выходим, а не зацикливаемся.
+      
       await get().logout();
     }
   }
@@ -149,7 +141,7 @@ export const useAuthStore = create<AuthState>((set, get) => {
 
         const stored = JSON.parse(raw) as PersistedSession;
 
-        // Токен мог протухнуть, пока приложение было закрыто — освежаем сразу.
+        
         const session =
           stored.expires_at - Date.now() < 5 * 60_000
             ? fromSupabaseSession(await refreshSession(stored.refresh_token))

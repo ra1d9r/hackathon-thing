@@ -8,9 +8,6 @@ import { apiGet } from "@/services/api";
 import { waitForAttemptJob, type JobRef } from "@/hooks/useAttempt";
 import { routes } from "@/types/navigation";
 
-// JobRef ре-экспортируется, чтобы типы результата остались согласованы —
-// поле `job` в AttemptResult ссылается на ту же форму.
-
 interface TopicResult {
   topic_id: string;
   title: string;
@@ -68,7 +65,7 @@ export function DiagnosticResultsScreen() {
       }
 
       try {
-        // Ждём, пока очередь разберёт свободные ответы и посчитает анализ.
+        
         await waitForAttemptJob(params.jobId);
         const data = await apiGet<AttemptResult>(`/v1/attempts/${params.attemptId}/result`);
         if (!cancelled) setResult(data);

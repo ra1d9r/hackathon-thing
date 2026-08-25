@@ -1,10 +1,4 @@
-/**
- * Прямой вход через Supabase Auth (password grant).
- *
- * Backend не выдаёт токены сам — регистрация создаёт пользователя и профиль
- * (`POST /v1/auth/register`), а подписанный JWT выдаёт Supabase напрямую.
- * Ровно этот путь уже проверен в `backend/test/db/auth-live.test.ts`.
- */
+
 
 export const SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL ?? "";
 export const SUPABASE_ANON_KEY = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY ?? "";

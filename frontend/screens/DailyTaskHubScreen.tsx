@@ -13,8 +13,8 @@ export function DailyTaskHubScreen() {
   const { user } = useUserProfile();
   const { tasks, isLoading, error, reload } = useDailyTasks();
 
-  // Список обновляется при возврате с экрана задания — иначе после
-  // выполнения задачи прогресс остаётся прежним до перезапуска приложения.
+  
+  
   useFocusEffect(
     useCallback(() => {
       reload();
@@ -81,8 +81,8 @@ function TaskCard({ task }: { task: TaskItem }) {
     router.push({ pathname: "/task-execution-workspace", params: { itemId: task.id } });
   };
 
-  // `meta` с сервера часто и есть длительность («20 мин»), а она уже показана
-  // отдельной плашкой — второй раз то же самое под заголовком не нужно.
+  
+  
   const subtitle = task.subtitle.trim();
   const showSubtitle = subtitle.length > 0 && subtitle !== `${task.durationMinutes} мин`;
 

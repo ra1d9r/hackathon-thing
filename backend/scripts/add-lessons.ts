@@ -4,7 +4,6 @@ import { fileURLToPath } from 'node:url';
 
 import { z } from 'zod';
 
-
 const ROOT = fileURLToPath(new URL('../../', import.meta.url));
 const CONTENT_DIR = join(ROOT, 'supabase', 'content');
 

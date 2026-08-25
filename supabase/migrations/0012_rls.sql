@@ -1,3 +1,21 @@
+-- 0012 — RLS: вспомогательные функции, включение защиты, политики.
+--
+-- Модель доступа (см. docs/01-database.md, §10):
+--   * все доменные операции идут через API под сервисным ключом;
+--   * клиент обращается к базе напрямую только двумя путями — подписка
+--     Realtime на чат и Storage;
+--   * поэтому роли authenticated выдаётся ТОЛЬКО SELECT и только там, где
+--     это нужно. Ни одной политики INSERT/UPDATE/DELETE в схеме нет.
+--
+-- Таблицы без политик недоступны клиенту полностью. Это сознательный выбор
+-- для questions (эталонные ответы), stat_events и всей служебной части.
+
+-- ─── Вспомогательные функции ─────────────────────────────────────────────────
+--
+-- SECURITY DEFINER здесь не про привилегии, а про разрыв рекурсии: политика
+-- на classes ссылается на class_members, политика на class_members — на
+-- classes. Без выхода из-под RLS внутри функции это зациклилось бы.
+
 create or replace function app.my_role() returns public.user_role
 language sql stable security definer set search_path = public, pg_temp as $$
   select p.role from public.profiles p where p.id = (select auth.uid())
@@ -28,6 +46,8 @@ language sql stable security definer set search_path = public, pg_temp as $$
   )
 $$;
 
+-- Пересечение по любому общему классу: нужно, чтобы участники чата видели
+-- имена друг друга, но не всю базу пользователей.
 create or replace function app.shares_class_with(p_user_id uuid) returns boolean
 language sql stable security definer set search_path = public, pg_temp as $$
   select exists (
@@ -59,6 +79,10 @@ language sql stable security definer set search_path = public, pg_temp as $$
        and m.user_id = (select auth.uid())
   )
 $$;
+
+-- Права на функции схемы app: по умолчанию EXECUTE выдаётся PUBLIC, что
+-- открыло бы клиенту, например, захват задач очереди. Закрываем всё и
+-- возвращаем доступ только вспомогательным функциям политик.
 revoke all on all functions in schema app from public, anon, authenticated;
 
 grant execute on function
@@ -70,7 +94,14 @@ grant execute on function
   app.is_channel_member(uuid)
 to authenticated;
 
+-- Функции, созданные в схеме app позже, тоже не должны быть публичными.
 alter default privileges in schema app revoke execute on functions from public;
+
+-- ─── Включение RLS на всех таблицах схемы public ─────────────────────────────
+--
+-- Сплошным проходом, а не перечислением: забыть таблицу в списке легко,
+-- и цена ошибки — открытые данные. Тест rls.test.ts проверяет, что покрытие
+-- осталось полным и после будущих миграций.
 
 do $$
 declare
@@ -84,6 +115,7 @@ begin
   end loop;
 end $$;
 
+-- ─── Профили ─────────────────────────────────────────────────────────────────
 
 create policy profiles_self_select on public.profiles
   for select to authenticated
@@ -93,6 +125,7 @@ create policy profiles_classmates_select on public.profiles
   for select to authenticated
   using (app.shares_class_with(id));
 
+-- ─── Каталог (доступен на чтение всем аутентифицированным) ───────────────────
 
 create policy subjects_read on public.subjects
   for select to authenticated using (is_active);
@@ -112,6 +145,7 @@ create policy exam_sections_read on public.exam_sections
 create policy lessons_read on public.lessons
   for select to authenticated using (is_active);
 
+-- ─── Материалы ───────────────────────────────────────────────────────────────
 
 create policy materials_read on public.materials
   for select to authenticated
@@ -133,6 +167,7 @@ create policy material_topics_read on public.material_topics
   for select to authenticated
   using (exists (select 1 from public.materials m where m.id = material_id));
 
+-- ─── Личные данные ученика ───────────────────────────────────────────────────
 
 create policy student_profiles_self on public.student_profiles
   for select to authenticated using (student_id = (select auth.uid()));
@@ -197,9 +232,13 @@ create policy daily_items_self on public.daily_plan_items
 create policy streaks_self on public.student_streaks
   for select to authenticated using (student_id = (select auth.uid()));
 
+-- Персональные тесты видит только их владелец; общие (диагностика, пробники)
+-- видны всем — состав вопросов всё равно приходит через API без эталонов.
 create policy assessments_visible on public.assessments
   for select to authenticated
   using (is_active and (student_id is null or student_id = (select auth.uid())));
+
+-- ─── Классы и рассылки ───────────────────────────────────────────────────────
 
 create policy classes_visible on public.classes
   for select to authenticated
@@ -227,6 +266,8 @@ create policy receipts_visible on public.distribution_receipts
     )
   );
 
+-- ─── Чат: единственный путь прямого чтения из клиента ────────────────────────
+
 create policy channels_member_select on public.chat_channels
   for select to authenticated
   using (owner_id = (select auth.uid()) or app.is_channel_member(id));
@@ -239,5 +280,9 @@ create policy messages_member_select on public.chat_messages
   for select to authenticated
   using (deleted_at is null and app.is_channel_member(channel_id));
 
+-- ─── Файлы ───────────────────────────────────────────────────────────────────
+
+-- Метаданные своего файла (нужны для показа имени и размера).
+-- Само содержимое отдаётся только по подписанной ссылке от API.
 create policy file_objects_owner on public.file_objects
   for select to authenticated using (owner_id = (select auth.uid()));

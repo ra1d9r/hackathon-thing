@@ -147,6 +147,7 @@ export async function loadScoreContext(
   const history = await scoreHistory(sql, studentId);
   const daysLeft = daysUntil(profile.target_date);
 
+  
   if (scale === 'ten' || profile.target_exam_id === null) {
     const chosen = await sql<{ subject_id: string }[]>`
       select subject_id from public.student_subjects
@@ -170,6 +171,7 @@ export async function loadScoreContext(
     };
   }
 
+  
   const sectionRows = await sql<SectionRow[]>`
     select subject_id, slot_kind, slot_index, max_points, guess_floor
       from public.exam_sections

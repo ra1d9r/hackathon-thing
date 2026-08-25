@@ -8,7 +8,6 @@ interface QuestionCardProps {
   onChange: (answer: AnswerPayload) => void;
 }
 
-/** Убирает базовую markdown-разметку для простого текстового показа. */
 function plainText(md: string): string {
   return md.replace(/[#*_>`]/g, "").trim();
 }

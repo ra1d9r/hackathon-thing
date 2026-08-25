@@ -1,14 +1,20 @@
 import { normalizeMarkdown } from '../contracts/markdown.js';
 
 
+
 const OPEN_TAG = '<untrusted_data';
 const CLOSE_TAG = '</untrusted_data>';
 
+
 const MAX_UNTRUSTED_CHARS = 4000;
 
+
 export function wrapUntrusted(kind: string, id: string, text: string): string {
+  
+  
   const sanitized = normalizeMarkdown(text, { maxLength: MAX_UNTRUSTED_CHARS });
 
+  
   const escaped = sanitized
     .replaceAll(OPEN_TAG, '&lt;untrusted_data')
     .replaceAll(CLOSE_TAG, '&lt;/untrusted_data&gt;');
@@ -21,7 +27,10 @@ export function wrapUntrusted(kind: string, id: string, text: string): string {
   ].join('\n');
 }
 
+
 const INJECTION_PATTERNS: readonly RegExp[] = [
+  
+  
   /<\/?untrusted_data/iu,
   /^\s*(system|assistant|developer)\s*:/imu,
   /<\|[^|]*\|>/u,
@@ -39,6 +48,7 @@ const INJECTION_PATTERNS: readonly RegExp[] = [
 
 export interface InjectionScan {
   readonly suspicious: boolean;
+  
   readonly matched: readonly number[];
 }
 
@@ -54,9 +64,12 @@ export function scanForInjection(text: string): InjectionScan {
   return { suspicious: matched.length > 0, matched };
 }
 
+
 export const SUSPICIOUS_TRUST_FACTOR = 0.5;
 
+
 export const CROSS_CHECK_THRESHOLD = 0.34;
+
 
 function numericTokens(text: string): string[] {
   const tokens: string[] = [];
@@ -65,6 +78,8 @@ function numericTokens(text: string): string[] {
     const raw = match[0].replace(/\s+/gu, '').replace(',', '.');
     tokens.push(raw);
 
+    
+    
     const fraction = /^(\d+)\/(\d+)$/u.exec(raw);
     if (fraction !== null) {
       const numerator = Number(fraction[1]);
@@ -78,6 +93,7 @@ function numericTokens(text: string): string[] {
   return tokens;
 }
 
+
 export function contradictsExpectedNumbers(
   answer: string,
   expectedPoints: readonly string[],
@@ -89,6 +105,7 @@ export function contradictsExpectedNumbers(
 
   const expected = expectedPoints.flatMap((point) => numericTokens(point));
   if (expected.length === 0) {
+    
     return false;
   }
 
@@ -96,7 +113,9 @@ export function contradictsExpectedNumbers(
   return !expected.some((token) => given.has(token));
 }
 
+
 const HIGH_SCORE_RATIO = 0.7;
+
 
 export function estimateByExpectedPoints(
   answer: string,
@@ -113,7 +132,7 @@ export function estimateByExpectedPoints(
     if (needle.length < 3) {
       return false;
     }
-    // Совпадение по значимым словам: формулировка ученика редко дословна.
+    
     const words = needle.split(/[\s,;:.()]+/u).filter((word) => word.length >= 3);
     if (words.length === 0) {
       return haystack.includes(needle);

@@ -152,6 +152,8 @@ export async function registerUser(
       requiresOnboarding: input.role === 'student',
     };
   } catch (cause) {
+    
+    
     await admin.deleteUser(userId).catch(() => undefined);
     throw cause;
   }

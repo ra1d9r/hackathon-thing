@@ -8,16 +8,6 @@ import { QuestionCard } from "@/components/QuestionCard";
 import { apiGet, apiPost, waitForJob } from "@/services/api";
 import { useAttempt } from "@/hooks/useAttempt";
 
-/**
- * Прохождение урока и проверки знаний (docs/02-api.md, §5.8; §4.9).
- *
- * Два входа с разным началом одного и того же пути:
- *  - из дневного плана — `?itemId=` → `POST /v1/daily-plan/items/:id/start`;
- *  - из дорожной карты — `?lessonId=` → материал уже известен, проверку
- *    знаний заказывает сам экран через `POST /v1/lessons/:id/knowledge-check`.
- * Обе ветки сходятся в одном и том же экране квиза (`useAttempt`).
- */
-
 type Stage = "loading" | "material" | "quiz" | "done" | "error";
 
 interface LessonMaterialDto {
@@ -27,15 +17,6 @@ interface LessonMaterialDto {
   } | null;
 }
 
-/**
- * Внимание на имя поля работы очереди: здесь `job_id`, а не `id`.
- *
- * `/v1/attempts/:id/submit` отдаёт `job.id` (jobRefSchema), а
- * `/v1/daily-plan/items/:id/start` и `/v1/lessons/:id/knowledge-check` —
- * `job.job_id` (см. backend/src/contracts/dto/daily.ts и roadmap.ts).
- * Экран читал везде `id`, поэтому опрос уходил на `/v1/ai/jobs/undefined`
- * и задание падало с «Запрос не прошёл проверку».
- */
 interface QueuedJobRef {
   job_id: string;
   poll_url: string;
@@ -109,10 +90,10 @@ export function TaskExecutionWorkspaceScreen() {
 
           if (cancelled) return;
 
-          // `lesson_id` сопровождает и пункт-задачу — тема всегда привязана
-          // к уроку, — поэтому решает не его наличие, а готовность теста:
-          // `assessment_id`/`attempt_id` есть — сразу к вопросам, иначе
-          // это пункт-урок, и начинаем с материала.
+          
+          
+          
+          
           if (resolved.assessment_id || resolved.attempt_id) {
             await resolveQuiz(resolved.assessment_id, resolved.attempt_id);
           } else if (resolved.lesson_id) {
@@ -136,7 +117,7 @@ export function TaskExecutionWorkspaceScreen() {
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, [params.itemId, params.lessonId]);
 
   const continueToQuiz = async () => {
@@ -166,7 +147,7 @@ export function TaskExecutionWorkspaceScreen() {
       await attempt.submit();
       setStage("done");
     } catch {
-      // Ошибка уже отражена в attempt.error — остаёмся на экране квиза.
+      
     }
   };
 

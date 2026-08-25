@@ -5,11 +5,6 @@ import { apiGet } from "@/services/api";
 import { useAuthStore } from "@/store/useAuthStore";
 import type { LessonMaterial, RoadmapNode, TaskItem, UserProfile } from "@/types/app";
 
-/**
- * Данные экранов приложения — тонкие обёртки над реальным API.
- * Заменяет `services/mockData.ts` (фаза 13: подключение к backend).
- */
-
 function useResource<T>(loader: () => Promise<T>, deps: React.DependencyList = []) {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,15 +27,13 @@ function useResource<T>(loader: () => Promise<T>, deps: React.DependencyList = [
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, deps);
 
   useEffect(() => reload(), [reload]);
 
   return { data, setData, isLoading, error, reload };
 }
-
-// ─── Профиль ───────────────────────────────────────────────────────────────
 
 export function useUserProfile() {
   const me = useAuthStore((state) => state.me);
@@ -62,8 +55,6 @@ export function useUserProfile() {
 
   return { user, isLoading: false, error: null, updateUserTarget: refreshMe };
 }
-
-// ─── Дневной план ────────────────────────────────────────────────────────────
 
 interface DailyPlanItemDto {
   id: string;
@@ -113,8 +104,6 @@ export function useDailyTasks() {
   return { tasks, isCompleted, isLoading, error, markTaskComplete: reload, reload };
 }
 
-// ─── Roadmap ─────────────────────────────────────────────────────────────────
-
 interface RoadmapNodeDto {
   id: string;
   position: number;
@@ -136,15 +125,6 @@ const NODE_STATUS: Record<RoadmapNodeDto["status"], RoadmapNode["status"]> = {
   locked: "LOCKED",
 };
 
-/**
- * Дорожная карта.
- *
- * `subject_id` в query — настоящий UUID предмета, а не код. Ни `/v1/me`,
- * ни `/v1/catalog/subjects` код в UUID не переводят — единственное место,
- * где UUID вообще виден клиенту, это сам ответ роадмапа. Поэтому карта
- * запрашивается без параметра: backend сам выбирает предмет ученика,
- * а какой именно — видно в `roadmap.subject` из ответа.
- */
 export function useRoadmap() {
   const { data, isLoading, error } = useResource<{
     nodes: RoadmapNode[];
@@ -173,8 +153,6 @@ export function useRoadmap() {
   return { nodes, currentScore, subject: data?.subject ?? null, isLoading, error };
 }
 
-// ─── Материал урока (только чтение, для превью в карте) ──────────────────────
-
 export function useLessonPreview(lessonId: string | null) {
   const { data, isLoading, error } = useResource<LessonMaterial | null>(async () => {
     if (!lessonId) return null;
@@ -200,8 +178,6 @@ export function useLessonPreview(lessonId: string | null) {
 
   return { material: data, isLoading, error };
 }
-
-// ─── Статистика ───────────────────────────────────────────────────────────────
 
 interface DashboardResponseDto {
   analytics: {

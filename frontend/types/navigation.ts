@@ -1,6 +1,5 @@
 import type { Href } from "expo-router";
 
-/** Все адреса приложения в одном месте — строки в компонентах не разъезжаются. */
 export const routes = {
   main: "/" as Href,
   login: "/login" as Href,

@@ -196,6 +196,8 @@ export async function prepareAvatarUpload(
   }
 
   const fileId = randomUUID();
+  
+  
   const path = `${user.id}/${fileId}.${extension}`;
 
   await sql`
@@ -247,6 +249,7 @@ export async function commitAvatar(
     throw new AppError('NOT_FOUND', { message: 'Файл не найден' });
   }
 
+  
   const { data, error } = await admin.client.storage.from(AVATAR_BUCKET).download(file.path);
   if (error !== null) {
     throw new AppError('NOT_FOUND', { message: 'Файл ещё не загружен' });

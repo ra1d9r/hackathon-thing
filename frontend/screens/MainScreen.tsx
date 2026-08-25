@@ -79,8 +79,8 @@ export function MainScreen() {
   const status = useAuthStore((state) => state.status);
   const me = useAuthStore((state) => state.me);
 
-  // Уже вошедшего пользователя ведём сразу туда, где он остановился —
-  // на онбординг или на панель, — а не заново на форму входа.
+  
+  
   const startLearning = () => {
     if (status !== "signed_in") {
       router.push(routes.register);

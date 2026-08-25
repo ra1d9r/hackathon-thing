@@ -25,14 +25,6 @@ import { guessMimeType, updateProfile, uploadAvatar } from "@/services/profile";
 import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
 
-/**
- * Личный кабинет.
- *
- * Раньше экран был макетом: имя «Aibar Serikov», ID «STU-89241», проценты
- * по предметам и график — константами в файле. Теперь всё приходит из
- * `/v1/me` и `/v1/stats/*`, а имя, класс и аватар отсюда же и меняются.
- */
-
 type AccountTab = "main" | "stats";
 
 const goalLabels: Record<string, string> = {
@@ -93,8 +85,6 @@ export function PersonalAccountScreen() {
   );
 }
 
-// ─── Карточка профиля ─────────────────────────────────────────────────────────
-
 function ProfileCard() {
   const me = useAuthStore((state) => state.me);
   const setMe = useAuthStore((state) => state.setMe);
@@ -132,7 +122,7 @@ function ProfileCard() {
       if (trimmed !== me.display_name) payload.display_name = trimmed;
       if (isStudent && grade !== null && grade !== me.grade) payload.grade = grade;
 
-      // Backend отвергает пустое тело («нечего изменять») — не дёргаем его зря.
+      
       if (Object.keys(payload).length === 0) {
         setIsEditing(false);
         return;
@@ -312,8 +302,6 @@ function ProfileCard() {
     </View>
   );
 }
-
-// ─── Вкладки ──────────────────────────────────────────────────────────────────
 
 function SegmentedTabs({ activeTab, onChange }: { activeTab: AccountTab; onChange: (tab: AccountTab) => void }) {
   return (
@@ -586,7 +574,6 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-/** Загрузка / ошибка / пусто — одинаково на всех карточках. */
 function StateBlock({
   isLoading,
   error,

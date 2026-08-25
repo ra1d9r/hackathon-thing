@@ -1,0 +1,1072 @@
+{
+  "pool": "exam_mock",
+  "exam_code": "ent",
+  "_": "Информатика, профильная секция ЕНТ: чертёж требует 40 заданий.",
+  "questions": [
+    {
+      "code": "mock.ent.inf.g7.units.1",
+      "kind": "numeric",
+      "topic_code": "inf.g7.edinicy-izmereniya-informacii",
+      "grade": 7,
+      "difficulty": 2,
+      "prompt_md": "Сколько килобайт содержится в 3 мегабайтах? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 3072,
+        "tolerance": 0
+      },
+      "explanation_md": "1 мегабайт равен 1024 килобайтам, значит 3 · 1024 = 3072 килобайта.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g7.units.2",
+      "kind": "numeric",
+      "topic_code": "inf.g7.edinicy-izmereniya-informacii",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Текст состоит из 512 символов, каждый занимает 1 байт. Сколько бит занимает весь текст? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 4096,
+        "tolerance": 0
+      },
+      "explanation_md": "512 байт · 8 бит = 4096 бит.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g7.memory.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g7.kompyuternaya-pamyat",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Какая память теряет своё содержимое при выключении питания?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Оперативная память"
+        },
+        {
+          "id": "b",
+          "text_md": "Жёсткий диск"
+        },
+        {
+          "id": "c",
+          "text_md": "Твердотельный накопитель"
+        },
+        {
+          "id": "d",
+          "text_md": "Флеш-накопитель"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Оперативная память энергозависима: без питания данные в ней не сохраняются. Диски и флеш-память хранят данные и после выключения.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g7.networks.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g7.kompyuternye-seti-i-ih-klassifikaciya",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Как называется сеть, объединяющая компьютеры внутри одного здания?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Локальная (LAN)"
+        },
+        {
+          "id": "b",
+          "text_md": "Глобальная (WAN)"
+        },
+        {
+          "id": "c",
+          "text_md": "Городская (MAN)"
+        },
+        {
+          "id": "d",
+          "text_md": "Персональная (PAN)"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "LAN покрывает здание или его часть. MAN — масштаб города, WAN — страны и континенты, PAN — несколько метров вокруг пользователя.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g7.types.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g7.tipy-dannyh",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Какой тип данных подойдёт для хранения значения «истина» или «ложь»?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Логический (boolean)"
+        },
+        {
+          "id": "b",
+          "text_md": "Целочисленный (int)"
+        },
+        {
+          "id": "c",
+          "text_md": "Строковый (string)"
+        },
+        {
+          "id": "d",
+          "text_md": "Вещественный (float)"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Логический тип принимает ровно два значения. Остальные типы хранить их могут, но такой смысл в них не заложен.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g7.types.2",
+      "kind": "mcq_single",
+      "topic_code": "inf.g7.tipy-dannyh",
+      "grade": 7,
+      "difficulty": 4,
+      "prompt_md": "Каким будет результат выражения 7 // 2 в Python?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "3"
+        },
+        {
+          "id": "b",
+          "text_md": "3.5"
+        },
+        {
+          "id": "c",
+          "text_md": "4"
+        },
+        {
+          "id": "d",
+          "text_md": "1"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Оператор `//` выполняет целочисленное деление и отбрасывает дробную часть: 7 // 2 = 3. Обычное деление `/` дало бы 3.5, а остаток `%` — 1.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g7.files.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g7.rabota-s-faylami",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Что определяет расширение имени файла?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Тип файла и программу для его открытия"
+        },
+        {
+          "id": "b",
+          "text_md": "Размер файла"
+        },
+        {
+          "id": "c",
+          "text_md": "Дату создания файла"
+        },
+        {
+          "id": "d",
+          "text_md": "Место файла на диске"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Расширение подсказывает системе, чем открывать файл. Размер, дата и расположение хранятся отдельно, в свойствах файла.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g7.memory.2",
+      "kind": "mcq_single",
+      "topic_code": "inf.g7.kompyuternaya-pamyat",
+      "grade": 7,
+      "difficulty": 4,
+      "prompt_md": "Расположите виды памяти по возрастанию скорости доступа: оперативная память, кэш процессора, жёсткий диск.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Жёсткий диск, оперативная память, кэш процессора"
+        },
+        {
+          "id": "b",
+          "text_md": "Кэш процессора, оперативная память, жёсткий диск"
+        },
+        {
+          "id": "c",
+          "text_md": "Оперативная память, кэш процессора, жёсткий диск"
+        },
+        {
+          "id": "d",
+          "text_md": "Жёсткий диск, кэш процессора, оперативная память"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Чем ближе память к процессору, тем она быстрее и меньше по объёму. Самый медленный — диск, самый быстрый — кэш.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g8.alphabet.1",
+      "kind": "numeric",
+      "topic_code": "inf.g8.izmerenie-informacii-alfavitnyy-podhod",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Алфавит содержит 64 символа. Сколько бит несёт один символ? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 6,
+        "tolerance": 0
+      },
+      "explanation_md": "Число символов N и вес i связаны как N = 2^i. Здесь 64 = 2^6, значит i = 6 бит.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g8.alphabet.2",
+      "kind": "numeric",
+      "topic_code": "inf.g8.izmerenie-informacii-alfavitnyy-podhod",
+      "grade": 8,
+      "difficulty": 5,
+      "prompt_md": "Сообщение из 100 символов записано алфавитом из 16 символов. Сколько байт занимает сообщение? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 50,
+        "tolerance": 0
+      },
+      "explanation_md": "16 = 2^4, значит символ несёт 4 бита. Всего 100 · 4 = 400 бит, то есть 400 / 8 = 50 байт.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g8.safety.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g8.negativnye-aspekty-ispolzovaniya-kompyutera",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Какой пароль является наиболее надёжным?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "123456"
+        },
+        {
+          "id": "b",
+          "text_md": "qwerty"
+        },
+        {
+          "id": "c",
+          "text_md": "T7#kLm92$vR"
+        },
+        {
+          "id": "d",
+          "text_md": "дата рождения"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "Надёжный пароль длинный и сочетает разные виды символов. Простые последовательности и личные данные подбираются в первую очередь.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g8.functions.1",
+      "kind": "numeric",
+      "topic_code": "inf.g8.vstroennye-funkcii",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Каким будет результат выражения len('информатика') в Python? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 11,
+        "tolerance": 0
+      },
+      "explanation_md": "Функция len возвращает число символов в строке. В слове «информатика» их 11.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g8.functions.2",
+      "kind": "numeric",
+      "topic_code": "inf.g8.vstroennye-funkcii",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Каким будет результат выражения abs(-7) + max(3, 9) в Python? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 16,
+        "tolerance": 0
+      },
+      "explanation_md": "abs(-7) = 7, max(3, 9) = 9. Сумма равна 16.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g8.loop.1",
+      "kind": "numeric",
+      "topic_code": "inf.g8.cikl-for",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Сколько раз выполнится тело цикла `for i in range(2, 10, 3)`? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 3,
+        "tolerance": 0
+      },
+      "explanation_md": "Переменная примет значения 2, 5, 8 — три итерации. Значение 11 уже выходит за верхнюю границу, а сама граница 10 не включается.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g8.loop.2",
+      "kind": "numeric",
+      "topic_code": "inf.g8.cikl-for",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Какое значение выведет программа?\n\n```\ns = 0\nfor i in range(1, 5):\n    s = s + i\nprint(s)\n```",
+      "options": null,
+      "answer_key": {
+        "value": 10,
+        "tolerance": 0
+      },
+      "explanation_md": "Цикл проходит значения 1, 2, 3, 4 — верхняя граница не включается. Сумма равна 10.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g8.trace.1",
+      "kind": "numeric",
+      "topic_code": "inf.g8.trassirovka-algoritma",
+      "grade": 8,
+      "difficulty": 5,
+      "prompt_md": "Какое значение переменной a будет выведено?\n\n```\na = 5\nb = 3\na = a + b\nb = a - b\na = a - b\nprint(a)\n```",
+      "options": null,
+      "answer_key": {
+        "value": 3,
+        "tolerance": 0
+      },
+      "explanation_md": "Это обмен значений без третьей переменной: a = 8, затем b = 5, затем a = 3. Переменные поменялись местами.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g9.properties.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g9.svoystva-informacii",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Какое свойство информации означает, что она отражает истинное положение дел?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Достоверность"
+        },
+        {
+          "id": "b",
+          "text_md": "Актуальность"
+        },
+        {
+          "id": "c",
+          "text_md": "Полнота"
+        },
+        {
+          "id": "d",
+          "text_md": "Доступность"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Достоверность — соответствие действительности. Актуальность говорит о своевременности, полнота — о достаточности для решения задачи.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g9.config.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g9.konfiguraciya-kompyutera",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Какое устройство выполняет арифметические и логические операции?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Процессор"
+        },
+        {
+          "id": "b",
+          "text_md": "Жёсткий диск"
+        },
+        {
+          "id": "c",
+          "text_md": "Монитор"
+        },
+        {
+          "id": "d",
+          "text_md": "Блок питания"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Арифметико-логическое устройство входит в состав процессора. Диск хранит данные, монитор выводит изображение.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g9.database.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g9.baza-dannyh",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Что такое первичный ключ в реляционной базе данных?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Поле, однозначно определяющее каждую запись таблицы"
+        },
+        {
+          "id": "b",
+          "text_md": "Пароль для входа в базу"
+        },
+        {
+          "id": "c",
+          "text_md": "Первая запись таблицы"
+        },
+        {
+          "id": "d",
+          "text_md": "Название таблицы"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Первичный ключ уникален и не пуст: по нему всегда можно найти ровно одну запись.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g9.database.2",
+      "kind": "mcq_single",
+      "topic_code": "inf.g9.baza-dannyh",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Какой SQL-запрос выберет всех учеников 11 класса из таблицы students?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "SELECT * FROM students WHERE grade = 11"
+        },
+        {
+          "id": "b",
+          "text_md": "SELECT students WHERE grade = 11"
+        },
+        {
+          "id": "c",
+          "text_md": "DELETE FROM students WHERE grade = 11"
+        },
+        {
+          "id": "d",
+          "text_md": "INSERT INTO students VALUES (11)"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Выборка записывается как SELECT ... FROM ... WHERE. Вариант DELETE удалит записи, INSERT добавит новую.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g9.array.1",
+      "kind": "numeric",
+      "topic_code": "inf.g9.odnomernyy-massiv",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Массив задан как a = [4, 8, 15, 16, 23, 42]. Какое значение вернёт a[2] в Python? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 15,
+        "tolerance": 0
+      },
+      "explanation_md": "Индексация начинается с нуля: a[0] = 4, a[1] = 8, a[2] = 15.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g9.array.2",
+      "kind": "numeric",
+      "topic_code": "inf.g9.odnomernyy-massiv",
+      "grade": 9,
+      "difficulty": 5,
+      "prompt_md": "Какое значение выведет программа?\n\n```\na = [3, 7, 2, 9, 5]\nm = a[0]\nfor x in a:\n    if x > m:\n        m = x\nprint(m)\n```",
+      "options": null,
+      "answer_key": {
+        "value": 9,
+        "tolerance": 0
+      },
+      "explanation_md": "Алгоритм ищет наибольший элемент массива. Это 9.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g9.pygame.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g9.pygame-pygame-biblioteka",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Для чего в игровом цикле нужна обработка событий?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Чтобы реагировать на действия пользователя и закрытие окна"
+        },
+        {
+          "id": "b",
+          "text_md": "Чтобы ускорить работу процессора"
+        },
+        {
+          "id": "c",
+          "text_md": "Чтобы сохранять файл игры"
+        },
+        {
+          "id": "d",
+          "text_md": "Чтобы уменьшить размер программы"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Без обработки событий программа не узнает о нажатиях клавиш и о попытке закрыть окно — оно перестанет отвечать.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g10.networks.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g10.organizaciya-kompyuternyh-setey",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Какую задачу решает служба DNS?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Сопоставляет доменное имя и IP-адрес"
+        },
+        {
+          "id": "b",
+          "text_md": "Шифрует передаваемые данные"
+        },
+        {
+          "id": "c",
+          "text_md": "Раздаёт IP-адреса устройствам сети"
+        },
+        {
+          "id": "d",
+          "text_md": "Передаёт файлы между компьютерами"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "DNS переводит понятное имя вроде example.kz в числовой адрес. Раздачей адресов занимается DHCP, шифрованием — TLS.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g10.numeral.1",
+      "kind": "numeric",
+      "topic_code": "inf.g10.sistemy-schisleniya",
+      "grade": 10,
+      "difficulty": 3,
+      "prompt_md": "Переведите двоичное число 1011 в десятичную систему счисления. Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 11,
+        "tolerance": 0
+      },
+      "explanation_md": "1·8 + 0·4 + 1·2 + 1·1 = 11.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g10.numeral.2",
+      "kind": "numeric",
+      "topic_code": "inf.g10.sistemy-schisleniya",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Переведите десятичное число 25 в двоичную систему счисления. Ответ запишите как число из нулей и единиц.",
+      "options": null,
+      "answer_key": {
+        "value": 11001,
+        "tolerance": 0
+      },
+      "explanation_md": "25 = 16 + 8 + 1, то есть 11001 в двоичной системе.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g10.numeral.3",
+      "kind": "numeric",
+      "topic_code": "inf.g10.sistemy-schisleniya",
+      "grade": 10,
+      "difficulty": 5,
+      "prompt_md": "Переведите шестнадцатеричное число 2F в десятичную систему счисления. Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 47,
+        "tolerance": 0
+      },
+      "explanation_md": "2 · 16 + F, где F = 15: 32 + 15 = 47.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g10.functions.1",
+      "kind": "numeric",
+      "topic_code": "inf.g10.polzovatelskie-funkcii-i-procedury",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Какое значение выведет программа?\n\n```\ndef f(x):\n    return x * 2 + 1\nprint(f(f(2)))\n```",
+      "options": null,
+      "answer_key": {
+        "value": 11,
+        "tolerance": 0
+      },
+      "explanation_md": "f(2) = 5, затем f(5) = 11.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g10.functions.2",
+      "kind": "mcq_single",
+      "topic_code": "inf.g10.polzovatelskie-funkcii-i-procedury",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Чем функция отличается от процедуры?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Функция возвращает значение, процедура — нет"
+        },
+        {
+          "id": "b",
+          "text_md": "Функция не может принимать параметры"
+        },
+        {
+          "id": "c",
+          "text_md": "Процедура выполняется быстрее"
+        },
+        {
+          "id": "d",
+          "text_md": "Различий нет"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Функция вычисляет и возвращает результат, процедура выполняет действия ради побочного эффекта. Параметры принимают обе.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g10.web.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g10.web-proektirovanie-ponyatie-o-web-sayte",
+      "grade": 10,
+      "difficulty": 3,
+      "prompt_md": "За что отвечает язык CSS при разработке сайта?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "За внешний вид и оформление страницы"
+        },
+        {
+          "id": "b",
+          "text_md": "За структуру и содержание страницы"
+        },
+        {
+          "id": "c",
+          "text_md": "За хранение данных на сервере"
+        },
+        {
+          "id": "d",
+          "text_md": "За передачу данных по сети"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "HTML задаёт структуру, CSS — оформление, JavaScript — поведение. Хранением данных занимается серверная часть.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g10.web.2",
+      "kind": "mcq_single",
+      "topic_code": "inf.g10.web-proektirovanie-ponyatie-o-web-sayte",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Какой тег задаёт гиперссылку в HTML?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "&lt;a&gt;"
+        },
+        {
+          "id": "b",
+          "text_md": "&lt;p&gt;"
+        },
+        {
+          "id": "c",
+          "text_md": "&lt;div&gt;"
+        },
+        {
+          "id": "d",
+          "text_md": "&lt;img&gt;"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Тег &lt;a&gt; с атрибутом href создаёт ссылку. &lt;p&gt; — абзац, &lt;div&gt; — блок, &lt;img&gt; — изображение.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g10.bigdata.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g10.bigdata",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Какой признак НЕ относится к характеристикам больших данных?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Объём"
+        },
+        {
+          "id": "b",
+          "text_md": "Скорость поступления"
+        },
+        {
+          "id": "c",
+          "text_md": "Разнообразие"
+        },
+        {
+          "id": "d",
+          "text_md": "Расположение на одном компьютере"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "d"
+        ]
+      },
+      "explanation_md": "Большие данные описывают тремя «V»: объём, скорость, разнообразие. Именно потому, что они не помещаются на один компьютер, их обрабатывают распределённо.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g11.ai.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g11.iskusstvennyy-intellekt-osnova-sovremennyh",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Чем обучение с учителем отличается от обучения без учителя?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "В обучении с учителем примеры снабжены правильными ответами"
+        },
+        {
+          "id": "b",
+          "text_md": "Обучение без учителя не использует данные"
+        },
+        {
+          "id": "c",
+          "text_md": "Обучение с учителем не требует данных"
+        },
+        {
+          "id": "d",
+          "text_md": "Различий нет"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "При обучении с учителем модель видит пары «вход — верный ответ». Без учителя она ищет структуру в данных сама, например разбивает их на группы.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g11.ai.2",
+      "kind": "mcq_single",
+      "topic_code": "inf.g11.iskusstvennyy-intellekt-osnova-sovremennyh",
+      "grade": 11,
+      "difficulty": 5,
+      "prompt_md": "Что такое переобучение модели?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Модель запомнила обучающие данные и плохо работает на новых"
+        },
+        {
+          "id": "b",
+          "text_md": "Модель обучалась слишком мало времени"
+        },
+        {
+          "id": "c",
+          "text_md": "Модель использует слишком мало памяти"
+        },
+        {
+          "id": "d",
+          "text_md": "Модель обучена на нескольких компьютерах"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Переобученная модель показывает отличный результат на обучающей выборке и слабый на проверочной: она выучила частности вместо закономерности.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g11.vr.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g11.virtualnaya-i-dopolnennaya-realnost",
+      "grade": 11,
+      "difficulty": 3,
+      "prompt_md": "Чем дополненная реальность отличается от виртуальной?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Она накладывает объекты на изображение реального мира"
+        },
+        {
+          "id": "b",
+          "text_md": "Она полностью заменяет реальное окружение"
+        },
+        {
+          "id": "c",
+          "text_md": "Она не использует камеру"
+        },
+        {
+          "id": "d",
+          "text_md": "Она работает только на компьютере"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Дополненная реальность добавляет виртуальные объекты к реальному окружению, виртуальная — заменяет его целиком.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g11.vm.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g11.virtualnaya-mashina",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Что такое виртуальная машина?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Программная эмуляция компьютера внутри другого компьютера"
+        },
+        {
+          "id": "b",
+          "text_md": "Физический сервер в дата-центре"
+        },
+        {
+          "id": "c",
+          "text_md": "Тип процессора"
+        },
+        {
+          "id": "d",
+          "text_md": "Устройство хранения данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Виртуальная машина ведёт себя как отдельный компьютер со своей операционной системой, но выполняется на общем физическом оборудовании.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g11.iot.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g11.chto-takoe-internet-veschey",
+      "grade": 11,
+      "difficulty": 3,
+      "prompt_md": "Что относится к устройствам Интернета вещей?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Умный термостат, передающий данные по сети"
+        },
+        {
+          "id": "b",
+          "text_md": "Обычная механическая дверная ручка"
+        },
+        {
+          "id": "c",
+          "text_md": "Бумажный календарь"
+        },
+        {
+          "id": "d",
+          "text_md": "Настольная лампа без электроники"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Устройство Интернета вещей собирает данные датчиками и обменивается ими по сети без участия человека.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g11.startup.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g11.kak-zapustit-svoy-startap",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Что называют минимально жизнеспособным продуктом (MVP)?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Простейшую версию продукта для проверки основной гипотезы"
+        },
+        {
+          "id": "b",
+          "text_md": "Полностью готовый продукт со всеми функциями"
+        },
+        {
+          "id": "c",
+          "text_md": "Рекламную презентацию для инвестора"
+        },
+        {
+          "id": "d",
+          "text_md": "Юридический документ компании"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "MVP делают, чтобы как можно раньше узнать, нужен ли продукт пользователям, и не потратить месяцы на функции, которые никому не понадобятся.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g11.digital.1",
+      "kind": "mcq_single",
+      "topic_code": "inf.g11.cifrovizaciya-v-kazahstane",
+      "grade": 11,
+      "difficulty": 3,
+      "prompt_md": "Какую задачу решает электронное правительство?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Предоставление государственных услуг через интернет"
+        },
+        {
+          "id": "b",
+          "text_md": "Замену законодательства программами"
+        },
+        {
+          "id": "c",
+          "text_md": "Отмену документооборота"
+        },
+        {
+          "id": "d",
+          "text_md": "Производство компьютеров"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Электронное правительство переводит справки, заявления и платежи в онлайн, сокращая очереди и время ожидания.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g9.properties.2",
+      "kind": "mcq_single",
+      "topic_code": "inf.g9.svoystva-informacii",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Прогноз погоды на вчерашний день потерял какое свойство информации?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Актуальность"
+        },
+        {
+          "id": "b",
+          "text_md": "Достоверность"
+        },
+        {
+          "id": "c",
+          "text_md": "Полноту"
+        },
+        {
+          "id": "d",
+          "text_md": "Понятность"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Сведения могут быть верными и полными, но бесполезными, если поступили не вовремя. Это и есть потеря актуальности.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.inf.g8.trace.2",
+      "kind": "numeric",
+      "topic_code": "inf.g8.trassirovka-algoritma",
+      "grade": 8,
+      "difficulty": 5,
+      "prompt_md": "Какое значение выведет программа?\n\n```\nn = 27\nk = 0\nwhile n > 1:\n    n = n // 3\n    k = k + 1\nprint(k)\n```",
+      "options": null,
+      "answer_key": {
+        "value": 3,
+        "tolerance": 0
+      },
+      "explanation_md": "27 → 9 → 3 → 1: три деления, значит k = 3. Цикл считает, сколько раз число делится на три до единицы.",
+      "points": 1
+    }
+  ]
+}

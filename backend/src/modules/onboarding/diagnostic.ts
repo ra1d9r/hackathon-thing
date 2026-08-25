@@ -1,6 +1,7 @@
 import type { DiagnosticSummary } from '../../contracts/dto/onboarding.js';
 import { AppError } from '../../contracts/errors.js';
 import type { SqlExecutor } from '../../db/sql.js';
+import type { CurriculumScope } from '../../domain/curriculum-scope.js';
 
 export const DIAGNOSTIC_LIMITS = {
   totalQuestions: 24,
@@ -26,26 +27,34 @@ interface CandidateRow {
   subject_code: string;
   subject_name: string;
   topic_id: string;
+  
+  grade_min: number;
+  grade_max: number;
 }
 
 async function fetchCandidates(
   sql: SqlExecutor,
   studentId: string,
-  grade: number,
+  scope: CurriculumScope,
   subjectIds: readonly string[],
 ): Promise<CandidateRow[]> {
   return sql<CandidateRow[]>`
     select q.id, q.kind::text, q.points, q.subject_id, s.code as subject_code,
-           s.name_ru as subject_name, q.topic_id
+           s.name_ru as subject_name, q.topic_id, t.grade_min, t.grade_max
       from public.questions q
       join public.topics t on t.id = q.topic_id
       join public.subjects s on s.id = q.subject_id
      where q.bank_pool = 'diagnostic'
        and q.is_active
        and t.is_active
+       and s.is_active
        and q.subject_id = any(${[...subjectIds]}::uuid[])
-       and ${grade}::int between t.grade_min and t.grade_max
-     order by s.sort_order, t.sort_order, md5(${studentId}::text || q.id::text)
+       and t.grade_min <= ${scope.gradeMax}::int
+       and t.grade_max >= ${scope.gradeMin}::int
+     -- Порядок псевдослучайный, но детерминированный по ученику: тест
+     -- не меняется при повторном открытии страницы и различается у разных
+     -- учеников. Класс темы участвует в раскладке ниже, а не в порядке.
+     order by s.sort_order, md5(${studentId}::text || q.id::text)
   `;
 }
 
@@ -63,10 +72,20 @@ function pickQuestions(candidates: readonly CandidateRow[]): CandidateRow[] {
   const picked: CandidateRow[] = [];
   const usedTopics = new Set<string>();
   const perSubjectCount = new Map<string, number>();
+  
+  const perSubjectGrade = new Map<string, number>();
 
-  // Два прохода: сначала по одной теме на предмет по кругу, затем добор
-  // оставшимися вопросами, пока не упрёмся в предел.
-  for (const preferNewTopic of [true, false]) {
+  const gradeKey = (candidate: CandidateRow): string =>
+    `${candidate.subject_id}:${candidate.grade_max}`;
+
+  
+  const passes = [
+    { newTopic: true, newGrade: true },
+    { newTopic: true, newGrade: false },
+    { newTopic: false, newGrade: false },
+  ];
+
+  for (const pass of passes) {
     let progress = true;
 
     while (progress && picked.length < DIAGNOSTIC_LIMITS.totalQuestions) {
@@ -81,7 +100,9 @@ function pickQuestions(candidates: readonly CandidateRow[]): CandidateRow[] {
         }
 
         const index = list.findIndex(
-          (candidate) => !preferNewTopic || !usedTopics.has(candidate.topic_id),
+          (candidate) =>
+            (!pass.newTopic || !usedTopics.has(candidate.topic_id)) &&
+            (!pass.newGrade || (perSubjectGrade.get(gradeKey(candidate)) ?? 0) === 0),
         );
         if (index === -1) {
           continue;
@@ -95,6 +116,7 @@ function pickQuestions(candidates: readonly CandidateRow[]): CandidateRow[] {
         picked.push(candidate);
         usedTopics.add(candidate.topic_id);
         perSubjectCount.set(subjectId, (perSubjectCount.get(subjectId) ?? 0) + 1);
+        perSubjectGrade.set(gradeKey(candidate), (perSubjectGrade.get(gradeKey(candidate)) ?? 0) + 1);
         progress = true;
       }
     }
@@ -161,6 +183,7 @@ export async function describeDiagnostic(sql: SqlExecutor, assessmentId: string)
 
 export interface AssembleResult {
   readonly diagnostic: DiagnosticSummary | null;
+  
   readonly unavailableReason: 'not_enough_questions' | null;
   readonly candidatesFound: number;
 }
@@ -170,6 +193,7 @@ export async function assembleDiagnostic(
   studentId: string,
   grade: number,
   subjectIds: readonly string[],
+  scope: CurriculumScope,
 ): Promise<AssembleResult> {
   const [existing] = await sql<{ id: string }[]>`
     select id from public.assessments
@@ -186,7 +210,7 @@ export async function assembleDiagnostic(
     };
   }
 
-  const candidates = await fetchCandidates(sql, studentId, grade, subjectIds);
+  const candidates = await fetchCandidates(sql, studentId, scope, subjectIds);
   const picked = pickQuestions(candidates);
 
   if (picked.length < DIAGNOSTIC_LIMITS.minQuestions) {

@@ -1,3 +1,13 @@
+-- 0007 — модель знаний: журнал событий, мастерство, история, прогноз балла.
+--
+-- Главное архитектурное решение: мастерство никогда не обновляется прямым
+-- UPDATE. Единственный вход — вставка в stat_events; проекцию пересчитывает
+-- триггер. Отсюда сразу три свойства:
+--   * полная история изменений сохраняется (требование SPEC);
+--   * уникальный индекс по источнику физически запрещает двойное начисление
+--     при повторе отложенного запроса к ИИ;
+--   * проекцию всегда можно пересобрать заново из журнала.
+
 create table public.stat_events (
   id              uuid primary key default gen_random_uuid(),
   student_id      uuid not null references public.profiles(id) on delete cascade,
@@ -22,12 +32,16 @@ comment on column public.stat_events.delta_pct is
 comment on column public.stat_events.baseline_pct is
   'Стартовое значение для самого первого свидетельства по теме.';
 
+-- ЗАЩИТА ОТ ДУБЛИРОВАНИЯ. Один источник даёт по теме ровно одно событие,
+-- сколько бы раз ни повторился запрос или ни перезапустился воркер.
 create unique index stat_events_dedupe_idx
   on public.stat_events(student_id, source_type, source_id, topic_id)
   where source_id is not null;
 
 create index stat_events_student_time_idx
   on public.stat_events(student_id, created_at desc);
+
+-- ─── Проекция: мастерство по темам ───────────────────────────────────────────
 
 create table public.student_topic_mastery (
   student_id        uuid not null references public.profiles(id) on delete cascade,
@@ -39,6 +53,8 @@ create table public.student_topic_mastery (
   priority          numeric(6,4) not null default 0 check (priority >= 0),
   status            public.mastery_status not null default 'unknown',
 
+  -- Требование SPEC «при >= 100% тема удаляется из проблемных» выполняется
+  -- схемой, а не строчкой в коде, которую можно забыть вызвать.
   is_problem        boolean generated always as (
                       mastery_pct < 100 and status in ('weak','improving')
                     ) stored,
@@ -56,6 +72,8 @@ create index stm_problem_idx
 create index stm_subject_idx
   on public.student_topic_mastery(student_id, subject_id);
 
+-- Агрегат по предмету: держим отдельной таблицей, а не считаем на лету,
+-- потому что дашборд читает его на каждом открытии.
 create table public.student_subject_mastery (
   student_id      uuid not null references public.profiles(id) on delete cascade,
   subject_id      uuid not null references public.subjects(id) on delete cascade,
@@ -66,6 +84,8 @@ create table public.student_subject_mastery (
 
   primary key (student_id, subject_id)
 );
+
+-- ─── Пересчёт агрегата по предмету ───────────────────────────────────────────
 
 create or replace function app.recompute_subject_mastery(p_student uuid, p_subject uuid)
 returns void
@@ -98,6 +118,7 @@ end $$;
 comment on function app.recompute_subject_mastery(uuid, uuid) is
   'Пересобирает мастерство по предмету как среднее по темам, взвешенное экзаменационным весом.';
 
+-- ─── Применение события статистики ───────────────────────────────────────────
 
 create or replace function app.apply_stat_event() returns trigger
 language plpgsql security definer set search_path = public, pg_temp as $$
@@ -111,6 +132,8 @@ declare
   new_status public.mastery_status;
   new_prio   numeric(6,4);
 begin
+  -- Блокировка строки проекции: два события по одной теме в параллельных
+  -- транзакциях не должны затереть результат друг друга.
   select * into prev_row
     from public.student_topic_mastery
    where student_id = new.student_id and topic_id = new.topic_id
@@ -120,6 +143,8 @@ begin
   new_count := coalesce(prev_row.evidence_count, 0) + 1;
   new_pct   := least(100, greatest(0, prev_pct + new.delta_pct));
 
+  -- Уверенность — скользящее среднее весов свидетельств: одна случайная
+  -- удачная попытка не должна давать столько же доверия, сколько десять.
   new_conf := round(
     ((coalesce(prev_row.confidence, 0) * coalesce(prev_row.evidence_count, 0))
       + new.evidence_weight) / new_count,
@@ -136,6 +161,9 @@ begin
   select coalesce(t.exam_weight, 1.00) into topic_w
     from public.topics t where t.id = new.topic_id;
 
+  -- Приоритет убывает с ростом процента и обнуляется на освоенной теме.
+  -- Множитель по уверенности поднимает темы, о которых мы знаем мало.
+  -- Слагаемое давности добавляет app.refresh_priorities раз в сутки.
   new_prio := case
     when new_status = 'mastered' then 0
     else round(((100 - new_pct) / 100.0) * topic_w * (1.5 - 0.5 * new_conf), 4)
@@ -169,6 +197,11 @@ create trigger stat_events_apply
   after insert on public.stat_events
   for each row execute function app.apply_stat_event();
 
+-- ─── Ежедневное обновление приоритетов ───────────────────────────────────────
+
+-- Поднимает давно не повторявшиеся слабые темы. Мастерство при этом не
+-- меняется: забывание мы не измеряли, а выдумывать его снижение — значит
+-- показывать пользователю числа, за которыми ничего не стоит.
 create or replace function app.refresh_priorities() returns integer
 language plpgsql security definer set search_path = public, pg_temp as $$
 declare
@@ -191,6 +224,7 @@ begin
   return affected;
 end $$;
 
+-- ─── История ─────────────────────────────────────────────────────────────────
 
 create table public.mastery_snapshots (
   id         uuid primary key default gen_random_uuid(),
@@ -229,6 +263,7 @@ comment on column public.predicted_scores.baseline_value is
 create index predicted_scores_student_idx
   on public.predicted_scores(student_id, computed_at desc);
 
+-- ─── Время за обучением ──────────────────────────────────────────────────────
 
 create table public.study_sessions (
   id         uuid primary key default gen_random_uuid(),

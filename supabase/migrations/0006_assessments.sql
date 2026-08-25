@@ -1,3 +1,9 @@
+-- 0006 — вопросы, тесты, попытки.
+--
+-- Ключевое свойство: answer_key никогда не покидает сервер. У таблицы questions
+-- не будет ни одной политики RLS (0012), поэтому прямой доступ клиента к ней
+-- закрыт полностью, а API отдаёт вопрос уже без эталонного ответа.
+
 create table public.questions (
   id             uuid primary key default gen_random_uuid(),
   origin         public.question_origin not null,
@@ -18,6 +24,7 @@ create table public.questions (
   is_active      boolean not null default true,
   created_at     timestamptz not null default now(),
 
+  -- Вопрос с выбором обязан иметь варианты и эталон, иначе его нечем проверять.
   constraint questions_mcq_needs_options check (
     kind not in ('mcq_single','mcq_multi')
     or (options is not null
@@ -29,9 +36,12 @@ create table public.questions (
   constraint questions_numeric_key
     check (kind <> 'numeric' or (answer_key ? 'value')),
 
+  -- Свободный ответ оценивает модель, и делает это по критериям.
+  -- Без рубрики оценка была бы произвольной и невоспроизводимой.
   constraint questions_free_text_rubric
     check (kind <> 'free_text' or rubric_md is not null),
 
+  -- Сгенерированный вопрос всегда принадлежит конкретному ученику.
   constraint questions_generated_owner
     check (origin = 'bank' or generated_for is not null)
 );
@@ -44,6 +54,7 @@ create index questions_topic_idx
 create index questions_generated_for_idx
   on public.questions(generated_for) where origin = 'generated';
 
+-- ─── Тесты ───────────────────────────────────────────────────────────────────
 
 create table public.assessments (
   id              uuid primary key default gen_random_uuid(),
@@ -62,6 +73,8 @@ create table public.assessments (
   created_by      uuid references public.profiles(id) on delete set null,
   created_at      timestamptz not null default now(),
 
+  -- Диагностика и пробники общие для всех; задачи и проверки знаний
+  -- персональные, потому что их состав подобран под конкретного ученика.
   constraint assessments_personal check (
     (kind in ('diagnostic','ent_mock') and student_id is null)
     or (kind in ('ai_task','knowledge_check') and student_id is not null)
@@ -84,12 +97,15 @@ create table public.assessment_questions (
   points_override numeric(5,2) check (points_override > 0),
 
   primary key (assessment_id, question_id),
+  -- Отложенная проверка: перестановка вопросов внутри транзакции не должна
+  -- падать на промежуточном состоянии.
   constraint assessment_questions_position_unique
     unique (assessment_id, position) deferrable initially deferred
 );
 
 create index assessment_questions_order_idx on public.assessment_questions(assessment_id, position);
 
+-- ─── Попытки ─────────────────────────────────────────────────────────────────
 
 create table public.attempts (
   id                uuid primary key default gen_random_uuid(),
@@ -122,6 +138,8 @@ create table public.attempts (
 comment on column public.attempts.client_attempt_id is
   'Идентификатор от клиента: повторный старт при обрыве связи не создаёт вторую попытку.';
 
+-- Одна активная попытка на связку ученик+тест: иначе ответы могли бы
+-- разойтись по двум записям, а какая из них «настоящая» — неизвестно.
 create unique index attempts_one_active_idx
   on public.attempts(student_id, assessment_id) where status = 'in_progress';
 
@@ -159,7 +177,7 @@ comment on column public.attempt_answers.grader is
 create index attempt_answers_pending_idx
   on public.attempt_answers(attempt_id) where grader = 'pending';
 
--- внешний ключ с 0003
+-- Отложенный внешний ключ из 0003.
 alter table public.student_profiles
   add constraint student_profiles_diagnostic_fk
   foreign key (diagnostic_attempt_id) references public.attempts(id) on delete set null;

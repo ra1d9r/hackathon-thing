@@ -19,6 +19,8 @@ async function databasePlugin(app: FastifyInstance, options: DatabaseOptions): P
   const sql: Sql = createSqlClient(env);
   app.decorate('sql', sql);
 
+  
+  
   app.addHook('onClose', async () => {
     await sql.end({ timeout: 5 });
   });

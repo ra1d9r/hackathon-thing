@@ -5,14 +5,6 @@ import type { LearningGoal } from "@/store/useAuthStore";
 import { useAuthStore } from "@/store/useAuthStore";
 import type { UserTarget } from "@/types/onboarding";
 
-/**
- * Онбординг: цель → предметы → `POST /v1/onboarding/complete`.
- *
- * Одна цепочка вызовов реального API вместо мгновенных мок-обновлений:
- * состав предметов и правила пар определяет backend (см.
- * backend/src/contracts/dto/onboarding.ts), клиент их не изобретает.
- */
-
 const TARGET_TO_GOAL: Record<UserTarget, LearningGoal> = {
   ENT: "ent",
   NIS: "nis",
@@ -123,7 +115,7 @@ export const useOnboardingStore = create<OnboardingState>((set, get) => ({
       });
       set({ subjectOptions: options });
 
-      // Обязательные предметы подставляются сразу — их не выбирают руками.
+      
       const mandatoryCodes = options.mandatory.map((subject) => subject.code);
       set((state) => ({
         selectedSubjects: uniqueSubjects([...mandatoryCodes, ...state.selectedSubjects]),
@@ -151,7 +143,7 @@ export const useOnboardingStore = create<OnboardingState>((set, get) => ({
       });
 
       set({ diagnostic: response.diagnostic });
-      // Профиль обновился на сервере (requires_onboarding=false) — подтягиваем.
+      
       await useAuthStore.getState().refreshMe();
       return response;
     } catch (error) {

@@ -66,8 +66,8 @@ export function UsersTargetChooseScreen() {
   const handleNext = async () => {
     if (!pendingTarget || isSaving) return;
     await loadSubjectOptions();
-    // Список предметов приходит с сервера. Если он не загрузился, следующий
-    // экран показал бы бесконечный спиннер — остаёмся здесь и показываем ошибку.
+    
+    
     if (useOnboardingStore.getState().subjectOptions === null) return;
     router.push(routes.chooseSubjects);
   };

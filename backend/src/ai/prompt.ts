@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 
 import { stableStringify, type JsonValue } from '../contracts/json.js';
 import type { SqlExecutor } from '../db/sql.js';
+import { MAX_TOPICS_IN_CONTEXT } from '../domain/curriculum-scope.js';
 import type { PromptBlock, ResponseSchema } from './types.js';
 
 export const SYSTEM_CORE_VERSION = 1;
@@ -71,13 +72,18 @@ export async function buildCurriculumSnapshot(
     return { text: 'CURRICULUM: пусто', hash: 'empty', topicCount: 0 };
   }
 
+  
+  
+  
+  const limited = [...topicIds].slice(0, MAX_TOPICS_IN_CONTEXT);
+
   const rows = await sql<TopicRow[]>`
     select t.id as topic_id, t.title_ru as topic_title,
            s.id as subject_id, s.code as subject_code, s.name_ru as subject_name,
            t.grade_min, t.grade_max, t.exam_weight
       from public.topics t
       join public.subjects s on s.id = t.subject_id
-     where t.id = any(${[...topicIds]}::uuid[])
+     where t.id = any(${limited}::uuid[])
      order by t.id
   `;
 
@@ -99,6 +105,9 @@ export async function buildCurriculumSnapshot(
     text: [
       'CURRICULUM — SOURCE OF TRUTH.',
       'Идентификаторы тем и предметов бери только отсюда, дословно.',
+      ...(topicIds.length > limited.length
+        ? [`Показаны первые ${limited.length} тем из ${topicIds.length}.`]
+        : []),
       serialized,
     ].join('\n'),
     hash: createHash('sha256').update(serialized).digest('hex').slice(0, 16),
@@ -128,6 +137,31 @@ export function curriculumBlock(snapshot: CurriculumSnapshot): PromptBlock {
   return { layer: 'curriculum', text: snapshot.text, cacheable: true };
 }
 
+export function scopeBlock(
+  scope: { gradeMin: number; gradeMax: number; reason: string },
+  subjectNames: readonly string[],
+): PromptBlock {
+  const grades =
+    scope.gradeMin === scope.gradeMax
+      ? `${scope.gradeMin} класс`
+      : `${scope.gradeMin}–${scope.gradeMax} классы`;
+
+  return {
+    layer: 'curriculum',
+    cacheable: true,
+    text: [
+      'SCOPE — ГРАНИЦЫ ПРОГРАММЫ.',
+      `Ученик занимается по программе: ${grades} (${scope.reason}).`,
+      subjectNames.length === 0
+        ? 'Предметы не выбраны.'
+        : `Предметы: ${subjectNames.join(', ')}.`,
+      'Не предлагай, не объясняй и не упоминай темы за этими границами:',
+      'ни как «понадобится позже», ни как «вы это уже проходили».',
+      'Материал вне охвата ученику не показывают, и совет по нему бесполезен.',
+    ].join('\n'),
+  };
+}
+
 export function studentBlock(payload: JsonValue): PromptBlock {
   return {
     layer: 'student',
@@ -136,7 +170,6 @@ export function studentBlock(payload: JsonValue): PromptBlock {
   };
 }
 
-/** Слой 4. Сама задача. */
 export function operationBlock(text: string): PromptBlock {
   return { layer: 'operation', text, cacheable: false };
 }

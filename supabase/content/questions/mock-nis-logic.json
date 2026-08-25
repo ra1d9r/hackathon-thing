@@ -1,0 +1,706 @@
+{
+  "pool": "exam_mock",
+  "exam_code": "nis",
+  "_": "Количественные характеристики НИШ: 30 заданий, чертёж требует ровно столько.",
+  "questions": [
+    {
+      "code": "mock.nis.logic.order.1",
+      "kind": "mcq_single",
+      "topic_code": "logic.g5.arithmetic-order",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Сравните величины.\n\nКолонка A: 20 − (6 + 4) · 2\n\nКолонка B: (20 − 6 + 4) · 2",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "A = 20 − 10 · 2 = 20 − 20 = 0. B = (14 + 4) · 2 = 18 · 2 = 36. Значит B больше.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.order.2",
+      "kind": "mcq_single",
+      "topic_code": "logic.g5.arithmetic-order",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Сравните величины.\n\nКолонка A: |−9| + |−4|\n\nКолонка B: |−9 + 4|",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "A = 9 + 4 = 13. B = |−5| = 5. Модуль суммы не равен сумме модулей, если слагаемые разных знаков.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.order.3",
+      "kind": "numeric",
+      "topic_code": "logic.g5.arithmetic-order",
+      "grade": 5,
+      "difficulty": 4,
+      "prompt_md": "Вычислите значение выражения 36 : (2 + 4) + 5 · (10 − 7).",
+      "options": null,
+      "answer_key": {
+        "value": 21,
+        "tolerance": 0
+      },
+      "explanation_md": "Сначала скобки: 36 : 6 + 5 · 3. Затем деление и умножение: 6 + 15 = 21.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.fractions.1",
+      "kind": "mcq_single",
+      "topic_code": "logic.g5.fractions-compare",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Сравните величины.\n\nКолонка A: 1/3 + 1/4\n\nКолонка B: 1/2 + 1/12",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "A = 4/12 + 3/12 = 7/12. B = 6/12 + 1/12 = 7/12. Величины равны.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.fractions.2",
+      "kind": "mcq_single",
+      "topic_code": "logic.g5.fractions-compare",
+      "grade": 5,
+      "difficulty": 4,
+      "prompt_md": "Сравните величины.\n\nКолонка A: 2/3 · 3/4\n\nКолонка B: 2/3 + 3/4 − 1",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "A = 6/12 = 1/2. B = 8/12 + 9/12 − 12/12 = 5/12. Половина больше пяти двенадцатых.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.fractions.3",
+      "kind": "mcq_single",
+      "topic_code": "logic.g5.fractions-compare",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Известно, что дробь a/b правильная и положительная.\n\nКолонка A: a/b\n\nКолонка B: (a + 1)/(b + 1)",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "У правильной дроби прибавление единицы к числителю и знаменателю приближает её к единице, то есть увеличивает. Проверка: 1/2 = 0,5, а 2/3 ≈ 0,67.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.reduce.1",
+      "kind": "numeric",
+      "topic_code": "logic.g5.fraction-reduce",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Вычислите значение произведения (1 − 1/2) · (1 − 1/3) · (1 − 1/4) · (1 − 1/5). Ответ дайте десятичной дробью.",
+      "options": null,
+      "answer_key": {
+        "value": 0.2,
+        "tolerance": 0.001
+      },
+      "explanation_md": "Произведение равно 1/2 · 2/3 · 3/4 · 4/5. Соседние множители сокращаются, остаётся 1/5 = 0,2.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.reduce.2",
+      "kind": "numeric",
+      "topic_code": "logic.g5.fraction-reduce",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Вычислите значение произведения (1 + 1/2) · (1 + 1/3) · (1 + 1/4). Ответ дайте десятичной дробью.",
+      "options": null,
+      "answer_key": {
+        "value": 2.5,
+        "tolerance": 0.001
+      },
+      "explanation_md": "Произведение равно 3/2 · 4/3 · 5/4. Соседние множители сокращаются, остаётся 5/2 = 2,5.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.powers.1",
+      "kind": "mcq_single",
+      "topic_code": "logic.g6.powers-order",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Сравните величины.\n\nКолонка A: 2^10\n\nКолонка B: 10^3",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "2^10 = 1024, а 10^3 = 1000. Разница мала, но A больше — это классическое сравнение, на котором держится «килобайт ≈ тысяча байт».",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.powers.2",
+      "kind": "mcq_single",
+      "topic_code": "logic.g6.powers-order",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Сравните величины.\n\nКолонка A: 3^5\n\nКолонка B: 5^3",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "3^5 = 243, 5^3 = 125. При равной сумме основания и показателя больше та степень, у которой показатель больше.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.powers.3",
+      "kind": "numeric",
+      "topic_code": "logic.g6.powers-order",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Вычислите значение выражения 2^6 : 2^3.",
+      "options": null,
+      "answer_key": {
+        "value": 8,
+        "tolerance": 0
+      },
+      "explanation_md": "При делении степеней с одинаковым основанием показатели вычитаются: 2^(6−3) = 2^3 = 8.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.lastdigit.1",
+      "kind": "numeric",
+      "topic_code": "logic.g6.last-digit",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Какой цифрой оканчивается число 3^15? Ответ дайте цифрой.",
+      "options": null,
+      "answer_key": {
+        "value": 7,
+        "tolerance": 0
+      },
+      "explanation_md": "Последние цифры степеней тройки повторяются с периодом 4: 3, 9, 7, 1. Остаток от деления 15 на 4 равен 3, значит третья цифра цикла — 7.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.lastdigit.2",
+      "kind": "mcq_single",
+      "topic_code": "logic.g6.last-digit",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Сравните последние цифры чисел.\n\nКолонка A: последняя цифра числа 2^20\n\nКолонка B: последняя цифра числа 4^10",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "4^10 = (2^2)^10 = 2^20 — это одно и то же число, поэтому и последняя цифра у них одна. Считать её не нужно: достаточно заметить равенство.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.lastdigit.3",
+      "kind": "numeric",
+      "topic_code": "logic.g6.last-digit",
+      "grade": 6,
+      "difficulty": 5,
+      "prompt_md": "Какой цифрой оканчивается произведение 2 · 4 · 6 · 8 · 10 · 12? Ответ дайте цифрой.",
+      "options": null,
+      "answer_key": {
+        "value": 0,
+        "tolerance": 0
+      },
+      "explanation_md": "Среди множителей есть 10, поэтому произведение делится на 10 и оканчивается нулём. Остальные множители считать не нужно.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.divisibility.1",
+      "kind": "mcq_single",
+      "topic_code": "logic.g5.divisibility",
+      "grade": 5,
+      "difficulty": 4,
+      "prompt_md": "Требуется разрезать две ленты на куски одинаковой наибольшей длины без остатка.\n\nКолонка A: длины лент 90 см и 60 см\n\nКолонка B: длины лент 84 см и 56 см\n\nСравните длину получившегося куска.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Длина куска — это НОД. НОД(90, 60) = 30, НОД(84, 56) = 28. Значит A больше.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.divisibility.2",
+      "kind": "numeric",
+      "topic_code": "logic.g5.divisibility",
+      "grade": 5,
+      "difficulty": 4,
+      "prompt_md": "Число при делении на 7 даёт остаток 3. Какой остаток даст это число при делении на 7, если его увеличить на 11?",
+      "options": null,
+      "answer_key": {
+        "value": 0,
+        "tolerance": 0
+      },
+      "explanation_md": "Остаток складывается: 3 + 11 = 14, а 14 делится на 7 без остатка. Значит новый остаток равен 0.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.divisibility.3",
+      "kind": "numeric",
+      "topic_code": "logic.g5.divisibility",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Сколько существует двузначных чисел, кратных 13?",
+      "options": null,
+      "answer_key": {
+        "value": 7,
+        "tolerance": 0
+      },
+      "explanation_md": "Это 13, 26, 39, 52, 65, 78, 91 — семь чисел. Следующее, 104, уже трёхзначное.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.progressions.1",
+      "kind": "numeric",
+      "topic_code": "logic.g5.progressions",
+      "grade": 5,
+      "difficulty": 4,
+      "prompt_md": "Найдите сумму 1 + 2 + 3 + … + 30.",
+      "options": null,
+      "answer_key": {
+        "value": 465,
+        "tolerance": 0
+      },
+      "explanation_md": "Сумма первых n натуральных чисел равна n(n + 1)/2: 30 · 31 / 2 = 465.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.progressions.2",
+      "kind": "numeric",
+      "topic_code": "logic.g5.progressions",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Найдите сумму первых 15 нечётных чисел: 1 + 3 + 5 + …",
+      "options": null,
+      "answer_key": {
+        "value": 225,
+        "tolerance": 0
+      },
+      "explanation_md": "Сумма первых n нечётных чисел равна n²: 15² = 225.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.progressions.3",
+      "kind": "mcq_single",
+      "topic_code": "logic.g5.progressions",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Продолжите закономерность: 2, 6, 12, 20, 30, …",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "40"
+        },
+        {
+          "id": "b",
+          "text_md": "42"
+        },
+        {
+          "id": "c",
+          "text_md": "44"
+        },
+        {
+          "id": "d",
+          "text_md": "36"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Разности растут на 2: 4, 6, 8, 10, следующая — 12. Значит 30 + 12 = 42. Иначе: n-й член равен n(n + 1), шестой — 6 · 7 = 42.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.percent.1",
+      "kind": "mcq_single",
+      "topic_code": "logic.g6.percent-proportion",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Цена товара изменилась дважды.\n\nКолонка A: цена выросла на 30 %, затем снизилась на 30 %\n\nКолонка B: исходная цена\n\nСравните итоговые величины.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "1,3 · 0,7 = 0,91 — итог составляет 91 % исходной цены. Снижение считается уже от выросшей цены, поэтому вернуться к исходной не получается.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.percent.2",
+      "kind": "numeric",
+      "topic_code": "logic.g6.percent-proportion",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Из 40 задач ученик решил 28. Сколько процентов задач осталось нерешёнными? Ответ дайте числом без знака процента.",
+      "options": null,
+      "answer_key": {
+        "value": 30,
+        "tolerance": 0
+      },
+      "explanation_md": "Нерешённых 40 − 28 = 12. Их доля: 12 / 40 = 0,3, то есть 30 %.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.percent.3",
+      "kind": "numeric",
+      "topic_code": "logic.g6.percent-proportion",
+      "grade": 6,
+      "difficulty": 5,
+      "prompt_md": "После скидки 25 % товар стоит 4500 тенге. Сколько он стоил до скидки? Ответ дайте в тенге.",
+      "options": null,
+      "answer_key": {
+        "value": 6000,
+        "tolerance": 0
+      },
+      "explanation_md": "После скидки осталось 75 % цены. Значит исходная цена: 4500 : 0,75 = 6000 тенге. Частая ошибка — прибавить 25 % к 4500.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.word.1",
+      "kind": "numeric",
+      "topic_code": "logic.g6.word-problems",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Двое рабочих выполняют работу за 6 и 12 часов соответственно. За сколько часов они выполнят её вместе?",
+      "options": null,
+      "answer_key": {
+        "value": 4,
+        "tolerance": 0
+      },
+      "explanation_md": "За час первый делает 1/6 работы, второй 1/12, вместе 1/6 + 1/12 = 3/12 = 1/4. Значит вся работа займёт 4 часа.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.word.2",
+      "kind": "numeric",
+      "topic_code": "logic.g6.word-problems",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Из двух городов навстречу друг другу выехали автомобили со скоростями 60 км/ч и 80 км/ч. Расстояние между городами 350 км. Через сколько часов они встретятся?",
+      "options": null,
+      "answer_key": {
+        "value": 2.5,
+        "tolerance": 0.01
+      },
+      "explanation_md": "Скорость сближения: 60 + 80 = 140 км/ч. Время: 350 : 140 = 2,5 часа.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.word.3",
+      "kind": "numeric",
+      "topic_code": "logic.g6.word-problems",
+      "grade": 6,
+      "difficulty": 5,
+      "prompt_md": "Сумму 4800 тенге разделили между тремя учениками в отношении 3 : 4 : 5. Сколько тенге получил тот, кому досталось больше всех?",
+      "options": null,
+      "answer_key": {
+        "value": 2000,
+        "tolerance": 0
+      },
+      "explanation_md": "Всего долей 3 + 4 + 5 = 12, одна доля равна 4800 : 12 = 400 тенге. Наибольшая часть — пять долей: 5 · 400 = 2000 тенге.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.equations.1",
+      "kind": "numeric",
+      "topic_code": "logic.g6.equations",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Решите уравнение 4(x − 3) = 2x + 6. В ответ запишите значение x.",
+      "options": null,
+      "answer_key": {
+        "value": 9,
+        "tolerance": 0
+      },
+      "explanation_md": "4x − 12 = 2x + 6, значит 2x = 18 и x = 9.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.equations.2",
+      "kind": "numeric",
+      "topic_code": "logic.g6.equations",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Решите пропорцию x : 6 = 15 : 9. В ответ запишите значение x.",
+      "options": null,
+      "answer_key": {
+        "value": 10,
+        "tolerance": 0
+      },
+      "explanation_md": "Произведение крайних равно произведению средних: 9x = 90, откуда x = 10.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.formulas.1",
+      "kind": "numeric",
+      "topic_code": "logic.g6.formulas-variables",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Дана формула S = (a + b) · h / 2. Найдите S при a = 7, b = 5 и h = 4.",
+      "options": null,
+      "answer_key": {
+        "value": 24,
+        "tolerance": 0
+      },
+      "explanation_md": "S = (7 + 5) · 4 / 2 = 12 · 4 / 2 = 24.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.geometry.1",
+      "kind": "mcq_single",
+      "topic_code": "logic.g6.geometry-basics",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Сравните величины.\n\nКолонка A: площадь квадрата со стороной 6 см\n\nКолонка B: площадь прямоугольника со сторонами 4 см и 9 см",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "A = 6 · 6 = 36 см², B = 4 · 9 = 36 см². Площади равны, хотя периметры разные: 24 см и 26 см.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.logic.insufficient.1",
+      "kind": "mcq_single",
+      "topic_code": "logic.g6.insufficient-data",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Известно, что периметр прямоугольника равен 24 см.\n\nКолонка A: площадь этого прямоугольника\n\nКолонка B: 32 см²",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "d"
+        ]
+      },
+      "explanation_md": "Периметр не определяет площадь: при сторонах 4 и 8 площадь 32 см², при 2 и 10 — 20 см², при 6 и 6 — 36 см². Сравнить нельзя.",
+      "points": 1
+    }
+  ]
+}

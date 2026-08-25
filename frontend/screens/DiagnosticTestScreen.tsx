@@ -52,7 +52,7 @@ export function DiagnosticTestScreen() {
 
     (async () => {
       try {
-        // Уже есть попытка (например, экран переоткрыли) — продолжаем её.
+        
         const diag = await apiGet<DiagnosticState>("/v1/diagnostic");
         if (cancelled) return;
 
@@ -73,7 +73,7 @@ export function DiagnosticTestScreen() {
     return () => {
       cancelled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
 
   const total = questions.length;

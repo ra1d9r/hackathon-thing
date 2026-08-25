@@ -1,3 +1,8 @@
+-- 0002 — перечисления домена.
+--
+-- Значения перечислений продублированы zod-схемами в backend/src/contracts:
+-- расхождение ловится тестом enums.test.ts, который сверяет их с базой.
+
 create type public.user_role            as enum ('student','teacher');
 create type public.learning_goal        as enum ('ent','nis','olympiad','subjects');
 create type public.question_kind        as enum ('mcq_single','mcq_multi','free_text','numeric');
