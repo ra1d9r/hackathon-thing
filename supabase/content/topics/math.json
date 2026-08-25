@@ -2,17 +2,285 @@
   "subject_code": "math",
   "placeholder": false,
   "topics": [
-    { "code": "math.progressions", "title_ru": "Прогрессии", "grade_min": 9, "grade_max": 11, "exam_weight": 1.0, "sort_order": 10 },
-    { "code": "math.polynomials", "title_ru": "Многочлены и уравнения высших степеней", "grade_min": 9, "grade_max": 11, "exam_weight": 1.0, "sort_order": 20 },
-    { "code": "math.trigonometry", "title_ru": "Тригонометрические функции и уравнения", "grade_min": 10, "grade_max": 11, "exam_weight": 1.5, "sort_order": 30 },
-    { "code": "math.exponential", "title_ru": "Показательная функция и уравнения", "grade_min": 10, "grade_max": 11, "exam_weight": 1.2, "sort_order": 40 },
-    { "code": "math.logarithms", "title_ru": "Логарифмы и логарифмические уравнения", "grade_min": 10, "grade_max": 11, "exam_weight": 1.3, "sort_order": 50, "prerequisites": ["math.exponential"] },
-    { "code": "math.derivative", "title_ru": "Производная и её применение", "grade_min": 10, "grade_max": 11, "exam_weight": 1.5, "sort_order": 60 },
-    { "code": "math.integral", "title_ru": "Первообразная и интеграл", "grade_min": 11, "grade_max": 11, "exam_weight": 1.2, "sort_order": 70, "prerequisites": ["math.derivative"] },
-    { "code": "math.combinatorics", "title_ru": "Комбинаторика и бином Ньютона", "grade_min": 10, "grade_max": 11, "exam_weight": 1.0, "sort_order": 80 },
-    { "code": "math.probability", "title_ru": "Теория вероятностей", "grade_min": 9, "grade_max": 11, "exam_weight": 1.0, "sort_order": 90 },
-    { "code": "math.vectors", "title_ru": "Векторы и координаты в пространстве", "grade_min": 10, "grade_max": 11, "exam_weight": 1.1, "sort_order": 100 },
-    { "code": "math.stereometry", "title_ru": "Стереометрия: объёмы и площади поверхностей", "grade_min": 11, "grade_max": 11, "exam_weight": 1.3, "sort_order": 110, "prerequisites": ["math.vectors"] },
-    { "code": "math.complex", "title_ru": "Комплексные числа", "grade_min": 11, "grade_max": 11, "exam_weight": 0.8, "sort_order": 120 }
+    {
+      "code": "math.g5.zapis-naturalnyh-chisel",
+      "title_ru": "Запись натуральных чисел",
+      "grade_min": 5,
+      "grade_max": 5,
+      "exam_weight": 1.3,
+      "sort_order": 5006
+    },
+    {
+      "code": "math.g5.deliteli-i-kratnye-naturalnyh-chisel-prostye-i",
+      "title_ru": "Делители и кратные натуральных чисел. Простые и составные числа",
+      "grade_min": 5,
+      "grade_max": 5,
+      "exam_weight": 1.3,
+      "sort_order": 5050
+    },
+    {
+      "code": "math.g5.obyknovennaya-drob-chtenie-i-zapis-obyknovennyh",
+      "title_ru": "Обыкновенная дробь. Чтение и запись обыкновенных дробей",
+      "grade_min": 5,
+      "grade_max": 5,
+      "exam_weight": 1.3,
+      "sort_order": 5078
+    },
+    {
+      "code": "math.g5.pravilnye-i-nepravilnye-obyknovennye-drobi",
+      "title_ru": "Правильные и неправильные обыкновенные дроби. Смешанные числа",
+      "grade_min": 5,
+      "grade_max": 5,
+      "exam_weight": 1.3,
+      "sort_order": 5092
+    },
+    {
+      "code": "math.g5.privedenie-obyknovennyh-drobey-k-obschemu",
+      "title_ru": "Приведение обыкновенных дробей к общему знаменателю",
+      "grade_min": 5,
+      "grade_max": 5,
+      "exam_weight": 1.3,
+      "sort_order": 5103
+    },
+    {
+      "code": "math.g6.otnoshenie-dvuh-chisel-procentnoe-otnoshenie",
+      "title_ru": "Отношение двух чисел. Процентное отношение двух чисел",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1.3,
+      "sort_order": 6018
+    },
+    {
+      "code": "math.g6.polozhitelnye-chisla-otricatelnye-chisla",
+      "title_ru": "Положительные числа. Отрицательные числа. Координатная прямая",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1.3,
+      "sort_order": 6060
+    },
+    {
+      "code": "math.g6.sravnenie-racionalnyh-chisel",
+      "title_ru": "Сравнение рациональных чисел",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1.3,
+      "sort_order": 6079
+    },
+    {
+      "code": "math.g6.umnozhenie-racionalnyh-chisel",
+      "title_ru": "Умножение рациональных чисел",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1.3,
+      "sort_order": 6123
+    },
+    {
+      "code": "math.g6.peremennaya",
+      "title_ru": "Переменная",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1.3,
+      "sort_order": 6150
+    },
+    {
+      "code": "math.g7.stepen-s-celym-pokazatelem",
+      "title_ru": "Степень с целым показателем",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1.3,
+      "sort_order": 7023
+    },
+    {
+      "code": "math.g7.odnochleny",
+      "title_ru": "Одночлены",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1.3,
+      "sort_order": 7048
+    },
+    {
+      "code": "math.g7.mnogochleny",
+      "title_ru": "Многочлены",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1.3,
+      "sort_order": 7052
+    },
+    {
+      "code": "math.g7.funkciya-i-sposoby-ee-zadaniya",
+      "title_ru": "Функция и способы ее задания",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1.3,
+      "sort_order": 7075
+    },
+    {
+      "code": "math.g7.kvadrat-summy-i-kvadrat-raznosti-dvuh-vyrazheniy",
+      "title_ru": "Квадрат суммы и квадрат разности двух выражений",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1.3,
+      "sort_order": 7134
+    },
+    {
+      "code": "math.g8.opredelenie-kvadratnogo-kornya",
+      "title_ru": "Определение квадратного корня",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.3,
+      "sort_order": 8018
+    },
+    {
+      "code": "math.g8.ponyatie-irracionalnogo-chisla",
+      "title_ru": "Понятие иррационального числа",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.3,
+      "sort_order": 8025
+    },
+    {
+      "code": "math.g8.svoystva-kvadratnogo-kornya",
+      "title_ru": "Свойства квадратного корня",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.3,
+      "sort_order": 8042
+    },
+    {
+      "code": "math.g8.opredelenie-kvadratnogo-uravneniya",
+      "title_ru": "Определение квадратного уравнения",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.3,
+      "sort_order": 8062
+    },
+    {
+      "code": "math.g8.teorema-vieta",
+      "title_ru": "Теорема Виета",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.3,
+      "sort_order": 8077
+    },
+    {
+      "code": "math.g9.nelineynye-uravneniya-s-dvumya-peremennymi",
+      "title_ru": "Нелинейные уравнения с двумя переменными",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.3,
+      "sort_order": 9021
+    },
+    {
+      "code": "math.g9.osnovnye-ponyatiya-i-pravila-kombinatoriki",
+      "title_ru": "Основные понятия и правила комбинаторики",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.3,
+      "sort_order": 9075
+    },
+    {
+      "code": "math.g9.faktorial-chisla-perestanovki-i-razmescheniya",
+      "title_ru": "Факториал числа. Перестановки и размещения",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.3,
+      "sort_order": 9081
+    },
+    {
+      "code": "math.g9.chislovaya-posledovatelnost",
+      "title_ru": "Числовая последовательность",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.3,
+      "sort_order": 9102
+    },
+    {
+      "code": "math.g9.arifmeticheskaya-progressiya",
+      "title_ru": "Арифметическая прогрессия",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.3,
+      "sort_order": 9112
+    },
+    {
+      "code": "math.g10.issledovanie-svoystv-osnovnyh",
+      "title_ru": "Исследование свойств основных тригонометрических функций",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.3,
+      "sort_order": 10050
+    },
+    {
+      "code": "math.g10.trigonometricheskie-uravneniya",
+      "title_ru": "Тригонометрические уравнения",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.3,
+      "sort_order": 10070
+    },
+    {
+      "code": "math.g10.mnogochleny-s-neskolkimi-peremennymi",
+      "title_ru": "Многочлены с несколькими переменными",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.3,
+      "sort_order": 10132
+    },
+    {
+      "code": "math.g10.predel-funkcii-v-tochke",
+      "title_ru": "Предел функции в точке",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.3,
+      "sort_order": 10158
+    },
+    {
+      "code": "math.g10.proizvodnaya-i-differencial-funkcii",
+      "title_ru": "Производная и дифференциал функции",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.3,
+      "sort_order": 10194
+    },
+    {
+      "code": "math.g11.pervoobraznaya-i-neopredelennyy-integral",
+      "title_ru": "Первообразная и неопределенный интеграл. Таблица интегралов",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.3,
+      "sort_order": 11011
+    },
+    {
+      "code": "math.g11.generalnaya-i-vyborochnaya-sovokupnosti",
+      "title_ru": "Генеральная и выборочная совокупности",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.3,
+      "sort_order": 11075
+    },
+    {
+      "code": "math.g11.koren-n-y-stepeni-i-ego-svoystva",
+      "title_ru": "Корень n-й степени и его свойства",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.3,
+      "sort_order": 11100
+    },
+    {
+      "code": "math.g11.irracionalnye-uravneniya-i-ih-sistemy",
+      "title_ru": "Иррациональные уравнения и их системы",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.3,
+      "sort_order": 11132
+    },
+    {
+      "code": "math.g11.mnimaya-edinica-opredelenie-kompleksnogo-chisla",
+      "title_ru": "Мнимая единица. Определение комплексного числа",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.3,
+      "sort_order": 11152
+    }
   ]
 }
