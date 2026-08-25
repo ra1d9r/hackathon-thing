@@ -1,55 +1,294 @@
 {
-  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
   "subject_code": "russian_language",
-  "placeholder": true,
+  "placeholder": false,
   "topics": [
     {
-      "code": "rus.placeholder_01",
-      "title_ru": "Лексика и фразеология",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "rus.g5.slovo-yazyk-kommunikaciya",
+      "title_ru": "Слово, язык, коммуникация",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 10
+      "sort_order": 5006
     },
     {
-      "code": "rus.placeholder_02",
-      "title_ru": "Морфология",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "rus.g5.vidy-transporta",
+      "title_ru": "Виды транспорта",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 20
+      "sort_order": 5036
     },
     {
-      "code": "rus.placeholder_03",
-      "title_ru": "Синтаксис и пунктуация",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "rus.g5.nasha-shkolnaya-strana",
+      "title_ru": "Наша школьная страна",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 30
+      "sort_order": 5072
     },
     {
-      "code": "rus.placeholder_04",
-      "title_ru": "Стилистика текста",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "rus.g5.professiy-mnogo-na-zemle",
+      "title_ru": "Профессий много на Земле...",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 40
+      "sort_order": 5098
     },
     {
-      "code": "rus.placeholder_05",
-      "title_ru": "Чтение и понимание",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "rus.g5.evolyuciya-professiy",
+      "title_ru": "Эволюция профессий",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 50
+      "sort_order": 5116
     },
     {
-      "code": "rus.placeholder_06",
-      "title_ru": "Письменная речь",
+      "code": "rus.g6.pochemu-lyudi-puteshestvuyut",
+      "title_ru": "Почему люди путешествуют",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6005
+    },
+    {
+      "code": "rus.g6.obraz-zhizni-kultura-civilizaciya",
+      "title_ru": "Образ жизни, культура, цивилизация",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6048
+    },
+    {
+      "code": "rus.g6.moya-semya",
+      "title_ru": "Моя семья",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6098
+    },
+    {
+      "code": "rus.g6.istoriya-prazdnovaniya-novogo-goda",
+      "title_ru": "История празднования Нового года",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6130
+    },
+    {
+      "code": "rus.g6.novyy-god-v-kazahstane",
+      "title_ru": "Новый год в Казахстане",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6146
+    },
+    {
+      "code": "rus.g7.prichastie-kak-osobaya-forma-glagola",
+      "title_ru": "Причастие как особая форма глагола. Действительные причастия",
       "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7005
+    },
+    {
+      "code": "rus.g7.znaki-prepinaniya-v-predlozheniyah-s",
+      "title_ru": "Знаки препинания в предложениях с обособленными определениями",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7060
+    },
+    {
+      "code": "rus.g7.paronimy",
+      "title_ru": "Паронимы",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7094
+    },
+    {
+      "code": "rus.g7.sluzhebnye-chasti-rechi-predlog",
+      "title_ru": "Служебные части речи. Предлог",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7124
+    },
+    {
+      "code": "rus.g7.pravopisanie-ne-i-ni-so-slovami",
+      "title_ru": "Правописание не и ни со словами",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7174
+    },
+    {
+      "code": "rus.g8.semeynye-cennosti-publicisticheskiy-stil-rechi",
+      "title_ru": "Семейные ценности. Публицистический стиль речи",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8005
+    },
+    {
+      "code": "rus.g8.o-sport-ty-mir",
+      "title_ru": "О спорт, ты — мир!",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8044
+    },
+    {
+      "code": "rus.g8.chto-takoe-professiya-citata",
+      "title_ru": "Что такое профессия. Цитата",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8068
+    },
+    {
+      "code": "rus.g8.kosmos-eto-my",
+      "title_ru": "Космос — это мы!",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8096
+    },
+    {
+      "code": "rus.g8.mir-zhivotnyh-vvodnye-slovosochetaniya-i",
+      "title_ru": "Мир животных. Вводные словосочетания и предложения",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8122
+    },
+    {
+      "code": "rus.g9.konflikt-sochinitelnye-soyuzy-ih-tipy",
+      "title_ru": "Конфликт. Сочинительные союзы, их типы",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9005
+    },
+    {
+      "code": "rus.g9.problemy-suhoputnyh-stran",
+      "title_ru": "Проблемы сухопутных стран",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9035
+    },
+    {
+      "code": "rus.g9.nacionalnaya-specifika-kultury",
+      "title_ru": "Национальная специфика культуры",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9049
+    },
+    {
+      "code": "rus.g9.vidy-resursov",
+      "title_ru": "Виды ресурсов",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9083
+    },
+    {
+      "code": "rus.g9.sovremennyy-podrostok",
+      "title_ru": "Современный подросток",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9109
+    },
+    {
+      "code": "rus.g10.dialog-kultur-v-kazahstane",
+      "title_ru": "Диалог культур в Казахстане",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10005
+    },
+    {
+      "code": "rus.g10.fizika-i-priroda",
+      "title_ru": "Физика и природа",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10038
+    },
+    {
+      "code": "rus.g10.chto-takoe-cifrovye-tehnologii",
+      "title_ru": "Что такое цифровые технологии",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10078
+    },
+    {
+      "code": "rus.g10.chto-takoe-biotehnologiya",
+      "title_ru": "Что такое биотехнология",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10105
+    },
+    {
+      "code": "rus.g10.prichiny-globalnyh-problem-energetiki",
+      "title_ru": "Причины глобальных проблем энергетики",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10137
+    },
+    {
+      "code": "rus.g11.chto-takoe-socialnoe-ravenstvo-i-neravenstvo",
+      "title_ru": "Что такое социальное равенство и неравенство",
+      "grade_min": 11,
       "grade_max": 11,
       "exam_weight": 1,
-      "sort_order": 60
+      "sort_order": 11005
+    },
+    {
+      "code": "rus.g11.nauchno-tehnicheskiy-progress",
+      "title_ru": "Научно-технический прогресс",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11034
+    },
+    {
+      "code": "rus.g11.teatr-v-zhizni-cheloveka",
+      "title_ru": "Театр в жизни человека",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11068
+    },
+    {
+      "code": "rus.g11.migraciya-i-sovremennoe-obschestvo",
+      "title_ru": "Миграция и современное общество",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11100
+    },
+    {
+      "code": "rus.g11.xxi-vek-vek-nauchnogo-progressa",
+      "title_ru": "XXI век — век научного прогресса",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11129
+    },
+    {
+      "code": "rus.g11.molodezhnaya-kultura",
+      "title_ru": "Молодежная культура",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11160
     }
   ]
 }
