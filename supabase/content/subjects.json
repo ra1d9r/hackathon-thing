@@ -10,7 +10,7 @@
     { "code": "chemistry", "name_ru": "Химия", "name_kk": "Химия", "name_en": "Chemistry", "sort_order": 70 },
     { "code": "biology", "name_ru": "Биология", "name_kk": "Биология", "name_en": "Biology", "sort_order": 80 },
 
-    { "code": "logic", "name_ru": "Логика и аналитика", "name_kk": "Логика және аналитика", "name_en": "Logical and Analytical Reasoning", "sort_order": 90 },
+    { "code": "logic", "name_ru": "Количественные характеристики", "name_kk": "Сандық сипаттамалар", "name_en": "Quantitative Reasoning", "sort_order": 90 },
     { "code": "natural_science", "name_ru": "Естествознание", "name_kk": "Жаратылыстану", "name_en": "Natural Sciences", "sort_order": 100 },
     { "code": "kazakh_language", "name_ru": "Казахский язык", "name_kk": "Қазақ тілі", "name_en": "Kazakh Language", "sort_order": 110 },
     { "code": "russian_language", "name_ru": "Русский язык", "name_kk": "Орыс тілі", "name_en": "Russian Language", "sort_order": 120 },
