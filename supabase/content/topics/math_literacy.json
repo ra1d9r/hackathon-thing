@@ -1,12 +1,87 @@
 {
   "subject_code": "math_literacy",
   "placeholder": false,
+  "_": "Обязательный раздел ЕНТ: 10 вопросов. Проверяется не знание формул, а умение применить школьную математику к бытовой ситуации — тарифам, скидкам, графикам, расписаниям.",
   "topics": [
-    { "code": "mlit.percent", "title_ru": "Проценты, доли и пропорции", "grade_min": 7, "grade_max": 11, "exam_weight": 1.4, "sort_order": 10 },
-    { "code": "mlit.charts", "title_ru": "Чтение таблиц и диаграмм", "grade_min": 7, "grade_max": 11, "exam_weight": 1.2, "sort_order": 20 },
-    { "code": "mlit.rates", "title_ru": "Задачи на движение и работу", "grade_min": 7, "grade_max": 11, "exam_weight": 1.3, "sort_order": 30 },
-    { "code": "mlit.estimation", "title_ru": "Оценка и прикидка результата", "grade_min": 7, "grade_max": 11, "exam_weight": 1.0, "sort_order": 40 },
-    { "code": "mlit.statistics", "title_ru": "Простейшая вероятность и статистика", "grade_min": 8, "grade_max": 11, "exam_weight": 1.1, "sort_order": 50 },
-    { "code": "mlit.finance", "title_ru": "Практические расчёты: бюджет и скидки", "grade_min": 8, "grade_max": 11, "exam_weight": 1.2, "sort_order": 60 }
+    {
+      "code": "mlit.percent-discount",
+      "title_ru": "Проценты в быту: скидки, наценки, налоги",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1.4,
+      "sort_order": 10
+    },
+    {
+      "code": "mlit.proportion-scale",
+      "title_ru": "Пропорции, масштаб и пересчёт единиц",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1.3,
+      "sort_order": 20
+    },
+    {
+      "code": "mlit.rates-tariffs",
+      "title_ru": "Тарифы и расчёт стоимости услуг",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1.3,
+      "sort_order": 30
+    },
+    {
+      "code": "mlit.motion-work",
+      "title_ru": "Задачи на движение, время и совместную работу",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1.3,
+      "sort_order": 40
+    },
+    {
+      "code": "mlit.tables-charts",
+      "title_ru": "Чтение таблиц, диаграмм и графиков",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1.4,
+      "sort_order": 50
+    },
+    {
+      "code": "mlit.statistics-basics",
+      "title_ru": "Среднее, медиана и разброс данных",
+      "grade_min": 8,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 60
+    },
+    {
+      "code": "mlit.probability-everyday",
+      "title_ru": "Вероятность в бытовых ситуациях",
+      "grade_min": 9,
+      "grade_max": 11,
+      "exam_weight": 1.1,
+      "sort_order": 70
+    },
+    {
+      "code": "mlit.geometry-practical",
+      "title_ru": "Площадь, объём и расход материалов",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 80
+    },
+    {
+      "code": "mlit.estimation",
+      "title_ru": "Прикидка и оценка порядка величины",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1.1,
+      "sort_order": 90
+    },
+    {
+      "code": "mlit.finance-basics",
+      "title_ru": "Простые финансовые расчёты: вклад, кредит, бюджет",
+      "grade_min": 9,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 100
+    }
   ]
 }
