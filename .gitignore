@@ -5,10 +5,3 @@
 expo-env.d.ts
 # @end expo-cli
 node_modules
-
-node_modules/
-.expo/
-dist/
-.DS_Store
-npm-debug.*
-*.log

@@ -27,6 +27,8 @@ export async function registerAuthRoutes(
     {
       config: {
         rateLimit: { max: env.AUTH_RATE_LIMIT_MAX, timeWindow: env.AUTH_RATE_LIMIT_WINDOW_MS },
+        
+        
         idempotency: 'off',
       },
       schema: {
@@ -64,6 +66,8 @@ export async function registerAuthRoutes(
     {
       config: {
         rateLimit: { max: env.AUTH_RATE_LIMIT_MAX, timeWindow: env.AUTH_RATE_LIMIT_WINDOW_MS },
+        
+        
         idempotency: 'off',
       },
       schema: {

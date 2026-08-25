@@ -66,11 +66,13 @@ function toAppError(error: unknown): AppError {
   }
 
   if (isFastifyError(error)) {
+    
     const details = validationDetails(error);
     if (details !== undefined) {
       return new AppError('VALIDATION_FAILED', { details, cause: error });
     }
 
+    
     if (isResponseSerializationError(error)) {
       return new AppError('INTERNAL_ERROR', { cause: error });
     }
@@ -78,6 +80,7 @@ function toAppError(error: unknown): AppError {
     const status = error.statusCode ?? 500;
     if (status < 500) {
       const code = codeForStatus(status);
+      
       return new AppError(code, { cause: error });
     }
   }

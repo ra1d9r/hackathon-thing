@@ -1,3 +1,3 @@
-import { PersonalAccountScreen } from "@/app/screens/PersonalAccountScreen";
+import { PersonalAccountScreen } from "@/screens/PersonalAccountScreen";
 
 export default PersonalAccountScreen;

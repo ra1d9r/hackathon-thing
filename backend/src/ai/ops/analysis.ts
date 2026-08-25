@@ -11,6 +11,7 @@ import { clampAiDelta, type TopicDelta } from '../../domain/mastery.js';
 import type { SqlExecutor } from '../../db/sql.js';
 import {
   buildCurriculumSnapshot,
+  scopeBlock,
   curriculumBlock,
   operationBlock,
   schemaBlock,
@@ -25,6 +26,31 @@ const TEMPERATURE = 0;
 
 const MAX_TOKENS = 16_000;
 
+export const MAX_ANALYSIS_TOPICS = 30;
+
+function maxTokensFor(topicCount: number): number {
+  const estimated = 2_000 + topicCount * 450;
+  return Math.min(MAX_TOKENS, Math.max(4_000, estimated));
+}
+
+export function limitAnalysisTopics(
+  topics: readonly AnalysisTopicInput[],
+  limit = MAX_ANALYSIS_TOPICS,
+): AnalysisTopicInput[] {
+  if (topics.length <= limit) {
+    return [...topics];
+  }
+
+  return [...topics]
+    .sort(
+      (a, b) =>
+        b.pointsPossible - a.pointsPossible ||
+        Math.abs(b.deterministicDeltaPct) - Math.abs(a.deterministicDeltaPct) ||
+        a.topicId.localeCompare(b.topicId),
+    )
+    .slice(0, limit);
+}
+
 const DIAGNOSTIC_SCHEMA = toResponseSchema(diagnosticAnalysisSchema, 'diagnostic_analysis');
 const MASTERY_SCHEMA = toResponseSchema(masteryUpdateSchema, 'mastery_update');
 
@@ -36,6 +62,7 @@ export interface AnalysisTopicInput {
   readonly pointsPossible: number;
   readonly observedPct: number;
   readonly currentMasteryPct: number | null;
+  
   readonly deterministicDeltaPct: number;
 }
 
@@ -54,14 +81,19 @@ export interface TopicHighlight {
 }
 
 export interface AnalysisOutcome {
+  
   readonly proposals: readonly AnalysisProposal[] | null;
   readonly summaryMd: string | null;
+  
   readonly strengths: readonly TopicHighlight[];
   readonly weaknesses: readonly TopicHighlight[];
   readonly calls: readonly CallLogEntry[];
+  
   readonly failure: ModelFailureReason | null;
   readonly reason: string | null;
+  
   readonly repairedBecause: string | null;
+  
   readonly clampedCount: number;
 }
 
@@ -79,6 +111,9 @@ function keepKnown(
       seen.add(item.topic_id);
       return [{ topicId: item.topic_id, note: item.note }];
     })
+    
+    
+    
     .slice(0, HIGHLIGHTS_KEPT);
 }
 
@@ -100,7 +135,12 @@ async function buildBlocks(
   topics: readonly AnalysisTopicInput[],
   isDiagnostic: boolean,
   schema: ResponseSchema,
+  scope: AnalysisScope | null,
 ): Promise<PromptBlock[]> {
+  
+  
+  
+  
   const snapshot = await buildCurriculumSnapshot(
     sql,
     topics.map((topic) => topic.topicId),
@@ -136,6 +176,7 @@ async function buildBlocks(
     systemCoreBlock(),
     schemaBlock(schema),
     curriculumBlock(snapshot),
+    ...(scope === null ? [] : [scopeBlock(scope, scope.subjectNames)]),
     studentBlock(topicPayload(topics)),
     operationBlock(
       [
@@ -151,11 +192,23 @@ async function buildBlocks(
   ];
 }
 
+export interface AnalysisScope {
+  readonly gradeMin: number;
+  readonly gradeMax: number;
+  readonly reason: string;
+  readonly subjectNames: readonly string[];
+}
+
 export async function proposeMasteryChanges(
   sql: SqlExecutor,
   caller: ModelCaller,
   topics: readonly AnalysisTopicInput[],
-  options: { readonly isDiagnostic: boolean; readonly opType: AiOpType },
+  options: {
+    readonly isDiagnostic: boolean;
+    readonly opType: AiOpType;
+    
+    readonly scope?: AnalysisScope | null;
+  },
 ): Promise<AnalysisOutcome> {
   if (topics.length === 0) {
     return {
@@ -171,10 +224,24 @@ export async function proposeMasteryChanges(
     };
   }
 
+  
+  
+  
   const schema = options.isDiagnostic ? DIAGNOSTIC_SCHEMA : MASTERY_SCHEMA;
-  const blocks = await buildBlocks(sql, topics, options.isDiagnostic, schema);
-  const known = new Map(topics.map((topic) => [topic.topicId, topic]));
+
+  
+  
+  const limited = limitAnalysisTopics(topics);
+  const blocks = await buildBlocks(
+    sql,
+    limited,
+    options.isDiagnostic,
+    schema,
+    options.scope ?? null,
+  );
+  const known = new Map(limited.map((topic) => [topic.topicId, topic]));
   const knownIds = new Set(known.keys());
+  const maxTokens = maxTokensFor(limited.length);
 
   if (options.isDiagnostic) {
     const outcome = await callAndValidate({
@@ -185,7 +252,7 @@ export async function proposeMasteryChanges(
         blocks,
         schema,
         temperature: TEMPERATURE,
-        maxTokens: MAX_TOKENS,
+        maxTokens,
       },
     });
 
@@ -214,6 +281,8 @@ export async function proposeMasteryChanges(
       }
       seen.add(estimate.topic_id);
 
+      
+      
       const base = topic.currentMasteryPct ?? topic.observedPct;
       const proposed = clamp(estimate.mastery_pct, 0, 100) - base;
       const applied = clampAiDelta(proposed, topic.deterministicDeltaPct);
@@ -233,6 +302,7 @@ export async function proposeMasteryChanges(
     return {
       proposals,
       summaryMd: outcome.data.summary_md,
+      
       strengths: keepKnown(outcome.data.strengths, knownIds),
       weaknesses: keepKnown(outcome.data.weaknesses, knownIds),
       calls: outcome.calls,
@@ -251,7 +321,7 @@ export async function proposeMasteryChanges(
       blocks,
       schema,
       temperature: TEMPERATURE,
-      maxTokens: MAX_TOKENS,
+      maxTokens,
     },
   });
 
@@ -296,6 +366,8 @@ export async function proposeMasteryChanges(
   return {
     proposals,
     summaryMd: outcome.data.summary_md,
+    
+    
     strengths: [],
     weaknesses: [],
     calls: outcome.calls,

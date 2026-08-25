@@ -1,0 +1,1165 @@
+{
+  "pool": "exam_mock",
+  "exam_code": "ent",
+  "_": "Химия, профильная секция ЕНТ: чертёж требует 40 заданий.",
+  "questions": [
+    {
+      "code": "mock.ent.chem.g7.subject.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g7.predmet-himii-veschestva-i-ih-svoystva",
+      "grade": 7,
+      "difficulty": 2,
+      "prompt_md": "Что из перечисленного является химическим явлением?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Плавление свинца"
+        },
+        {
+          "id": "b",
+          "text_md": "Горение древесины"
+        },
+        {
+          "id": "c",
+          "text_md": "Испарение воды"
+        },
+        {
+          "id": "d",
+          "text_md": "Измельчение мела"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "При горении образуются новые вещества — углекислый газ и вода. Плавление, испарение и измельчение меняют лишь форму или состояние, вещество остаётся прежним.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g7.states.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g7.agregatnye-sostoyaniya-veschestva",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Как называется переход вещества из твёрдого состояния сразу в газообразное?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Возгонка (сублимация)"
+        },
+        {
+          "id": "b",
+          "text_md": "Конденсация"
+        },
+        {
+          "id": "c",
+          "text_md": "Плавление"
+        },
+        {
+          "id": "d",
+          "text_md": "Кристаллизация"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Возгонка — переход из твёрдого состояния в газообразное, минуя жидкое. Так ведут себя йод и сухой лёд.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g7.atoms.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g7.atomy-i-molekuly-prostye-i-slozhnye-veschestva",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Какое вещество является сложным?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "O₂"
+        },
+        {
+          "id": "b",
+          "text_md": "N₂"
+        },
+        {
+          "id": "c",
+          "text_md": "H₂O"
+        },
+        {
+          "id": "d",
+          "text_md": "Fe"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "Сложное вещество состоит из атомов разных элементов. В воде это водород и кислород; остальные образованы атомами одного элемента.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g7.atoms.2",
+      "kind": "numeric",
+      "topic_code": "chem.g7.atomy-i-molekuly-prostye-i-slozhnye-veschestva",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Сколько всего атомов содержится в одной молекуле серной кислоты H₂SO₄?",
+      "options": null,
+      "answer_key": {
+        "value": 7,
+        "tolerance": 0
+      },
+      "explanation_md": "2 атома водорода, 1 атом серы и 4 атома кислорода: 2 + 1 + 4 = 7.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g7.indicators.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g7.prirodnye-kisloty-i-osnovaniya-indikatory",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Какой цвет приобретает лакмус в кислой среде?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Синий"
+        },
+        {
+          "id": "b",
+          "text_md": "Красный"
+        },
+        {
+          "id": "c",
+          "text_md": "Жёлтый"
+        },
+        {
+          "id": "d",
+          "text_md": "Зелёный"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Лакмус краснеет в кислой среде и синеет в щелочной. В нейтральной он остаётся фиолетовым.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g7.indicators.2",
+      "kind": "mcq_single",
+      "topic_code": "chem.g7.prirodnye-kisloty-i-osnovaniya-indikatory",
+      "grade": 7,
+      "difficulty": 4,
+      "prompt_md": "Раствор имеет pH = 10. Какова его среда?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Кислая"
+        },
+        {
+          "id": "b",
+          "text_md": "Нейтральная"
+        },
+        {
+          "id": "c",
+          "text_md": "Щелочная"
+        },
+        {
+          "id": "d",
+          "text_md": "Определить нельзя"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "При pH = 7 среда нейтральная, ниже семи — кислая, выше — щелочная. Значение 10 указывает на щелочную среду.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g7.classify.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g7.klassifikaciya-himicheskih-elementov",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Какой из элементов является неметаллом?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Натрий"
+        },
+        {
+          "id": "b",
+          "text_md": "Сера"
+        },
+        {
+          "id": "c",
+          "text_md": "Магний"
+        },
+        {
+          "id": "d",
+          "text_md": "Алюминий"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Сера — типичный неметалл. Натрий, магний и алюминий стоят в левой части таблицы и относятся к металлам.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g7.classify.2",
+      "kind": "numeric",
+      "topic_code": "chem.g7.klassifikaciya-himicheskih-elementov",
+      "grade": 7,
+      "difficulty": 4,
+      "prompt_md": "Сколько протонов содержится в ядре атома кальция? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 20,
+        "tolerance": 0
+      },
+      "explanation_md": "Число протонов равно порядковому номеру элемента. У кальция он равен 20.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g8.electrons.1",
+      "kind": "numeric",
+      "topic_code": "chem.g8.raspredelenie-elektronov-v-atomah",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Сколько электронов находится на внешнем энергетическом уровне атома азота? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 5,
+        "tolerance": 0
+      },
+      "explanation_md": "У азота 7 электронов: 2 на первом уровне и 5 на втором. Число электронов внешнего уровня совпадает с номером группы — пятой.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g8.reactions.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g8.tipy-himicheskih-reakciy",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "К какому типу относится реакция 2H₂O → 2H₂ + O₂?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Соединения"
+        },
+        {
+          "id": "b",
+          "text_md": "Разложения"
+        },
+        {
+          "id": "c",
+          "text_md": "Замещения"
+        },
+        {
+          "id": "d",
+          "text_md": "Обмена"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Из одного сложного вещества образуются два простых — это реакция разложения.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g8.reactions.2",
+      "kind": "mcq_single",
+      "topic_code": "chem.g8.tipy-himicheskih-reakciy",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "К какому типу относится реакция Zn + 2HCl → ZnCl₂ + H₂?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Соединения"
+        },
+        {
+          "id": "b",
+          "text_md": "Разложения"
+        },
+        {
+          "id": "c",
+          "text_md": "Замещения"
+        },
+        {
+          "id": "d",
+          "text_md": "Обмена"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "Атомы простого вещества цинка замещают водород в сложном веществе — это реакция замещения.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g8.corrosion.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g8.korroziya-metallov-i-mery-po-ee-preduprezhdeniyu",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Что необходимо для протекания коррозии железа?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Кислород и влага"
+        },
+        {
+          "id": "b",
+          "text_md": "Только сухой воздух"
+        },
+        {
+          "id": "c",
+          "text_md": "Только высокая температура"
+        },
+        {
+          "id": "d",
+          "text_md": "Отсутствие кислорода"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Ржавление — окисление железа при участии кислорода и воды. В сухом воздухе или без кислорода оно практически не идёт.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g8.mole.1",
+      "kind": "numeric",
+      "topic_code": "chem.g8.kolichestvo-veschestva-mol-chislo-avogadro",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Чему равна масса 2 моль воды? Молярная масса воды 18 г/моль. Ответ дайте в граммах.",
+      "options": null,
+      "answer_key": {
+        "value": 36,
+        "tolerance": 0
+      },
+      "explanation_md": "m = n · M = 2 · 18 = 36 г.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g8.mole.2",
+      "kind": "numeric",
+      "topic_code": "chem.g8.kolichestvo-veschestva-mol-chislo-avogadro",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Какой объём при нормальных условиях занимает 0,5 моль любого газа? Ответ дайте в литрах.",
+      "options": null,
+      "answer_key": {
+        "value": 11.2,
+        "tolerance": 0.05
+      },
+      "explanation_md": "Молярный объём газа при нормальных условиях равен 22,4 л/моль: 0,5 · 22,4 = 11,2 л.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g8.hydrogen.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g8.vodorod",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Каким способом собирают водород в лаборатории?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Вытеснением воздуха в пробирку, перевёрнутую вверх дном"
+        },
+        {
+          "id": "b",
+          "text_md": "Вытеснением воздуха в пробирку, стоящую дном вниз"
+        },
+        {
+          "id": "c",
+          "text_md": "Осаждением на дне сосуда"
+        },
+        {
+          "id": "d",
+          "text_md": "Растворением в воде"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Водород легче воздуха, поэтому сосуд держат вверх дном. В воде он почти не растворяется, что позволяет собирать его и над водой.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g9.dissociation.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g9.suschnost-teorii-elektroliticheskoy-dissociacii",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Какое вещество является сильным электролитом?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Сахар"
+        },
+        {
+          "id": "b",
+          "text_md": "NaCl"
+        },
+        {
+          "id": "c",
+          "text_md": "Спирт"
+        },
+        {
+          "id": "d",
+          "text_md": "Дистиллированная вода"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Хлорид натрия в растворе полностью распадается на ионы Na⁺ и Cl⁻. Сахар и спирт растворяются, но на ионы не распадаются.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g9.dissociation.2",
+      "kind": "numeric",
+      "topic_code": "chem.g9.suschnost-teorii-elektroliticheskoy-dissociacii",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Сколько ионов образуется при полной диссоциации одной формульной единицы Al₂(SO₄)₃? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 5,
+        "tolerance": 0
+      },
+      "explanation_md": "Al₂(SO₄)₃ → 2Al³⁺ + 3SO₄²⁻. Всего 2 + 3 = 5 ионов.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g9.qualitative.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g9.kachestvennye-reakcii-na-kationy",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Какой реактив используют для обнаружения хлорид-ионов в растворе?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Нитрат серебра AgNO₃"
+        },
+        {
+          "id": "b",
+          "text_md": "Соляная кислота"
+        },
+        {
+          "id": "c",
+          "text_md": "Гидроксид натрия"
+        },
+        {
+          "id": "d",
+          "text_md": "Лакмус"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "С нитратом серебра хлорид-ионы дают белый творожистый осадок AgCl, нерастворимый в азотной кислоте.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g9.rate.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g9.skorost-himicheskih-reakciy",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Что произойдёт со скоростью реакции при измельчении твёрдого реагента?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Увеличится"
+        },
+        {
+          "id": "b",
+          "text_md": "Уменьшится"
+        },
+        {
+          "id": "c",
+          "text_md": "Не изменится"
+        },
+        {
+          "id": "d",
+          "text_md": "Реакция прекратится"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Измельчение увеличивает площадь соприкосновения реагентов, а значит и число столкновений частиц — скорость растёт.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g9.oxidation.1",
+      "kind": "numeric",
+      "topic_code": "chem.g9.stepen-okisleniya",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Определите степень окисления серы в соединении H₂SO₄. Ответ дайте числом со знаком.",
+      "options": null,
+      "answer_key": {
+        "value": 6,
+        "tolerance": 0
+      },
+      "explanation_md": "У водорода +1, у кислорода −2. Сумма степеней окисления равна нулю: 2·(+1) + x + 4·(−2) = 0, откуда x = +6.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g9.oxidation.2",
+      "kind": "numeric",
+      "topic_code": "chem.g9.stepen-okisleniya",
+      "grade": 9,
+      "difficulty": 5,
+      "prompt_md": "Определите степень окисления хрома в дихромате калия K₂Cr₂O₇. Ответ дайте числом со знаком.",
+      "options": null,
+      "answer_key": {
+        "value": 6,
+        "tolerance": 0
+      },
+      "explanation_md": "2·(+1) + 2x + 7·(−2) = 0, то есть 2 + 2x − 14 = 0 и 2x = 12, откуда x = +6.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g9.metals.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g9.obschaya-harakteristika-metallov",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Какой металл вытеснит медь из раствора её соли?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Серебро"
+        },
+        {
+          "id": "b",
+          "text_md": "Золото"
+        },
+        {
+          "id": "c",
+          "text_md": "Цинк"
+        },
+        {
+          "id": "d",
+          "text_md": "Платина"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "Металл вытесняет из соли тот, что стоит правее его в ряду активности. Цинк активнее меди, а серебро, золото и платина — менее активны.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g10.atom.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g10.sovremennaya-teoriya-stroeniya-atoma-sostoyanie",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Сколько электронов максимально вмещает s-подуровень?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2"
+        },
+        {
+          "id": "b",
+          "text_md": "6"
+        },
+        {
+          "id": "c",
+          "text_md": "10"
+        },
+        {
+          "id": "d",
+          "text_md": "14"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "На s-подуровне одна орбиталь, а на орбитали не больше двух электронов. У p-подуровня максимум 6, у d — 10, у f — 14.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g10.periodic.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g10.zakonomernosti-izmeneniya-svoystv-elementov-v",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Как изменяется радиус атома в группе сверху вниз?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Увеличивается"
+        },
+        {
+          "id": "b",
+          "text_md": "Уменьшается"
+        },
+        {
+          "id": "c",
+          "text_md": "Не изменяется"
+        },
+        {
+          "id": "d",
+          "text_md": "Сначала растёт, потом падает"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Сверху вниз растёт число энергетических уровней, и внешние электроны оказываются дальше от ядра — радиус увеличивается.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g10.bond.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g10.kovalentnaya-svyaz",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "В каком веществе связь ковалентная неполярная?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "HCl"
+        },
+        {
+          "id": "b",
+          "text_md": "Cl₂"
+        },
+        {
+          "id": "c",
+          "text_md": "NaCl"
+        },
+        {
+          "id": "d",
+          "text_md": "H₂O"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Ковалентная неполярная связь возникает между одинаковыми атомами: электронная пара не смещена. NaCl — ионная связь, HCl и H₂O — ковалентная полярная.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g10.bond.2",
+      "kind": "mcq_single",
+      "topic_code": "chem.g10.kovalentnaya-svyaz",
+      "grade": 10,
+      "difficulty": 5,
+      "prompt_md": "Чем объясняется аномально высокая температура кипения воды по сравнению с сероводородом?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Водородными связями между молекулами"
+        },
+        {
+          "id": "b",
+          "text_md": "Большой молярной массой воды"
+        },
+        {
+          "id": "c",
+          "text_md": "Ионным строением воды"
+        },
+        {
+          "id": "d",
+          "text_md": "Отсутствием полярности"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Молекулы воды связаны водородными связями, и на их разрыв нужна дополнительная энергия. Молярная масса воды, наоборот, меньше, чем у сероводорода.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g10.classify.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g10.klassifikaciya-himicheskih-reakciy",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Какая реакция является экзотермической?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Горение метана"
+        },
+        {
+          "id": "b",
+          "text_md": "Разложение известняка при нагревании"
+        },
+        {
+          "id": "c",
+          "text_md": "Электролиз воды"
+        },
+        {
+          "id": "d",
+          "text_md": "Разложение воды на элементы"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "При горении теплота выделяется — это экзотермическая реакция. Разложение известняка и электролиз идут с поглощением энергии.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g10.rate.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g10.skorost-himicheskoy-reakcii",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Как катализатор влияет на химическую реакцию?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Снижает энергию активации и ускоряет реакцию"
+        },
+        {
+          "id": "b",
+          "text_md": "Увеличивает выход продукта сверх равновесного"
+        },
+        {
+          "id": "c",
+          "text_md": "Расходуется в ходе реакции"
+        },
+        {
+          "id": "d",
+          "text_md": "Меняет тепловой эффект реакции"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Катализатор открывает путь с меньшей энергией активации. Сам он не расходуется, равновесие не смещает и тепловой эффект не меняет — только ускоряет достижение равновесия.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g10.rate.2",
+      "kind": "mcq_single",
+      "topic_code": "chem.g10.skorost-himicheskoy-reakcii",
+      "grade": 10,
+      "difficulty": 5,
+      "prompt_md": "Температурный коэффициент реакции равен 2. Во сколько раз вырастет её скорость при нагревании на 30 градусов?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "В 2 раза"
+        },
+        {
+          "id": "b",
+          "text_md": "В 6 раз"
+        },
+        {
+          "id": "c",
+          "text_md": "В 8 раз"
+        },
+        {
+          "id": "d",
+          "text_md": "В 30 раз"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "По правилу Вант-Гоффа скорость растёт в γ^(ΔT/10) раз: 2^(30/10) = 2³ = 8.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g11.carbon.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g11.osobennosti-stroeniya-atoma-ugleroda",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Какой тип гибридизации у атома углерода в молекуле метана CH₄?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "sp"
+        },
+        {
+          "id": "b",
+          "text_md": "sp²"
+        },
+        {
+          "id": "c",
+          "text_md": "sp³"
+        },
+        {
+          "id": "d",
+          "text_md": "Гибридизации нет"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "У метана четыре одинарные связи и тетраэдрическое строение с углом 109,5° — это sp³-гибридизация.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g11.alkanes.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g11.alkany",
+      "grade": 11,
+      "difficulty": 3,
+      "prompt_md": "Какая реакция характерна для алканов?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Замещение"
+        },
+        {
+          "id": "b",
+          "text_md": "Присоединение"
+        },
+        {
+          "id": "c",
+          "text_md": "Полимеризация"
+        },
+        {
+          "id": "d",
+          "text_md": "Гидратация"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Алканы предельные: свободных связей у них нет, поэтому присоединять нечего. Для них характерно замещение водорода, например хлорирование на свету.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g11.alkanes.2",
+      "kind": "numeric",
+      "topic_code": "chem.g11.alkany",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Сколько атомов водорода содержится в молекуле алкана с пятью атомами углерода? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 12,
+        "tolerance": 0
+      },
+      "explanation_md": "По формуле CₙH₂ₙ₊₂ при n = 5 получаем 2 · 5 + 2 = 12 атомов водорода. Это пентан C₅H₁₂.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g11.alcohols.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g11.odnoatomnye-spirty",
+      "grade": 11,
+      "difficulty": 3,
+      "prompt_md": "Какая функциональная группа характерна для спиртов?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "−OH"
+        },
+        {
+          "id": "b",
+          "text_md": "−COOH"
+        },
+        {
+          "id": "c",
+          "text_md": "−NH₂"
+        },
+        {
+          "id": "d",
+          "text_md": "−CHO"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Спирты содержат гидроксильную группу −OH. Группа −COOH принадлежит карбоновым кислотам, −NH₂ — аминам, −CHO — альдегидам.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g11.alcohols.2",
+      "kind": "mcq_single",
+      "topic_code": "chem.g11.odnoatomnye-spirty",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Почему температура кипения этанола заметно выше, чем у этана сходной молярной массы?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Между молекулами спирта возникают водородные связи"
+        },
+        {
+          "id": "b",
+          "text_md": "Этанол — ионное соединение"
+        },
+        {
+          "id": "c",
+          "text_md": "У этанола больше атомов углерода"
+        },
+        {
+          "id": "d",
+          "text_md": "Этанол не растворяется в воде"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Гидроксильная группа образует водородные связи между молекулами, и на их разрыв нужна дополнительная энергия. Число атомов углерода у этана и этанола одинаково.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g11.amines.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g11.aminy",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Какое свойство характерно для аминов?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Проявляют основные свойства"
+        },
+        {
+          "id": "b",
+          "text_md": "Проявляют только кислотные свойства"
+        },
+        {
+          "id": "c",
+          "text_md": "Не взаимодействуют с кислотами"
+        },
+        {
+          "id": "d",
+          "text_md": "Всегда газообразны"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Неподелённая электронная пара азота принимает протон, поэтому амины — органические основания и реагируют с кислотами, образуя соли.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g11.polymers.1",
+      "kind": "mcq_single",
+      "topic_code": "chem.g11.vysokomolekulyarnye-soedineniya",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Что называют мономером?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Молекулу, из которой строится полимер"
+        },
+        {
+          "id": "b",
+          "text_md": "Готовую полимерную цепь"
+        },
+        {
+          "id": "c",
+          "text_md": "Катализатор полимеризации"
+        },
+        {
+          "id": "d",
+          "text_md": "Продукт разложения полимера"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Мономер — исходная молекула, многократно повторяющаяся в цепи полимера. Например, этилен для полиэтилена.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g11.polymers.2",
+      "kind": "mcq_single",
+      "topic_code": "chem.g11.vysokomolekulyarnye-soedineniya",
+      "grade": 11,
+      "difficulty": 5,
+      "prompt_md": "Чем реакция полимеризации отличается от поликонденсации?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "При полимеризации побочные продукты не образуются"
+        },
+        {
+          "id": "b",
+          "text_md": "Полимеризация всегда идёт при нагревании"
+        },
+        {
+          "id": "c",
+          "text_md": "Поликонденсация не даёт полимеров"
+        },
+        {
+          "id": "d",
+          "text_md": "Различий нет"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Полимеризация идёт за счёт раскрытия кратных связей, и вся масса мономера переходит в полимер. При поликонденсации выделяются побочные вещества — чаще всего вода.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g8.electrons.2",
+      "kind": "mcq_single",
+      "topic_code": "chem.g8.raspredelenie-elektronov-v-atomah",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Какова электронная конфигурация атома магния?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2, 8, 2"
+        },
+        {
+          "id": "b",
+          "text_md": "2, 8, 1"
+        },
+        {
+          "id": "c",
+          "text_md": "2, 8, 8"
+        },
+        {
+          "id": "d",
+          "text_md": "2, 6, 4"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "У магния 12 электронов: 2 на первом уровне, 8 на втором и 2 на третьем. Два электрона внешнего уровня он и отдаёт, проявляя валентность II.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g9.rate.2",
+      "kind": "mcq_single",
+      "topic_code": "chem.g9.skorost-himicheskih-reakciy",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Какой фактор НЕ влияет на скорость химической реакции между растворами?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Концентрация реагентов"
+        },
+        {
+          "id": "b",
+          "text_md": "Температура"
+        },
+        {
+          "id": "c",
+          "text_md": "Наличие катализатора"
+        },
+        {
+          "id": "d",
+          "text_md": "Форма сосуда"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "d"
+        ]
+      },
+      "explanation_md": "Скорость зависит от того, как часто и насколько энергично сталкиваются частицы: от концентрации, температуры и катализатора. Форма сосуда на это не влияет.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.chem.g10.periodic.2",
+      "kind": "mcq_single",
+      "topic_code": "chem.g10.zakonomernosti-izmeneniya-svoystv-elementov-v",
+      "grade": 10,
+      "difficulty": 5,
+      "prompt_md": "У какого из элементов наиболее выражены неметаллические свойства?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Фтор"
+        },
+        {
+          "id": "b",
+          "text_md": "Хлор"
+        },
+        {
+          "id": "c",
+          "text_md": "Сера"
+        },
+        {
+          "id": "d",
+          "text_md": "Фосфор"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Неметаллические свойства усиливаются вправо по периоду и вверх по группе. Фтор стоит в правом верхнем углу таблицы и является самым электроотрицательным элементом.",
+      "points": 1
+    }
+  ]
+}

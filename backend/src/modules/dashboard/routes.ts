@@ -193,6 +193,8 @@ export async function registerDashboardRoutes(app: FastifyInstance): Promise<voi
     {
       preHandler: [app.requireRole('student')],
       config: {
+        
+        
         idempotency: 'off',
         rateLimit: perUser(120, '1 hour'),
       },

@@ -1,133 +1,214 @@
-import { useCallback, useEffect, useMemo, useState, type DependencyList } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-import { currentUser, dailyTasks, gradeChartData, lessonMaterials, quizQuestions, roadmapNodes, subjectProgress } from "@/services/mockData";
-import type { LessonMaterial, QuizQuestion, RoadmapNode, TaskItem, UserProfile } from "@/types/app";
-import type { UserTarget } from "@/types/onboarding";
+import { formatGrade } from "@/constants/grades";
+import { apiGet } from "@/services/api";
+import { useAuthStore } from "@/store/useAuthStore";
+import type { LessonMaterial, RoadmapNode, TaskItem, UserProfile } from "@/types/app";
 
-const API_DELAY_MS = 300;
-
-function delay() {
-  return new Promise<void>((resolve) => setTimeout(resolve, API_DELAY_MS));
-}
-
-function useMockResource<T>(factory: () => T, deps: DependencyList = []) {
+function useResource<T>(loader: () => Promise<T>, deps: React.DependencyList = []) {
   const [data, setData] = useState<T | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    let mounted = true;
+  const reload = useCallback(() => {
+    let cancelled = false;
     setIsLoading(true);
     setError(null);
-    delay()
-      .then(() => {
-        if (mounted) setData(factory());
+    loader()
+      .then((value) => {
+        if (!cancelled) setData(value);
       })
-      .catch(() => {
-        if (mounted) setError("Unable to load mock data");
+      .catch((e: unknown) => {
+        if (!cancelled) setError(e instanceof Error ? e.message : "Не удалось загрузить данные");
       })
       .finally(() => {
-        if (mounted) setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       });
-
     return () => {
-      mounted = false;
+      cancelled = true;
     };
+    
   }, deps);
 
-  return { data, setData, isLoading, error };
+  useEffect(() => reload(), [reload]);
+
+  return { data, setData, isLoading, error, reload };
 }
 
 export function useUserProfile() {
-  const { data: user, setData: setUser, isLoading, error } = useMockResource<UserProfile>(() => currentUser, []);
+  const me = useAuthStore((state) => state.me);
+  const refreshMe = useAuthStore((state) => state.refreshMe);
 
-  const updateUserTarget = useCallback(
-    async (target: UserTarget) => {
-      await delay();
-      setUser((current) => (current ? { ...current, target } : current));
-    },
-    [setUser]
-  );
+  const user: UserProfile | null = me
+    ? {
+        id: me.public_id,
+        name: me.display_name,
+        avatarUrl: me.avatar_url,
+        grade: formatGrade(me.grade),
+        target: (me.student?.goal?.toUpperCase() as UserProfile["target"]) ?? "SUBJECTS",
+        selectedSubjects: (me.student?.subjects ?? []).map((s) => ({ id: s.code, code: s.code, title: s.name })),
+        streakDays: me.student?.streak_days ?? 0,
+        totalPracticeCount: me.student?.questions_answered ?? 0,
+        aiUsageCount: me.student?.ai_usage_count ?? 0,
+      }
+    : null;
 
-  return { user, isLoading, error, updateUserTarget };
+  return { user, isLoading: false, error: null, updateUserTarget: refreshMe };
+}
+
+interface DailyPlanItemDto {
+  id: string;
+  kind: "task" | "lesson" | "review";
+  title: string;
+  meta: string;
+  subject_name: string | null;
+  est_minutes: number | null;
+  status: "pending" | "in_progress" | "completed" | "skipped";
+  topic: { id: string; title: string };
+}
+
+interface DailyPlanResponse {
+  items: DailyPlanItemDto[];
+  empty_reason: string | null;
+}
+
+const KIND_TO_TYPE: Record<DailyPlanItemDto["kind"], TaskItem["type"]> = {
+  task: "QUIZ",
+  lesson: "LESSON",
+  review: "DRILL",
+};
+
+function toTaskItem(item: DailyPlanItemDto): TaskItem {
+  return {
+    id: item.id,
+    subjectId: item.topic.id,
+    subjectTitle: item.subject_name ?? item.topic.title,
+    title: item.title,
+    subtitle: item.meta,
+    durationMinutes: item.est_minutes ?? 0,
+    status: item.status === "completed" || item.status === "skipped" ? "COMPLETED" : item.status === "in_progress" ? "IN_PROGRESS" : "NOT_STARTED",
+    progressPercentage: item.status === "completed" || item.status === "skipped" ? 100 : item.status === "in_progress" ? 50 : 0,
+    type: KIND_TO_TYPE[item.kind],
+  };
 }
 
 export function useDailyTasks() {
-  const { data, setData, isLoading, error } = useMockResource<TaskItem[]>(() => dailyTasks, []);
+  const { data, isLoading, error, reload } = useResource<TaskItem[]>(async () => {
+    const plan = await apiGet<DailyPlanResponse>("/v1/daily-plan");
+    return plan.items.map(toTaskItem);
+  }, []);
+
   const tasks = data ?? [];
   const isCompleted = tasks.length > 0 && tasks.every((task) => task.status === "COMPLETED");
 
-  const markTaskComplete = useCallback(
-    async (taskId: string) => {
-      await delay();
-      setData((current) =>
-        (current ?? dailyTasks).map((task) =>
-          task.id === taskId ? { ...task, status: "COMPLETED", progressPercentage: 100 } : task
-        )
-      );
-    },
-    [setData]
-  );
-
-  return { tasks, isCompleted, isLoading, error, markTaskComplete };
+  return { tasks, isCompleted, isLoading, error, markTaskComplete: reload, reload };
 }
 
-export function useRoadmap(subjectId: string) {
-  const { data, isLoading, error } = useMockResource<RoadmapNode[]>(
-    () => roadmapNodes.filter((node) => node.subjectId === subjectId || node.subjectId === "physics"),
-    [subjectId]
-  );
-  const nodes = data ?? [];
-  const currentScore = useMemo(
-    () => (nodes.length ? Math.round(nodes.reduce((sum, node) => sum + node.masteryPercentage, 0) / nodes.length) : 0),
-    [nodes]
-  );
-
-  return { nodes, currentScore, isLoading, error };
+interface RoadmapNodeDto {
+  id: string;
+  position: number;
+  title: string;
+  status: "locked" | "available" | "in_progress" | "completed";
+  progress_pct: number;
+  lesson_id: string | null;
 }
 
-export function useLessonWorkspace(taskId: string) {
-  const materialState = useMockResource<LessonMaterial | null>(
-    () => lessonMaterials.find((item) => item.taskId === taskId) ?? null,
-    [taskId]
-  );
-  const questionsState = useMockResource<QuizQuestion[]>(
-    () => quizQuestions.filter((question) => question.taskId === taskId),
-    [taskId]
-  );
+interface RoadmapResponseDto {
+  roadmap: { id: string; subject: { id: string; code: string; name: string } } | null;
+  nodes: RoadmapNodeDto[];
+}
 
-  const submitQuiz = useCallback(async (answers: Record<string, string>) => {
-    await delay();
+const NODE_STATUS: Record<RoadmapNodeDto["status"], RoadmapNode["status"]> = {
+  completed: "COMPLETED",
+  in_progress: "ACTIVE",
+  available: "ACTIVE",
+  locked: "LOCKED",
+};
+
+export function useRoadmap() {
+  const { data, isLoading, error } = useResource<{
+    nodes: RoadmapNode[];
+    subject: { id: string; code: string; name: string } | null;
+  }>(async () => {
+    const response = await apiGet<RoadmapResponseDto>("/v1/roadmap");
+    const subjectId = response.roadmap?.subject.id ?? "";
     return {
-      submitted: true,
-      correctCount: quizQuestions.filter((question) =>
-        question.options.some((option) => option.id === answers[question.id] && option.isCorrect)
-      ).length
+      subject: response.roadmap?.subject ?? null,
+      nodes: response.nodes.map((node) => ({
+        id: node.id,
+        subjectId,
+        title: node.title,
+        masteryPercentage: Math.round(node.progress_pct),
+        status: NODE_STATUS[node.status],
+        badgeText: node.status === "completed" ? `${Math.round(node.progress_pct)}% выполнено` : undefined,
+      })),
     };
   }, []);
 
-  return {
-    material: materialState.data,
-    questions: questionsState.data ?? [],
-    isLoading: materialState.isLoading || questionsState.isLoading,
-    error: materialState.error ?? questionsState.error,
-    submitQuiz
+  const nodes = data?.nodes ?? [];
+  const currentScore = nodes.length
+    ? Math.round(nodes.reduce((sum, node) => sum + node.masteryPercentage, 0) / nodes.length)
+    : 0;
+
+  return { nodes, currentScore, subject: data?.subject ?? null, isLoading, error };
+}
+
+export function useLessonPreview(lessonId: string | null) {
+  const { data, isLoading, error } = useResource<LessonMaterial | null>(async () => {
+    if (!lessonId) return null;
+    const response = await apiGet<{
+      lesson: { id: string; title: string };
+      material: { body_blocks: { type: string; spans?: { text: string }[] }[] } | null;
+    }>(`/v1/lessons/${lessonId}`);
+
+    const paragraphs =
+      response.material?.body_blocks
+        .filter((block) => block.type === "paragraph")
+        .map((block) => block.spans?.map((span) => span.text).join("") ?? "")
+        .filter(Boolean) ?? [];
+
+    return {
+      id: response.lesson.id,
+      taskId: lessonId,
+      title: response.lesson.title,
+      paragraphs,
+      topics: [],
+    };
+  }, [lessonId]);
+
+  return { material: data, isLoading, error };
+}
+
+interface DashboardResponseDto {
+  analytics: {
+    questions_answered: number;
+    study_hours: number;
+    weak_topics: { topic_id: string; title: string; mastery_pct: number }[];
+    score_history: { at: string; value: number }[];
   };
 }
 
 export function useLearningStats() {
-  const { data, isLoading, error } = useMockResource(
-    () => ({
-      subjectProgress,
-      gradeChartData
-    }),
-    []
-  );
+  const { data, isLoading, error } = useResource(async () => {
+    const dashboard = await apiGet<DashboardResponseDto>("/v1/dashboard");
+    return {
+      subjectProgress: dashboard.analytics.weak_topics.map((topic) => ({
+        label: topic.title,
+        value: Math.round(topic.mastery_pct),
+        color: topic.mastery_pct >= 70 ? "#2b63f1" : "#c91f1f",
+        important: topic.mastery_pct < 50,
+      })),
+      gradeChartData: dashboard.analytics.score_history.slice(-5).map((point, index) => ({
+        value: Math.max(1, Math.round(point.value / 14)),
+        label: `Д${index + 1}`,
+      })),
+    };
+  }, []);
 
   return {
     subjectProgress: data?.subjectProgress ?? [],
     gradeChartData: data?.gradeChartData ?? [],
     isLoading,
-    error
+    error,
   };
 }

@@ -26,6 +26,7 @@ import {
   type EnqueuedJob,
 } from '../../queue/jobs.js';
 import type { AuthUser } from '../../types/fastify.js';
+import { mockScoreFor } from '../mocks/service.js';
 import {
   assertAnswerShape,
   gradeAnswer,
@@ -83,6 +84,7 @@ async function loadAssessment(
      where s.id = ${assessmentId}
   `;
 
+  
   if (row === undefined || (row.student_id !== null && row.student_id !== studentId)) {
     throw new AppError('NOT_FOUND', { message: 'Тест не найден' });
   }
@@ -128,6 +130,8 @@ export async function startAttempt(
   const attemptId = await sql.begin(async (tx) => {
     const assessment = await loadAssessment(tx, body.assessment_id, user.id);
 
+    
+    
     const [existing] = await tx<{ id: string }[]>`
       select id from public.attempts
        where student_id = ${user.id}
@@ -148,6 +152,8 @@ export async function startAttempt(
       await assertDiagnosticNotTaken(tx, assessment.id, user.id);
     }
 
+    
+    
     const [created] = await tx<{ id: string }[]>`
       insert into public.attempts (student_id, assessment_id, client_attempt_id, deadline_at)
       values (
@@ -179,7 +185,6 @@ export async function startAttempt(
 
   return getAttempt(sql, user, attemptId);
 }
-
 
 function toQuestionView(question: AttemptQuestion): AttemptView['questions'][number] {
   return {
@@ -222,6 +227,8 @@ export async function getAttempt(
       answered_count: answers.length,
       total_count: questions.length,
     },
+    
+    
     questions: questions.map(toQuestionView),
     answers: answers.map((answer) => ({
       question_id: answer.questionId,
@@ -232,7 +239,6 @@ export async function getAttempt(
     server_time: new Date().toISOString(),
   };
 }
-
 
 export async function saveAnswers(
   sql: Sql,
@@ -266,11 +272,15 @@ export async function saveAnswers(
   }
 
   await sql.begin(async (tx) => {
+    
+    
     const locked = await lockAttempt(tx, attempt.id);
     if (locked?.status !== 'in_progress') {
       throw new AppError('ATTEMPT_ALREADY_SUBMITTED');
     }
 
+    
+    
     await tx`
       insert into public.attempt_answers (attempt_id, question_id, answer, time_spent_sec)
       select ${attempt.id}, item.question_id::uuid, item.answer::jsonb, item.seconds
@@ -355,8 +365,9 @@ function elapsedSeconds(startedAt: Date, until: Date): number {
 
 export interface SubmitOptions {
   readonly requestId?: string;
+  
   readonly finalize?: (tx: SqlExecutor, status: number, body: unknown) => Promise<void>;
-  /** Отправка сторожем дедлайнов: аудит помечается как автоматическая. */
+  
   readonly automatic?: boolean;
 }
 
@@ -393,6 +404,8 @@ export async function submitAttempt(
     const graded = scored.filter((question) => question.outcome.grader === 'deterministic');
 
     if (graded.length > 0) {
+      
+      
       await tx`
         update public.attempt_answers a
            set grader = 'deterministic',
@@ -418,6 +431,8 @@ export async function submitAttempt(
        where id = ${attempt.id}
     `;
 
+    
+    
     let gradingJob: EnqueuedJob | null = null;
     if (summary.pendingQuestions > 0) {
       gradingJob = await enqueueJob(tx, {
@@ -444,6 +459,8 @@ export async function submitAttempt(
        where id = ${attempt.id}
     `;
 
+    
+    
     const automatic = options.automatic === true;
 
     await writeAudit(tx, {
@@ -626,9 +643,12 @@ export async function getAttemptResult(
       prompt_md: question.promptMd,
       options: question.options,
       your_answer: given?.answer ?? null,
+      
+      
       correct_answer: revealAnswerKey(question),
       is_correct: given?.isCorrect ?? null,
       points: question.points,
+      
       points_awarded: given === undefined ? 0 : given.pointsAwarded,
       grader: given?.grader ?? 'deterministic',
       explanation_md: question.explanationMd,
@@ -658,8 +678,8 @@ export async function getAttemptResult(
   const analysisJob = await loadJobState(sql, attempt.analysisJobId);
   const gradingJob = await loadJobState(sql, attempt.gradingJobId);
 
-  // Клиенту показывается ближайшая незавершённая работа: пока она не дошла
-  // до конечного состояния, результат ещё может измениться.
+  
+  
   const unfinished = [gradingJob, analysisJob].find(
     (job): job is JobStateRow => job !== null && !isTerminal(jobStatus(job)),
   ) ?? null;
@@ -687,10 +707,16 @@ export async function getAttemptResult(
       pct: subject.possible === 0 ? 0 : roundTo((subject.earned / subject.possible) * 100, 2),
     })),
     topics,
+    
+    
     strengths: storedHighlights(analysisJob, 'strengths') ?? fallbackStrengths(sortedByPct),
     focus: storedHighlights(analysisJob, 'focus') ?? fallbackFocus(sortedByPct),
     answers: review,
     analysis: buildAnalysis(attempt, analysisJob),
+    
+    
+    
+    exam: await mockScoreFor(sql, user.id, attempt.id),
     job:
       unfinished === null
         ? null

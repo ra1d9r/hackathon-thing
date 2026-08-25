@@ -8,6 +8,7 @@ import { AppError } from '../../contracts/errors.js';
 import { jsonObjectSchema, type JsonObject } from '../../contracts/json.js';
 import { writeAudit } from '../../db/audit.js';
 import type { Sql, SqlExecutor } from '../../db/sql.js';
+import { curriculumScope, type ExamScope } from '../../domain/curriculum-scope.js';
 import type { AuthUser } from '../../types/fastify.js';
 import { findExam, listSubjectOptions } from '../catalog/service.js';
 import { assembleDiagnostic, describeDiagnostic } from './diagnostic.js';
@@ -16,6 +17,8 @@ export interface ResolvedSelection {
   readonly examId: string | null;
   readonly examCode: string | null;
   readonly subjects: { id: string; code: string; name: string; isProfile: boolean }[];
+  
+  readonly examScope: ExamScope | null;
 }
 
 async function subjectIdsByCodes(
@@ -68,6 +71,7 @@ export async function resolveSelection(
       examId: null,
       examCode: null,
       subjects: subjects.map((subject) => ({ ...subject, isProfile: true })),
+      examScope: null,
     };
   }
 
@@ -104,6 +108,25 @@ export async function resolveSelection(
     });
   }
 
+  
+  
+  if (options.profilePairs.length > 0) {
+    const chosen = [...unique].sort().join('+');
+    const known = options.profilePairs.some(
+      (pair) => [...pair.codes].sort().join('+') === chosen,
+    );
+
+    if (!known) {
+      throw new AppError('VALIDATION_FAILED', {
+        message: 'Такой комбинации профильных предметов на экзамене нет',
+        details: {
+          chosen: unique,
+          allowed_pairs: options.profilePairs.map((pair) => pair.codes),
+        },
+      });
+    }
+  }
+
   const mandatoryCodes = options.mandatory.map((option) => option.code);
   const resolved = await subjectIdsByCodes(sql, [...mandatoryCodes, ...unique]);
   const profileSet = new Set(unique);
@@ -119,6 +142,7 @@ export async function resolveSelection(
       ...subject,
       isProfile: profileSet.has(subject.code),
     })),
+    examScope: { gradeMin: exam.gradeMin, gradeMax: exam.gradeMax },
   };
 }
 
@@ -216,6 +240,11 @@ export async function completeOnboarding(
       user.id,
       input.grade,
       selection.subjects.map((subject) => subject.id),
+      curriculumScope({
+        goal: input.goal,
+        grade: input.grade,
+        exam: selection.examScope,
+      }),
     );
 
     await writeAudit(tx, {

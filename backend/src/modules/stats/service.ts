@@ -57,6 +57,7 @@ export async function buildOverview(sql: Sql, user: AuthUser): Promise<StatsOver
   await requireOnboarded(sql, user.id);
 
   const [activity, scores, subjects, extra] = await Promise.all([
+    
     sql<{ questions_answered: string; attempts_graded: string; study_seconds: string }[]>`
       select questions_answered, attempts_graded, study_seconds
         from public.v_student_activity where student_id = ${user.id}
@@ -170,6 +171,8 @@ export async function buildTopics(
       priority: Number(row.priority),
       status: masteryStatusSchema.parse(row.status),
     })),
+    
+    
     empty_reason:
       rows.length > 0 ? null : (any?.n ?? 0) === 0 ? 'no_evidence_yet' : 'filter_matched_nothing',
     computed_at: new Date().toISOString(),

@@ -1,0 +1,206 @@
+
+
+export const API_BASE_URL =
+  process.env.EXPO_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ?? "http://localhost:3000";
+
+export interface ApiErrorBody {
+  code: string;
+  message: string;
+  retryable: boolean;
+  request_id: string;
+  details?: Record<string, unknown>;
+}
+
+export class ApiError extends Error {
+  code: string;
+  status: number;
+  retryable: boolean;
+  details?: Record<string, unknown>;
+
+  constructor(status: number, body: ApiErrorBody) {
+    super(body.message);
+    this.name = "ApiError";
+    this.code = body.code;
+    this.status = status;
+    this.retryable = body.retryable;
+    this.details = body.details;
+  }
+}
+
+let tokenProvider: (() => string | null) = () => null;
+export function setAuthTokenProvider(fn: () => string | null): void {
+  tokenProvider = fn;
+}
+
+let onUnauthorized: (() => void) | null = null;
+export function setUnauthorizedHandler(fn: () => void): void {
+  onUnauthorized = fn;
+}
+
+interface CryptoLike {
+  randomUUID?: () => string;
+}
+
+function randomId(): string {
+  
+  
+  const globalCrypto = (globalThis as { crypto?: CryptoLike }).crypto;
+  if (globalCrypto?.randomUUID) return globalCrypto.randomUUID();
+  return `id-${Date.now()}-${Math.random().toString(36).slice(2, 10)}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
+export interface RequestOptions {
+  method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
+  body?: unknown;
+  query?: Record<string, string | number | boolean | undefined>;
+  
+  idempotencyKey?: string | null;
+  
+  skipIdempotency?: boolean;
+  
+  skipAuth?: boolean;
+  timeoutMs?: number;
+}
+
+function encodeQuery(query: RequestOptions["query"]): string {
+  if (!query) return "";
+  const parts: string[] = [];
+  for (const [key, value] of Object.entries(query)) {
+    if (value === undefined) continue;
+    parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`);
+  }
+  return parts.length === 0 ? "" : parts.join("&");
+}
+
+function buildUrl(path: string, query?: RequestOptions["query"]): string {
+  
+  
+  
+  
+  
+  const base = path.startsWith("http") ? path : `${API_BASE_URL}${path}`;
+  const search = encodeQuery(query);
+  if (search === "") return base;
+  return `${base}${base.includes("?") ? "&" : "?"}${search}`;
+}
+
+const DEFAULT_TIMEOUT_MS = 30_000;
+
+export async function apiFetch<T>(path: string, options: RequestOptions = {}): Promise<T> {
+  const { method = "GET", body, query, timeoutMs = DEFAULT_TIMEOUT_MS } = options;
+
+  const headers: Record<string, string> = { Accept: "application/json" };
+  if (body !== undefined) headers["Content-Type"] = "application/json";
+
+  if (!options.skipAuth) {
+    const token = tokenProvider();
+    if (token) headers.Authorization = `Bearer ${token}`;
+  }
+
+  const mutating = method !== "GET";
+  if (mutating && !options.skipIdempotency) {
+    headers["Idempotency-Key"] = options.idempotencyKey ?? randomId();
+  }
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+  let response: Response;
+  try {
+    response = await fetch(buildUrl(path, query), {
+      method,
+      headers,
+      body: body === undefined ? undefined : JSON.stringify(body),
+      signal: controller.signal,
+    });
+  } catch (error) {
+    clearTimeout(timer);
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new ApiError(0, {
+        code: "TIMEOUT",
+        message: "Сервер не ответил вовремя. Проверьте подключение.",
+        retryable: true,
+        request_id: "local",
+      });
+    }
+    throw new ApiError(0, {
+      code: "NETWORK_ERROR",
+      message: "Нет соединения с сервером. Проверьте адрес API и подключение к сети.",
+      retryable: true,
+      request_id: "local",
+    });
+  } finally {
+    clearTimeout(timer);
+  }
+
+  if (response.status === 204 || response.status === 304) {
+    return undefined as T;
+  }
+
+  const text = await response.text();
+  const json: unknown = text ? JSON.parse(text) : undefined;
+
+  if (!response.ok) {
+    const errorBody =
+      json && typeof json === "object" && "error" in json
+        ? (json as { error: ApiErrorBody }).error
+        : { code: "UNKNOWN", message: `Ошибка сервера (${response.status})`, retryable: false, request_id: "local" };
+
+    if (response.status === 401) {
+      onUnauthorized?.();
+    }
+    throw new ApiError(response.status, errorBody);
+  }
+
+  return json as T;
+}
+
+export function apiGet<T>(path: string, query?: RequestOptions["query"]): Promise<T> {
+  return apiFetch<T>(path, { method: "GET", query });
+}
+
+export function apiPost<T>(path: string, body?: unknown, options?: RequestOptions): Promise<T> {
+  return apiFetch<T>(path, { ...options, method: "POST", body });
+}
+
+export function apiPatch<T>(path: string, body?: unknown, options?: RequestOptions): Promise<T> {
+  return apiFetch<T>(path, { ...options, method: "PATCH", body });
+}
+
+export function apiDelete<T>(path: string, options?: RequestOptions): Promise<T> {
+  return apiFetch<T>(path, { ...options, method: "DELETE" });
+}
+
+export interface JobStatusResponse {
+  job: {
+    id: string;
+    op_type: string;
+    status: "queued" | "running" | "awaiting_retry" | "succeeded" | "failed" | "canceled" | "dead_letter";
+    attempts: number;
+    created_at: string;
+    started_at: string | null;
+    finished_at: string | null;
+    applied: boolean;
+    error_code: string | null;
+  };
+  result_ref: { kind: string; attempt_id: string } | null;
+  fallback_applied: boolean;
+  retry_after_ms: number | null;
+}
+
+const TERMINAL_STATUSES = new Set(["succeeded", "failed", "canceled", "dead_letter"]);
+
+export async function waitForJob(
+  jobId: string,
+  options: { totalTimeoutMs?: number; waitMs?: number } = {},
+): Promise<JobStatusResponse> {
+  const totalTimeoutMs = options.totalTimeoutMs ?? 120_000;
+  const waitMs = options.waitMs ?? 25_000;
+  const deadline = Date.now() + totalTimeoutMs;
+
+  for (;;) {
+    const status = await apiGet<JobStatusResponse>(`/v1/ai/jobs/${jobId}`, { wait_ms: waitMs });
+    if (TERMINAL_STATUSES.has(status.job.status)) return status;
+    if (Date.now() >= deadline) return status;
+  }
+}

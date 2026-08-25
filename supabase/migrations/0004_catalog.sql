@@ -1,3 +1,9 @@
+-- 0004 — учебный каталог: предметы, темы, чертежи экзаменов.
+--
+-- Чертёж экзамена (exam_profiles + exam_sections) — данные, а не код: формула
+-- прогноза балла читает из них максимумы и веса, поэтому изменение правил ЕНТ
+-- не требует правки логики (см. docs/04-domain-logic.md, §3).
+
 create table public.subjects (
   id               uuid primary key default gen_random_uuid(),
   code             text not null unique,
@@ -11,6 +17,7 @@ create table public.subjects (
 
 comment on table public.subjects is 'Справочник предметов.';
 
+-- Предметы, выбранные учеником на онбординге.
 create table public.student_subjects (
   student_id uuid not null references public.profiles(id) on delete cascade,
   subject_id uuid not null references public.subjects(id) on delete restrict,
@@ -25,6 +32,8 @@ comment on column public.student_subjects.is_profile is
 
 create index student_subjects_active_idx
   on public.student_subjects(student_id) where removed_at is null;
+
+-- ─── Темы ────────────────────────────────────────────────────────────────────
 
 create table public.topics (
   id          uuid primary key default gen_random_uuid(),
@@ -50,6 +59,7 @@ create index topics_subject_grade_idx
   on public.topics(subject_id, grade_min, grade_max) where is_active;
 create index topics_parent_idx on public.topics(parent_id);
 
+-- Граф предшествования: используется при построении и разблокировке roadmap.
 create table public.topic_prerequisites (
   topic_id        uuid not null references public.topics(id) on delete cascade,
   prerequisite_id uuid not null references public.topics(id) on delete cascade,
@@ -59,6 +69,7 @@ create table public.topic_prerequisites (
 
 create index topic_prerequisites_prereq_idx on public.topic_prerequisites(prerequisite_id);
 
+-- ─── Чертежи экзаменов ───────────────────────────────────────────────────────
 
 create table public.exam_profiles (
   id         uuid primary key default gen_random_uuid(),
@@ -78,6 +89,9 @@ create table public.exam_sections (
   max_points      numeric(6,2) not null check (max_points > 0),
   question_count  smallint,
 
+  -- Доля баллов, достижимая угадыванием: у секций с выбором из пяти вариантов
+  -- около 0.20, у профильных с множественным выбором ниже. Без этого нижняя
+  -- граница прогноза была бы нулевой, чего на тесте с выбором не бывает.
   guess_floor     numeric(3,2) not null default 0.20
                   check (guess_floor >= 0 and guess_floor < 1),
 
@@ -87,6 +101,7 @@ create table public.exam_sections (
 
 create index exam_sections_profile_idx on public.exam_sections(exam_profile_id);
 
+-- Отложенный внешний ключ из 0003.
 alter table public.student_profiles
   add constraint student_profiles_exam_fk
   foreign key (target_exam_id) references public.exam_profiles(id) on delete set null;

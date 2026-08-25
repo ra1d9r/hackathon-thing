@@ -1,3 +1,3 @@
-import { MainScreen } from "@/app/screens/MainScreen";
+import { MainScreen } from "@/screens/MainScreen";
 
 export default MainScreen;

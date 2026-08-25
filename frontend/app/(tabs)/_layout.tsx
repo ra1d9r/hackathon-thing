@@ -11,7 +11,7 @@ const tabConfig: Record<
     icon: keyof typeof Ionicons.glyphMap;
   }
 > = {
-  index: {
+  dashboard: {
     label: "Панель",
     icon: "grid"
   },
@@ -33,7 +33,7 @@ export default function TabsLayout() {
         headerShown: false
       }}
     >
-      <Tabs.Screen name="index" options={{ title: "Панель" }} />
+      <Tabs.Screen name="dashboard" options={{ title: "Панель" }} />
       <Tabs.Screen name="learning" options={{ title: "Обучение" }} />
       <Tabs.Screen name="progress" options={{ title: "Прогресс" }} />
     </Tabs>

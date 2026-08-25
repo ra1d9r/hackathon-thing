@@ -91,11 +91,14 @@ export interface ScopedTopic {
   readonly gradeMax: number;
   readonly masteryPct: number | null;
   readonly priority: number;
+  
   readonly hasMaterial: boolean;
 }
 
 export interface ScopedTopicsOptions {
+  
   readonly limit?: number;
+  
   readonly withMaterialOnly?: boolean;
 }
 

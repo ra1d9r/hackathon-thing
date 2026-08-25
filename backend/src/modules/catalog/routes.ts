@@ -11,7 +11,35 @@ import {
 import { isExamGoal } from '../../contracts/domain.js';
 import { AppError, errorEnvelopeSchema } from '../../contracts/errors.js';
 import type { Sql } from '../../db/sql.js';
-import { findExam, listGoals, listSubjectOptions, listTopics } from './service.js';
+import {
+  findExam,
+  listGoals,
+  listSubjectOptions,
+  listTopics,
+  type ExamSummary,
+} from './service.js';
+
+function toExamPayload(exam: ExamSummary): {
+  code: string;
+  title: string;
+  scale: ExamSummary['scale'];
+  max_score: number;
+  profile_slot_count: number;
+  grade_min: number | null;
+  grade_max: number | null;
+  time_limit_sec: number | null;
+} {
+  return {
+    code: exam.code,
+    title: exam.title,
+    scale: exam.scale,
+    max_score: exam.maxScore,
+    profile_slot_count: exam.profileSlotCount,
+    grade_min: exam.gradeMin,
+    grade_max: exam.gradeMax,
+    time_limit_sec: exam.timeLimitSec,
+  };
+}
 
 function requireSql(app: FastifyInstance): Sql {
   const sql = app.sql;
@@ -46,13 +74,7 @@ export async function registerCatalogRoutes(app: FastifyInstance): Promise<void>
           goal: goal.goal,
           title: goal.title,
           description: goal.description,
-          exams: goal.exams.map((exam) => ({
-            code: exam.code,
-            title: exam.title,
-            scale: exam.scale,
-            max_score: exam.maxScore,
-            profile_slot_count: exam.profileSlotCount,
-          })),
+          exams: goal.exams.map(toExamPayload),
         })),
       };
     },
@@ -84,7 +106,13 @@ export async function registerCatalogRoutes(app: FastifyInstance): Promise<void>
 
       if (!isExamGoal(goal)) {
         const options = await listSubjectOptions(sql, null);
-        return { goal, exam: null, mandatory: options.mandatory, profile: options.profile };
+        return {
+          goal,
+          exam: null,
+          mandatory: options.mandatory,
+          profile: options.profile,
+          profile_pairs: options.profilePairs,
+        };
       }
 
       if (examCode === undefined) {
@@ -106,15 +134,10 @@ export async function registerCatalogRoutes(app: FastifyInstance): Promise<void>
 
       return {
         goal,
-        exam: {
-          code: exam.code,
-          title: exam.title,
-          scale: exam.scale,
-          max_score: exam.maxScore,
-          profile_slot_count: exam.profileSlotCount,
-        },
+        exam: toExamPayload(exam),
         mandatory: options.mandatory,
         profile: options.profile,
+        profile_pairs: options.profilePairs,
       };
     },
   );

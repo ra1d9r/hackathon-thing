@@ -1,9 +1,13 @@
 import type { JsonObject } from '../contracts/json.js';
 import type { AiOpType } from '../queue/jobs.js';
 
+
+
+
 export interface PromptBlock {
   readonly layer: 'system_core' | 'curriculum' | 'material' | 'student' | 'operation';
   readonly text: string;
+  
   readonly cacheable: boolean;
 }
 
@@ -18,6 +22,7 @@ export interface ModelRequest {
   readonly schema: ResponseSchema;
   readonly temperature: number;
   readonly maxTokens: number;
+  
   readonly repairHint?: string;
 }
 
@@ -43,11 +48,17 @@ export interface ModelCaller {
   modelFor(opType: AiOpType): string;
 }
 
+
 export type ModelFailureKind =
+  
   | 'transient'
+  
   | 'permanent'
+  
   | 'refusal'
+  
   | 'truncated'
+  
   | 'empty';
 
 export class ModelError extends Error {

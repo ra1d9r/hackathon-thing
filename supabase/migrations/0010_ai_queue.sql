@@ -1,3 +1,10 @@
+-- 0010 — очередь операций ИИ, идемпотентность, лимиты, аудит.
+--
+-- Очередь живёт в Postgres, а не во внешнем брокере: для MVP это на одну
+-- движущуюся часть меньше, а FOR UPDATE SKIP LOCKED и LISTEN/NOTIFY дают
+-- всё нужное — захват задач несколькими воркерами и мгновенное пробуждение
+-- ожидающих HTTP-запросов (см. docs/03-ai-integration.md, §8).
+
 create table public.ai_jobs (
   id                 uuid primary key default gen_random_uuid(),
   op_type            public.ai_op_type not null,
@@ -38,6 +45,9 @@ comment on column public.ai_jobs.priority is
 comment on column public.ai_jobs.applied_at is
   'Момент применения побочных эффектов. Второй раз результат не применяется.';
 
+-- Одна активная работа на логическую операцию. Именно это делает
+-- отложенные запросы безопасными: сколько бы раз клиент ни повторил
+-- отправку или опрос, операция остаётся одна.
 create unique index ai_jobs_active_dedupe_idx
   on public.ai_jobs(dedupe_key)
   where status in ('queued','running','awaiting_retry');
@@ -53,6 +63,7 @@ create trigger ai_jobs_touch
   before update on public.ai_jobs
   for each row execute function app.touch_updated_at();
 
+-- ─── Журнал вызовов модели ───────────────────────────────────────────────────
 
 create table public.ai_call_logs (
   id                 uuid primary key default gen_random_uuid(),
@@ -82,6 +93,7 @@ comment on column public.ai_call_logs.tokens_cache_read is
 create index ai_call_logs_job_idx on public.ai_call_logs(job_id, attempt_no);
 create index ai_call_logs_time_idx on public.ai_call_logs(created_at desc);
 
+-- ─── Идемпотентность ─────────────────────────────────────────────────────────
 
 create table public.idempotency_keys (
   id              uuid primary key default gen_random_uuid(),
@@ -126,6 +138,7 @@ create table public.audit_log (
 create index audit_log_entity_idx on public.audit_log(entity_type, entity_id, created_at desc);
 create index audit_log_actor_idx on public.audit_log(actor_id, created_at desc);
 
+-- ─── Захват задач воркером ───────────────────────────────────────────────────
 
 create or replace function app.claim_ai_jobs(p_worker text, p_limit int)
 returns setof public.ai_jobs
@@ -137,6 +150,8 @@ begin
       from public.ai_jobs j
      where j.status in ('queued','awaiting_retry')
        and j.run_after <= now()
+       -- Зависимая работа ждёт успеха предшественника: анализ попытки не
+       -- имеет смысла, пока не завершено оценивание свободных ответов.
        and (
          j.depends_on_job_id is null
          or exists (
@@ -146,6 +161,7 @@ begin
        )
      order by j.priority asc, j.created_at asc
      limit p_limit
+     -- SKIP LOCKED: несколько воркеров разбирают очередь, не мешая друг другу.
      for update skip locked
   )
   update public.ai_jobs j
@@ -162,6 +178,8 @@ end $$;
 comment on function app.claim_ai_jobs(text, int) is
   'Атомарно захватывает готовые к выполнению задачи очереди.';
 
+-- Возврат зависших задач: воркер мог упасть посреди выполнения.
+-- Повторное применение безопасно благодаря applied_at и уникальным индексам.
 create or replace function app.reclaim_stale_jobs(p_timeout interval default interval '5 minutes')
 returns integer
 language plpgsql security definer set search_path = public, pg_temp as $$
@@ -185,6 +203,10 @@ begin
   return affected;
 end $$;
 
+-- ─── Пробуждение ожидающих запросов ──────────────────────────────────────────
+
+-- Долгий опрос статуса (sleeper request) висит на LISTEN и просыпается
+-- мгновенно, как только работа дошла до конечного состояния.
 create or replace function app.notify_job_terminal() returns trigger
 language plpgsql as $$
 begin

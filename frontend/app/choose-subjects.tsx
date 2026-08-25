@@ -1,3 +1,3 @@
-import { ChooseSubjectsScreen } from "@/app/screens/ChooseSubjectsScreen";
+import { ChooseSubjectsScreen } from "@/screens/ChooseSubjectsScreen";
 
 export default ChooseSubjectsScreen;

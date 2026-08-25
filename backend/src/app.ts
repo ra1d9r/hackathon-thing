@@ -9,12 +9,20 @@ import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod
 
 import { getEnv, type Env } from './env.js';
 import { registerAiJobRoutes } from './modules/ai-jobs/routes.js';
+import { registerAssistantRoutes } from './modules/assistant/routes.js';
 import { registerAttemptRoutes } from './modules/attempts/routes.js';
+import { registerDailyRoutes } from './modules/daily/routes.js';
 import { registerDashboardRoutes } from './modules/dashboard/routes.js';
 import { registerAuthRoutes } from './modules/auth/routes.js';
 import { registerCatalogRoutes } from './modules/catalog/routes.js';
+import { registerChatRoutes } from './modules/chat/routes.js';
+import { registerClassRoutes } from './modules/classes/routes.js';
+import { registerDistributionRoutes } from './modules/distributions/routes.js';
+import { registerMaterialRoutes } from './modules/materials/routes.js';
 import { registerOnboardingRoutes } from './modules/onboarding/routes.js';
+import { registerMockRoutes } from './modules/mocks/routes.js';
 import { registerProfileRoutes } from './modules/profile/routes.js';
+import { registerRoadmapRoutes } from './modules/roadmap/routes.js';
 import { registerSystemRoutes } from './modules/system/routes.js';
 import auth from './plugins/auth.js';
 import database from './plugins/database.js';
@@ -86,6 +94,7 @@ export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyIn
     }),
     bodyLimit: env.BODY_LIMIT_BYTES,
     requestTimeout: env.REQUEST_TIMEOUT_MS,
+
     trustProxy: true,
   });
 
@@ -113,6 +122,14 @@ export async function buildApp(options: BuildAppOptions = {}): Promise<FastifyIn
     await registerAttemptRoutes(instance);
     await registerAiJobRoutes(instance);
     await registerDashboardRoutes(instance);
+    await registerRoadmapRoutes(instance);
+    await registerDailyRoutes(instance);
+    await registerMockRoutes(instance);
+    await registerAssistantRoutes(instance);
+    await registerClassRoutes(instance);
+    await registerMaterialRoutes(instance);
+    await registerDistributionRoutes(instance);
+    await registerChatRoutes(instance);
   });
 
   await app.ready();

@@ -8,6 +8,7 @@ export const predictedScoreSchema = z
     scale: scaleKindSchema,
     value: z.number().min(0),
     confidence: z.number().min(0).max(1),
+    
     breakdown: z
       .array(
         z

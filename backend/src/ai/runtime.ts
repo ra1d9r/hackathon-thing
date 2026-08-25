@@ -3,9 +3,9 @@ import { createModelCaller } from './client.js';
 import { withLimits } from './limits.js';
 import type { ModelCaller } from './types.js';
 
-
 export interface AiRuntime {
   readonly caller: ModelCaller;
+  
   readonly dailyQuota: number;
 }
 

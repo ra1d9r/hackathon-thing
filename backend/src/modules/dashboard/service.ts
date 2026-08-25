@@ -225,6 +225,8 @@ export async function buildDashboard(sql: Sql, user: AuthUser): Promise<Dashboar
        where student_id = ${user.id}
          and status in ('queued','running','awaiting_retry')
     `,
+    
+    
 
   ]);
 
@@ -235,11 +237,15 @@ export async function buildDashboard(sql: Sql, user: AuthUser): Promise<Dashboar
      limit 60
   `;
 
+  
   const candidates: FocusCandidate[] = topics.map((row) => ({
     topicId: row.topic_id,
     priority: Number(row.priority),
     focusFatigue: row.focus_fatigue,
   }));
+
+  
+  
   
   const decidedToday = topics.filter((row) => isoDate(row.last_focus_date) === planDate);
 
@@ -264,6 +270,7 @@ export async function buildDashboard(sql: Sql, user: AuthUser): Promise<Dashboar
       status: masteryStatusSchema.parse(row.status),
     }));
 
+  
   const [latest, previous] = latestScores;
   let predicted: DashboardResponse['predicted_score'] = null;
 
@@ -282,6 +289,9 @@ export async function buildDashboard(sql: Sql, user: AuthUser): Promise<Dashboar
       source: latest.source === 'ai' ? 'ai' : 'baseline',
     };
   } else {
+    
+    
+    
     const context = await loadScoreContext(sql, user.id);
     if (context !== null) {
       const stored = await storePredictedScore(sql, user.id, {

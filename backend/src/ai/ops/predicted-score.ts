@@ -21,11 +21,13 @@ export interface ScoreContext {
   readonly maxScore: number;
   readonly baselineValue: number;
   readonly sections: readonly SectionEstimate[];
+  
   readonly history: readonly { readonly at: string; readonly value: number }[];
   readonly daysLeft: number | null;
 }
 
 export interface ScoreOutcome {
+  
   readonly value: number | null;
   readonly confidence: number | null;
   readonly rationale: string | null;
@@ -38,6 +40,7 @@ export interface ScoreOutcome {
   readonly calls: readonly CallLogEntry[];
   readonly failure: ModelFailureReason | null;
   readonly reason: string | null;
+  
   readonly clamped: boolean;
 }
 
@@ -129,6 +132,7 @@ export async function proposePredictedScore(
     value: applied,
     confidence: outcome.data.confidence,
     rationale: outcome.data.rationale,
+    
     breakdown: outcome.data.breakdown
       .filter((item) => known.has(item.subject_id))
       .map((item) => ({

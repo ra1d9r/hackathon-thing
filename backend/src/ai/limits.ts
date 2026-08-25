@@ -2,6 +2,8 @@ import type { Env } from '../env.js';
 import type { SqlExecutor } from '../db/sql.js';
 import { ModelError, type ModelCaller, type ModelRequest, type ModelResponse } from './types.js';
 
+
+
 class Semaphore {
   private active = 0;
   private readonly waiting: (() => void)[] = [];
@@ -24,6 +26,7 @@ class Semaphore {
   }
 }
 
+
 class TokenBucket {
   private tokens: number;
   private lastRefill = Date.now();
@@ -35,6 +38,7 @@ class TokenBucket {
     this.tokens = capacity;
   }
 
+  
   take(): number {
     const now = Date.now();
     const elapsed = now - this.lastRefill;
@@ -50,6 +54,7 @@ class TokenBucket {
   }
 }
 
+
 export class CircuitBreaker {
   private failures = 0;
   private openedAt: number | null = null;
@@ -59,11 +64,14 @@ export class CircuitBreaker {
     private readonly cooldownMs: number,
   ) {}
 
+  
   allows(): boolean {
     if (this.openedAt === null) {
       return true;
     }
     if (Date.now() - this.openedAt >= this.cooldownMs) {
+      
+      
       this.openedAt = null;
       this.failures = this.threshold - 1;
       return true;
@@ -89,6 +97,7 @@ async function delay(ms: number): Promise<void> {
     setTimeout(resolve, ms).unref();
   });
 }
+
 
 export function withLimits(caller: ModelCaller, env: Env): ModelCaller {
   const semaphore = new Semaphore(env.AI_MAX_CONCURRENCY);
@@ -117,6 +126,8 @@ export function withLimits(caller: ModelCaller, env: Env): ModelCaller {
         breaker.recordSuccess();
         return response;
       } catch (error: unknown) {
+        
+        
         if (!ModelError.is(error) || error.kind !== 'refusal') {
           breaker.recordFailure();
         }
@@ -127,6 +138,7 @@ export function withLimits(caller: ModelCaller, env: Env): ModelCaller {
     },
   };
 }
+
 
 export async function quotaExceeded(
   sql: SqlExecutor,

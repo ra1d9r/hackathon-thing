@@ -17,7 +17,9 @@ import type { AnswerPayload } from '../src/contracts/dto/attempts.js';
 import type { AuthUser } from '../src/types/fastify.js';
 
 
+
 const TEST_EMAIL_PREFIX = 'tlek-e2e-';
+
 
 const FREE_TEXT_ANSWERS: Readonly<Record<string, string>> = {
   'math.free.derivative_sign':
@@ -81,6 +83,7 @@ async function createStudent(sql: Sql): Promise<AuthUser> {
   return asAuth(authUser.id);
 }
 
+
 function answerFor(question: QuestionRow): AnswerPayload | null {
   if (question.kind === 'free_text') {
     const code = question.content_code ?? '';
@@ -102,6 +105,7 @@ function answerFor(question: QuestionRow): AnswerPayload | null {
   }
   return null;
 }
+
 
 function silentLogger(): FastifyBaseLogger {
   const noop = (): void => undefined;
@@ -264,6 +268,7 @@ async function main(): Promise<void> {
       );
     }
 
+    
     const dashboard = await buildDashboard(sql, user);
 
     heading('Экран панели');

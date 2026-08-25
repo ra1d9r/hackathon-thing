@@ -13,6 +13,7 @@ import { jsonValueSchema, stableStringify, type JsonValue } from '../contracts/j
 import type { Sql, SqlExecutor } from '../db/sql.js';
 
 
+
 const MUTATING_METHODS = new Set(['POST', 'PUT', 'PATCH', 'DELETE']);
 
 export const IDEMPOTENCY_HEADER = 'idempotency-key';
@@ -20,6 +21,7 @@ export const REPLAY_HEADER = 'idempotent-replay';
 
 const MIN_KEY_LENGTH = 8;
 const MAX_KEY_LENGTH = 128;
+
 
 export const IDEMPOTENCY_PARAMETER = {
   in: 'header',
@@ -31,11 +33,13 @@ export const IDEMPOTENCY_PARAMETER = {
   schema: { type: 'string', minLength: MIN_KEY_LENGTH, maxLength: MAX_KEY_LENGTH },
 };
 
+
 const PARALLEL_RETRY_AFTER_SEC = 2;
 
 export interface IdempotencyContext {
   readonly key: string;
   readonly route: string;
+  
   complete(tx: SqlExecutor, status: number, body: unknown): Promise<void>;
   readonly settled: boolean;
 }
@@ -109,6 +113,8 @@ class MutableContext implements IdempotencyContext {
     }
     this.settled = true;
 
+    
+    
     await sql`
       delete from public.idempotency_keys
        where user_id = ${this.userId} and route = ${this.route} and key = ${this.key}
@@ -116,6 +122,7 @@ class MutableContext implements IdempotencyContext {
     `;
   }
 }
+
 
 function toSpecPath(url: string): string {
   return url.replace(/:([^/]+)/gu, '{$1}');
@@ -128,6 +135,9 @@ async function idempotencyPlugin(app: FastifyInstance): Promise<void> {
   const hook: preHandlerAsyncHookHandler = async (request, reply) => {
     const user = request.authUser;
 
+    
+    
+    
     if (user === undefined) {
       return;
     }
@@ -160,6 +170,8 @@ async function idempotencyPlugin(app: FastifyInstance): Promise<void> {
     `;
 
     if (stored === undefined) {
+      
+      
       throw new AppError('STATE_CONFLICT', { message: 'Повторите запрос' });
     }
 
@@ -170,6 +182,8 @@ async function idempotencyPlugin(app: FastifyInstance): Promise<void> {
     }
 
     if (stored.status === 'in_progress') {
+      
+      
       void reply.header('retry-after', String(PARALLEL_RETRY_AFTER_SEC));
       throw new AppError('STATE_CONFLICT', {
         message: 'Такой же запрос сейчас выполняется, повторите через пару секунд',
@@ -182,6 +196,7 @@ async function idempotencyPlugin(app: FastifyInstance): Promise<void> {
       .send(stored.response_body);
   };
 
+  
   app.addHook('onRoute', (routeOptions: RouteOptions) => {
     const methods = Array.isArray(routeOptions.method)
       ? routeOptions.method
@@ -202,6 +217,8 @@ async function idempotencyPlugin(app: FastifyInstance): Promise<void> {
           ? [...existing, hook]
           : [existing, hook];
 
+    
+    
     for (const method of methods) {
       if (MUTATING_METHODS.has(method)) {
         protectedRoutes.add(`${method.toLowerCase()} ${toSpecPath(routeOptions.url)}`);
@@ -229,6 +246,7 @@ async function idempotencyPlugin(app: FastifyInstance): Promise<void> {
     return payload;
   });
 }
+
 
 function parsePayload(payload: unknown): JsonValue {
   if (typeof payload !== 'string') {

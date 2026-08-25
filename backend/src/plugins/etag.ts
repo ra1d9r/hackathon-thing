@@ -3,17 +3,23 @@ import { createHash } from 'node:crypto';
 import type { FastifyInstance, FastifyReply } from 'fastify';
 import fp from 'fastify-plugin';
 
+
+
 declare module 'fastify' {
   interface FastifyReply {
+    
     sendCached(payload: unknown, options?: CacheOptions): FastifyReply;
   }
 }
 
 export interface CacheOptions {
+  
   readonly maxAgeSec?: number;
 }
 
+
 const DEFAULT_MAX_AGE_SEC = 30;
+
 
 export function weakEtag(payload: unknown): string {
   const serialized = JSON.stringify(payload, (key, value: unknown) =>
@@ -22,6 +28,7 @@ export function weakEtag(payload: unknown): string {
 
   return `W/"${createHash('sha1').update(serialized).digest('base64url')}"`;
 }
+
 
 function firstHeader(value: string | string[] | undefined): string | undefined {
   if (Array.isArray(value)) {
@@ -35,6 +42,7 @@ function matches(header: string | undefined, etag: string): boolean {
     return false;
   }
 
+  
   return header
     .split(',')
     .map((candidate) => candidate.trim())
@@ -51,9 +59,12 @@ async function etagPlugin(app: FastifyInstance): Promise<void> {
     const maxAge = options.maxAgeSec ?? DEFAULT_MAX_AGE_SEC;
 
     void this.header('etag', etag);
+    
     void this.header('cache-control', `private, max-age=${maxAge}, must-revalidate`);
 
     if (matches(firstHeader(this.request.headers['if-none-match']), etag)) {
+      
+      
       return this.status(304).send();
     }
 

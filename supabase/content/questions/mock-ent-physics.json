@@ -1,0 +1,946 @@
+{
+  "pool": "exam_mock",
+  "exam_code": "ent",
+  "_": "Физика, профильная секция ЕНТ: чертёж требует 40 заданий.",
+  "questions": [
+    {
+      "code": "mock.ent.phys.g7.motion.1",
+      "kind": "numeric",
+      "topic_code": "phys.g7.mehanicheskoe-dvizhenie-i-ego-harakteristiki",
+      "grade": 7,
+      "difficulty": 2,
+      "prompt_md": "Велосипедист проехал 4,5 км за 15 минут. Чему равна его средняя скорость? Ответ дайте в км/ч.",
+      "options": null,
+      "answer_key": {
+        "value": 18,
+        "tolerance": 0
+      },
+      "explanation_md": "15 минут — это 0,25 часа. Скорость: 4,5 / 0,25 = 18 км/ч.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g7.motion.2",
+      "kind": "mcq_single",
+      "topic_code": "phys.g7.mehanicheskoe-dvizhenie-i-ego-harakteristiki",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Пассажир сидит в движущемся поезде. Относительно чего он находится в покое?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Относительно вагона"
+        },
+        {
+          "id": "b",
+          "text_md": "Относительно платформы"
+        },
+        {
+          "id": "c",
+          "text_md": "Относительно столбов вдоль пути"
+        },
+        {
+          "id": "d",
+          "text_md": "Относительно встречного поезда"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Покой и движение относительны: пассажир неподвижен относительно вагона, но движется относительно платформы, столбов и встречного поезда.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g7.mass.1",
+      "kind": "numeric",
+      "topic_code": "phys.g7.massa-i-izmerenie-massy-tela",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Плотность вещества 800 кг/м³, объём тела 0,5 м³. Чему равна масса тела? Ответ дайте в килограммах.",
+      "options": null,
+      "answer_key": {
+        "value": 400,
+        "tolerance": 0
+      },
+      "explanation_md": "m = ρ · V = 800 · 0,5 = 400 кг.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g7.hooke.1",
+      "kind": "numeric",
+      "topic_code": "phys.g7.sila-uprugosti-zakon-guka",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Под действием силы 15 Н пружина растянулась на 6 см. Чему равна её жёсткость? Ответ дайте в Н/м.",
+      "options": null,
+      "answer_key": {
+        "value": 250,
+        "tolerance": 0
+      },
+      "explanation_md": "k = F / x, где x в метрах: 15 / 0,06 = 250 Н/м.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g7.hooke.2",
+      "kind": "mcq_single",
+      "topic_code": "phys.g7.sila-uprugosti-zakon-guka",
+      "grade": 7,
+      "difficulty": 4,
+      "prompt_md": "Как изменится сила упругости, если удлинение пружины увеличить втрое?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Увеличится втрое"
+        },
+        {
+          "id": "b",
+          "text_md": "Уменьшится втрое"
+        },
+        {
+          "id": "c",
+          "text_md": "Увеличится в девять раз"
+        },
+        {
+          "id": "d",
+          "text_md": "Не изменится"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "По закону Гука F = k · x — сила прямо пропорциональна удлинению, поэтому она вырастет ровно втрое.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g7.work.1",
+      "kind": "numeric",
+      "topic_code": "phys.g7.mehanicheskaya-rabota-moschnost",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Двигатель совершает работу 3600 Дж за 30 секунд. Чему равна его мощность? Ответ дайте в ваттах.",
+      "options": null,
+      "answer_key": {
+        "value": 120,
+        "tolerance": 0
+      },
+      "explanation_md": "N = A / t = 3600 / 30 = 120 Вт.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g7.energy.1",
+      "kind": "numeric",
+      "topic_code": "phys.g7.kineticheskaya-i-potencialnaya-energiya",
+      "grade": 7,
+      "difficulty": 4,
+      "prompt_md": "Тело массой 2 кг движется со скоростью 6 м/с. Чему равна его кинетическая энергия? Ответ дайте в джоулях.",
+      "options": null,
+      "answer_key": {
+        "value": 36,
+        "tolerance": 0
+      },
+      "explanation_md": "E = m·v²/2 = 2 · 36 / 2 = 36 Дж.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g7.energy.2",
+      "kind": "mcq_single",
+      "topic_code": "phys.g7.kineticheskaya-i-potencialnaya-energiya",
+      "grade": 7,
+      "difficulty": 4,
+      "prompt_md": "Как изменится кинетическая энергия тела, если его скорость удвоить?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Увеличится вдвое"
+        },
+        {
+          "id": "b",
+          "text_md": "Увеличится вчетверо"
+        },
+        {
+          "id": "c",
+          "text_md": "Не изменится"
+        },
+        {
+          "id": "d",
+          "text_md": "Уменьшится вдвое"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Кинетическая энергия зависит от квадрата скорости, поэтому при удвоении скорости она вырастет в четыре раза.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g8.thermal.1",
+      "kind": "mcq_single",
+      "topic_code": "phys.g8.teplovoe-dvizhenie",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "От чего зависит внутренняя энергия тела?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "От скорости движения тела как целого"
+        },
+        {
+          "id": "b",
+          "text_md": "От температуры и агрегатного состояния"
+        },
+        {
+          "id": "c",
+          "text_md": "От высоты над землёй"
+        },
+        {
+          "id": "d",
+          "text_md": "От формы тела"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Внутренняя энергия складывается из энергии движения и взаимодействия частиц. Движение тела как целого и его положение относятся к механической энергии.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g8.melting.1",
+      "kind": "mcq_single",
+      "topic_code": "phys.g8.plavlenie-i-kristallizaciya-tverdyh-tel",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Кусок льда при 0 °C положили в тёплую комнату. Пока лёд тает, что происходит с его температурой?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Плавно растёт до комнатной"
+        },
+        {
+          "id": "b",
+          "text_md": "Остаётся равной 0 °C"
+        },
+        {
+          "id": "c",
+          "text_md": "Падает ниже нуля"
+        },
+        {
+          "id": "d",
+          "text_md": "Скачком становится комнатной"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Подводимая теплота идёт на разрушение кристаллической решётки, а не на нагрев. Пока не растает последний кусочек льда, температура смеси держится на 0 °C.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g8.melting.2",
+      "kind": "numeric",
+      "topic_code": "phys.g8.plavlenie-i-kristallizaciya-tverdyh-tel",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Удельная теплота плавления льда 340 000 Дж/кг. Сколько энергии нужно, чтобы расплавить 0,2 кг льда при температуре плавления? Ответ дайте в килоджоулях.",
+      "options": null,
+      "answer_key": {
+        "value": 68,
+        "tolerance": 0
+      },
+      "explanation_md": "Q = λ · m = 340 000 · 0,2 = 68 000 Дж = 68 кДж.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g8.thermo.1",
+      "kind": "mcq_single",
+      "topic_code": "phys.g8.pervyy-zakon-termodinamiki",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Газу передали 500 Дж теплоты, и он совершил работу 200 Дж. Как изменилась его внутренняя энергия?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Увеличилась на 300 Дж"
+        },
+        {
+          "id": "b",
+          "text_md": "Увеличилась на 700 Дж"
+        },
+        {
+          "id": "c",
+          "text_md": "Уменьшилась на 300 Дж"
+        },
+        {
+          "id": "d",
+          "text_md": "Не изменилась"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "По первому закону термодинамики ΔU = Q − A = 500 − 200 = 300 Дж.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g8.charge.1",
+      "kind": "mcq_single",
+      "topic_code": "phys.g8.elektricheskiy-zaryad",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Два одинаковых шарика имеют заряды одного знака. Как они будут взаимодействовать?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Притягиваться"
+        },
+        {
+          "id": "b",
+          "text_md": "Отталкиваться"
+        },
+        {
+          "id": "c",
+          "text_md": "Не взаимодействовать"
+        },
+        {
+          "id": "d",
+          "text_md": "Сначала притягиваться, затем отталкиваться"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Одноимённые заряды отталкиваются, разноимённые притягиваются.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g8.current.1",
+      "kind": "numeric",
+      "topic_code": "phys.g8.postoyannyy-elektricheskiy-tok",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "К участку цепи сопротивлением 25 Ом приложено напряжение 100 В. Найдите силу тока в амперах.",
+      "options": null,
+      "answer_key": {
+        "value": 4,
+        "tolerance": 0
+      },
+      "explanation_md": "Закон Ома для участка цепи: I = U / R = 100 / 25 = 4 А.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g8.current.2",
+      "kind": "numeric",
+      "topic_code": "phys.g8.postoyannyy-elektricheskiy-tok",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Два резистора по 6 Ом соединены параллельно. Чему равно общее сопротивление участка? Ответ дайте в омах.",
+      "options": null,
+      "answer_key": {
+        "value": 3,
+        "tolerance": 0
+      },
+      "explanation_md": "При параллельном соединении двух одинаковых резисторов общее сопротивление вдвое меньше: 6 / 2 = 3 Ом.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g8.current.3",
+      "kind": "numeric",
+      "topic_code": "phys.g8.postoyannyy-elektricheskiy-tok",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Через лампу течёт ток 0,5 А при напряжении 220 В. Какую мощность потребляет лампа? Ответ дайте в ваттах.",
+      "options": null,
+      "answer_key": {
+        "value": 110,
+        "tolerance": 0
+      },
+      "explanation_md": "P = U · I = 220 · 0,5 = 110 Вт.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g9.motion.1",
+      "kind": "mcq_single",
+      "topic_code": "phys.g9.mehanicheskoe-dvizhenie",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Тело брошено вертикально вверх. Что происходит с его скоростью в верхней точке траектории?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Она равна нулю"
+        },
+        {
+          "id": "b",
+          "text_md": "Она максимальна"
+        },
+        {
+          "id": "c",
+          "text_md": "Она равна начальной"
+        },
+        {
+          "id": "d",
+          "text_md": "Она направлена вверх"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "В верхней точке тело на мгновение останавливается: скорость обращается в ноль, хотя ускорение свободного падения продолжает действовать.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g9.newton.1",
+      "kind": "mcq_single",
+      "topic_code": "phys.g9.pervyy-zakon-nyutona-inercialnye-sistemy",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Что утверждает первый закон Ньютона?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Тело сохраняет покой или равномерное прямолинейное движение, пока на него не действуют другие тела"
+        },
+        {
+          "id": "b",
+          "text_md": "Сила равна произведению массы на ускорение"
+        },
+        {
+          "id": "c",
+          "text_md": "Действие равно противодействию"
+        },
+        {
+          "id": "d",
+          "text_md": "Импульс замкнутой системы сохраняется"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Первый закон вводит понятие инерциальной системы отсчёта. Второй закон — про F = ma, третий — про действие и противодействие.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g9.impulse.1",
+      "kind": "numeric",
+      "topic_code": "phys.g9.impuls-tela-i-impuls-sily-zakon-sohraneniya",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Тело массой 6 кг движется со скоростью 4 м/с. Чему равен импульс тела? Ответ дайте в кг·м/с.",
+      "options": null,
+      "answer_key": {
+        "value": 24,
+        "tolerance": 0
+      },
+      "explanation_md": "p = m · v = 6 · 4 = 24 кг·м/с.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g9.impulse.2",
+      "kind": "numeric",
+      "topic_code": "phys.g9.impuls-tela-i-impuls-sily-zakon-sohraneniya",
+      "grade": 9,
+      "difficulty": 5,
+      "prompt_md": "Тележка массой 2 кг движется со скоростью 3 м/с и сцепляется с неподвижной тележкой массой 4 кг. С какой скоростью поедет сцепка? Ответ дайте в м/с.",
+      "options": null,
+      "answer_key": {
+        "value": 1,
+        "tolerance": 0
+      },
+      "explanation_md": "Импульс сохраняется: 2 · 3 = (2 + 4) · v, откуда 6 = 6v и v = 1 м/с.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g9.oscillation.1",
+      "kind": "numeric",
+      "topic_code": "phys.g9.kolebatelnoe-dvizhenie",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Маятник совершает 30 колебаний за 60 секунд. Чему равен период колебаний? Ответ дайте в секундах.",
+      "options": null,
+      "answer_key": {
+        "value": 2,
+        "tolerance": 0
+      },
+      "explanation_md": "Период — время одного колебания: T = 60 / 30 = 2 с. Частота при этом равна 0,5 Гц.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g9.stars.1",
+      "kind": "mcq_single",
+      "topic_code": "phys.g9.zvezdnoe-nebo",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Что такое световой год?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Единица расстояния — путь, который свет проходит за год"
+        },
+        {
+          "id": "b",
+          "text_md": "Единица времени"
+        },
+        {
+          "id": "c",
+          "text_md": "Единица яркости звезды"
+        },
+        {
+          "id": "d",
+          "text_md": "Период обращения Земли"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Несмотря на название, световой год измеряет расстояние: около 9,5 · 10^15 метров.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g9.motion.2",
+      "kind": "numeric",
+      "topic_code": "phys.g9.mehanicheskoe-dvizhenie",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Тело свободно падает без начальной скорости. Какой путь оно пройдёт за 3 с? Ускорение свободного падения примите равным 10 м/с². Ответ дайте в метрах.",
+      "options": null,
+      "answer_key": {
+        "value": 45,
+        "tolerance": 0
+      },
+      "explanation_md": "h = g·t²/2 = 10 · 9 / 2 = 45 м.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g10.kinematics.1",
+      "kind": "numeric",
+      "topic_code": "phys.g10.osnovnye-ponyatiya-i-uravneniya-kinematiki",
+      "grade": 10,
+      "difficulty": 3,
+      "prompt_md": "Автомобиль разгоняется из состояния покоя с ускорением 3 м/с². Какую скорость он наберёт через 8 с? Ответ дайте в м/с.",
+      "options": null,
+      "answer_key": {
+        "value": 24,
+        "tolerance": 0
+      },
+      "explanation_md": "v = a · t = 3 · 8 = 24 м/с.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g10.kinematics.2",
+      "kind": "numeric",
+      "topic_code": "phys.g10.osnovnye-ponyatiya-i-uravneniya-kinematiki",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Тело начинает движение из состояния покоя с ускорением 2 м/с². Какой путь оно пройдёт за 5 с? Ответ дайте в метрах.",
+      "options": null,
+      "answer_key": {
+        "value": 25,
+        "tolerance": 0
+      },
+      "explanation_md": "s = a·t²/2 = 2 · 25 / 2 = 25 м.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g10.kinematics.3",
+      "kind": "numeric",
+      "topic_code": "phys.g10.osnovnye-ponyatiya-i-uravneniya-kinematiki",
+      "grade": 10,
+      "difficulty": 5,
+      "prompt_md": "Автомобиль, двигавшийся со скоростью 20 м/с, тормозит с ускорением 4 м/с². Какой тормозной путь он пройдёт до полной остановки? Ответ дайте в метрах.",
+      "options": null,
+      "answer_key": {
+        "value": 50,
+        "tolerance": 0
+      },
+      "explanation_md": "s = v²/(2a) = 400 / 8 = 50 м.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g10.newton.1",
+      "kind": "numeric",
+      "topic_code": "phys.g10.pervyy-zakon-nyutona-inercialnye-sistemy",
+      "grade": 10,
+      "difficulty": 3,
+      "prompt_md": "На тело массой 5 кг действует равнодействующая сила 20 Н. Чему равно ускорение тела? Ответ дайте в м/с².",
+      "options": null,
+      "answer_key": {
+        "value": 4,
+        "tolerance": 0
+      },
+      "explanation_md": "По второму закону Ньютона a = F / m = 20 / 5 = 4 м/с².",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g10.equilibrium.1",
+      "kind": "numeric",
+      "topic_code": "phys.g10.ravnovesie-tel-uslovie-ravnovesiya-tel-centr",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "На левом плече рычага длиной 0,4 м действует сила 30 Н. Какую силу нужно приложить к правому плечу длиной 0,6 м для равновесия? Ответ дайте в ньютонах.",
+      "options": null,
+      "answer_key": {
+        "value": 20,
+        "tolerance": 0
+      },
+      "explanation_md": "Условие равновесия рычага: моменты равны. 30 · 0,4 = F · 0,6, откуда F = 12 / 0,6 = 20 Н.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g10.impulse.1",
+      "kind": "numeric",
+      "topic_code": "phys.g10.impuls-tela-i-impuls-sily-zakon-sohraneniya",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Сила 50 Н действует на тело в течение 0,4 с. Чему равен импульс силы? Ответ дайте в Н·с.",
+      "options": null,
+      "answer_key": {
+        "value": 20,
+        "tolerance": 0
+      },
+      "explanation_md": "Импульс силы равен произведению силы на время: 50 · 0,4 = 20 Н·с. Он равен изменению импульса тела.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g10.internal.1",
+      "kind": "mcq_single",
+      "topic_code": "phys.g10.vnutrennyaya-energiya",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Идеальный газ изобарно нагревают, то есть при постоянном давлении. Что происходит с его внутренней энергией?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Растёт"
+        },
+        {
+          "id": "b",
+          "text_md": "Падает"
+        },
+        {
+          "id": "c",
+          "text_md": "Не меняется"
+        },
+        {
+          "id": "d",
+          "text_md": "Зависит от объёма сосуда"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Внутренняя энергия идеального газа определяется температурой. При изобарном нагреве температура растёт, значит растёт и внутренняя энергия — часть подведённой теплоты при этом уходит на работу расширения.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g10.internal.2",
+      "kind": "mcq_single",
+      "topic_code": "phys.g10.vnutrennyaya-energiya",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Газ адиабатно сжимают, то есть без теплообмена с окружающей средой. Что происходит с его температурой?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Растёт"
+        },
+        {
+          "id": "b",
+          "text_md": "Падает"
+        },
+        {
+          "id": "c",
+          "text_md": "Не меняется"
+        },
+        {
+          "id": "d",
+          "text_md": "Сначала падает, потом растёт"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "При адиабатном процессе Q = 0, и работа внешних сил идёт целиком на прирост внутренней энергии: ΔU = −A. Газ нагревается.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g11.oscillation.1",
+      "kind": "mcq_single",
+      "topic_code": "phys.g11.mehanicheskie-kolebaniya",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Как изменится период математического маятника, если его длину увеличить в 4 раза?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Увеличится в 2 раза"
+        },
+        {
+          "id": "b",
+          "text_md": "Увеличится в 4 раза"
+        },
+        {
+          "id": "c",
+          "text_md": "Уменьшится в 2 раза"
+        },
+        {
+          "id": "d",
+          "text_md": "Не изменится"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "T = 2·pi·sqrt(L/g). Период зависит от корня из длины, поэтому при увеличении длины вчетверо он вырастет вдвое.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g11.oscillation.2",
+      "kind": "mcq_single",
+      "topic_code": "phys.g11.mehanicheskie-kolebaniya",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "От чего НЕ зависит период колебаний математического маятника при малых амплитудах?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "От длины нити"
+        },
+        {
+          "id": "b",
+          "text_md": "От ускорения свободного падения"
+        },
+        {
+          "id": "c",
+          "text_md": "От массы груза"
+        },
+        {
+          "id": "d",
+          "text_md": "От места, где проводится опыт"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "В формулу T = 2·pi·sqrt(L/g) масса не входит. От места опыт зависит через g: на разных широтах оно немного различается.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g11.emosc.1",
+      "kind": "mcq_single",
+      "topic_code": "phys.g11.elektromagnitnye-kolebaniya",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Из чего состоит идеальный колебательный контур?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Из конденсатора и катушки индуктивности"
+        },
+        {
+          "id": "b",
+          "text_md": "Из резистора и источника тока"
+        },
+        {
+          "id": "c",
+          "text_md": "Из двух конденсаторов"
+        },
+        {
+          "id": "d",
+          "text_md": "Из катушки и лампы"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Энергия колеблется между электрическим полем конденсатора и магнитным полем катушки. В идеальном контуре сопротивление равно нулю, поэтому колебания незатухающие.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g11.ac.1",
+      "kind": "numeric",
+      "topic_code": "phys.g11.peremennyy-tok",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Амплитудное значение переменного тока равно 4,24 А. Чему примерно равно его действующее значение? Ответ дайте в амперах.",
+      "options": null,
+      "answer_key": {
+        "value": 3,
+        "tolerance": 0.05
+      },
+      "explanation_md": "Действующее значение меньше амплитудного в sqrt(2) раз: 4,24 / 1,41 ≈ 3 А. Именно действующее значение показывают амперметры.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g11.ac.2",
+      "kind": "numeric",
+      "topic_code": "phys.g11.peremennyy-tok",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Частота переменного тока в бытовой сети 50 Гц. Чему равен период колебаний? Ответ дайте в секундах.",
+      "options": null,
+      "answer_key": {
+        "value": 0.02,
+        "tolerance": 0.001
+      },
+      "explanation_md": "T = 1 / f = 1 / 50 = 0,02 с.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g11.wave.1",
+      "kind": "numeric",
+      "topic_code": "phys.g11.volnovoe-dvizhenie",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Волна распространяется со скоростью 340 м/с при частоте 170 Гц. Чему равна длина волны? Ответ дайте в метрах.",
+      "options": null,
+      "answer_key": {
+        "value": 2,
+        "tolerance": 0
+      },
+      "explanation_md": "λ = v / f = 340 / 170 = 2 м.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g11.wave.2",
+      "kind": "mcq_single",
+      "topic_code": "phys.g11.volnovoe-dvizhenie",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Что переносит бегущая волна?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Вещество"
+        },
+        {
+          "id": "b",
+          "text_md": "Энергию"
+        },
+        {
+          "id": "c",
+          "text_md": "Массу"
+        },
+        {
+          "id": "d",
+          "text_md": "Заряд"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Частицы среды колеблются около своих положений и вместе с волной не перемещаются. Переносится именно энергия колебаний.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g11.emwave.1",
+      "kind": "mcq_single",
+      "topic_code": "phys.g11.elektromagnitnye-volny",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Чему равна скорость электромагнитных волн в вакууме?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Около 3 · 10^8 м/с"
+        },
+        {
+          "id": "b",
+          "text_md": "340 м/с"
+        },
+        {
+          "id": "c",
+          "text_md": "Около 3 · 10^5 м/с"
+        },
+        {
+          "id": "d",
+          "text_md": "Зависит от частоты"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "В вакууме все электромагнитные волны движутся со скоростью света — примерно 3 · 10^8 м/с, независимо от частоты. 340 м/с — скорость звука в воздухе.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g11.emwave.2",
+      "kind": "mcq_single",
+      "topic_code": "phys.g11.elektromagnitnye-volny",
+      "grade": 11,
+      "difficulty": 5,
+      "prompt_md": "Какое излучение имеет наибольшую длину волны?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Радиоволны"
+        },
+        {
+          "id": "b",
+          "text_md": "Видимый свет"
+        },
+        {
+          "id": "c",
+          "text_md": "Рентгеновское излучение"
+        },
+        {
+          "id": "d",
+          "text_md": "Гамма-излучение"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "В шкале электромагнитных волн радиоволны занимают край с наибольшей длиной и наименьшей частотой. Гамма-излучение — противоположный край.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.phys.g8.charge.2",
+      "kind": "numeric",
+      "topic_code": "phys.g8.elektricheskiy-zaryad",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Через поперечное сечение проводника за 20 с прошёл заряд 10 Кл. Чему равна сила тока? Ответ дайте в амперах.",
+      "options": null,
+      "answer_key": {
+        "value": 0.5,
+        "tolerance": 0.01
+      },
+      "explanation_md": "I = q / t = 10 / 20 = 0,5 А.",
+      "points": 1
+    }
+  ]
+}

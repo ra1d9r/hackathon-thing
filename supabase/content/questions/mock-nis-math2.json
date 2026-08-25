@@ -1,0 +1,379 @@
+{
+  "pool": "exam_mock",
+  "exam_code": "nis",
+  "_": "Математика НИШ, вторая часть банка. Вместе с mock-nis-math.json даёт 40 заданий чертежа.",
+  "questions": [
+    {
+      "code": "mock.nis.math2.natural.1",
+      "kind": "numeric",
+      "topic_code": "math.g5.zapis-naturalnyh-chisel",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Сколько всего трёхзначных чисел?",
+      "options": null,
+      "answer_key": {
+        "value": 900,
+        "tolerance": 0
+      },
+      "explanation_md": "Трёхзначные числа — от 100 до 999. Их 999 − 100 + 1 = 900.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.natural.2",
+      "kind": "numeric",
+      "topic_code": "math.g5.zapis-naturalnyh-chisel",
+      "grade": 5,
+      "difficulty": 4,
+      "prompt_md": "В записи числа 4*7 звёздочка заменяет одну цифру. Какую цифру нужно поставить, чтобы число делилось на 9?",
+      "options": null,
+      "answer_key": {
+        "value": 7,
+        "tolerance": 0
+      },
+      "explanation_md": "Число делится на 9, если сумма его цифр кратна 9. Сумма равна 4 + x + 7 = 11 + x. При x от 0 до 9 сумма меняется от 11 до 20, и единственное кратное девяти в этом промежутке — 18. Значит x = 7.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.natural.3",
+      "kind": "numeric",
+      "topic_code": "math.g5.zapis-naturalnyh-chisel",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Округлите число 34 682 до тысяч.",
+      "options": null,
+      "answer_key": {
+        "value": 35000,
+        "tolerance": 0
+      },
+      "explanation_md": "Смотрим на цифру сотен — это 6, она больше пяти, поэтому разряд тысяч увеличиваем: 35 000.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.divisors.1",
+      "kind": "numeric",
+      "topic_code": "math.g5.deliteli-i-kratnye-naturalnyh-chisel-prostye-i",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Сколько всего делителей у числа 18?",
+      "options": null,
+      "answer_key": {
+        "value": 6,
+        "tolerance": 0
+      },
+      "explanation_md": "Делители: 1, 2, 3, 6, 9, 18 — шесть штук.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.divisors.2",
+      "kind": "mcq_single",
+      "topic_code": "math.g5.deliteli-i-kratnye-naturalnyh-chisel-prostye-i",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Какое из чисел простое?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "91"
+        },
+        {
+          "id": "b",
+          "text_md": "87"
+        },
+        {
+          "id": "c",
+          "text_md": "89"
+        },
+        {
+          "id": "d",
+          "text_md": "93"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "89 делится только на 1 и на себя. Остальные составные: 91 = 7 · 13, 87 = 3 · 29, 93 = 3 · 31.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.divisors.3",
+      "kind": "numeric",
+      "topic_code": "math.g5.deliteli-i-kratnye-naturalnyh-chisel-prostye-i",
+      "grade": 5,
+      "difficulty": 4,
+      "prompt_md": "Найдите наименьшее общее кратное чисел 8 и 14.",
+      "options": null,
+      "answer_key": {
+        "value": 56,
+        "tolerance": 0
+      },
+      "explanation_md": "8 = 2³, 14 = 2 · 7. Берём каждый множитель в наибольшей степени: 2³ · 7 = 56.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.frac.1",
+      "kind": "numeric",
+      "topic_code": "math.g5.obyknovennaya-drob-chtenie-i-zapis-obyknovennyh",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Сократите дробь 24/36. В ответ запишите числитель полученной несократимой дроби.",
+      "options": null,
+      "answer_key": {
+        "value": 2,
+        "tolerance": 0
+      },
+      "explanation_md": "НОД(24, 36) = 12, значит 24/36 = 2/3. Числитель равен 2.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.frac.2",
+      "kind": "numeric",
+      "topic_code": "math.g5.privedenie-obyknovennyh-drobey-k-obschemu",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Вычислите 3/4 + 5/6 и запишите ответ десятичной дробью.",
+      "options": null,
+      "answer_key": {
+        "value": 1.583,
+        "tolerance": 0.01
+      },
+      "explanation_md": "Общий знаменатель 12: 9/12 + 10/12 = 19/12 ≈ 1,583.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.frac.3",
+      "kind": "mcq_single",
+      "topic_code": "math.g5.pravilnye-i-nepravilnye-obyknovennye-drobi",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Какое из чисел равно 17/5?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "3 2/5"
+        },
+        {
+          "id": "b",
+          "text_md": "3 1/5"
+        },
+        {
+          "id": "c",
+          "text_md": "2 7/5"
+        },
+        {
+          "id": "d",
+          "text_md": "4 2/5"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "17 : 5 = 3 и остаток 2, значит 17/5 = 3 2/5.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.frac.4",
+      "kind": "numeric",
+      "topic_code": "math.g5.pravilnye-i-nepravilnye-obyknovennye-drobi",
+      "grade": 5,
+      "difficulty": 4,
+      "prompt_md": "От куска ленты длиной 12 м отрезали 2/3. Сколько метров осталось?",
+      "options": null,
+      "answer_key": {
+        "value": 4,
+        "tolerance": 0
+      },
+      "explanation_md": "Отрезали 12 · 2/3 = 8 м, осталось 12 − 8 = 4 м.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.percent.1",
+      "kind": "numeric",
+      "topic_code": "math.g6.otnoshenie-dvuh-chisel-procentnoe-otnoshenie",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Вклад 50 000 тенге положили под 8 % годовых. Сколько тенге будет на счету через год?",
+      "options": null,
+      "answer_key": {
+        "value": 54000,
+        "tolerance": 0
+      },
+      "explanation_md": "Проценты за год: 50 000 · 0,08 = 4000 тенге. Итого 50 000 + 4000 = 54 000 тенге.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.percent.2",
+      "kind": "numeric",
+      "topic_code": "math.g6.otnoshenie-dvuh-chisel-procentnoe-otnoshenie",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Отношение числа мальчиков к числу девочек в классе равно 3 : 2, всего 25 учеников. Сколько в классе девочек?",
+      "options": null,
+      "answer_key": {
+        "value": 10,
+        "tolerance": 0
+      },
+      "explanation_md": "Всего долей 3 + 2 = 5, одна доля равна 25 : 5 = 5 учеников. Девочек две доли: 2 · 5 = 10.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.negative.1",
+      "kind": "numeric",
+      "topic_code": "math.g6.polozhitelnye-chisla-otricatelnye-chisla",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Чему равен модуль числа −14,5?",
+      "options": null,
+      "answer_key": {
+        "value": 14.5,
+        "tolerance": 0.01
+      },
+      "explanation_md": "Модуль — расстояние от нуля, оно неотрицательно: |−14,5| = 14,5.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.negative.2",
+      "kind": "numeric",
+      "topic_code": "math.g6.polozhitelnye-chisla-otricatelnye-chisla",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Вычислите: −5 − (−13) + (−4).",
+      "options": null,
+      "answer_key": {
+        "value": 4,
+        "tolerance": 0
+      },
+      "explanation_md": "−5 + 13 = 8; затем 8 − 4 = 4. Вычитание отрицательного равносильно прибавлению положительного.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.multiply.1",
+      "kind": "numeric",
+      "topic_code": "math.g6.umnozhenie-racionalnyh-chisel",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Вычислите: (−36) : (−4) : 3.",
+      "options": null,
+      "answer_key": {
+        "value": 3,
+        "tolerance": 0
+      },
+      "explanation_md": "(−36) : (−4) = 9; далее 9 : 3 = 3.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.multiply.2",
+      "kind": "numeric",
+      "topic_code": "math.g6.umnozhenie-racionalnyh-chisel",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Вычислите: 0,25 · (−8) + 3.",
+      "options": null,
+      "answer_key": {
+        "value": 1,
+        "tolerance": 0
+      },
+      "explanation_md": "0,25 · (−8) = −2; затем −2 + 3 = 1.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.compare.1",
+      "kind": "mcq_single",
+      "topic_code": "math.g6.sravnenie-racionalnyh-chisel",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Какое из чисел наибольшее?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "0,45"
+        },
+        {
+          "id": "b",
+          "text_md": "1/2"
+        },
+        {
+          "id": "c",
+          "text_md": "0,405"
+        },
+        {
+          "id": "d",
+          "text_md": "2/5"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Переведём в десятичные: 1/2 = 0,5, а 2/5 = 0,4. Наибольшее — 0,5, то есть 1/2.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.compare.2",
+      "kind": "mcq_single",
+      "topic_code": "math.g6.sravnenie-racionalnyh-chisel",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Между какими целыми числами расположено число −7/2?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Между −4 и −3"
+        },
+        {
+          "id": "b",
+          "text_md": "Между −3 и −2"
+        },
+        {
+          "id": "c",
+          "text_md": "Между 3 и 4"
+        },
+        {
+          "id": "d",
+          "text_md": "Между −8 и −7"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "−7/2 = −3,5, а это число лежит между −4 и −3.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.variable.1",
+      "kind": "numeric",
+      "topic_code": "math.g6.peremennaya",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Упростите выражение 5a + 3b − 2a + 4b и найдите его значение при a = 2 и b = 3.",
+      "options": null,
+      "answer_key": {
+        "value": 27,
+        "tolerance": 0
+      },
+      "explanation_md": "Приводим подобные: 3a + 7b. При a = 2 и b = 3 получаем 6 + 21 = 27.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.math2.variable.2",
+      "kind": "numeric",
+      "topic_code": "math.g6.peremennaya",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Задумали число, умножили его на 4 и вычли 7. Получилось 25. Какое число задумали?",
+      "options": null,
+      "answer_key": {
+        "value": 8,
+        "tolerance": 0
+      },
+      "explanation_md": "4x − 7 = 25, значит 4x = 32 и x = 8.",
+      "points": 1
+    }
+  ]
+}

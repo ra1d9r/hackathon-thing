@@ -1,0 +1,1273 @@
+{
+  "pool": "exam_mock",
+  "exam_code": "ent",
+  "_": "Биология, профильная секция ЕНТ: чертёж требует 40 заданий.",
+  "questions": [
+    {
+      "code": "mock.ent.bio.g7.ecology.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g7.ekologicheskie-faktory-sred-abioticheskie",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Какой фактор относится к абиотическим?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Температура воздуха"
+        },
+        {
+          "id": "b",
+          "text_md": "Хищничество"
+        },
+        {
+          "id": "c",
+          "text_md": "Вырубка леса человеком"
+        },
+        {
+          "id": "d",
+          "text_md": "Конкуренция между растениями"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Абиотические факторы — воздействие неживой природы: температура, свет, влажность. Хищничество и конкуренция биотические, вырубка — антропогенный фактор.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g7.ecology.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g7.ekologicheskie-faktory-sred-abioticheskie",
+      "grade": 7,
+      "difficulty": 4,
+      "prompt_md": "Что произойдёт с популяцией зайцев, если численность волков в экосистеме резко упадёт?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Сначала вырастет, затем упадёт из-за нехватки корма"
+        },
+        {
+          "id": "b",
+          "text_md": "Немедленно исчезнет"
+        },
+        {
+          "id": "c",
+          "text_md": "Не изменится"
+        },
+        {
+          "id": "d",
+          "text_md": "Будет расти бесконечно"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Без давления хищника численность жертв растёт, но упирается в ёмкость среды: кормовая база истощается, и численность падает. Бесконечный рост в природе невозможен.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g7.kingdoms.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g7.obschaya-harakteristika-pyati-carstv-zhivyh",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "К какому царству относятся организмы, не имеющие оформленного ядра?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Растения"
+        },
+        {
+          "id": "b",
+          "text_md": "Бактерии"
+        },
+        {
+          "id": "c",
+          "text_md": "Грибы"
+        },
+        {
+          "id": "d",
+          "text_md": "Животные"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Бактерии — прокариоты: их наследственный материал лежит в цитоплазме, ядерной оболочки нет. Остальные три царства образованы эукариотами.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g7.transport.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g7.transport-pitatelnyh-veschestv-dlya",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "По каким сосудам растения проводят воду с минеральными веществами от корня к листьям?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "По сосудам ксилемы"
+        },
+        {
+          "id": "b",
+          "text_md": "По ситовидным трубкам флоэмы"
+        },
+        {
+          "id": "c",
+          "text_md": "По устьицам"
+        },
+        {
+          "id": "d",
+          "text_md": "По корневым волоскам"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Восходящий ток идёт по ксилеме, нисходящий ток органических веществ — по флоэме.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g7.nervous.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g7.sravnenie-tipov-nervnoy-sistemy-zhivotnyh",
+      "grade": 7,
+      "difficulty": 4,
+      "prompt_md": "Какой тип нервной системы характерен для кишечнополостных, например гидры?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Диффузная (сетчатая)"
+        },
+        {
+          "id": "b",
+          "text_md": "Узловая"
+        },
+        {
+          "id": "c",
+          "text_md": "Трубчатая"
+        },
+        {
+          "id": "d",
+          "text_md": "Нервная система отсутствует"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "У гидры нервные клетки образуют сеть по всему телу. Узловая система у червей и членистоногих, трубчатая — у хордовых.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g7.reproduction.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g7.bespoloe-i-polovoe-razmnozhenie-rasteniy",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Какое преимущество даёт половое размножение по сравнению с бесполым?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Комбинативная изменчивость потомства"
+        },
+        {
+          "id": "b",
+          "text_md": "Полная идентичность потомков родителю"
+        },
+        {
+          "id": "c",
+          "text_md": "Большая скорость размножения"
+        },
+        {
+          "id": "d",
+          "text_md": "Независимость от условий среды"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "При половом размножении потомки получают новые сочетания признаков, что повышает шансы популяции при изменении условий. Бесполое размножение быстрее, но даёт копии.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g7.reproduction.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g7.bespoloe-i-polovoe-razmnozhenie-rasteniy",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Какой способ размножения растений является вегетативным?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Размножение черенками"
+        },
+        {
+          "id": "b",
+          "text_md": "Размножение семенами"
+        },
+        {
+          "id": "c",
+          "text_md": "Опыление насекомыми"
+        },
+        {
+          "id": "d",
+          "text_md": "Двойное оплодотворение"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Вегетативное размножение идёт частями тела растения: черенками, усами, клубнями. Семена, опыление и двойное оплодотворение относятся к половому размножению.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g7.kingdoms.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g7.obschaya-harakteristika-pyati-carstv-zhivyh",
+      "grade": 7,
+      "difficulty": 4,
+      "prompt_md": "Какой признак объединяет грибы с животными?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Гетеротрофное питание"
+        },
+        {
+          "id": "b",
+          "text_md": "Наличие хлорофилла"
+        },
+        {
+          "id": "c",
+          "text_md": "Способность к фотосинтезу"
+        },
+        {
+          "id": "d",
+          "text_md": "Клеточная стенка из целлюлозы"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Грибы, как и животные, питаются готовыми органическими веществами. При этом клеточная стенка у грибов из хитина, а не из целлюлозы, как у растений.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g8.cell.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g8.stroenie-kletok-prokariot-i-eukariot",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Какой органоид отсутствует в клетке прокариот?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Рибосома"
+        },
+        {
+          "id": "b",
+          "text_md": "Митохондрия"
+        },
+        {
+          "id": "c",
+          "text_md": "Клеточная мембрана"
+        },
+        {
+          "id": "d",
+          "text_md": "Цитоплазма"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "У прокариот нет мембранных органоидов — митохондрий, ядра, аппарата Гольджи. Рибосомы, мембрана и цитоплазма есть у всех клеток.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g8.organic.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g8.organicheskie-veschestva-kletki-polimery-i",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Что является мономером белка?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Глюкоза"
+        },
+        {
+          "id": "b",
+          "text_md": "Аминокислота"
+        },
+        {
+          "id": "c",
+          "text_md": "Нуклеотид"
+        },
+        {
+          "id": "d",
+          "text_md": "Глицерин"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Белки — полимеры из аминокислот. Глюкоза мономер полисахаридов, нуклеотид — нуклеиновых кислот.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g8.organic.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g8.organicheskie-veschestva-kletki-polimery-i",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Какое вещество служит основным запасным углеводом животной клетки?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Крахмал"
+        },
+        {
+          "id": "b",
+          "text_md": "Гликоген"
+        },
+        {
+          "id": "c",
+          "text_md": "Целлюлоза"
+        },
+        {
+          "id": "d",
+          "text_md": "Хитин"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Гликоген запасается в печени и мышцах. Крахмал — запасной углевод растений, целлюлоза и хитин выполняют опорную функцию.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g8.digestion.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g8.pischevaritelnaya-sistema-zhivotnyh",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "В каком отделе пищеварительной системы человека происходит основное всасывание питательных веществ?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "В желудке"
+        },
+        {
+          "id": "b",
+          "text_md": "В тонком кишечнике"
+        },
+        {
+          "id": "c",
+          "text_md": "В толстом кишечнике"
+        },
+        {
+          "id": "d",
+          "text_md": "В пищеводе"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Ворсинки тонкого кишечника многократно увеличивают площадь всасывания. В толстом кишечнике всасывается главным образом вода.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g8.blood.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g8.sostav-i-funkcii-krovi",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Какую функцию выполняют тромбоциты?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Переносят кислород"
+        },
+        {
+          "id": "b",
+          "text_md": "Участвуют в свёртывании крови"
+        },
+        {
+          "id": "c",
+          "text_md": "Уничтожают бактерии"
+        },
+        {
+          "id": "d",
+          "text_md": "Вырабатывают антитела"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Тромбоциты обеспечивают образование сгустка при повреждении сосуда. Кислород переносят эритроциты, защиту обеспечивают лейкоциты.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g8.blood.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g8.sostav-i-funkcii-krovi",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Почему эритроциты человека особенно эффективны в переносе кислорода?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Они лишены ядра и имеют форму двояковогнутого диска"
+        },
+        {
+          "id": "b",
+          "text_md": "Они крупнее прочих клеток крови"
+        },
+        {
+          "id": "c",
+          "text_md": "Они способны делиться в кровотоке"
+        },
+        {
+          "id": "d",
+          "text_md": "Они вырабатывают антитела"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Отсутствие ядра освобождает место для гемоглобина, а форма диска увеличивает площадь поверхности при малом объёме.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g8.gas.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g8.gazoobmen",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "За счёт чего кислород переходит из альвеол в кровь?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "За счёт диффузии по градиенту концентрации"
+        },
+        {
+          "id": "b",
+          "text_md": "За счёт активного транспорта с затратой АТФ"
+        },
+        {
+          "id": "c",
+          "text_md": "За счёт работы мышц"
+        },
+        {
+          "id": "d",
+          "text_md": "За счёт осмоса"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "В альвеолах концентрация кислорода выше, чем в крови, и он переходит пассивно — по градиенту, без затрат энергии.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g9.respiration.1",
+      "kind": "numeric",
+      "topic_code": "bio.g9.anaerobnoe-i-aerobnoe-dyhanie",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Сколько молекул АТФ образуется при полном аэробном окислении одной молекулы глюкозы? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 38,
+        "tolerance": 0
+      },
+      "explanation_md": "По школьной схеме полное окисление даёт 38 молекул АТФ: 2 при гликолизе и 36 в митохондриях. Анаэробный путь даёт всего 2.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g9.respiration.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g9.anaerobnoe-i-aerobnoe-dyhanie",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Какое вещество накапливается в мышцах человека при недостатке кислорода?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Молочная кислота"
+        },
+        {
+          "id": "b",
+          "text_md": "Этиловый спирт"
+        },
+        {
+          "id": "c",
+          "text_md": "Углекислый газ"
+        },
+        {
+          "id": "d",
+          "text_md": "Крахмал"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "У человека анаэробный распад глюкозы идёт до молочной кислоты. Спиртовое брожение характерно для дрожжей.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g9.nephron.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g9.stroenie-i-funkcii-nefrona",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Где в нефроне образуется первичная моча?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "В капсуле почечного клубочка"
+        },
+        {
+          "id": "b",
+          "text_md": "В собирательной трубочке"
+        },
+        {
+          "id": "c",
+          "text_md": "В мочевом пузыре"
+        },
+        {
+          "id": "d",
+          "text_md": "В петле Генле"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Первичная моча образуется фильтрацией плазмы в капсуле клубочка. Дальше по канальцам идёт обратное всасывание, и получается вторичная моча.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g9.neuron.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g9.tipy-i-funkcii-neyronov-sinapsy-i-mediatory",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Как передаётся сигнал через химический синапс?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Медиатором через синаптическую щель"
+        },
+        {
+          "id": "b",
+          "text_md": "Прямым электрическим контактом"
+        },
+        {
+          "id": "c",
+          "text_md": "По кровеносным сосудам"
+        },
+        {
+          "id": "d",
+          "text_md": "Через межклеточное вещество кости"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "В окончании аксона выделяется медиатор, он проходит щель и связывается с рецепторами следующей клетки. Поэтому передача идёт только в одну сторону.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g9.interphase.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g9.interfaza-i-ee-stadii",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Что происходит в S-периоде интерфазы?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Удвоение ДНК"
+        },
+        {
+          "id": "b",
+          "text_md": "Расхождение хромосом"
+        },
+        {
+          "id": "c",
+          "text_md": "Деление цитоплазмы"
+        },
+        {
+          "id": "d",
+          "text_md": "Образование веретена деления"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "S-период (синтетический) — время репликации ДНК. Расхождение хромосом и деление цитоплазмы относятся уже к самому митозу.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g9.biotech.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g9.obschaya-shema-biotehnologicheskogo",
+      "grade": 9,
+      "difficulty": 4,
+      "prompt_md": "Что является продуцентом в биотехнологическом производстве?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Организм, синтезирующий нужное вещество"
+        },
+        {
+          "id": "b",
+          "text_md": "Готовый продукт"
+        },
+        {
+          "id": "c",
+          "text_md": "Питательная среда"
+        },
+        {
+          "id": "d",
+          "text_md": "Оборудование ферментёра"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Продуцент — живой организм (бактерия, дрожжи, культура клеток), который и производит целевое вещество: антибиотик, фермент, витамин.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g9.nephron.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g9.stroenie-i-funkcii-nefrona",
+      "grade": 9,
+      "difficulty": 5,
+      "prompt_md": "Обнаружение белка в моче здорового человека невозможно. Почему?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Молекулы белка слишком велики, чтобы пройти фильтр клубочка"
+        },
+        {
+          "id": "b",
+          "text_md": "Белок полностью разрушается в почке"
+        },
+        {
+          "id": "c",
+          "text_md": "Белок не содержится в крови"
+        },
+        {
+          "id": "d",
+          "text_md": "Белок выводится через кожу"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Фильтрационный барьер пропускает воду, соли, глюкозу и мочевину, но задерживает крупные молекулы белка и клетки крови. Белок в моче — признак повреждения фильтра.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g10.water.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g10.znachenie-vody-dlya-zhizni-na-zemle",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Какое свойство воды делает её универсальным растворителем в клетке?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Полярность молекулы"
+        },
+        {
+          "id": "b",
+          "text_md": "Низкая теплоёмкость"
+        },
+        {
+          "id": "c",
+          "text_md": "Отсутствие водородных связей"
+        },
+        {
+          "id": "d",
+          "text_md": "Большая молярная масса"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Полярные молекулы воды окружают ионы и полярные вещества, разъединяя их. Теплоёмкость воды, наоборот, высокая.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g10.organelles.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g10.osobennosti-stroeniya-i-funkciy-organoidov-v",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Какой органоид называют «энергетической станцией» клетки?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Митохондрия"
+        },
+        {
+          "id": "b",
+          "text_md": "Лизосома"
+        },
+        {
+          "id": "c",
+          "text_md": "Аппарат Гольджи"
+        },
+        {
+          "id": "d",
+          "text_md": "Ядрышко"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "В митохондриях идёт кислородный этап дыхания и синтезируется основная часть АТФ клетки.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g10.organelles.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g10.osobennosti-stroeniya-i-funkciy-organoidov-v",
+      "grade": 10,
+      "difficulty": 5,
+      "prompt_md": "Почему митохондрии и хлоропласты имеют собственную ДНК?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "По симбиотической гипотезе они произошли от древних бактерий"
+        },
+        {
+          "id": "b",
+          "text_md": "Их ДНК попадает из ядра при делении"
+        },
+        {
+          "id": "c",
+          "text_md": "Это ошибка репликации"
+        },
+        {
+          "id": "d",
+          "text_md": "Собственной ДНК у них нет"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Кольцевая ДНК, собственные рибосомы и двойная мембрана указывают на происхождение этих органоидов от поглощённых клеткой прокариот.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g10.hemoglobin.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g10.stroenie-i-funkcii-gemoglobina-i-mioglobina",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Какой ион входит в состав гема гемоглобина?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Железо"
+        },
+        {
+          "id": "b",
+          "text_md": "Магний"
+        },
+        {
+          "id": "c",
+          "text_md": "Кальций"
+        },
+        {
+          "id": "d",
+          "text_md": "Медь"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Гем содержит ион железа, к которому и присоединяется кислород. Магний входит в состав хлорофилла.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g10.hemoglobin.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g10.stroenie-i-funkcii-gemoglobina-i-mioglobina",
+      "grade": 10,
+      "difficulty": 5,
+      "prompt_md": "Чем миоглобин отличается от гемоглобина по функции?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Запасает кислород в мышцах, а не переносит его по крови"
+        },
+        {
+          "id": "b",
+          "text_md": "Переносит углекислый газ"
+        },
+        {
+          "id": "c",
+          "text_md": "Участвует в свёртывании крови"
+        },
+        {
+          "id": "d",
+          "text_md": "Расщепляет глюкозу"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Миоглобин прочнее связывает кислород и удерживает его в мышечной ткани как запас на время нагрузки.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g10.atp.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g10.stroenie-i-funkcii-adenozintrifosfornoy-kisloty",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Что происходит при отщеплении концевого остатка фосфорной кислоты от АТФ?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Высвобождается энергия, образуется АДФ"
+        },
+        {
+          "id": "b",
+          "text_md": "Поглощается энергия, образуется АМФ"
+        },
+        {
+          "id": "c",
+          "text_md": "Образуется глюкоза"
+        },
+        {
+          "id": "d",
+          "text_md": "Ничего не происходит"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Разрыв макроэргической связи высвобождает около 40 кДж на моль, и АТФ превращается в АДФ.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g10.urine.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g10.absorbciya-i-reabsorbciya-obrazovanie-mochi",
+      "grade": 10,
+      "difficulty": 5,
+      "prompt_md": "Почему глюкоза есть в первичной моче, но отсутствует во вторичной у здорового человека?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Она полностью возвращается в кровь при реабсорбции"
+        },
+        {
+          "id": "b",
+          "text_md": "Она разрушается в почечных канальцах"
+        },
+        {
+          "id": "c",
+          "text_md": "Она не проходит через фильтр клубочка"
+        },
+        {
+          "id": "d",
+          "text_md": "Она превращается в мочевину"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Глюкоза свободно фильтруется, но затем целиком всасывается обратно в канальцах. Она появляется во вторичной моче, лишь когда её уровень в крови превышает почечный порог.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g11.immunity.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g11.mehanizm-vzaimodeystviya-mezhdu-antigenom-i",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Что такое антиген?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Вещество, вызывающее иммунный ответ организма"
+        },
+        {
+          "id": "b",
+          "text_md": "Белок, вырабатываемый лимфоцитами"
+        },
+        {
+          "id": "c",
+          "text_md": "Клетка крови"
+        },
+        {
+          "id": "d",
+          "text_md": "Фермент пищеварения"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Антиген — чужеродное вещество, которое организм распознаёт и против которого вырабатывает антитела. Антитела же производят B-лимфоциты.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g11.immunity.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g11.mehanizm-vzaimodeystviya-mezhdu-antigenom-i",
+      "grade": 11,
+      "difficulty": 5,
+      "prompt_md": "На чём основано действие вакцины?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "На формировании иммунной памяти без развития болезни"
+        },
+        {
+          "id": "b",
+          "text_md": "На введении готовых антител"
+        },
+        {
+          "id": "c",
+          "text_md": "На уничтожении всех микроорганизмов в теле"
+        },
+        {
+          "id": "d",
+          "text_md": "На повышении температуры тела"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Вакцина содержит ослабленный или убитый возбудитель либо его фрагменты. Организм вырабатывает антитела и клетки памяти, поэтому при настоящей встрече ответ будет быстрым. Введение готовых антител — это сыворотка, а не вакцина.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g11.chloroplast.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g11.strukturnye-komponenty-hloroplasta-i-ih-funkcii",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Где протекает световая фаза фотосинтеза?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "На мембранах тилакоидов"
+        },
+        {
+          "id": "b",
+          "text_md": "В строме хлоропласта"
+        },
+        {
+          "id": "c",
+          "text_md": "В цитоплазме"
+        },
+        {
+          "id": "d",
+          "text_md": "В ядре"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Световая фаза идёт на мембранах тилакоидов, где расположен хлорофилл. Темновая фаза — цикл Кальвина — протекает в строме.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g11.transport.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g11.mehanizm-aktivnogo-transporta-na-primere-natriy",
+      "grade": 11,
+      "difficulty": 5,
+      "prompt_md": "Чем активный транспорт отличается от пассивного?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Идёт против градиента концентрации и требует АТФ"
+        },
+        {
+          "id": "b",
+          "text_md": "Идёт только через липидный слой"
+        },
+        {
+          "id": "c",
+          "text_md": "Не требует белков-переносчиков"
+        },
+        {
+          "id": "d",
+          "text_md": "Возможен только у растений"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Натрий-калиевый насос переносит ионы туда, где их и так больше, и потому расходует энергию АТФ. Пассивный транспорт идёт по градиенту и энергии не требует.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g11.transport.2",
+      "kind": "numeric",
+      "topic_code": "bio.g11.mehanizm-aktivnogo-transporta-na-primere-natriy",
+      "grade": 11,
+      "difficulty": 5,
+      "prompt_md": "За один цикл натрий-калиевый насос выводит из клетки 3 иона натрия. Сколько ионов калия он при этом вводит внутрь? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 2,
+        "tolerance": 0
+      },
+      "explanation_md": "Насос обменивает 3 иона натрия наружу на 2 иона калия внутрь. Неравный обмен и создаёт разность потенциалов на мембране.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g11.systems.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g11.sistemy-upravleniya-v-biologii-ponyatie-sistema",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Что такое отрицательная обратная связь в регуляции организма?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Отклонение показателя запускает процессы, возвращающие его к норме"
+        },
+        {
+          "id": "b",
+          "text_md": "Отклонение усиливается до предела"
+        },
+        {
+          "id": "c",
+          "text_md": "Регуляция полностью отсутствует"
+        },
+        {
+          "id": "d",
+          "text_md": "Показатель меняется случайно"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Так работает большинство систем гомеостаза: рост уровня глюкозы вызывает выброс инсулина, который её снижает.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g11.gametogenesis.1",
+      "kind": "numeric",
+      "topic_code": "bio.g11.gametogenez-stadii-gametogeneza-cheloveka",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Сколько хромосом содержится в гамете человека? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 23,
+        "tolerance": 0
+      },
+      "explanation_md": "Соматические клетки человека содержат 46 хромосом, гаметы — гаплоидный набор, то есть 23.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g11.gametogenesis.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g11.gametogenez-stadii-gametogeneza-cheloveka",
+      "grade": 11,
+      "difficulty": 5,
+      "prompt_md": "Чем сперматогенез отличается от овогенеза по числу образующихся клеток?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Из одной исходной клетки образуются 4 сперматозоида и 1 яйцеклетка"
+        },
+        {
+          "id": "b",
+          "text_md": "И там, и там образуются 4 полноценные клетки"
+        },
+        {
+          "id": "c",
+          "text_md": "И там, и там образуется 1 клетка"
+        },
+        {
+          "id": "d",
+          "text_md": "Из одной клетки образуется 2 сперматозоида и 2 яйцеклетки"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "При овогенезе цитоплазма распределяется неравномерно: получается одна яйцеклетка с запасом веществ и три направительных тельца, которые погибают.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g11.stemcells.1",
+      "kind": "mcq_single",
+      "topic_code": "bio.g11.stvolovye-kletki-ponyatie-i-svoystva",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Чем эмбриональные стволовые клетки отличаются от взрослых по способности к дифференциации?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Эмбриональные могут дать начало любым тканям организма"
+        },
+        {
+          "id": "b",
+          "text_md": "Взрослые способны к большему числу превращений"
+        },
+        {
+          "id": "c",
+          "text_md": "Ни те, ни другие не дифференцируются"
+        },
+        {
+          "id": "d",
+          "text_md": "Различий нет"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Эмбриональные клетки плюрипотентны — из них развиваются любые ткани. Взрослые мультипотентны: их набор превращений ограничен тканью, в которой они находятся.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g8.cell.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g8.stroenie-kletok-prokariot-i-eukariot",
+      "grade": 8,
+      "difficulty": 4,
+      "prompt_md": "Какая структура есть в растительной клетке, но отсутствует в животной?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Клеточная стенка из целлюлозы"
+        },
+        {
+          "id": "b",
+          "text_md": "Рибосомы"
+        },
+        {
+          "id": "c",
+          "text_md": "Ядро"
+        },
+        {
+          "id": "d",
+          "text_md": "Митохондрии"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "У растительной клетки есть целлюлозная стенка, крупная вакуоль и пластиды. Ядро, рибосомы и митохондрии есть у обеих.",
+      "points": 1
+    },
+    {
+      "code": "mock.ent.bio.g10.atp.2",
+      "kind": "mcq_single",
+      "topic_code": "bio.g10.stroenie-i-funkcii-adenozintrifosfornoy-kisloty",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Из чего состоит молекула АТФ?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Из аденина, рибозы и трёх остатков фосфорной кислоты"
+        },
+        {
+          "id": "b",
+          "text_md": "Из глюкозы и двух остатков фосфорной кислоты"
+        },
+        {
+          "id": "c",
+          "text_md": "Из аминокислот"
+        },
+        {
+          "id": "d",
+          "text_md": "Из глицерина и жирных кислот"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "АТФ — нуклеотид: азотистое основание аденин, углевод рибоза и три фосфатных остатка, связанных макроэргическими связями.",
+      "points": 1
+    }
+  ]
+}

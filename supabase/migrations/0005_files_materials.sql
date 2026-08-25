@@ -1,3 +1,10 @@
+-- 0005 — файлы и учебные материалы.
+--
+-- Файл в Storage и запись о нём разделены: запись создаётся до загрузки
+-- (scan_status = 'pending') и переводится в 'clean' только после того, как
+-- backend сверил сигнатуру содержимого с заявленным типом. Материал не
+-- публикуется, пока файл не проверен.
+
 create table public.file_objects (
   id              uuid primary key default gen_random_uuid(),
   bucket          text not null check (bucket in ('avatars','materials')),
@@ -18,9 +25,12 @@ comment on column public.file_objects.path is
 
 create index file_objects_owner_idx on public.file_objects(owner_id);
 
+-- Отложенный внешний ключ из 0003.
 alter table public.profiles
   add constraint profiles_avatar_fk
   foreign key (avatar_file_id) references public.file_objects(id) on delete set null;
+
+-- ─── Материалы ───────────────────────────────────────────────────────────────
 
 create table public.materials (
   id               uuid primary key default gen_random_uuid(),
@@ -35,7 +45,7 @@ create table public.materials (
   file_id          uuid references public.file_objects(id) on delete set null,
   external_url     text,
   author_id        uuid references public.profiles(id) on delete set null,
-  class_id         uuid,
+  class_id         uuid,                    -- FK добавляется в 0009
   status           public.material_status not null default 'published',
   content_hash     text not null,
   est_read_minutes smallint check (est_read_minutes between 1 and 240),
@@ -43,6 +53,9 @@ create table public.materials (
   updated_at       timestamptz not null default now(),
   version          integer not null default 1,
 
+  -- Ровно один носитель содержимого: текст, файл или ссылка.
+  -- Без этого материал мог бы одновременно ссылаться на файл и содержать текст,
+  -- и было бы неясно, что показывать и что кэшировать офлайн.
   constraint materials_single_payload check (
     (format in ('markdown','txt')
        and body_md is not null and file_id is null and external_url is null)
@@ -52,6 +65,8 @@ create table public.materials (
        and external_url is not null and file_id is null and body_md is null)
   ),
 
+  -- Схемы javascript:, data: и подобные отсекаются санитайзером на входе;
+  -- здесь — последний рубеж на случай записи в обход API.
   constraint materials_url_scheme
     check (external_url is null or external_url ~* '^https?://'),
 
@@ -74,6 +89,8 @@ create trigger materials_version
   before update on public.materials
   for each row execute function app.bump_version();
 
+-- Связь материала с темами: по ней AI подбирает материал в roadmap,
+-- а backend проверяет, что предложенный материал относится к нужной теме.
 create table public.material_topics (
   material_id uuid not null references public.materials(id) on delete cascade,
   topic_id    uuid not null references public.topics(id) on delete cascade,

@@ -21,6 +21,7 @@ export interface ExamSection {
   readonly slotKind: 'mandatory' | 'profile';
   readonly slotIndex: number;
   readonly maxPoints: number;
+  
   readonly guessFloor: number;
 }
 
@@ -44,7 +45,9 @@ export function sectionPoints(section: ExamSection, masteryPct: number): number 
 export interface ExamBaselineInput {
   readonly sections: readonly ExamSection[];
   readonly maxScore: number;
+  
   readonly subjectMastery: ReadonlyMap<string, number>;
+  
   readonly profileSubjectIds: readonly string[];
 }
 
@@ -61,6 +64,8 @@ function subjectForSection(
   if (section.subjectId !== null) {
     return section.subjectId;
   }
+  
+  
   return profileSubjectIds[section.slotIndex - 1] ?? null;
 }
 
@@ -89,6 +94,7 @@ export function examBaseline(input: ExamBaselineInput): ExamBaseline {
 }
 
 export interface MockResult {
+  
   readonly scaledScore: number;
   readonly daysAgo: number;
 }

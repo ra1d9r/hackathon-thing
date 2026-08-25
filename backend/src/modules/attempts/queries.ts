@@ -8,6 +8,7 @@ import type { SqlExecutor } from '../../db/sql.js';
 import { parseAnswerKey, type AnswerKey } from './grading.js';
 
 
+
 export interface AttemptRow {
   readonly id: string;
   readonly studentId: string;
@@ -93,6 +94,7 @@ export async function findAttempt(
   return row === undefined ? null : mapAttempt(row);
 }
 
+
 export async function lockAttempt(
   sql: SqlExecutor,
   attemptId: string,
@@ -113,6 +115,7 @@ export async function lockAttempt(
   return row === undefined ? null : mapAttempt(row);
 }
 
+
 export async function requireOwnAttempt(
   sql: SqlExecutor,
   attemptId: string,
@@ -128,6 +131,7 @@ export async function requireOwnAttempt(
 }
 
 
+
 const optionsSchema = z
   .array(z.object({ id: z.string(), text_md: z.string() }))
   .nullable();
@@ -141,6 +145,7 @@ export interface AttemptQuestion {
   readonly points: number;
   readonly difficulty: number;
   readonly answerKey: AnswerKey | null;
+  
   readonly rubricMd: string | null;
   readonly explanationMd: string | null;
   readonly topicId: string;
@@ -210,6 +215,7 @@ export async function loadAttemptQuestions(
 }
 
 
+
 export interface StoredAnswer {
   readonly questionId: string;
   readonly answer: AnswerPayload;
@@ -219,6 +225,7 @@ export interface StoredAnswer {
   readonly isCorrect: boolean | null;
   readonly pointsAwarded: number | null;
   readonly aiFeedbackMd: string | null;
+  
   readonly aiConfidence: number | null;
 }
 
@@ -250,6 +257,8 @@ export async function loadAttemptAnswers(
   for (const row of rows) {
     const parsed = answerPayloadSchema.safeParse(row.answer);
     if (!parsed.success) {
+      
+      
       continue;
     }
 

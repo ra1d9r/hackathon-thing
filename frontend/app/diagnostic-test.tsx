@@ -1,3 +1,3 @@
-import { DiagnosticTestScreen } from "@/app/screens/DiagnosticTestScreen";
+import { DiagnosticTestScreen } from "@/screens/DiagnosticTestScreen";
 
 export default DiagnosticTestScreen;

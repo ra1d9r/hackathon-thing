@@ -11,6 +11,7 @@ import {
 } from '../../contracts/dto/auth.js';
 import { AppError, errorEnvelopeSchema } from '../../contracts/errors.js';
 import type { Sql } from '../../db/sql.js';
+import { perUser } from '../../plugins/rate-limit.js';
 import type { AuthUser } from '../../types/fastify.js';
 import {
   AVATAR_URL_TTL_SEC,
@@ -85,7 +86,7 @@ export async function registerProfileRoutes(app: FastifyInstance): Promise<void>
     '/v1/me/avatar/upload-url',
     {
       preHandler: secured.preHandler,
-      config: { rateLimit: { max: 10, timeWindow: '1 hour' } },
+      config: { rateLimit: perUser(10, '1 hour') },
       schema: {
         tags: ['profile'],
         summary: 'Ссылка для загрузки аватара',

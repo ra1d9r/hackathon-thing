@@ -4,6 +4,8 @@ import { stableStringify, type JsonObject } from '../contracts/json.js';
 import { AppError } from '../contracts/errors.js';
 import type { SqlExecutor } from '../db/sql.js';
 
+
+
 export const AI_OP_TYPES = [
   'diagnostic_analysis',
   'free_text_grading',
@@ -43,6 +45,7 @@ export function isTerminal(status: AiJobStatus): boolean {
   return TERMINAL_STATUSES.includes(status);
 }
 
+
 export const OP_PRIORITY: Record<AiOpType, number> = {
   assistant_chat: 5,
   moderation: 5,
@@ -57,12 +60,14 @@ export const OP_PRIORITY: Record<AiOpType, number> = {
   predicted_score: 50,
 };
 
+
 export const dedupeKey = {
   freeTextGrading: (attemptId: string): string => `free_text_grading:${attemptId}`,
   attemptAnalysis: (attemptId: string): string => `attempt_analysis:${attemptId}`,
   diagnosticAnalysis: (attemptId: string): string => `diagnostic_analysis:${attemptId}`,
   mockAnalysis: (attemptId: string): string => `mock_analysis:${attemptId}`,
 
+  
   predictedScore: (studentId: string, now = new Date()): string =>
     `predicted_score:${studentId}:${Math.floor(now.getTime() / 3_600_000)}`,
 } as const;
@@ -87,6 +92,7 @@ export interface EnqueuedJob {
   readonly id: string;
   readonly status: AiJobStatus;
   readonly opType: AiOpType;
+  
   readonly created: boolean;
 }
 
@@ -136,6 +142,8 @@ export async function enqueueJob(sql: SqlExecutor, job: EnqueueInput): Promise<E
   `;
 
   if (existing === undefined) {
+    
+    
     throw new AppError('STATE_CONFLICT', {
       message: 'Операция завершилась во время постановки в очередь, повторите запрос',
     });
@@ -143,6 +151,7 @@ export async function enqueueJob(sql: SqlExecutor, job: EnqueueInput): Promise<E
 
   return { id: existing.id, status: existing.status, opType: existing.op_type, created: false };
 }
+
 
 export const SUGGESTED_WAIT_MS: Record<AiOpType, number> = {
   assistant_chat: 800,

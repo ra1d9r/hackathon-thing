@@ -1,730 +1,2293 @@
 {
-  "_": "Диагностический тест. Составлен на основе программы 10–11 классов по пяти предметам с настоящими темами: математика, физика, история Казахстана, грамотность чтения, математическая грамотность. Тест собирается под каждого ученика отдельно: из этого банка берутся вопросы по выбранным предметам с учётом класса, не более шести на предмет. После правки выполните: npm run content",
   "pool": "diagnostic",
   "placeholder": false,
+  "_": "Стартовый замер: по одному вопросу на ключевые темы каждого класса. Отбор персонален (см. modules/onboarding/diagnostic.ts), поэтому банк должен покрывать все предметы и классы, а не быть одним вариантом.",
   "questions": [
     {
-      "code": "math.trig.cos_2pi3",
+      "code": "diag.math.g5.fractions",
       "kind": "mcq_single",
-      "topic_code": "math.trigonometry",
-      "grade": 10,
+      "topic_code": "math.g5.privedenie-obyknovennyh-drobey-k-obschemu",
+      "grade": 5,
       "difficulty": 2,
-      "prompt_md": "Вычислите cos(2π/3).",
+      "prompt_md": "Приведите дроби 3/4 и 5/6 к общему знаменателю. Какой наименьший общий знаменатель у них получится?",
       "options": [
-        { "id": "a", "text_md": "−1/2" },
-        { "id": "b", "text_md": "1/2" },
-        { "id": "c", "text_md": "−√3/2" },
-        { "id": "d", "text_md": "√3/2" }
+        {
+          "id": "a",
+          "text_md": "10"
+        },
+        {
+          "id": "b",
+          "text_md": "12"
+        },
+        {
+          "id": "c",
+          "text_md": "24"
+        },
+        {
+          "id": "d",
+          "text_md": "6"
+        }
       ],
-      "answer_key": { "correct": ["a"] },
-      "rubric_md": null,
-      "explanation_md": "2π/3 = 120°. Косинус во второй четверти отрицателен, cos 120° = −cos 60° = −1/2.",
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Наименьший общий знаменатель — это НОК(4, 6) = 12. Тогда 3/4 = 9/12, а 5/6 = 10/12. Число 24 тоже общий знаменатель, но не наименьший.",
       "points": 1
     },
     {
-      "code": "math.log.simple_equation",
+      "code": "diag.math.g5.divisors",
       "kind": "mcq_single",
-      "topic_code": "math.logarithms",
+      "topic_code": "math.g5.deliteli-i-kratnye-naturalnyh-chisel-prostye-i",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "Какое из чисел является простым?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "51"
+        },
+        {
+          "id": "b",
+          "text_md": "57"
+        },
+        {
+          "id": "c",
+          "text_md": "61"
+        },
+        {
+          "id": "d",
+          "text_md": "63"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "61 делится только на 1 и на себя. Остальные составные: 51 = 3 · 17, 57 = 3 · 19, 63 = 7 · 9.",
+      "points": 1
+    },
+    {
+      "code": "diag.math.g6.percent",
+      "kind": "numeric",
+      "topic_code": "math.g6.otnoshenie-dvuh-chisel-procentnoe-otnoshenie",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "В классе 25 учеников, из них 15 занимаются спортом. Сколько процентов класса занимается спортом? Ответ дайте числом без знака процента.",
+      "options": null,
+      "answer_key": {
+        "value": 60,
+        "tolerance": 0
+      },
+      "explanation_md": "Процентное отношение: (15 / 25) · 100 % = 0,6 · 100 % = 60 %.",
+      "points": 1
+    },
+    {
+      "code": "diag.math.g6.rational",
+      "kind": "mcq_single",
+      "topic_code": "math.g6.sravnenie-racionalnyh-chisel",
+      "grade": 6,
+      "difficulty": 2,
+      "prompt_md": "Какое из чисел наименьшее: −3,5; −4; −3,05; −0,4?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "−3,5"
+        },
+        {
+          "id": "b",
+          "text_md": "−4"
+        },
+        {
+          "id": "c",
+          "text_md": "−3,05"
+        },
+        {
+          "id": "d",
+          "text_md": "−0,4"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "У отрицательных чисел меньше то, чей модуль больше. Наибольший модуль у −4, значит оно и наименьшее.",
+      "points": 1
+    },
+    {
+      "code": "diag.math.g7.square-sum",
+      "kind": "mcq_single",
+      "topic_code": "math.g7.kvadrat-summy-i-kvadrat-raznosti-dvuh-vyrazheniy",
+      "grade": 7,
+      "difficulty": 2,
+      "prompt_md": "Раскройте скобки: (2x − 3)^2.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "4x^2 − 9"
+        },
+        {
+          "id": "b",
+          "text_md": "4x^2 − 6x + 9"
+        },
+        {
+          "id": "c",
+          "text_md": "4x^2 − 12x + 9"
+        },
+        {
+          "id": "d",
+          "text_md": "2x^2 − 12x + 9"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "(a − b)^2 = a^2 − 2ab + b^2. Здесь a = 2x, b = 3: 4x^2 − 2 · 2x · 3 + 9 = 4x^2 − 12x + 9. Вариант «4x^2 − 9» — типичная ошибка: это разность квадратов, а не квадрат разности.",
+      "points": 1
+    },
+    {
+      "code": "diag.math.g7.power",
+      "kind": "numeric",
+      "topic_code": "math.g7.stepen-s-celym-pokazatelem",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Вычислите значение выражения 2^5 · 2^(−3).",
+      "options": null,
+      "answer_key": {
+        "value": 4,
+        "tolerance": 0
+      },
+      "explanation_md": "При умножении степеней с одинаковым основанием показатели складываются: 2^(5 + (−3)) = 2^2 = 4.",
+      "points": 1
+    },
+    {
+      "code": "diag.math.g8.viete",
+      "kind": "mcq_single",
+      "topic_code": "math.g8.teorema-vieta",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Корни уравнения x^2 − 7x + 12 = 0 равны:",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "3 и 4"
+        },
+        {
+          "id": "b",
+          "text_md": "−3 и −4"
+        },
+        {
+          "id": "c",
+          "text_md": "2 и 6"
+        },
+        {
+          "id": "d",
+          "text_md": "1 и 12"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "По теореме Виета сумма корней равна 7, произведение — 12. Подходят 3 и 4: 3 + 4 = 7, 3 · 4 = 12. У пары 2 и 6 произведение 12, но сумма 8.",
+      "points": 1
+    },
+    {
+      "code": "diag.math.g8.sqrt",
+      "kind": "mcq_single",
+      "topic_code": "math.g8.svoystva-kvadratnogo-kornya",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Упростите выражение sqrt(50) − sqrt(18).",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "sqrt(32)"
+        },
+        {
+          "id": "b",
+          "text_md": "2·sqrt(2)"
+        },
+        {
+          "id": "c",
+          "text_md": "8·sqrt(2)"
+        },
+        {
+          "id": "d",
+          "text_md": "4·sqrt(2)"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "sqrt(50) = 5·sqrt(2), sqrt(18) = 3·sqrt(2). Разность: 5·sqrt(2) − 3·sqrt(2) = 2·sqrt(2). Вариант sqrt(32) — ошибка «вычесть под корнем».",
+      "points": 1
+    },
+    {
+      "code": "diag.math.g9.progression",
+      "kind": "numeric",
+      "topic_code": "math.g9.arifmeticheskaya-progressiya",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "В арифметической прогрессии первый член равен 5, разность равна 3. Найдите десятый член прогрессии.",
+      "options": null,
+      "answer_key": {
+        "value": 32,
+        "tolerance": 0
+      },
+      "explanation_md": "a_n = a_1 + (n − 1)·d = 5 + 9 · 3 = 32. Частая ошибка — умножить на 10 вместо 9.",
+      "points": 1
+    },
+    {
+      "code": "diag.math.g9.combinatorics",
+      "kind": "mcq_single",
+      "topic_code": "math.g9.faktorial-chisla-perestanovki-i-razmescheniya",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Сколькими способами можно расставить в ряд 4 разные книги?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "16"
+        },
+        {
+          "id": "b",
+          "text_md": "24"
+        },
+        {
+          "id": "c",
+          "text_md": "12"
+        },
+        {
+          "id": "d",
+          "text_md": "256"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Это перестановки: P(4) = 4! = 1 · 2 · 3 · 4 = 24.",
+      "points": 1
+    },
+    {
+      "code": "diag.math.g10.trig",
+      "kind": "mcq_single",
+      "topic_code": "math.g10.trigonometricheskie-uravneniya",
       "grade": 10,
       "difficulty": 3,
-      "prompt_md": "Решите уравнение log₃(x − 2) = 2.",
+      "prompt_md": "Решите уравнение sin x = 1. Запишите общий вид корней.",
       "options": [
-        { "id": "a", "text_md": "x = 5" },
-        { "id": "b", "text_md": "x = 8" },
-        { "id": "c", "text_md": "x = 11" },
-        { "id": "d", "text_md": "x = 29" }
+        {
+          "id": "a",
+          "text_md": "x = pi/2 + 2·pi·n"
+        },
+        {
+          "id": "b",
+          "text_md": "x = pi/2 + pi·n"
+        },
+        {
+          "id": "c",
+          "text_md": "x = pi·n"
+        },
+        {
+          "id": "d",
+          "text_md": "x = ±pi/2 + 2·pi·n"
+        }
       ],
-      "answer_key": { "correct": ["c"] },
-      "rubric_md": null,
-      "explanation_md": "log₃(x − 2) = 2 означает x − 2 = 3² = 9, отсюда x = 11. Область определения соблюдена: 11 − 2 > 0.",
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Синус равен 1 только в точке pi/2 и повторяется с периодом 2·pi. Вариант с периодом pi добавил бы −pi/2, где синус равен −1.",
       "points": 1
     },
     {
-      "code": "math.deriv.product_rule",
+      "code": "diag.math.g10.derivative",
       "kind": "mcq_single",
-      "topic_code": "math.derivative",
+      "topic_code": "math.g10.proizvodnaya-i-differencial-funkcii",
+      "grade": 10,
+      "difficulty": 3,
+      "prompt_md": "Найдите производную функции f(x) = 3x^2 − 5x + 2.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "6x − 5"
+        },
+        {
+          "id": "b",
+          "text_md": "6x − 5x"
+        },
+        {
+          "id": "c",
+          "text_md": "3x − 5"
+        },
+        {
+          "id": "d",
+          "text_md": "6x + 2"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "(x^n)' = n·x^(n−1), производная константы равна нулю: f'(x) = 6x − 5.",
+      "points": 1
+    },
+    {
+      "code": "diag.math.g11.integral",
+      "kind": "mcq_single",
+      "topic_code": "math.g11.pervoobraznaya-i-neopredelennyy-integral",
       "grade": 11,
       "difficulty": 3,
-      "prompt_md": "Найдите производную функции f(x) = x² · ln x при x > 0.",
+      "prompt_md": "Найдите первообразную функции f(x) = 2x.",
       "options": [
-        { "id": "a", "text_md": "2x · ln x" },
-        { "id": "b", "text_md": "2x · ln x + x" },
-        { "id": "c", "text_md": "x + 2 ln x" },
-        { "id": "d", "text_md": "2x / x" }
+        {
+          "id": "a",
+          "text_md": "2 + C"
+        },
+        {
+          "id": "b",
+          "text_md": "x^2 + C"
+        },
+        {
+          "id": "c",
+          "text_md": "2x^2 + C"
+        },
+        {
+          "id": "d",
+          "text_md": "x^2"
+        }
       ],
-      "answer_key": { "correct": ["b"] },
-      "rubric_md": null,
-      "explanation_md": "По правилу произведения: (x²)′·ln x + x²·(ln x)′ = 2x·ln x + x²·(1/x) = 2x·ln x + x.",
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Первообразная для x^n — это x^(n+1)/(n+1). Для 2x получаем x^2, и обязательна произвольная постоянная C.",
       "points": 1
     },
     {
-      "code": "math.prog.arith_sum20",
-      "kind": "numeric",
-      "topic_code": "math.progressions",
-      "grade": 9,
-      "difficulty": 2,
-      "prompt_md": "В арифметической прогрессии a₁ = 3, разность d = 4. Найдите сумму первых 20 членов.",
-      "options": null,
-      "answer_key": { "value": 820, "tolerance": 0 },
-      "rubric_md": null,
-      "explanation_md": "S₂₀ = (20/2)·(2·3 + 19·4) = 10·(6 + 76) = 820.",
-      "points": 1
-    },
-    {
-      "code": "math.prob.dice_sum8",
-      "kind": "numeric",
-      "topic_code": "math.probability",
-      "grade": 10,
-      "difficulty": 3,
-      "prompt_md": "Бросают две игральные кости. Найдите вероятность того, что сумма выпавших очков равна 8. Ответ округлите до сотых.",
-      "options": null,
-      "answer_key": { "value": 0.14, "tolerance": 0.01 },
-      "rubric_md": null,
-      "explanation_md": "Благоприятных исходов 5: (2;6), (3;5), (4;4), (5;3), (6;2). Всего 36. Вероятность 5/36 ≈ 0,14.",
-      "points": 1
-    },
-    {
-      "code": "math.comb.handshakes12",
-      "kind": "numeric",
-      "topic_code": "math.combinatorics",
-      "grade": 10,
-      "difficulty": 2,
-      "prompt_md": "В комнате 12 человек, и каждый пожал руку каждому ровно один раз. Сколько было рукопожатий?",
-      "options": null,
-      "answer_key": { "value": 66, "tolerance": 0 },
-      "rubric_md": null,
-      "explanation_md": "Это число сочетаний C(12,2) = 12·11/2 = 66.",
-      "points": 1
-    },
-    {
-      "code": "math.exp.inequality_base2",
-      "kind": "mcq_single",
-      "topic_code": "math.exponential",
-      "grade": 10,
-      "difficulty": 3,
-      "prompt_md": "Решите неравенство 2^(x+1) > 8.",
-      "options": [
-        { "id": "a", "text_md": "x > 2" },
-        { "id": "b", "text_md": "x > 3" },
-        { "id": "c", "text_md": "x < 2" },
-        { "id": "d", "text_md": "x > 4" }
-      ],
-      "answer_key": { "correct": ["a"] },
-      "rubric_md": null,
-      "explanation_md": "8 = 2³, основание 2 > 1, поэтому неравенство равносильно x + 1 > 3, то есть x > 2.",
-      "points": 1
-    },
-    {
-      "code": "math.poly.vieta_x2_5x_6",
-      "kind": "mcq_multi",
-      "topic_code": "math.polynomials",
-      "grade": 9,
-      "difficulty": 3,
-      "prompt_md": "Дано уравнение x² − 5x + 6 = 0. Выберите **все** верные утверждения.",
-      "options": [
-        { "id": "a", "text_md": "Сумма корней равна 5" },
-        { "id": "b", "text_md": "Произведение корней равно 6" },
-        { "id": "c", "text_md": "Корни равны 2 и 3" },
-        { "id": "d", "text_md": "Дискриминант отрицателен" }
-      ],
-      "answer_key": { "correct": ["a", "b", "c"] },
-      "rubric_md": null,
-      "explanation_md": "D = 25 − 24 = 1 > 0, корни 2 и 3. По теореме Виета сумма 5, произведение 6.",
-      "points": 2
-    },
-    {
-      "code": "math.vect.dot_product",
-      "kind": "numeric",
-      "topic_code": "math.vectors",
-      "grade": 10,
-      "difficulty": 2,
-      "prompt_md": "Найдите скалярное произведение векторов a(2; −1; 3) и b(1; 4; 2).",
-      "options": null,
-      "answer_key": { "value": 4, "tolerance": 0 },
-      "rubric_md": null,
-      "explanation_md": "2·1 + (−1)·4 + 3·2 = 2 − 4 + 6 = 4.",
-      "points": 1
-    },
-    {
-      "code": "math.free.derivative_sign",
+      "code": "diag.math.g11.roots",
       "kind": "free_text",
-      "topic_code": "math.derivative",
+      "topic_code": "math.g11.irracionalnye-uravneniya-i-ih-sistemy",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Решите уравнение sqrt(x + 6) = x. Объясните, почему при решении обязательна проверка корней.",
+      "options": null,
+      "answer_key": {
+        "expected_points": [
+          "возведение обеих частей в квадрат",
+          "x = 3 как единственный корень",
+          "x = −2 отброшен проверкой",
+          "необходимость проверки из-за неравносильности"
+        ]
+      },
+      "rubric_md": "1 балл — возведены обе части в квадрат и получено квадратное уравнение x^2 − x − 6 = 0. 1 балл — найдены оба корня уравнения-следствия: 3 и −2. 1 балл — указано, что x = −2 не подходит (левая часть неотрицательна, правая отрицательна). 1 балл — объяснено, что возведение в квадрат даёт неравносильное уравнение, поэтому проверка обязательна.",
+      "explanation_md": "После возведения в квадрат: x + 6 = x^2, то есть x^2 − x − 6 = 0, корни 3 и −2. Проверка: sqrt(9) = 3 — верно; при x = −2 левая часть равна 2, правая −2 — неверно. Ответ: x = 3.",
+      "points": 4
+    },
+    {
+      "code": "diag.phys.g7.work",
+      "kind": "numeric",
+      "topic_code": "phys.g7.mehanicheskaya-rabota-moschnost",
+      "grade": 7,
+      "difficulty": 2,
+      "prompt_md": "Тело равномерно поднимают силой 40 Н на высоту 3 м. Какую работу совершает сила? Ответ дайте в джоулях.",
+      "options": null,
+      "answer_key": {
+        "value": 120,
+        "tolerance": 0
+      },
+      "explanation_md": "A = F · s = 40 Н · 3 м = 120 Дж.",
+      "points": 1
+    },
+    {
+      "code": "diag.phys.g7.hooke",
+      "kind": "mcq_single",
+      "topic_code": "phys.g7.sila-uprugosti-zakon-guka",
+      "grade": 7,
+      "difficulty": 2,
+      "prompt_md": "Пружина жёсткостью 200 Н/м растянута на 5 см. Чему равна сила упругости?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "10 Н"
+        },
+        {
+          "id": "b",
+          "text_md": "1000 Н"
+        },
+        {
+          "id": "c",
+          "text_md": "40 Н"
+        },
+        {
+          "id": "d",
+          "text_md": "0,4 Н"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "F = k · x, где x в метрах: 200 Н/м · 0,05 м = 10 Н. Ответ 1000 Н получается, если забыть перевести сантиметры в метры.",
+      "points": 1
+    },
+    {
+      "code": "diag.phys.g8.current",
+      "kind": "numeric",
+      "topic_code": "phys.g8.postoyannyy-elektricheskiy-tok",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "К участку цепи сопротивлением 12 Ом приложено напряжение 24 В. Найдите силу тока в амперах.",
+      "options": null,
+      "answer_key": {
+        "value": 2,
+        "tolerance": 0
+      },
+      "explanation_md": "Закон Ома для участка цепи: I = U / R = 24 В / 12 Ом = 2 А.",
+      "points": 1
+    },
+    {
+      "code": "diag.phys.g8.melting",
+      "kind": "mcq_single",
+      "topic_code": "phys.g8.plavlenie-i-kristallizaciya-tverdyh-tel",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Что происходит с температурой кристаллического тела во время плавления, если нагрев продолжается?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Растёт равномерно"
+        },
+        {
+          "id": "b",
+          "text_md": "Не изменяется"
+        },
+        {
+          "id": "c",
+          "text_md": "Сначала падает, потом растёт"
+        },
+        {
+          "id": "d",
+          "text_md": "Падает"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Во время плавления вся подводимая энергия идёт на разрушение кристаллической решётки, поэтому температура остаётся равной температуре плавления, пока тело не расплавится целиком.",
+      "points": 1
+    },
+    {
+      "code": "diag.phys.g9.impulse",
+      "kind": "numeric",
+      "topic_code": "phys.g9.impuls-tela-i-impuls-sily-zakon-sohraneniya",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Тело массой 4 кг движется со скоростью 5 м/с. Чему равен импульс тела? Ответ дайте в кг·м/с.",
+      "options": null,
+      "answer_key": {
+        "value": 20,
+        "tolerance": 0
+      },
+      "explanation_md": "p = m · v = 4 кг · 5 м/с = 20 кг·м/с.",
+      "points": 1
+    },
+    {
+      "code": "diag.phys.g10.kinematics",
+      "kind": "mcq_single",
+      "topic_code": "phys.g10.osnovnye-ponyatiya-i-uravneniya-kinematiki",
+      "grade": 10,
+      "difficulty": 3,
+      "prompt_md": "Тело начинает движение из состояния покоя с ускорением 2 м/с². Какой путь оно пройдёт за 4 с?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "8 м"
+        },
+        {
+          "id": "b",
+          "text_md": "16 м"
+        },
+        {
+          "id": "c",
+          "text_md": "32 м"
+        },
+        {
+          "id": "d",
+          "text_md": "4 м"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "s = a·t²/2 = 2 · 16 / 2 = 16 м. Ответ 8 м получается по формуле скорости, а не пути.",
+      "points": 1
+    },
+    {
+      "code": "diag.phys.g11.oscillations",
+      "kind": "free_text",
+      "topic_code": "phys.g11.mehanicheskie-kolebaniya",
+      "grade": 11,
+      "difficulty": 4,
+      "prompt_md": "Математический маятник длиной 1 м колеблется с малой амплитудой. Объясните, как изменится период колебаний, если длину увеличить в 4 раза, и почему.",
+      "options": null,
+      "answer_key": {
+        "expected_points": [
+          "формула T = 2·pi·sqrt(L/g)",
+          "период увеличится в 2 раза",
+          "зависимость от корня из длины",
+          "независимость от массы и амплитуды"
+        ]
+      },
+      "rubric_md": "1 балл — приведена формула периода T = 2·pi·sqrt(L/g). 1 балл — верный вывод: период вырастет в 2 раза. 1 балл — объяснено, что период зависит от корня из длины, поэтому четырёхкратное увеличение даёт двукратное. 1 балл — отмечено, что от массы груза и (при малых углах) от амплитуды период не зависит.",
+      "explanation_md": "T = 2·pi·sqrt(L/g). При увеличении L в 4 раза корень растёт в 2 раза, значит и период вдвое больше. Масса маятника в формулу не входит.",
+      "points": 4
+    },
+    {
+      "code": "diag.chem.g7.substances",
+      "kind": "mcq_single",
+      "topic_code": "chem.g7.atomy-i-molekuly-prostye-i-slozhnye-veschestva",
+      "grade": 7,
+      "difficulty": 2,
+      "prompt_md": "Какое из веществ является простым?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "H2O"
+        },
+        {
+          "id": "b",
+          "text_md": "O2"
+        },
+        {
+          "id": "c",
+          "text_md": "CO2"
+        },
+        {
+          "id": "d",
+          "text_md": "NaCl"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Простое вещество состоит из атомов одного элемента. O2 — кислород; остальные образованы разными элементами.",
+      "points": 1
+    },
+    {
+      "code": "diag.chem.g9.oxidation",
+      "kind": "mcq_single",
+      "topic_code": "chem.g9.stepen-okisleniya",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Какова степень окисления серы в серной кислоте H2SO4?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "+4"
+        },
+        {
+          "id": "b",
+          "text_md": "+6"
+        },
+        {
+          "id": "c",
+          "text_md": "−2"
+        },
+        {
+          "id": "d",
+          "text_md": "+2"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "У водорода +1, у кислорода −2. Сумма степеней окисления в молекуле равна нулю: 2·(+1) + x + 4·(−2) = 0, откуда x = +6.",
+      "points": 1
+    },
+    {
+      "code": "diag.chem.g11.alkanes",
+      "kind": "mcq_single",
+      "topic_code": "chem.g11.alkany",
       "grade": 11,
       "difficulty": 3,
-      "prompt_md": "Объясните своими словами, что показывает производная функции в точке и как по знаку производной определить, возрастает функция или убывает.",
-      "options": null,
+      "prompt_md": "Какая общая формула соответствует алканам?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "CnH2n"
+        },
+        {
+          "id": "b",
+          "text_md": "CnH2n−2"
+        },
+        {
+          "id": "c",
+          "text_md": "CnH2n+2"
+        },
+        {
+          "id": "d",
+          "text_md": "CnH2n+1OH"
+        }
+      ],
       "answer_key": {
-        "expected_points": [
-          "производная показывает скорость изменения функции",
-          "геометрически это угловой коэффициент касательной",
-          "положительная производная означает возрастание функции",
-          "отрицательная производная означает убывание функции"
+        "correct": [
+          "c"
         ]
       },
-      "rubric_md": "Полный балл (3): названы и смысл производной (скорость изменения либо наклон касательной), и оба правила знака.\nЧастичный (2): смысл производной раскрыт, но правило знака названо только для одного случая либо сформулировано нестрого.\nЧастичный (1): упомянуто только правило знака без объяснения смысла производной, либо наоборот.\nНоль: ответ не относится к производной или содержит принципиальную ошибку (например, «положительная производная — функция убывает»).",
-      "explanation_md": "Производная f′(x₀) — скорость изменения функции в точке, геометрически угловой коэффициент касательной. Если f′ > 0 на промежутке, функция возрастает; если f′ < 0 — убывает.",
-      "points": 3
+      "explanation_md": "Алканы — предельные углеводороды с одинарными связями, их общая формула CnH2n+2. CnH2n — алкены, CnH2n−2 — алкины.",
+      "points": 1
     },
     {
-      "code": "math.free.quadratic_minimum",
-      "kind": "free_text",
-      "topic_code": "math.polynomials",
-      "grade": 10,
-      "difficulty": 3,
-      "prompt_md": "Найдите наименьшее значение функции f(x) = x² − 8x + 20 и объясните, как вы его нашли.",
-      "options": null,
+      "code": "diag.bio.g7.kingdoms",
+      "kind": "mcq_single",
+      "topic_code": "bio.g7.obschaya-harakteristika-pyati-carstv-zhivyh",
+      "grade": 7,
+      "difficulty": 2,
+      "prompt_md": "К какому царству относятся организмы, клетки которых не имеют оформленного ядра?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Растения"
+        },
+        {
+          "id": "b",
+          "text_md": "Грибы"
+        },
+        {
+          "id": "c",
+          "text_md": "Бактерии"
+        },
+        {
+          "id": "d",
+          "text_md": "Животные"
+        }
+      ],
       "answer_key": {
-        "expected_points": [
-          "наименьшее значение равно 4",
-          "достигается при x = 4",
-          "использована вершина параболы или производная"
+        "correct": [
+          "c"
         ]
       },
-      "rubric_md": "Полный балл (3): получено значение 4, указано x = 4 и объяснён способ — выделение полного квадрата, формула вершины x = −b/(2a) либо приравнивание производной к нулю.\nЧастичный (2): верное значение 4 без внятного объяснения способа.\nЧастичный (1): верно найдено x = 4, но значение функции посчитано с ошибкой.\nНоль: значение неверно и ход решения не показан.",
-      "explanation_md": "f(x) = (x − 4)² + 4, наименьшее значение 4 при x = 4. Через производную: f′(x) = 2x − 8 = 0 даёт x = 4.",
-      "points": 3
+      "explanation_md": "Бактерии — прокариоты: наследственный материал у них не отделён от цитоплазмы ядерной оболочкой.",
+      "points": 1
     },
-
     {
-      "code": "phys.kin.path_from_rest",
+      "code": "diag.bio.g9.respiration",
       "kind": "mcq_single",
-      "topic_code": "phys.kinematics",
+      "topic_code": "bio.g9.anaerobnoe-i-aerobnoe-dyhanie",
       "grade": 9,
-      "difficulty": 2,
-      "prompt_md": "Тело начинает движение из состояния покоя с постоянным ускорением 2 м/с². Какой путь оно пройдёт за 5 с?",
-      "options": [
-        { "id": "a", "text_md": "10 м" },
-        { "id": "b", "text_md": "20 м" },
-        { "id": "c", "text_md": "25 м" },
-        { "id": "d", "text_md": "50 м" }
-      ],
-      "answer_key": { "correct": ["c"] },
-      "rubric_md": null,
-      "explanation_md": "s = at²/2 = 2·25/2 = 25 м.",
-      "points": 1
-    },
-    {
-      "code": "phys.dyn.newton_second",
-      "kind": "numeric",
-      "topic_code": "phys.dynamics",
-      "grade": 9,
-      "difficulty": 2,
-      "prompt_md": "На тело массой 3 кг действует равнодействующая сила 12 Н. Найдите ускорение тела в м/с².",
-      "options": null,
-      "answer_key": { "value": 4, "tolerance": 0 },
-      "rubric_md": null,
-      "explanation_md": "По второму закону Ньютона a = F/m = 12/3 = 4 м/с².",
-      "points": 1
-    },
-    {
-      "code": "phys.cons.inelastic_collision",
-      "kind": "numeric",
-      "topic_code": "phys.conservation",
-      "grade": 10,
       "difficulty": 3,
-      "prompt_md": "Тело массой 2 кг движется со скоростью 3 м/с и абсолютно неупруго сталкивается с покоящимся телом массой 4 кг. Найдите скорость их совместного движения в м/с.",
-      "options": null,
-      "answer_key": { "value": 1, "tolerance": 0.01 },
-      "rubric_md": null,
-      "explanation_md": "Импульс сохраняется: 2·3 = (2 + 4)·v, отсюда v = 6/6 = 1 м/с.",
-      "points": 1
-    },
-    {
-      "code": "phys.therm.carnot_efficiency",
-      "kind": "numeric",
-      "topic_code": "phys.thermodynamics",
-      "grade": 10,
-      "difficulty": 3,
-      "prompt_md": "Идеальная тепловая машина работает с нагревателем при 600 К и холодильником при 300 К. Найдите её КПД в процентах.",
-      "options": null,
-      "answer_key": { "value": 50, "tolerance": 0.5 },
-      "rubric_md": null,
-      "explanation_md": "η = (T₁ − T₂)/T₁ = (600 − 300)/600 = 0,5, то есть 50 %.",
-      "points": 1
-    },
-    {
-      "code": "phys.electro.coulomb_distance",
-      "kind": "mcq_single",
-      "topic_code": "phys.electrostatics",
-      "grade": 10,
-      "difficulty": 2,
-      "prompt_md": "Расстояние между двумя точечными зарядами увеличили в 2 раза, заряды не изменились. Как изменилась сила их взаимодействия?",
+      "prompt_md": "Чем аэробное дыхание отличается от анаэробного?",
       "options": [
-        { "id": "a", "text_md": "Уменьшилась в 2 раза" },
-        { "id": "b", "text_md": "Уменьшилась в 4 раза" },
-        { "id": "c", "text_md": "Увеличилась в 2 раза" },
-        { "id": "d", "text_md": "Не изменилась" }
+        {
+          "id": "a",
+          "text_md": "Идёт без участия кислорода"
+        },
+        {
+          "id": "b",
+          "text_md": "Даёт значительно больше энергии из той же глюкозы"
+        },
+        {
+          "id": "c",
+          "text_md": "Происходит только у растений"
+        },
+        {
+          "id": "d",
+          "text_md": "Не требует ферментов"
+        }
       ],
-      "answer_key": { "correct": ["b"] },
-      "rubric_md": null,
-      "explanation_md": "По закону Кулона сила обратно пропорциональна квадрату расстояния: увеличение r в 2 раза уменьшает F в 4 раза.",
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "При полном окислении глюкозы с участием кислорода клетка получает во много раз больше АТФ, чем при брожении.",
       "points": 1
     },
     {
-      "code": "phys.current.ohm_law",
-      "kind": "numeric",
-      "topic_code": "phys.current",
-      "grade": 10,
-      "difficulty": 1,
-      "prompt_md": "К участку цепи сопротивлением 4 Ом приложено напряжение 12 В. Найдите силу тока в амперах.",
-      "options": null,
-      "answer_key": { "value": 3, "tolerance": 0 },
-      "rubric_md": null,
-      "explanation_md": "По закону Ома I = U/R = 12/4 = 3 А.",
-      "points": 1
-    },
-    {
-      "code": "phys.optics.refraction_angle",
+      "code": "diag.bio.g11.stemcells",
       "kind": "mcq_single",
-      "topic_code": "phys.optics",
-      "grade": 11,
-      "difficulty": 2,
-      "prompt_md": "Луч света переходит из воздуха в стекло. Что происходит с углом преломления по сравнению с углом падения?",
-      "options": [
-        { "id": "a", "text_md": "Угол преломления меньше угла падения" },
-        { "id": "b", "text_md": "Угол преломления больше угла падения" },
-        { "id": "c", "text_md": "Углы всегда равны" },
-        { "id": "d", "text_md": "Преломления не происходит" }
-      ],
-      "answer_key": { "correct": ["a"] },
-      "rubric_md": null,
-      "explanation_md": "Стекло оптически плотнее воздуха, поэтому луч приближается к нормали и угол преломления меньше угла падения.",
-      "points": 1
-    },
-    {
-      "code": "phys.osc.pendulum_period",
-      "kind": "mcq_single",
-      "topic_code": "phys.oscillations",
-      "grade": 11,
-      "difficulty": 2,
-      "prompt_md": "От чего зависит период малых колебаний математического маятника?",
-      "options": [
-        { "id": "a", "text_md": "От массы груза и длины нити" },
-        { "id": "b", "text_md": "От длины нити и ускорения свободного падения" },
-        { "id": "c", "text_md": "Только от массы груза" },
-        { "id": "d", "text_md": "От амплитуды колебаний" }
-      ],
-      "answer_key": { "correct": ["b"] },
-      "rubric_md": null,
-      "explanation_md": "T = 2π√(l/g): период зависит от длины нити и ускорения свободного падения, но не от массы и (при малых углах) не от амплитуды.",
-      "points": 1
-    },
-    {
-      "code": "phys.nuclear.half_life_3t",
-      "kind": "numeric",
-      "topic_code": "phys.nuclear",
+      "topic_code": "bio.g11.stvolovye-kletki-ponyatie-i-svoystva",
       "grade": 11,
       "difficulty": 3,
-      "prompt_md": "Период полураспада изотопа равен 8 суткам. Какая доля исходного количества ядер останется через 24 суток? Ответ дайте в процентах.",
-      "options": null,
-      "answer_key": { "value": 12.5, "tolerance": 0.5 },
-      "rubric_md": null,
-      "explanation_md": "24 суток — это три периода полураспада: (1/2)³ = 1/8 = 12,5 %.",
+      "prompt_md": "Какие два свойства отличают стволовую клетку?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Самообновление и способность к дифференциации"
+        },
+        {
+          "id": "b",
+          "text_md": "Отсутствие ядра и способность к делению"
+        },
+        {
+          "id": "c",
+          "text_md": "Неограниченный размер и подвижность"
+        },
+        {
+          "id": "d",
+          "text_md": "Способность к фотосинтезу и делению"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Стволовая клетка способна делиться, сохраняя неспециализированность (самообновление), и при этом давать начало специализированным клеткам (дифференциация).",
       "points": 1
     },
     {
-      "code": "phys.free.thrown_ball_energy",
-      "kind": "free_text",
-      "topic_code": "phys.conservation",
-      "grade": 10,
+      "code": "diag.inf.g7.units",
+      "kind": "numeric",
+      "topic_code": "inf.g7.edinicy-izmereniya-informacii",
+      "grade": 7,
+      "difficulty": 2,
+      "prompt_md": "Сколько байт содержится в 2 килобайтах? Ответ дайте числом.",
+      "options": null,
+      "answer_key": {
+        "value": 2048,
+        "tolerance": 0
+      },
+      "explanation_md": "1 Кбайт = 1024 байта, значит 2 Кбайта = 2048 байт.",
+      "points": 1
+    },
+    {
+      "code": "diag.inf.g9.array",
+      "kind": "mcq_single",
+      "topic_code": "inf.g9.odnomernyy-massiv",
+      "grade": 9,
       "difficulty": 3,
-      "prompt_md": "Мяч подбросили вертикально вверх. Опишите, как меняются его кинетическая и потенциальная энергия при подъёме, и что происходит с полной механической энергией, если сопротивлением воздуха пренебречь.",
+      "prompt_md": "В языке Python элементы списка нумеруются с нуля. Какой элемент вернёт выражение a[2] для списка a = [10, 20, 30, 40]?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "10"
+        },
+        {
+          "id": "b",
+          "text_md": "20"
+        },
+        {
+          "id": "c",
+          "text_md": "30"
+        },
+        {
+          "id": "d",
+          "text_md": "40"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "Индексация начинается с нуля: a[0] = 10, a[1] = 20, a[2] = 30.",
+      "points": 1
+    },
+    {
+      "code": "diag.hist.g7.jungar",
+      "kind": "mcq_single",
+      "topic_code": "hist.g7.nachalo-otechestvennoy-voyny-protiv",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Как в казахской истории называют 1723 год — начало массового вторжения джунгар?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "«Ақтабан шұбырынды» — годы великого бедствия"
+        },
+        {
+          "id": "b",
+          "text_md": "«Зар заман» — эпоха скорби"
+        },
+        {
+          "id": "c",
+          "text_md": "«Алаш-Орда»"
+        },
+        {
+          "id": "d",
+          "text_md": "«Жеті жарғы»"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "«Ақтабан шұбырынды, Алқакөл сұлама» — название годов великого бедствия, начавшихся с джунгарского нашествия 1723 года.",
+      "points": 1
+    },
+    {
+      "code": "diag.hist.g8.alash",
+      "kind": "mcq_single",
+      "topic_code": "hist.g8.dvizhenie-alash-i-kazahskaya-nacionalnaya-ideya",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Кто был председателем правительства Алаш-Орда?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Ахмет Байтурсынов"
+        },
+        {
+          "id": "b",
+          "text_md": "Алихан Букейханов"
+        },
+        {
+          "id": "c",
+          "text_md": "Мыржакып Дулатов"
+        },
+        {
+          "id": "d",
+          "text_md": "Мустафа Шокай"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Правительство Алаш-Орда, созданное в декабре 1917 года, возглавил Алихан Букейханов.",
+      "points": 1
+    },
+    {
+      "code": "diag.hist.g9.independence",
+      "kind": "mcq_single",
+      "topic_code": "hist.g9.provozglashenie-nezavisimosti-respubliki",
+      "grade": 9,
+      "difficulty": 2,
+      "prompt_md": "Когда был принят конституционный закон о государственной независимости Республики Казахстан?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "16 декабря 1991 года"
+        },
+        {
+          "id": "b",
+          "text_md": "25 октября 1990 года"
+        },
+        {
+          "id": "c",
+          "text_md": "1 декабря 1991 года"
+        },
+        {
+          "id": "d",
+          "text_md": "30 августа 1995 года"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "16 декабря 1991 года. 25 октября 1990 года — Декларация о государственном суверенитете, 1 декабря 1991 года — первые всенародные выборы президента, 30 августа 1995 года — принятие Конституции.",
+      "points": 1
+    },
+    {
+      "code": "diag.hist.g10.silkroad",
+      "kind": "free_text",
+      "topic_code": "hist.g10.velikaya-step-istoriko-geograficheskaya",
+      "grade": 10,
+      "difficulty": 4,
+      "prompt_md": "Объясните, почему Великая Степь была не преградой между цивилизациями, а связующим звеном. Приведите два довода.",
       "options": null,
       "answer_key": {
         "expected_points": [
-          "кинетическая энергия убывает, потенциальная растёт",
-          "в верхней точке скорость равна нулю, потенциальная энергия максимальна",
-          "полная механическая энергия сохраняется при отсутствии сопротивления"
+          "торговые пути через степь",
+          "обмен технологиями и культурными традициями",
+          "роль кочевников как посредников",
+          "конкретный пример"
         ]
       },
-      "rubric_md": "Полный балл (3): описан переход кинетической энергии в потенциальную, названо состояние в верхней точке и сказано о сохранении полной механической энергии.\nЧастичный (2): описан переход энергии, но про сохранение полной энергии не сказано или сказано неверно.\nЧастичный (1): названо только одно верное утверждение.\nНоль: описание противоречит закону сохранения энергии.",
-      "explanation_md": "При подъёме кинетическая энергия переходит в потенциальную. В верхней точке v = 0, вся энергия потенциальная. Без сопротивления воздуха сумма Eₖ + Eₚ постоянна.",
-      "points": 3
+      "rubric_md": "1 балл — названа роль степи как транзитной territory между Востоком и Западом. 1 балл — приведён довод о торговле (например, Великий Шёлковый путь). 1 балл — приведён второй довод: обмен технологиями, религиями или культурными традициями. 1 балл — довод подкреплён конкретным примером, а не общими словами.",
+      "explanation_md": "Через степь проходили торговые маршруты, соединявшие Китай, Среднюю Азию и Европу; кочевые государства обеспечивали их безопасность и сами были участниками обмена — распространяли технологии (седло, стремя), религии и художественные традиции.",
+      "points": 4
     },
-
     {
-      "code": "kzh.ancient.golden_man",
+      "code": "diag.hist.g11.economy",
       "kind": "mcq_single",
-      "topic_code": "kzh.ancient",
-      "grade": 7,
-      "difficulty": 2,
-      "prompt_md": "В каком кургане был найден «Золотой человек» — знаменитое сакское погребение?",
-      "options": [
-        { "id": "a", "text_md": "Иссык" },
-        { "id": "b", "text_md": "Бесшатыр" },
-        { "id": "c", "text_md": "Берель" },
-        { "id": "d", "text_md": "Шиликты" }
-      ],
-      "answer_key": { "correct": ["a"] },
-      "rubric_md": null,
-      "explanation_md": "«Золотой человек» найден в 1969–1970 годах в кургане Иссык недалеко от Алматы.",
-      "points": 1
-    },
-    {
-      "code": "kzh.turkic.kaganate_year",
-      "kind": "numeric",
-      "topic_code": "kzh.turkic",
-      "grade": 7,
-      "difficulty": 2,
-      "prompt_md": "В каком году был образован Тюркский каганат? Укажите год числом.",
-      "options": null,
-      "answer_key": { "value": 552, "tolerance": 0 },
-      "rubric_md": null,
-      "explanation_md": "Тюркский каганат образован в 552 году, после победы Бумын-кагана над жужанями.",
-      "points": 1
-    },
-    {
-      "code": "kzh.khanate.founders",
-      "kind": "mcq_single",
-      "topic_code": "kzh.khanate",
-      "grade": 8,
-      "difficulty": 2,
-      "prompt_md": "Кто считается основателями Казахского ханства?",
-      "options": [
-        { "id": "a", "text_md": "Абулхаир и Тауке" },
-        { "id": "b", "text_md": "Керей и Жанибек" },
-        { "id": "c", "text_md": "Касым и Хакназар" },
-        { "id": "d", "text_md": "Аблай и Абулмансур" }
-      ],
-      "answer_key": { "correct": ["b"] },
-      "rubric_md": null,
-      "explanation_md": "Казахское ханство основано султанами Кереем и Жанибеком около 1465 года в Жетысу.",
-      "points": 1
-    },
-    {
-      "code": "kzh.jungar.aktaban_years",
-      "kind": "mcq_single",
-      "topic_code": "kzh.jungar",
-      "grade": 8,
+      "topic_code": "hist.g11.razvitie-ekonomiki-kazahstana-v-xx-veke",
+      "grade": 11,
       "difficulty": 3,
-      "prompt_md": "К какому периоду относятся «Актабан шубырынды» — Годы великого бедствия?",
+      "prompt_md": "Какое последствие имела кампания по освоению целинных земель в Казахстане в 1950-е годы?",
       "options": [
-        { "id": "a", "text_md": "1723–1727" },
-        { "id": "b", "text_md": "1731–1740" },
-        { "id": "c", "text_md": "1750–1756" },
-        { "id": "d", "text_md": "1710–1715" }
+        {
+          "id": "a",
+          "text_md": "Резкий рост посевных площадей и изменение состава населения"
+        },
+        {
+          "id": "b",
+          "text_md": "Полный отказ от зернового хозяйства"
+        },
+        {
+          "id": "c",
+          "text_md": "Перенос столицы в Алма-Ату"
+        },
+        {
+          "id": "d",
+          "text_md": "Сокращение промышленного производства"
+        }
       ],
-      "answer_key": { "correct": ["a"] },
-      "rubric_md": null,
-      "explanation_md": "«Актабан шубырынды, Алкакол сулама» — годы великого бедствия 1723–1727, время массового джунгарского нашествия.",
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Освоение целины резко увеличило площадь пашни и сопровождалось массовым притоком переселенцев, что изменило этнический состав населения республики; одновременно возникли проблемы эрозии почв.",
       "points": 1
     },
     {
-      "code": "kzh.russia.abulkhair_1731",
+      "code": "diag.read.main-idea",
       "kind": "mcq_single",
-      "topic_code": "kzh.russia",
-      "grade": 8,
-      "difficulty": 2,
-      "prompt_md": "В каком году хан Младшего жуза Абулхаир принял российское подданство?",
-      "options": [
-        { "id": "a", "text_md": "1723" },
-        { "id": "b", "text_md": "1731" },
-        { "id": "c", "text_md": "1745" },
-        { "id": "d", "text_md": "1822" }
-      ],
-      "answer_key": { "correct": ["b"] },
-      "rubric_md": null,
-      "explanation_md": "10 октября 1731 года Абулхаир и часть старшин Младшего жуза принесли присягу на подданство Российской империи.",
-      "points": 1
-    },
-    {
-      "code": "kzh.uprisings.kenesary_years",
-      "kind": "mcq_single",
-      "topic_code": "kzh.uprisings",
-      "grade": 8,
-      "difficulty": 3,
-      "prompt_md": "Укажите годы национально-освободительного восстания под руководством Кенесары Касымова.",
-      "options": [
-        { "id": "a", "text_md": "1783–1797" },
-        { "id": "b", "text_md": "1837–1847" },
-        { "id": "c", "text_md": "1836–1838" },
-        { "id": "d", "text_md": "1916" }
-      ],
-      "answer_key": { "correct": ["b"] },
-      "rubric_md": null,
-      "explanation_md": "Восстание Кенесары Касымова продолжалось с 1837 по 1847 год и охватило все три жуза.",
-      "points": 1
-    },
-    {
-      "code": "kzh.alash.statements",
-      "kind": "mcq_multi",
-      "topic_code": "kzh.alash",
+      "topic_code": "read.main-idea",
       "grade": 9,
       "difficulty": 3,
-      "prompt_md": "Выберите **все** верные утверждения о движении Алаш и Алаш-Орде.",
+      "prompt_md": "Прочитайте текст.\n\n«Городские велопрокаты появились в Казахстане недавно, но уже изменили привычки горожан. Исследование в Алматы показало: половина поездок на арендованном велосипеде заменила поездку на автомобиле, а не прогулку пешком. При этом больше всего таких поездок приходится на районы, где есть выделенные полосы».\n\nКакая мысль является основной?",
       "options": [
-        { "id": "a", "text_md": "Лидером движения был Алихан Букейханов" },
-        { "id": "b", "text_md": "Партия «Алаш» оформилась в 1917 году" },
-        { "id": "c", "text_md": "Центром автономии был объявлен город Семей (Алаш-кала)" },
-        { "id": "d", "text_md": "Движение выступало за немедленную советизацию края" }
+        {
+          "id": "a",
+          "text_md": "Велопрокат в Алматы дороже, чем в других городах"
+        },
+        {
+          "id": "b",
+          "text_md": "Велопрокат заменяет автомобильные поездки, особенно там, где есть инфраструктура"
+        },
+        {
+          "id": "c",
+          "text_md": "Горожане стали меньше ходить пешком"
+        },
+        {
+          "id": "d",
+          "text_md": "Выделенные полосы нужно строить во всех районах"
+        }
       ],
-      "answer_key": { "correct": ["a", "b", "c"] },
-      "rubric_md": null,
-      "explanation_md": "Алаш-Орда во главе с Алиханом Букейхановым образована в декабре 1917 года, центр — Семипалатинск (Алаш-кала). Советизацию движение не поддерживало.",
-      "points": 2
-    },
-    {
-      "code": "kzh.soviet.famine_cause",
-      "kind": "mcq_single",
-      "topic_code": "kzh.soviet",
-      "grade": 9,
-      "difficulty": 3,
-      "prompt_md": "Что стало главной причиной массового голода в Казахстане в 1931–1933 годах?",
-      "options": [
-        { "id": "a", "text_md": "Многолетняя засуха" },
-        { "id": "b", "text_md": "Насильственная коллективизация и оседание кочевников" },
-        { "id": "c", "text_md": "Эпидемия скота" },
-        { "id": "d", "text_md": "Военные действия на территории края" }
-      ],
-      "answer_key": { "correct": ["b"] },
-      "rubric_md": null,
-      "explanation_md": "Голод был вызван насильственной коллективизацией, изъятием скота и принудительным переводом кочевого населения на оседлость.",
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Текст сообщает два факта: поездки заменяют автомобиль и сосредоточены там, где есть полосы. Вариант «меньше ходить пешком» тексту прямо противоречит, а строительство полос — вывод, которого автор не делает.",
       "points": 1
     },
     {
-      "code": "kzh.wwii.panfilov_division",
+      "code": "diag.read.fact-opinion",
       "kind": "mcq_single",
-      "topic_code": "kzh.wwii",
-      "grade": 9,
-      "difficulty": 2,
-      "prompt_md": "В каком городе формировалась 316-я стрелковая дивизия под командованием И. В. Панфилова?",
-      "options": [
-        { "id": "a", "text_md": "Алма-Ата" },
-        { "id": "b", "text_md": "Семипалатинск" },
-        { "id": "c", "text_md": "Уральск" },
-        { "id": "d", "text_md": "Караганда" }
-      ],
-      "answer_key": { "correct": ["a"] },
-      "rubric_md": null,
-      "explanation_md": "316-я стрелковая дивизия формировалась летом 1941 года в Алма-Ате, позже стала 8-й гвардейской.",
-      "points": 1
-    },
-    {
-      "code": "kzh.free.zheltoksan_1986",
-      "kind": "free_text",
-      "topic_code": "kzh.virgin_lands",
+      "topic_code": "read.fact-opinion",
       "grade": 10,
       "difficulty": 3,
-      "prompt_md": "Расскажите о Декабрьских событиях 1986 года в Алма-Ате: что стало поводом и в чём их историческое значение.",
-      "options": null,
+      "prompt_md": "Какое из утверждений является мнением, а не фактом?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Площадь Казахстана — более 2,7 млн км²"
+        },
+        {
+          "id": "b",
+          "text_md": "Астана стала столицей в 1997 году"
+        },
+        {
+          "id": "c",
+          "text_md": "Зимой в Астане холоднее, чем в Алматы"
+        },
+        {
+          "id": "d",
+          "text_md": "Астана — самый красивый город страны"
+        }
+      ],
       "answer_key": {
-        "expected_points": [
-          "поводом стало смещение Кунаева и назначение Колбина",
-          "выступление молодёжи в Алма-Ате в декабре 1986 года",
-          "первое массовое выступление против национальной политики центра",
-          "выступление было подавлено силой"
+        "correct": [
+          "d"
         ]
       },
-      "rubric_md": "Полный балл (3): назван повод (смена руководства республики, назначение Колбина), описано само выступление и сказано о его значении для национального самосознания или пути к независимости.\nЧастичный (2): названы повод и событие, но значение не раскрыто.\nЧастичный (1): событие упомянуто в общих словах, без повода и значения.\nНоль: событие названо неверно или отнесено к другому времени.",
-      "explanation_md": "16–17 декабря 1986 года молодёжь вышла на площадь в Алма-Ате после снятия Д. А. Кунаева и назначения Г. В. Колбина, не связанного с республикой. Выступление подавили силой; оно стало первым массовым протестом против национальной политики центра в СССР.",
-      "points": 3
-    },
-
-    {
-      "code": "read.main.aral_idea",
-      "kind": "mcq_single",
-      "topic_code": "read.main_idea",
-      "grade": 8,
-      "difficulty": 2,
-      "prompt_md": "Прочитайте текст.\n\n> Ещё в середине XX века Аральское море было четвёртым по величине озером мира. Воду двух рек, питавших его, начали в больших объёмах отводить на орошение хлопковых полей. Море стало отступать, обнажая солёное дно; рыболовецкие посёлки оказались в десятках километров от воды. Сегодня часть Малого Арала удалось сохранить дамбой, но прежних размеров море уже не вернёт.\n\nКакая мысль выражает главную идею текста?",
-      "options": [
-        { "id": "a", "text_md": "Хлопок — важнейшая культура региона" },
-        { "id": "b", "text_md": "Хозяйственное вмешательство человека привело к необратимому сокращению Арала" },
-        { "id": "c", "text_md": "Дамбы — самый надёжный способ сохранить водоёмы" },
-        { "id": "d", "text_md": "Рыболовство в регионе никогда не было развито" }
-      ],
-      "answer_key": { "correct": ["b"] },
-      "rubric_md": null,
-      "explanation_md": "Текст описывает причину (отвод воды на орошение) и её последствие (отступление моря), а последнее предложение подчёркивает необратимость.",
+      "explanation_md": "Первые три утверждения проверяются измерением или документом. «Самый красивый» — оценка, проверить её нельзя.",
       "points": 1
     },
     {
-      "code": "read.retr.aral_fact",
-      "kind": "mcq_single",
-      "topic_code": "read.retrieval",
-      "grade": 7,
-      "difficulty": 1,
-      "prompt_md": "Прочитайте текст.\n\n> Ещё в середине XX века Аральское море было четвёртым по величине озером мира. Воду двух рек, питавших его, начали в больших объёмах отводить на орошение хлопковых полей.\n\nСколько рек питало Аральское море, согласно тексту?",
-      "options": [
-        { "id": "a", "text_md": "Одна" },
-        { "id": "b", "text_md": "Две" },
-        { "id": "c", "text_md": "Четыре" },
-        { "id": "d", "text_md": "В тексте не сказано" }
-      ],
-      "answer_key": { "correct": ["b"] },
-      "rubric_md": null,
-      "explanation_md": "В тексте прямо сказано: «Воду двух рек, питавших его…».",
-      "points": 1
-    },
-    {
-      "code": "read.interp.author_attitude",
-      "kind": "mcq_single",
-      "topic_code": "read.interpret",
+      "code": "diag.mlit.percent",
+      "kind": "numeric",
+      "topic_code": "mlit.percent-discount",
       "grade": 9,
       "difficulty": 3,
-      "prompt_md": "Прочитайте предложение.\n\n> Сегодня часть Малого Арала удалось сохранить дамбой, но прежних размеров море уже не вернёт.\n\nКакое отношение автора передаёт это предложение?",
-      "options": [
-        { "id": "a", "text_md": "Полное безразличие к судьбе моря" },
-        { "id": "b", "text_md": "Сдержанное признание частичного успеха при необратимости потерь" },
-        { "id": "c", "text_md": "Уверенность в скором восстановлении моря" },
-        { "id": "d", "text_md": "Осуждение строительства дамбы" }
-      ],
-      "answer_key": { "correct": ["b"] },
-      "rubric_md": null,
-      "explanation_md": "Союз «но» противопоставляет достигнутое («удалось сохранить») тому, что уже невозможно («прежних размеров не вернёт»).",
-      "points": 1
-    },
-    {
-      "code": "read.vocab.otstupat",
-      "kind": "mcq_single",
-      "topic_code": "read.vocabulary",
-      "grade": 7,
-      "difficulty": 2,
-      "prompt_md": "В предложении «Море стало отступать, обнажая солёное дно» слово **отступать** означает:",
-      "options": [
-        { "id": "a", "text_md": "отходить назад, уменьшаясь в размерах" },
-        { "id": "b", "text_md": "нарушать обещание" },
-        { "id": "c", "text_md": "делать отступ в тексте" },
-        { "id": "d", "text_md": "признавать поражение в споре" }
-      ],
-      "answer_key": { "correct": ["a"] },
-      "rubric_md": null,
-      "explanation_md": "В этом контексте «отступать» — уходить, освобождать занятое пространство; на это указывает и «обнажая дно».",
-      "points": 1
-    },
-    {
-      "code": "read.noncont.timetable",
-      "kind": "mcq_single",
-      "topic_code": "read.noncontinuous",
-      "grade": 8,
-      "difficulty": 2,
-      "prompt_md": "Расписание автобуса от посёлка до города:\n\n| Рейс | Отправление | Прибытие |\n|---|---|---|\n| 1 | 06:40 | 08:05 |\n| 2 | 09:15 | 10:50 |\n| 3 | 14:00 | 15:20 |\n\nУченику нужно быть в городе не позднее 11:00. Какой самый поздний рейс ему подходит?",
-      "options": [
-        { "id": "a", "text_md": "Рейс 1" },
-        { "id": "b", "text_md": "Рейс 2" },
-        { "id": "c", "text_md": "Рейс 3" },
-        { "id": "d", "text_md": "Ни один не подходит" }
-      ],
-      "answer_key": { "correct": ["b"] },
-      "rubric_md": null,
-      "explanation_md": "Рейс 2 прибывает в 10:50 — раньше 11:00. Рейс 3 прибывает в 15:20, слишком поздно.",
-      "points": 1
-    },
-    {
-      "code": "read.free.evaluate_source",
-      "kind": "free_text",
-      "topic_code": "read.evaluate",
-      "grade": 10,
-      "difficulty": 3,
-      "prompt_md": "В сети опубликована заметка: «Учёные доказали, что Арал полностью восстановится за пять лет». Автор не указан, ссылок на исследования нет, а сайт зарабатывает на рекламе.\n\nСтоит ли доверять такой заметке? Обоснуйте ответ, назвав признаки, по которым вы судите о надёжности источника.",
+      "prompt_md": "Товар стоил 8000 тенге. Сначала цену подняли на 25 %, затем снизили на 20 %. Сколько стоит товар теперь? Ответ дайте в тенге.",
       "options": null,
       "answer_key": {
-        "expected_points": [
-          "доверять заметке не стоит",
-          "не указан автор и нет ссылок на исследования",
-          "формулировка «учёные доказали» без источника — признак недостоверности",
-          "нужно проверить информацию по независимым источникам"
-        ]
+        "value": 8000,
+        "tolerance": 0
       },
-      "rubric_md": "Полный балл (3): дан однозначный вывод о недоверии и названы не менее двух признаков ненадёжности (отсутствие автора, отсутствие ссылок на исследования, безымянная апелляция к «учёным», коммерческий интерес сайта, категоричность прогноза).\nЧастичный (2): вывод верный, назван один признак.\nЧастичный (1): выражено сомнение без обоснования.\nНоль: заметке предлагается доверять либо ответ не по существу.",
-      "explanation_md": "Надёжность источника оценивается по авторству, наличию ссылок на первичные исследования, отсутствию коммерческой заинтересованности и осторожности формулировок. Здесь не выполнено ничего из этого.",
-      "points": 3
+      "explanation_md": "8000 · 1,25 = 10 000; 10 000 · 0,8 = 8000. Повышение на 25 % и снижение на 20 % компенсируют друг друга — это типичная ловушка на процентах.",
+      "points": 1
     },
-
     {
-      "code": "mlit.percent.double_discount",
+      "code": "diag.mlit.tariff",
       "kind": "numeric",
-      "topic_code": "mlit.percent",
+      "topic_code": "mlit.rates-tariffs",
       "grade": 8,
       "difficulty": 3,
-      "prompt_md": "Товар стоил 8000 тенге. Сначала цену снизили на 25 %, затем ещё на 10 % от новой цены. Сколько стоит товар теперь? Ответ в тенге.",
-      "options": null,
-      "answer_key": { "value": 5400, "tolerance": 0 },
-      "rubric_md": null,
-      "explanation_md": "8000 · 0,75 = 6000; 6000 · 0,9 = 5400 тенге. Складывать проценты нельзя: вторая скидка считается от новой цены.",
-      "points": 1
-    },
-    {
-      "code": "mlit.rates.average_speed",
-      "kind": "numeric",
-      "topic_code": "mlit.rates",
-      "grade": 7,
-      "difficulty": 2,
-      "prompt_md": "Автобус проехал 180 км за 2 часа 30 минут. Найдите его среднюю скорость в км/ч.",
-      "options": null,
-      "answer_key": { "value": 72, "tolerance": 0 },
-      "rubric_md": null,
-      "explanation_md": "2 ч 30 мин = 2,5 ч. Средняя скорость 180 / 2,5 = 72 км/ч.",
-      "points": 1
-    },
-    {
-      "code": "mlit.stat.median_five",
-      "kind": "numeric",
-      "topic_code": "mlit.statistics",
-      "grade": 8,
-      "difficulty": 2,
-      "prompt_md": "Найдите медиану набора чисел: 15, 3, 7, 10, 7.",
-      "options": null,
-      "answer_key": { "value": 7, "tolerance": 0 },
-      "rubric_md": null,
-      "explanation_md": "Упорядочим: 3, 7, 7, 10, 15. Медиана — третье значение, то есть 7.",
-      "points": 1
-    },
-    {
-      "code": "mlit.charts.read_bar",
-      "kind": "mcq_single",
-      "topic_code": "mlit.charts",
-      "grade": 7,
-      "difficulty": 2,
-      "prompt_md": "Столбчатая диаграмма показывает расход воды за четыре месяца: январь — 12 м³, февраль — 9 м³, март — 15 м³, апрель — 9 м³. Что можно утверждать по этим данным?",
-      "options": [
-        { "id": "a", "text_md": "Расход рос каждый месяц" },
-        { "id": "b", "text_md": "Наибольший расход был в марте, а февраль и апрель равны" },
-        { "id": "c", "text_md": "Средний расход больше 15 м³" },
-        { "id": "d", "text_md": "В апреле расход был наибольшим" }
-      ],
-      "answer_key": { "correct": ["b"] },
-      "rubric_md": null,
-      "explanation_md": "Наибольшее значение 15 м³ приходится на март, февраль и апрель одинаковы (9 м³). Средний расход равен 11,25 м³.",
-      "points": 1
-    },
-    {
-      "code": "mlit.est.order_of_magnitude",
-      "kind": "mcq_single",
-      "topic_code": "mlit.estimation",
-      "grade": 7,
-      "difficulty": 2,
-      "prompt_md": "В школе 24 класса, в каждом примерно 25 учеников. Какая оценка числа учеников школы наиболее разумна?",
-      "options": [
-        { "id": "a", "text_md": "около 600" },
-        { "id": "b", "text_md": "около 60" },
-        { "id": "c", "text_md": "около 6000" },
-        { "id": "d", "text_md": "около 250" }
-      ],
-      "answer_key": { "correct": ["a"] },
-      "rubric_md": null,
-      "explanation_md": "24 · 25 = 600. Прикидка: 25 · 24 ≈ 25 · 25 = 625, то есть порядок — шестьсот.",
-      "points": 1
-    },
-    {
-      "code": "mlit.free.compound_interest",
-      "kind": "free_text",
-      "topic_code": "mlit.finance",
-      "grade": 10,
-      "difficulty": 3,
-      "prompt_md": "Вклад 100 000 тенге размещён на 2 года под 12 % годовых. Объясните, в каком случае итоговая сумма окажется больше — при простом проценте или при сложном с ежегодной капитализацией, — и почему.",
+      "prompt_md": "Тариф такси: 500 тенге за посадку и 120 тенге за каждый километр. Сколько стоит поездка на 7 км? Ответ дайте в тенге.",
       "options": null,
       "answer_key": {
-        "expected_points": [
-          "при сложном проценте сумма больше",
-          "при простом проценте получится 124 000 тенге",
-          "при сложном проценте получится 125 440 тенге",
-          "во второй год проценты начисляются и на проценты первого года"
+        "value": 1340,
+        "tolerance": 0
+      },
+      "explanation_md": "500 + 120 · 7 = 500 + 840 = 1340 тенге.",
+      "points": 1
+    },
+    {
+      "code": "diag.nat.g5.mixtures",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.v-chem-raznica-mezhdu-chistym-veschestvom-i",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "Что из перечисленного является смесью?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Дистиллированная вода"
+        },
+        {
+          "id": "b",
+          "text_md": "Морская вода"
+        },
+        {
+          "id": "c",
+          "text_md": "Кислород"
+        },
+        {
+          "id": "d",
+          "text_md": "Медь"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
         ]
       },
-      "rubric_md": "Полный балл (3): назван верный вывод (сложный процент выгоднее) и объяснена причина — во второй год проценты начисляются на уже увеличенную сумму. Числовой расчёт приветствуется, но при верном объяснении не обязателен.\nЧастичный (2): вывод верный, объяснение нестрогое или только числовое, без формулировки причины.\nЧастичный (1): вывод верный без всякого обоснования.\nНоль: вывод неверный либо ответ не по существу.",
-      "explanation_md": "Простой процент: 100 000 + 2 · 12 000 = 124 000. Сложный: 100 000 · 1,12² = 125 440. Разница возникает потому, что во второй год 12 % начисляются на 112 000, а не на 100 000.",
-      "points": 3
+      "explanation_md": "Морская вода состоит из воды и растворённых солей, то есть из нескольких веществ. Остальные — чистые вещества.",
+      "points": 1
+    },
+    {
+      "code": "diag.nat.g6.objects",
+      "kind": "mcq_single",
+      "topic_code": "nat.g6.obekty-issledovaniya-estestvennyh-nauk",
+      "grade": 6,
+      "difficulty": 2,
+      "prompt_md": "Какая наука изучает строение и жизнедеятельность живых организмов?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Физика"
+        },
+        {
+          "id": "b",
+          "text_md": "География"
+        },
+        {
+          "id": "c",
+          "text_md": "Биология"
+        },
+        {
+          "id": "d",
+          "text_md": "Химия"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "Биология — наука о живой природе: о строении, жизнедеятельности и развитии организмов.",
+      "points": 1
+    },
+    {
+      "code": "diag.logic.g5.arithmetic",
+      "kind": "mcq_single",
+      "topic_code": "logic.g5.arithmetic-order",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Сравните величины.\n\nКолонка A: (12 − 5) · 4\n\nКолонка B: 12 − 5 · 4",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "A = 7 · 4 = 28. B = 12 − 20 = −8. Значит A больше. Задание проверяет порядок действий: скобки выполняются первыми.",
+      "points": 1
+    },
+    {
+      "code": "diag.logic.g5.divisibility",
+      "kind": "mcq_single",
+      "topic_code": "logic.g5.divisibility",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Требуется разрезать две трубы на куски одинаковой наибольшей длины без остатка.\n\nКолонка A: длины труб 126 см и 81 см\n\nКолонка B: длины труб 108 см и 27 см\n\nСравните длину получившегося куска.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Длина куска — это НОД. НОД(126, 81) = 9, НОД(108, 27) = 27. Значит B больше.",
+      "points": 1
+    },
+    {
+      "code": "diag.logic.g6.lastdigit",
+      "kind": "mcq_single",
+      "topic_code": "logic.g6.last-digit",
+      "grade": 6,
+      "difficulty": 4,
+      "prompt_md": "Сравните последние цифры чисел.\n\nКолонка A: последняя цифра числа 7^12\n\nКолонка B: последняя цифра числа 3^12",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "Последние цифры степеней семёрки повторяются с периодом 4: 7, 9, 3, 1. При показателе 12 (кратен 4) последняя цифра равна 1. У тройки период тот же: 3, 9, 7, 1 — и при показателе 12 тоже 1. Величины равны.",
+      "points": 1
+    },
+    {
+      "code": "diag.logic.g6.percent",
+      "kind": "mcq_single",
+      "topic_code": "logic.g6.percent-proportion",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Цена товара изменилась дважды.\n\nКолонка A: цена выросла на 10 %, затем ещё на 10 %\n\nКолонка B: цена выросла на 20 %\n\nСравните итоговую цену.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "A больше"
+        },
+        {
+          "id": "b",
+          "text_md": "B больше"
+        },
+        {
+          "id": "c",
+          "text_md": "Величины равны"
+        },
+        {
+          "id": "d",
+          "text_md": "Недостаточно данных"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "A: 1,1 · 1,1 = 1,21 — рост на 21 %. B: рост на 20 %. Второе повышение считается уже от увеличенной цены, поэтому A больше.",
+      "points": 1
+    },
+    {
+      "code": "diag.rus.g7.participle",
+      "kind": "mcq_single",
+      "topic_code": "rus.g7.prichastie-kak-osobaya-forma-glagola",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "В каком ряду все слова — действительные причастия?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "читающий, бегущий, построивший"
+        },
+        {
+          "id": "b",
+          "text_md": "прочитанный, построенный, вымытый"
+        },
+        {
+          "id": "c",
+          "text_md": "читая, бегом, построив"
+        },
+        {
+          "id": "d",
+          "text_md": "читать, бежать, строить"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Действительное причастие обозначает признак по действию, которое выполняет сам предмет. В ряду b — страдательные причастия, в c — деепричастия и наречие, в d — глаголы.",
+      "points": 1
+    },
+    {
+      "code": "diag.kaz.g5.family",
+      "kind": "mcq_single",
+      "topic_code": "kaz.g5.qazaq-otbasynyn-d-sturleri",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "«Отбасы» сөзінің мағынасы қандай?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Семья"
+        },
+        {
+          "id": "b",
+          "text_md": "Школа"
+        },
+        {
+          "id": "c",
+          "text_md": "Город"
+        },
+        {
+          "id": "d",
+          "text_md": "Праздник"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "«Отбасы» переводится как «семья»: «от» — очаг, «басы» — глава, буквально «у очага».",
+      "points": 1
+    },
+    {
+      "code": "diag.eng.g5.present",
+      "kind": "mcq_single",
+      "topic_code": "eng.g5.home-and-away",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "Choose the correct sentence.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "She go to school every day."
+        },
+        {
+          "id": "b",
+          "text_md": "She goes to school every day."
+        },
+        {
+          "id": "c",
+          "text_md": "She going to school every day."
+        },
+        {
+          "id": "d",
+          "text_md": "She is go to school every day."
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "В Present Simple с подлежащим третьего лица единственного числа к глаголу добавляется -es: she goes.",
+      "points": 1
+    },
+    {
+      "code": "diag.chem.g8.electrons",
+      "kind": "mcq_single",
+      "topic_code": "chem.g8.raspredelenie-elektronov-v-atomah",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Сколько электронов содержится на внешнем энергетическом уровне атома кислорода?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2"
+        },
+        {
+          "id": "b",
+          "text_md": "4"
+        },
+        {
+          "id": "c",
+          "text_md": "6"
+        },
+        {
+          "id": "d",
+          "text_md": "8"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "У кислорода 8 электронов, распределение 2 и 6. На внешнем уровне — 6, поэтому до устойчивой восьмёрки ему не хватает двух: отсюда валентность II.",
+      "points": 1
+    },
+    {
+      "code": "diag.chem.g10.periodic",
+      "kind": "mcq_single",
+      "topic_code": "chem.g10.zakonomernosti-izmeneniya-svoystv-elementov-v",
+      "grade": 10,
+      "difficulty": 3,
+      "prompt_md": "Как изменяются металлические свойства элементов в периоде слева направо?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Усиливаются"
+        },
+        {
+          "id": "b",
+          "text_md": "Ослабевают"
+        },
+        {
+          "id": "c",
+          "text_md": "Не изменяются"
+        },
+        {
+          "id": "d",
+          "text_md": "Сначала усиливаются, затем ослабевают"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "В периоде заряд ядра растёт, а радиус атома уменьшается — электрон удерживается прочнее, отдавать его труднее. Поэтому металлические свойства ослабевают, а неметаллические усиливаются.",
+      "points": 1
+    },
+    {
+      "code": "diag.bio.g8.cell",
+      "kind": "mcq_single",
+      "topic_code": "bio.g8.stroenie-kletok-prokariot-i-eukariot",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Какой органоид отвечает за синтез белка в клетке?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Рибосома"
+        },
+        {
+          "id": "b",
+          "text_md": "Лизосома"
+        },
+        {
+          "id": "c",
+          "text_md": "Вакуоль"
+        },
+        {
+          "id": "d",
+          "text_md": "Аппарат Гольджи"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Рибосома собирает белок из аминокислот по матрице иРНК. Лизосома, напротив, расщепляет вещества, а аппарат Гольджи упаковывает уже готовые.",
+      "points": 1
+    },
+    {
+      "code": "diag.bio.g10.water",
+      "kind": "mcq_single",
+      "topic_code": "bio.g10.znachenie-vody-dlya-zhizni-na-zemle",
+      "grade": 10,
+      "difficulty": 3,
+      "prompt_md": "Какое свойство воды объясняет, почему температура организма меняется медленно?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Малая плотность льда"
+        },
+        {
+          "id": "b",
+          "text_md": "Высокая теплоёмкость"
+        },
+        {
+          "id": "c",
+          "text_md": "Прозрачность"
+        },
+        {
+          "id": "d",
+          "text_md": "Способность растворять соли"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Чтобы нагреть воду на градус, нужно много энергии, и столько же она отдаёт при охлаждении. Организм на две трети состоит из воды, поэтому его температура устойчива к перепадам внешней.",
+      "points": 1
+    },
+    {
+      "code": "diag.inf.g8.alphabet",
+      "kind": "mcq_single",
+      "topic_code": "inf.g8.izmerenie-informacii-alfavitnyy-podhod",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Алфавит состоит из 32 символов. Сколько бит несёт один символ такого алфавита?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "4"
+        },
+        {
+          "id": "b",
+          "text_md": "5"
+        },
+        {
+          "id": "c",
+          "text_md": "6"
+        },
+        {
+          "id": "d",
+          "text_md": "32"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Число символов N и информационный вес i связаны как N = 2^i. Здесь 32 = 2^5, значит i = 5 бит.",
+      "points": 1
+    },
+    {
+      "code": "diag.inf.g10.networks",
+      "kind": "mcq_single",
+      "topic_code": "inf.g10.organizaciya-kompyuternyh-setey",
+      "grade": 10,
+      "difficulty": 3,
+      "prompt_md": "Что из перечисленного является IP-адресом?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "192.168.1.10"
+        },
+        {
+          "id": "b",
+          "text_md": "www.example.kz"
+        },
+        {
+          "id": "c",
+          "text_md": "00-1B-44-11-3A-B7"
+        },
+        {
+          "id": "d",
+          "text_md": "https://example.kz"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "IPv4-адрес — четыре числа от 0 до 255 через точку. Вариант с дефисами — MAC-адрес сетевой карты, остальные два — доменное имя и ссылка.",
+      "points": 1
+    },
+    {
+      "code": "diag.inf.g11.ai",
+      "kind": "mcq_single",
+      "topic_code": "inf.g11.iskusstvennyy-intellekt-osnova-sovremennyh",
+      "grade": 11,
+      "difficulty": 3,
+      "prompt_md": "Что такое обучающая выборка в машинном обучении?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Программа, написанная человеком по шагам"
+        },
+        {
+          "id": "b",
+          "text_md": "Набор примеров, на которых модель настраивает свои параметры"
+        },
+        {
+          "id": "c",
+          "text_md": "Устройство для хранения данных"
+        },
+        {
+          "id": "d",
+          "text_md": "Язык программирования для нейросетей"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Модель не программируют по шагам: ей показывают примеры, и она подбирает параметры так, чтобы отвечать на них верно. Этот набор примеров и есть обучающая выборка.",
+      "points": 1
+    },
+    {
+      "code": "diag.rus.g5.stress",
+      "kind": "mcq_single",
+      "topic_code": "rus.g5.slovo-yazyk-kommunikaciya",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "В каком слове ударение падает на последний слог?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "алфавит"
+        },
+        {
+          "id": "b",
+          "text_md": "торты"
+        },
+        {
+          "id": "c",
+          "text_md": "банты"
+        },
+        {
+          "id": "d",
+          "text_md": "шарфы"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Верно: алфавИт. В словах «тОрты», «бАнты», «шАрфы» ударение остаётся на первом слоге во всех формах — это частая ошибка устной речи.",
+      "points": 1
+    },
+    {
+      "code": "diag.rus.g8.style",
+      "kind": "mcq_single",
+      "topic_code": "rus.g8.semeynye-cennosti-publicisticheskiy-stil-rechi",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Какой признак отличает публицистический стиль речи?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Строгая терминология и отсутствие эмоций"
+        },
+        {
+          "id": "b",
+          "text_md": "Воздействие на читателя и открытая позиция автора"
+        },
+        {
+          "id": "c",
+          "text_md": "Использование только диалогов"
+        },
+        {
+          "id": "d",
+          "text_md": "Обязательное наличие формул и таблиц"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Публицистика не просто сообщает, а убеждает: автор высказывает позицию и подбирает средства, чтобы читатель её разделил. Строгая терминология без эмоций — признак научного стиля.",
+      "points": 1
+    },
+    {
+      "code": "diag.rus.g9.conjunctions",
+      "kind": "mcq_single",
+      "topic_code": "rus.g9.konflikt-sochinitelnye-soyuzy-ih-tipy",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "В каком ряду все союзы сочинительные противительные?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "и, да (в значении «и»), тоже"
+        },
+        {
+          "id": "b",
+          "text_md": "а, но, однако"
+        },
+        {
+          "id": "c",
+          "text_md": "что, чтобы, как"
+        },
+        {
+          "id": "d",
+          "text_md": "или, либо, то ли"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Противительные союзы указывают на противопоставление: а, но, однако, зато. В первом ряду соединительные, в четвёртом разделительные, в третьем — подчинительные.",
+      "points": 1
+    },
+    {
+      "code": "diag.rus.g10.cases",
+      "kind": "mcq_single",
+      "topic_code": "rus.g10.dialog-kultur-v-kazahstane",
+      "grade": 10,
+      "difficulty": 3,
+      "prompt_md": "Какое предложение построено без речевой ошибки?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Благодаря дождя урожай будет хорошим"
+        },
+        {
+          "id": "b",
+          "text_md": "Согласно приказа работа начинается в восемь"
+        },
+        {
+          "id": "c",
+          "text_md": "Вопреки прогнозу день оказался ясным"
+        },
+        {
+          "id": "d",
+          "text_md": "Оплатите за проезд"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "Предлоги «благодаря», «согласно», «вопреки» требуют дательного падежа: вопреки прогнозу, согласно приказу, благодаря дождю. Глагол «оплатить» употребляется без предлога: оплатить проезд.",
+      "points": 1
+    },
+    {
+      "code": "diag.rus.g11.metaphor",
+      "kind": "mcq_single",
+      "topic_code": "rus.g11.chto-takoe-socialnoe-ravenstvo-i-neravenstvo",
+      "grade": 11,
+      "difficulty": 3,
+      "prompt_md": "Какое средство выразительности использовано во фразе «железные аргументы»?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Метафора"
+        },
+        {
+          "id": "b",
+          "text_md": "Гипербола"
+        },
+        {
+          "id": "c",
+          "text_md": "Литота"
+        },
+        {
+          "id": "d",
+          "text_md": "Антитеза"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Свойство железа — прочность — перенесено на доводы по сходству. Такой перенос значения по сходству и называется метафорой.",
+      "points": 1
+    },
+    {
+      "code": "diag.kaz.g6.synonym",
+      "kind": "mcq_single",
+      "topic_code": "kaz.g6.otbasy-kunin-toyladyq",
+      "grade": 6,
+      "difficulty": 2,
+      "prompt_md": "«Мереке» сөзінің синонимі қайсы?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Той"
+        },
+        {
+          "id": "b",
+          "text_md": "Кітап"
+        },
+        {
+          "id": "c",
+          "text_md": "Жол"
+        },
+        {
+          "id": "d",
+          "text_md": "Терезе"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "«Мереке» мен «той» — синоним сөздер: екеуі де қуанышты оқиғаны білдіреді.",
+      "points": 1
+    },
+    {
+      "code": "diag.kaz.g7.suffix",
+      "kind": "mcq_single",
+      "topic_code": "kaz.g7.kop-til-bilgim-keledi",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "«Білім» сөзіне қай жұрнақ жалғанып, білуге құштар адамды білдіретін сөз жасалады?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "-дар"
+        },
+        {
+          "id": "b",
+          "text_md": "-ді"
+        },
+        {
+          "id": "c",
+          "text_md": "-паз"
+        },
+        {
+          "id": "d",
+          "text_md": "-мен"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "«Білімпаз» — білімді, білуге құштар адам. «-паз» жұрнағы бейімділікті білдіреді; «-дар» көптік жалғауы, «-мен» көмектес септік.",
+      "points": 1
+    },
+    {
+      "code": "diag.kaz.g8.tense",
+      "kind": "mcq_single",
+      "topic_code": "kaz.g8.bilim-gylym-innovaciya",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Қай сөйлемдегі етістік өткен шақта тұр?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Оқушы кітап оқиды"
+        },
+        {
+          "id": "b",
+          "text_md": "Оқушы кітап оқыды"
+        },
+        {
+          "id": "c",
+          "text_md": "Оқушы кітап оқымақ"
+        },
+        {
+          "id": "d",
+          "text_md": "Оқушы кітап оқығысы келеді"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "«Оқыды» — жедел өткен шақ: -ды жұрнағы іс аяқталғанын білдіреді. «Оқиды» — ауыспалы осы шақ, «оқымақ» — мақсатты келер шақ.",
+      "points": 1
+    },
+    {
+      "code": "diag.kaz.g9.kultegin",
+      "kind": "mcq_single",
+      "topic_code": "kaz.g9.kultegin-zhyry",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "«Күлтегін» жыры қандай жазумен жазылған?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Араб жазуы"
+        },
+        {
+          "id": "b",
+          "text_md": "Көне түркі (руна) жазуы"
+        },
+        {
+          "id": "c",
+          "text_md": "Латын жазуы"
+        },
+        {
+          "id": "d",
+          "text_md": "Кирилл жазуы"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Күлтегін ескерткіші — Орхон-Енисей көне түркі руна жазуымен қашалған VIII ғасыр жәдігері.",
+      "points": 1
+    },
+    {
+      "code": "diag.kaz.g10.demand",
+      "kind": "mcq_single",
+      "topic_code": "kaz.g10.enbek-narygy-zh-ne-suranys",
+      "grade": 10,
+      "difficulty": 3,
+      "prompt_md": "«Сұраныс» сөзінің мағынасы қандай?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Тауарға деген қажеттілік"
+        },
+        {
+          "id": "b",
+          "text_md": "Тауардың бағасы"
+        },
+        {
+          "id": "c",
+          "text_md": "Тауардың саны"
+        },
+        {
+          "id": "d",
+          "text_md": "Тауарды тасымалдау"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Сұраныс — сатып алушылардың тауарға деген қажеттілігі әрі оны сатып алуға дайындығы. Баға мен сан — бөлек ұғымдар.",
+      "points": 1
+    },
+    {
+      "code": "diag.kaz.g11.style",
+      "kind": "mcq_single",
+      "topic_code": "kaz.g11.leumettik-m-sele-turaly-ne-bilesin",
+      "grade": 11,
+      "difficulty": 3,
+      "prompt_md": "Публицистикалық стильдің басты мақсаты қандай?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Ғылыми терминді түсіндіру"
+        },
+        {
+          "id": "b",
+          "text_md": "Оқырманға әсер етіп, көзқарас қалыптастыру"
+        },
+        {
+          "id": "c",
+          "text_md": "Ресми құжат жасау"
+        },
+        {
+          "id": "d",
+          "text_md": "Көркем бейне жасау"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Публицистика оқиғаны хабарлап қана қоймай, автордың ұстанымын білдіріп, оқырманға әсер етуді мақсат тұтады.",
+      "points": 1
+    },
+    {
+      "code": "diag.eng.g6.question",
+      "kind": "mcq_single",
+      "topic_code": "eng.g6.our-class",
+      "grade": 6,
+      "difficulty": 2,
+      "prompt_md": "Choose the correct question.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Where you live?"
+        },
+        {
+          "id": "b",
+          "text_md": "Where do you live?"
+        },
+        {
+          "id": "c",
+          "text_md": "Where lives you?"
+        },
+        {
+          "id": "d",
+          "text_md": "Where you do live?"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "В Present Simple вопрос строится со вспомогательным do/does: Where do you live? Порядок такой: вопросительное слово, вспомогательный глагол, подлежащее, смысловой глагол.",
+      "points": 1
+    },
+    {
+      "code": "diag.eng.g7.go",
+      "kind": "mcq_single",
+      "topic_code": "eng.g7.expressions-with-go",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "Choose the correct verb: «We usually ___ shopping on Saturdays».",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "go"
+        },
+        {
+          "id": "b",
+          "text_md": "make"
+        },
+        {
+          "id": "c",
+          "text_md": "do"
+        },
+        {
+          "id": "d",
+          "text_md": "take"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Устойчивое выражение — go shopping. С глаголом go образуются также go swimming, go fishing, go jogging.",
+      "points": 1
+    },
+    {
+      "code": "diag.eng.g8.perfect",
+      "kind": "mcq_single",
+      "topic_code": "eng.g8.celebrations",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Choose the sentence in the Present Perfect.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "They celebrated Nauryz last week"
+        },
+        {
+          "id": "b",
+          "text_md": "They have already celebrated Nauryz"
+        },
+        {
+          "id": "c",
+          "text_md": "They will celebrate Nauryz"
+        },
+        {
+          "id": "d",
+          "text_md": "They are celebrating Nauryz now"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Present Perfect — have или has плюс третья форма глагола, часто со словами already, just, yet. Вариант с last week — Past Simple: указано конкретное прошедшее время.",
+      "points": 1
+    },
+    {
+      "code": "diag.eng.g9.comparative",
+      "kind": "mcq_single",
+      "topic_code": "eng.g9.hobbies-qualities",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Choose the correct form: «Chess is ___ than football for me».",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "more interesting"
+        },
+        {
+          "id": "b",
+          "text_md": "interestinger"
+        },
+        {
+          "id": "c",
+          "text_md": "most interesting"
+        },
+        {
+          "id": "d",
+          "text_md": "the more interesting"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "У длинных прилагательных сравнительная степень образуется словом more: more interesting. Окончание -er берут короткие: bigger, faster.",
+      "points": 1
+    },
+    {
+      "code": "diag.eng.g10.conditional",
+      "kind": "mcq_single",
+      "topic_code": "eng.g10.starter",
+      "grade": 10,
+      "difficulty": 3,
+      "prompt_md": "Choose the correct form: «If it ___ tomorrow, we will stay at home».",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "will rain"
+        },
+        {
+          "id": "b",
+          "text_md": "rains"
+        },
+        {
+          "id": "c",
+          "text_md": "rained"
+        },
+        {
+          "id": "d",
+          "text_md": "would rain"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "В условном предложении первого типа после if будущее время не ставится: if it rains, we will stay.",
+      "points": 1
+    },
+    {
+      "code": "diag.eng.g11.passive",
+      "kind": "mcq_single",
+      "topic_code": "eng.g11.making-connections-in-biology",
+      "grade": 11,
+      "difficulty": 3,
+      "prompt_md": "Choose the correct passive form: «Photosynthesis ___ by plants».",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "is carried out"
+        },
+        {
+          "id": "b",
+          "text_md": "carries out"
+        },
+        {
+          "id": "c",
+          "text_md": "carrying out"
+        },
+        {
+          "id": "d",
+          "text_md": "have carried out"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Страдательный залог — глагол be плюс третья форма: is carried out. Подлежащее не выполняет действие, а испытывает его.",
+      "points": 1
+    },
+    {
+      "code": "diag.read.locate-facts",
+      "kind": "mcq_single",
+      "topic_code": "read.locate-facts",
+      "grade": 7,
+      "difficulty": 2,
+      "prompt_md": "Прочитайте объявление.\n\n«Запись в секцию плавания открыта с 1 по 20 сентября. Принимаются дети 7–14 лет. При себе иметь справку от врача и фотографию 3×4».\n\nЧто обязательно нужно принести при записи?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Только справку от врача"
+        },
+        {
+          "id": "b",
+          "text_md": "Справку от врача и фотографию"
+        },
+        {
+          "id": "c",
+          "text_md": "Фотографию и договор"
+        },
+        {
+          "id": "d",
+          "text_md": "Ничего приносить не нужно"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "В тексте прямо сказано: «При себе иметь справку от врача и фотографию 3×4». Задание проверяет умение найти сведения, а не догадаться о них.",
+      "points": 1
+    },
+    {
+      "code": "diag.read.author-position",
+      "kind": "mcq_single",
+      "topic_code": "read.author-position",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "Прочитайте фрагмент.\n\n«Смартфон в школе давно перестал быть роскошью. Но пока одни спорят о запретах, другие уже показывают: тот же телефон — это карманная лаборатория, если научить им пользоваться».\n\nКакова позиция автора?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Смартфоны в школе следует запретить"
+        },
+        {
+          "id": "b",
+          "text_md": "Смартфоны бесполезны для учёбы"
+        },
+        {
+          "id": "c",
+          "text_md": "Дело не в запрете, а в умении использовать смартфон"
+        },
+        {
+          "id": "d",
+          "text_md": "Смартфон должен быть у каждого ученика"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "Автор противопоставляет спор о запретах и практическое применение, а вывод делает в пользу второго: «если научить им пользоваться». Запрет он не поддерживает, но и раздать телефоны всем не призывает.",
+      "points": 1
+    },
+    {
+      "code": "diag.mlit.proportion",
+      "kind": "numeric",
+      "topic_code": "mlit.proportion-scale",
+      "grade": 7,
+      "difficulty": 3,
+      "prompt_md": "На карте масштаба 1:200 000 расстояние между городами равно 7 см. Чему равно расстояние на местности? Ответ дайте в километрах.",
+      "options": null,
+      "answer_key": {
+        "value": 14,
+        "tolerance": 0
+      },
+      "explanation_md": "1 см на карте — это 200 000 см на местности, то есть 2 км. Значит 7 см соответствуют 7 · 2 = 14 км.",
+      "points": 1
+    },
+    {
+      "code": "diag.mlit.median",
+      "kind": "numeric",
+      "topic_code": "mlit.statistics-basics",
+      "grade": 8,
+      "difficulty": 3,
+      "prompt_md": "Ученик получил оценки: 4, 5, 3, 5, 3. Чему равна медиана этого набора?",
+      "options": null,
+      "answer_key": {
+        "value": 4,
+        "tolerance": 0
+      },
+      "explanation_md": "Медиана — среднее по положению значение упорядоченного ряда. Упорядочим: 3, 3, 4, 5, 5. Из пяти чисел среднее по счёту — третье, это 4.",
+      "points": 1
+    },
+    {
+      "code": "diag.rus.g6.travel",
+      "kind": "mcq_single",
+      "topic_code": "rus.g6.pochemu-lyudi-puteshestvuyut",
+      "grade": 6,
+      "difficulty": 2,
+      "prompt_md": "В каком предложении подлежащее выражено именем существительным?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Путешественники вернулись домой"
+        },
+        {
+          "id": "b",
+          "text_md": "Мы вернулись домой"
+        },
+        {
+          "id": "c",
+          "text_md": "Возвращаться было радостно"
+        },
+        {
+          "id": "d",
+          "text_md": "Трое вернулись домой"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Подлежащее «путешественники» — существительное. Во втором предложении это местоимение, в третьем — неопределённая форма глагола, в четвёртом — числительное.",
+      "points": 1
+    },
+    {
+      "code": "diag.mlit.probability",
+      "kind": "numeric",
+      "topic_code": "mlit.probability-everyday",
+      "grade": 9,
+      "difficulty": 3,
+      "prompt_md": "В коробке 12 ручек: 3 красные, остальные синие. Наугад достают одну ручку. Какова вероятность того, что она синяя? Ответ дайте десятичной дробью с точностью до сотых.",
+      "options": null,
+      "answer_key": {
+        "value": 0.75,
+        "tolerance": 0.01
+      },
+      "explanation_md": "Синих ручек 12 − 3 = 9. Вероятность — отношение благоприятных исходов ко всем: 9 / 12 = 0,75.",
+      "points": 1
     }
   ]
 }

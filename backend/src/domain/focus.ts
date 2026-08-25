@@ -7,6 +7,7 @@ export const FATIGUE_DECAY = 0.5;
 export interface FocusCandidate {
   readonly topicId: string;
   readonly priority: number;
+  
   readonly focusFatigue: number;
 }
 
@@ -17,6 +18,7 @@ export interface FocusPick {
 
 export function deterministicRandom(studentId: string, topicId: string, planDate: string): number {
   const digest = createHash('sha256').update(`${studentId}:${topicId}:${planDate}`).digest();
+  
   return digest.readUInt32BE(0) / 2 ** 32;
 }
 
@@ -35,6 +37,8 @@ export function pickFocus(
       const weight = weightOf(candidate);
       const random = deterministicRandom(studentId, candidate.topicId, planDate);
 
+      
+      
       const key = weight <= 0 ? -1 : random ** (1 / weight);
 
       return { topicId: candidate.topicId, weight, key };
@@ -43,6 +47,8 @@ export function pickFocus(
 
   scored.sort((left, right) => {
     const diff = right.key - left.key;
+    
+    
     return diff !== 0 ? diff : left.topicId.localeCompare(right.topicId);
   });
 

@@ -1,3 +1,3 @@
-import { UsersTargetChooseScreen } from "@/app/screens/UsersTargetChooseScreen";
+import { UsersTargetChooseScreen } from "@/screens/UsersTargetChooseScreen";
 
 export default UsersTargetChooseScreen;

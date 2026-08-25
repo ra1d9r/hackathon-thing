@@ -1,6 +1,7 @@
 import {
   mergeProposals,
   proposeMasteryChanges,
+  type AnalysisScope,
   type AnalysisTopicInput,
   type TopicHighlight,
 } from '../../ai/ops/analysis.js';
@@ -22,12 +23,18 @@ import {
   type AttemptRow,
   type StoredAnswer,
 } from '../../modules/attempts/queries.js';
+import { completeItemForAttempt } from '../../modules/daily/streak.js';
+import {
+  applyKnowledgeCheckResult,
+  planRoadmapsAfterDiagnostic,
+} from '../../modules/roadmap/triggers.js';
 import {
   PermanentJobError,
   TransientJobError,
   type JobContext,
   type JobHandler,
 } from '../types.js';
+import { loadStudentCurriculum } from '../../modules/curriculum/scope.js';
 import { dedupeKey, enqueueJob } from '../jobs.js';
 import { requireAttemptId } from './attempt-input.js';
 
@@ -37,6 +44,7 @@ interface TopicTotals {
   earned: number;
   possible: number;
   graded: number;
+  
   trust: number;
 }
 
@@ -50,6 +58,8 @@ function collectTopics(
   for (const question of questions) {
     const given = byQuestion.get(question.id);
 
+    
+    
     if (given?.grader === 'pending') {
       continue;
     }
@@ -67,6 +77,8 @@ function collectTopics(
     entry.possible += question.points;
     entry.graded += 1;
 
+    
+    
     if (given?.grader === 'ai' && given.aiConfidence !== null) {
       entry.trust = Math.min(entry.trust, given.aiConfidence);
     }
@@ -86,6 +98,8 @@ async function loadCurrentMastery(
     return new Map();
   }
 
+  
+  
   const rows = await sql<{ topic_id: string; mastery_pct: string }[]>`
     select topic_id, mastery_pct
       from public.student_topic_mastery
@@ -151,6 +165,9 @@ async function writeStatEvents(
 
   const sourceType = sourceTypeFor(attempt.kind);
 
+  
+  
+  
   await tx`
     insert into public.stat_events (
       student_id, topic_id, subject_id, source_type, source_id,
@@ -176,6 +193,29 @@ async function writeStatEvents(
     on conflict (student_id, source_type, source_id, topic_id) where source_id is not null
     do nothing
   `;
+}
+
+async function analysisScope(
+  sql: SqlExecutor,
+  studentId: string,
+): Promise<AnalysisScope | null> {
+  try {
+    const curriculum = await loadStudentCurriculum(sql, studentId);
+    const names = await sql<{ name_ru: string }[]>`
+      select name_ru from public.subjects
+       where id = any(${[...curriculum.subjectIds]}::uuid[])
+       order by sort_order, code
+    `;
+
+    return {
+      gradeMin: curriculum.scope.gradeMin,
+      gradeMax: curriculum.scope.gradeMax,
+      reason: curriculum.scope.reason,
+      subjectNames: names.map((row) => row.name_ru),
+    };
+  } catch {
+    return null;
+  }
 }
 
 async function snapshotMastery(
@@ -237,6 +277,8 @@ async function run(ctx: JobContext): Promise<JsonObject> {
 
   const isDiagnostic = attempt.kind === 'diagnostic';
 
+  
+  
   const deterministic = computeTopicDeltas(outcomes, {
     currentMastery,
     baselineFromObserved: isDiagnostic,
@@ -245,6 +287,8 @@ async function run(ctx: JobContext): Promise<JsonObject> {
   const titles = new Map([...totals].map(([topicId, entry]) => [topicId, entry.title]));
   const pending = answers.filter((answer) => answer.grader === 'pending').length;
 
+  
+  
   const caller = await ctx.model();
   let summaryFromModel: string | null = null;
   let strengthsFromModel: readonly TopicHighlight[] = [];
@@ -269,13 +313,21 @@ async function run(ctx: JobContext): Promise<JsonObject> {
       };
     });
 
+    
+    
+    const scope = await analysisScope(ctx.sql, attempt.studentId);
+
     const proposal = await proposeMasteryChanges(ctx.sql, caller, inputs, {
       isDiagnostic,
       opType: ctx.job.opType,
+      scope,
     });
     await ctx.logCalls(proposal.calls);
 
     if (proposal.proposals === null) {
+      
+      
+      
       if (proposal.failure === 'unavailable' && ctx.retryOnModelOutage()) {
         throw new TransientJobError(`провайдер недоступен: ${proposal.reason ?? ''}`);
       }
@@ -293,6 +345,8 @@ async function run(ctx: JobContext): Promise<JsonObject> {
       modelUsed = true;
 
       if (clampedCount > 0) {
+        
+        
         ctx.log.info(
           { job_id: ctx.job.id, clamped: clampedCount },
           'предложения модели прижаты к коридору расчёта',
@@ -301,17 +355,29 @@ async function run(ctx: JobContext): Promise<JsonObject> {
     }
   }
 
+  
+  
   deltas = capDailyGrowth(deltas, await gainedToday(ctx.sql, attempt.studentId));
 
   return ctx.applyOnce(async (tx) => {
     await writeStatEvents(tx, attempt, deltas);
 
+    
+    
+    
     await tx`
       update public.attempts
          set status = 'graded', graded_at = now()
        where id = ${attempt.id} and status in ('submitted','grading')
     `;
 
+    
+    
+    
+    
+    
+    
+    
     await enqueueJob(tx, {
       opType: 'predicted_score',
       requestedBy: attempt.studentId,
@@ -327,14 +393,35 @@ async function run(ctx: JobContext): Promise<JsonObject> {
            set diagnostic_attempt_id = ${attempt.id}
          where student_id = ${attempt.studentId}
       `;
+
+      
+      
+      await planRoadmapsAfterDiagnostic(tx, attempt.studentId);
     } else if (attempt.kind === 'exam_mock') {
       await snapshotMastery(tx, attempt.studentId, 'mock');
+    } else if (attempt.kind === 'knowledge_check') {
+      
+      
+      
+      await applyKnowledgeCheckResult(tx, {
+        id: attempt.id,
+        studentId: attempt.studentId,
+        scorePct: attempt.scorePct,
+      });
     }
 
+    
+    
+    
+    await completeItemForAttempt(tx, attempt.studentId, attempt.id);
+
+    
+    
     const masteryByTopic = await loadCurrentMastery(tx, attempt.studentId, topicIds);
     const computed = pickHighlights(deltas);
     const observed = new Map(deltas.map((delta) => [delta.topicId, delta.observedPct]));
 
+    
     const highlight = (
       fromModel: readonly TopicHighlight[],
       fallback: readonly { topicId: string; observedPct: number }[],

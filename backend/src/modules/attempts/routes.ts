@@ -190,6 +190,9 @@ export async function registerAttemptRoutes(app: FastifyInstance): Promise<void>
         request.params.id,
         {
           requestId: request.id,
+          
+          
+          
           ...(context === undefined
             ? {}
             : {
@@ -236,6 +239,18 @@ export async function registerAttemptRoutes(app: FastifyInstance): Promise<void>
         request.params.id,
       );
 
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       const settled = result.attempt.status === 'graded' && result.job === null;
 
       if (!settled) {

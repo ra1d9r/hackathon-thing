@@ -1,0 +1,649 @@
+{
+  "pool": "exam_mock",
+  "exam_code": "nis",
+  "_": "Естествознание НИШ: 20 заданий, чертёж требует ровно столько.",
+  "questions": [
+    {
+      "code": "mock.nis.nat.science.1",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.kakova-rol-nauki-v-zhizni-cheloveka",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "Что из перечисленного является научной гипотезой?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Растения на подоконнике растут быстрее, потому что там больше света"
+        },
+        {
+          "id": "b",
+          "text_md": "Растения красивые"
+        },
+        {
+          "id": "c",
+          "text_md": "Мне нравится ухаживать за растениями"
+        },
+        {
+          "id": "d",
+          "text_md": "Растения бывают разные"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Гипотеза — предположение, которое можно проверить опытом: поставить одинаковые растения в тень и на свет. Остальные высказывания — оценки или общие слова, проверить их нельзя.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.science.2",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.kakova-rol-nauki-v-zhizni-cheloveka",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "В опыте проверяют, влияет ли температура воды на скорость растворения сахара. Что нужно оставить одинаковым в обоих стаканах?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Температуру воды"
+        },
+        {
+          "id": "b",
+          "text_md": "Количество сахара и объём воды"
+        },
+        {
+          "id": "c",
+          "text_md": "Ничего"
+        },
+        {
+          "id": "d",
+          "text_md": "Только форму стакана"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Меняют ровно одно — то, что проверяют, то есть температуру. Всё остальное держат одинаковым, иначе непонятно, что именно повлияло на результат.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.micro.1",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.v-chem-shodstva-i-razlichiya-mikro-i-makromira",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "Что из перечисленного относится к объектам микромира?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Планета"
+        },
+        {
+          "id": "b",
+          "text_md": "Молекула воды"
+        },
+        {
+          "id": "c",
+          "text_md": "Гора"
+        },
+        {
+          "id": "d",
+          "text_md": "Океан"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Микромир — объекты, невидимые невооружённым глазом: атомы, молекулы, клетки. Планета, гора и океан относятся к макромиру.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.micro.2",
+      "kind": "mcq_single",
+      "topic_code": "nat.g6.v-chem-shodstva-i-razlichiya-mikro-i-makromira",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Расположите объекты от наименьшего к наибольшему: клетка, атом, молекула.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Атом, молекула, клетка"
+        },
+        {
+          "id": "b",
+          "text_md": "Молекула, атом, клетка"
+        },
+        {
+          "id": "c",
+          "text_md": "Клетка, молекула, атом"
+        },
+        {
+          "id": "d",
+          "text_md": "Атом, клетка, молекула"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Молекула состоит из атомов, а клетка — из молекул. Значит атом наименьший, клетка наибольшая.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.diffusion.1",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.pochemu-my-chuvstvuem-zapahi-na-rasstoyanii",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "Каплю чернил опустили в стакан с водой и не перемешивали. Через час вода окрасилась равномерно. Как называется это явление?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Диффузия"
+        },
+        {
+          "id": "b",
+          "text_md": "Испарение"
+        },
+        {
+          "id": "c",
+          "text_md": "Конденсация"
+        },
+        {
+          "id": "d",
+          "text_md": "Кристаллизация"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Частицы чернил и воды сами перемешались из-за непрерывного движения — это диффузия. Испарение и конденсация связаны со сменой состояния, кристаллизация — с образованием твёрдого вещества.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.diffusion.2",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.pochemu-my-chuvstvuem-zapahi-na-rasstoyanii",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "В каком случае диффузия идёт быстрее всего?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "В холодной воде"
+        },
+        {
+          "id": "b",
+          "text_md": "В горячей воде"
+        },
+        {
+          "id": "c",
+          "text_md": "В куске льда"
+        },
+        {
+          "id": "d",
+          "text_md": "В твёрдом металле"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Чем выше температура, тем быстрее движутся частицы, и тем скорее они перемешиваются. В твёрдых телах диффузия идёт медленнее всего.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.props.1",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.kakimi-svoystvami-obladayut-razlichnye",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Какое свойство металлов позволяет использовать их в электропроводке?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Электропроводность"
+        },
+        {
+          "id": "b",
+          "text_md": "Хрупкость"
+        },
+        {
+          "id": "c",
+          "text_md": "Прозрачность"
+        },
+        {
+          "id": "d",
+          "text_md": "Растворимость в воде"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "В металлах есть свободные электроны, поэтому они хорошо проводят электрический ток. Хрупкость металлам, наоборот, несвойственна.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.props.2",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.kakimi-svoystvami-obladayut-razlichnye",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Какое свойство относится к физическим свойствам вещества?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Способность гореть"
+        },
+        {
+          "id": "b",
+          "text_md": "Температура плавления"
+        },
+        {
+          "id": "c",
+          "text_md": "Способность вступать в реакцию с кислотой"
+        },
+        {
+          "id": "d",
+          "text_md": "Способность ржаветь"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Физические свойства можно измерить, не превращая вещество в другое: цвет, плотность, температура плавления. Горение, ржавление и реакция с кислотой — химические свойства.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.props.3",
+      "kind": "numeric",
+      "topic_code": "nat.g5.kakimi-svoystvami-obladayut-razlichnye",
+      "grade": 5,
+      "difficulty": 4,
+      "prompt_md": "Тело массой 270 г имеет объём 100 см³. Чему равна плотность вещества? Ответ дайте в г/см³.",
+      "options": null,
+      "answer_key": {
+        "value": 2.7,
+        "tolerance": 0.01
+      },
+      "explanation_md": "Плотность — масса, делённая на объём: 270 / 100 = 2,7 г/см³. Это плотность алюминия.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.mixtures.1",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.v-chem-raznica-mezhdu-chistym-veschestvom-i",
+      "grade": 5,
+      "difficulty": 2,
+      "prompt_md": "Что из перечисленного является чистым веществом, а не смесью?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Молоко"
+        },
+        {
+          "id": "b",
+          "text_md": "Дистиллированная вода"
+        },
+        {
+          "id": "c",
+          "text_md": "Воздух"
+        },
+        {
+          "id": "d",
+          "text_md": "Гранит"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Дистиллированная вода состоит из одного вещества. Молоко, воздух и гранит образованы несколькими веществами и потому являются смесями.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.mixtures.2",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.v-chem-raznica-mezhdu-chistym-veschestvom-i",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Каким способом разделяют смесь песка и воды?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Фильтрованием"
+        },
+        {
+          "id": "b",
+          "text_md": "Выпариванием"
+        },
+        {
+          "id": "c",
+          "text_md": "Намагничиванием"
+        },
+        {
+          "id": "d",
+          "text_md": "Перегонкой"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Песок не растворяется в воде, поэтому его задерживает фильтр. Выпаривание нужно для растворённых веществ, намагничивание — для железных опилок.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.mixtures.3",
+      "kind": "mcq_single",
+      "topic_code": "nat.g5.v-chem-raznica-mezhdu-chistym-veschestvom-i",
+      "grade": 5,
+      "difficulty": 3,
+      "prompt_md": "Как разделить смесь соли и воды, чтобы получить соль?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Фильтрованием"
+        },
+        {
+          "id": "b",
+          "text_md": "Выпариванием воды"
+        },
+        {
+          "id": "c",
+          "text_md": "Отстаиванием"
+        },
+        {
+          "id": "d",
+          "text_md": "Просеиванием"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Соль растворена, и фильтр её не задержит. Вода испаряется при нагревании, а соль остаётся на дне.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.objects.1",
+      "kind": "mcq_single",
+      "topic_code": "nat.g6.obekty-issledovaniya-estestvennyh-nauk",
+      "grade": 6,
+      "difficulty": 2,
+      "prompt_md": "Какая наука изучает движение тел и превращения энергии?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Физика"
+        },
+        {
+          "id": "b",
+          "text_md": "Биология"
+        },
+        {
+          "id": "c",
+          "text_md": "География"
+        },
+        {
+          "id": "d",
+          "text_md": "Химия"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Физика изучает наиболее общие явления природы: движение, энергию, тепло, свет. Химия занимается превращениями веществ, биология — живой природой.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.objects.2",
+      "kind": "mcq_single",
+      "topic_code": "nat.g6.obekty-issledovaniya-estestvennyh-nauk",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Какая наука изучает превращения одних веществ в другие?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Химия"
+        },
+        {
+          "id": "b",
+          "text_md": "Астрономия"
+        },
+        {
+          "id": "c",
+          "text_md": "География"
+        },
+        {
+          "id": "d",
+          "text_md": "Биология"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Химия изучает состав веществ и их превращения. Физика изучает явления, при которых вещество не превращается в другое.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.population.1",
+      "kind": "mcq_single",
+      "topic_code": "nat.g6.s-chem-svyazany-osobennosti-razmescheniya",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Почему население Земли размещено неравномерно?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Из-за природных условий, доступности воды и пригодности земель"
+        },
+        {
+          "id": "b",
+          "text_md": "Потому что люди выбирают места наугад"
+        },
+        {
+          "id": "c",
+          "text_md": "Потому что везде одинаковый климат"
+        },
+        {
+          "id": "d",
+          "text_md": "Из-за формы материков"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
+      "explanation_md": "Люди селятся там, где можно вести хозяйство: у воды, в мягком климате, на плодородных землях. Пустыни, высокогорья и полярные области заселены слабо.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.population.2",
+      "kind": "mcq_single",
+      "topic_code": "nat.g6.s-chem-svyazany-osobennosti-razmescheniya",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Какая местность заселена наиболее плотно?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Высокогорье"
+        },
+        {
+          "id": "b",
+          "text_md": "Речные долины с умеренным климатом"
+        },
+        {
+          "id": "c",
+          "text_md": "Пустыня"
+        },
+        {
+          "id": "d",
+          "text_md": "Полярная область"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Речные долины дают воду, плодородную почву и пути сообщения — там и складывались крупнейшие поселения.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.substance.1",
+      "kind": "mcq_single",
+      "topic_code": "nat.g6.iz-chego-sostoit-veschestva",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Из чего состоят все вещества?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Из клеток"
+        },
+        {
+          "id": "b",
+          "text_md": "Из атомов и молекул"
+        },
+        {
+          "id": "c",
+          "text_md": "Из органов"
+        },
+        {
+          "id": "d",
+          "text_md": "Из смесей"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Мельчайшие частицы вещества — атомы; из них складываются молекулы. Клетки состоят из веществ, а не наоборот.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.substance.2",
+      "kind": "mcq_single",
+      "topic_code": "nat.g6.iz-chego-sostoit-veschestva",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "В каком состоянии вещества частицы расположены плотнее всего и колеблются около своих мест?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "В газообразном"
+        },
+        {
+          "id": "b",
+          "text_md": "В жидком"
+        },
+        {
+          "id": "c",
+          "text_md": "В твёрдом"
+        },
+        {
+          "id": "d",
+          "text_md": "Во всех одинаково"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
+      "explanation_md": "В твёрдом теле частицы удерживаются на своих местах и лишь колеблются — поэтому оно сохраняет и форму, и объём.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.classify.1",
+      "kind": "mcq_single",
+      "topic_code": "nat.g6.kak-klassificirovat-vse-veschestva-na",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Какое вещество относится к органическим?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Поваренная соль"
+        },
+        {
+          "id": "b",
+          "text_md": "Сахар"
+        },
+        {
+          "id": "c",
+          "text_md": "Вода"
+        },
+        {
+          "id": "d",
+          "text_md": "Углекислый газ"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Органические вещества построены на углеродном скелете; сахар — углевод. Соль и вода неорганические, а углекислый газ, хотя и содержит углерод, по традиции относят к неорганическим.",
+      "points": 1
+    },
+    {
+      "code": "mock.nis.nat.classify.2",
+      "kind": "mcq_single",
+      "topic_code": "nat.g6.kak-klassificirovat-vse-veschestva-na",
+      "grade": 6,
+      "difficulty": 3,
+      "prompt_md": "Какое вещество является простым?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "Вода"
+        },
+        {
+          "id": "b",
+          "text_md": "Кислород"
+        },
+        {
+          "id": "c",
+          "text_md": "Углекислый газ"
+        },
+        {
+          "id": "d",
+          "text_md": "Поваренная соль"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
+      "explanation_md": "Простое вещество состоит из атомов одного элемента. Кислород — это O₂; остальные образованы разными элементами.",
+      "points": 1
+    }
+  ]
+}

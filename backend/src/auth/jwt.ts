@@ -36,6 +36,9 @@ export function createJwtVerifier(env: Env): JwtVerifier {
       try {
         const result = await jwtVerify(token, jwks, {
           issuer: `${supabaseUrl}/auth/v1`,
+          
+          
+          
           audience: 'authenticated',
         });
         payload = result.payload;
