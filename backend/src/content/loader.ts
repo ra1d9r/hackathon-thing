@@ -5,13 +5,18 @@ import { fileURLToPath } from 'node:url';
 
 import type { z } from 'zod';
 
+import { MARKDOWN_LIMITS, normalizeMarkdown, sanitizeMarkdown } from '../contracts/markdown.js';
+import { isJsonObject } from '../contracts/json.js';
 import type { SqlExecutor } from '../db/sql.js';
 import {
   diagnosticFileSchema,
   examsFileSchema,
+  type ExamsFile,
   goalsFileSchema,
   lessonsFileSchema,
+  type LessonsFile,
   mockFileSchema,
+  mockPoolFileSchema,
   subjectsFileSchema,
   topicsFileSchema,
   type ContentQuestion,
@@ -37,6 +42,10 @@ export class ContentValidationError extends Error {
     super(`Файл ${file} не прошёл проверку:\n  - ${issues.join('\n  - ')}`);
     this.name = 'ContentValidationError';
   }
+}
+
+function readJsonRaw(file: string): unknown {
+  return JSON.parse(readFileSync(join(CONTENT_DIR, file), 'utf8'));
 }
 
 function readJson<T>(file: string, schema: z.ZodType<T>): T {
@@ -134,9 +143,10 @@ function notePlaceholder(
 async function loadTopics(
   sql: SqlExecutor,
   placeholders: Placeholder[],
-): Promise<{ topics: number; prerequisites: number }> {
+): Promise<{ topics: number; prerequisites: number; retired: number }> {
   let topicCount = 0;
-  const links: { topic: string; prerequisite: string; file: string }[] = [];
+  const seenCodes: string[] = [];
+  const links: { topic: string; prerequisite: string; file: string }[] = []; 
 
   for (const file of listJson('topics')) {
     const parsed = readJson(file, topicsFileSchema);
@@ -163,6 +173,7 @@ async function loadTopics(
       `;
 
       topicCount += 1;
+      seenCodes.push(topic.code);
       for (const prerequisite of topic.prerequisites) {
         links.push({ topic: topic.code, prerequisite, file });
       }
@@ -178,8 +189,15 @@ async function loadTopics(
       on conflict do nothing
     `;
   }
+  const retired = await sql<{ code: string }[]>`
+    update public.topics
+       set is_active = false
+     where is_active
+       and code <> all(${[...seenCodes]}::text[])
+    returning code
+  `;
 
-  return { topics: topicCount, prerequisites: links.length };
+  return { topics: topicCount, prerequisites: links.length, retired: retired.length };
 }
 
 async function loadGoals(sql: SqlExecutor): Promise<number> {
@@ -201,6 +219,57 @@ async function loadGoals(sql: SqlExecutor): Promise<number> {
   return goals.length;
 }
 
+type ExamInput = ExamsFile['exams'][number];
+
+export function assertBlueprintMatchesSubjects(file: string, exam: ExamInput): void {
+  const errors: string[] = [];
+
+  const profileSections = exam.sections.filter((section) => section.slot_kind === 'profile');
+  if (exam.sections.length > 0 && profileSections.length !== exam.profile_slot_count) {
+    errors.push(
+      `${exam.code}: profile_slot_count = ${exam.profile_slot_count}, ` +
+        `а профильных секций ${profileSections.length}`,
+    );
+  }
+
+  for (const section of profileSections) {
+    if (section.subject_code !== null) {
+      errors.push(
+        `${exam.code}: профильная секция ${section.slot_index} задаёт предмет ` +
+          `"${section.subject_code}", хотя его выбирает ученик`,
+      );
+    }
+  }
+
+  const declared = new Set(
+    exam.subject_options.map((option) => `${option.slot_kind}:${option.subject_code}`),
+  );
+  for (const section of exam.sections) {
+    if (section.subject_code === null) {
+      continue;
+    }
+    if (!declared.has(`${section.slot_kind}:${section.subject_code}`)) {
+      errors.push(
+        `${exam.code}: предмет "${section.subject_code}" из секции ${section.slot_kind} ` +
+          `${section.slot_index} не заявлен в subject_options`,
+      );
+    }
+  }
+
+  const slots = new Set<string>();
+  for (const section of exam.sections) {
+    const slot = `${section.slot_kind}:${section.slot_index}`;
+    if (slots.has(slot)) {
+      errors.push(`${exam.code}: секция ${slot} объявлена дважды`);
+    }
+    slots.add(slot);
+  }
+
+  if (errors.length > 0) {
+    throw new ContentValidationError(file, errors);
+  }
+}
+
 async function loadExams(sql: SqlExecutor): Promise<number> {
   const file = 'exams.json';
   const { exams } = readJson(file, examsFileSchema);
@@ -213,17 +282,30 @@ async function loadExams(sql: SqlExecutor): Promise<number> {
       ]);
     }
 
+    if (
+      exam.grade_min !== null &&
+      exam.grade_max !== null &&
+      exam.grade_min > exam.grade_max
+    ) {
+      throw new ContentValidationError(file, [`${exam.code}: grade_min больше grade_max`]);
+    }
+
+    assertBlueprintMatchesSubjects(file, exam);
+
     const [examRow] = await sql<{ id: string }[]>`
       insert into public.exam_profiles (
-        code, title_ru, goal, scale_kind, max_score, profile_slot_count, is_active
+        code, title_ru, goal, scale_kind, max_score, profile_slot_count,
+        grade_min, grade_max, time_limit_sec, is_active
       ) values (
         ${exam.code}, ${exam.title_ru}, ${exam.goal}::public.learning_goal,
-        ${exam.scale_kind}, ${exam.max_score}, ${exam.profile_slot_count}, ${exam.is_active}
+        ${exam.scale_kind}, ${exam.max_score}, ${exam.profile_slot_count},
+        ${exam.grade_min}, ${exam.grade_max}, ${exam.time_limit_sec}, ${exam.is_active}
       )
       on conflict (code) do update set
         title_ru = excluded.title_ru, goal = excluded.goal, scale_kind = excluded.scale_kind,
         max_score = excluded.max_score, profile_slot_count = excluded.profile_slot_count,
-        is_active = excluded.is_active
+        grade_min = excluded.grade_min, grade_max = excluded.grade_max,
+        time_limit_sec = excluded.time_limit_sec, is_active = excluded.is_active
       returning id
     `;
     if (examRow === undefined) {
@@ -251,6 +333,38 @@ async function loadExams(sql: SqlExecutor): Promise<number> {
       await sql`
         insert into public.exam_subject_options (exam_profile_id, subject_id, slot_kind, sort_order)
         values (${examRow.id}, ${subjectId}, ${option.slot_kind}, ${option.sort_order})
+      `;
+    }
+
+    await sql`delete from public.exam_profile_pairs where exam_profile_id = ${examRow.id}`;
+    for (const pair of exam.profile_pairs) {
+      const [first, second] = pair.subjects;
+      if (first === second) {
+        throw new ContentValidationError(file, [`${exam.code}: пара из одного предмета "${first}"`]);
+      }
+
+      const allowed = new Set(
+        exam.subject_options
+          .filter((option) => option.slot_kind === 'profile')
+          .map((option) => option.subject_code),
+      );
+      for (const subjectCode of pair.subjects) {
+        if (!allowed.has(subjectCode)) {
+          throw new ContentValidationError(file, [
+            `${exam.code}: предмет "${subjectCode}" в паре не заявлен профильным в subject_options`,
+          ]);
+        }
+      }
+
+      const ids = await Promise.all(
+        pair.subjects.map(async (subjectCode) => subjectIdByCode(sql, file, subjectCode)),
+      );
+      const [subjectA, subjectB] = [...ids].sort();
+
+      await sql`
+        insert into public.exam_profile_pairs (
+          exam_profile_id, subject_a_id, subject_b_id, sort_order, is_active
+        ) values (${examRow.id}, ${subjectA ?? ''}, ${subjectB ?? ''}, ${pair.sort_order}, true)
       `;
     }
   }
@@ -333,6 +447,87 @@ async function loadDiagnostic(
   return { questions: parsed.questions.length, retired };
 }
 
+interface ExamShape {
+  readonly id: string;
+  readonly gradeMin: number | null;
+  readonly gradeMax: number | null;
+  readonly subjectCodes: ReadonlySet<string>;
+}
+
+async function examShape(sql: SqlExecutor, file: string, examCode: string): Promise<ExamShape> {
+  const [exam] = await sql<
+    { id: string; grade_min: number | null; grade_max: number | null }[]
+  >`
+    select id, grade_min, grade_max from public.exam_profiles where code = ${examCode}
+  `;
+
+  if (exam === undefined) {
+    throw new ContentValidationError(file, [`экзамен "${examCode}" не найден в exams.json`]);
+  }
+
+  const subjects = await sql<{ code: string }[]>`
+    select distinct s.code
+      from public.subjects s
+     where s.id in (
+       select sec.subject_id from public.exam_sections sec
+        where sec.exam_profile_id = ${exam.id} and sec.subject_id is not null
+       union
+       select opt.subject_id from public.exam_subject_options opt
+        where opt.exam_profile_id = ${exam.id}
+     )
+  `;
+
+  return {
+    id: exam.id,
+    gradeMin: exam.grade_min,
+    gradeMax: exam.grade_max,
+    subjectCodes: new Set(subjects.map((row) => row.code)),
+  };
+}
+
+async function assertQuestionFitsExam(
+  sql: SqlExecutor,
+  file: string,
+  question: ContentQuestion,
+  exam: ExamShape,
+): Promise<void> {
+  const [row] = await sql<
+    { subject_code: string; grade_min: number; grade_max: number }[]
+  >`
+    select s.code as subject_code, t.grade_min, t.grade_max
+      from public.topics t
+      join public.subjects s on s.id = t.subject_id
+     where t.code = ${question.topic_code}
+  `;
+
+  if (row === undefined) {
+    return;
+  }
+
+  const errors: string[] = [];
+
+  if (!exam.subjectCodes.has(row.subject_code)) {
+    errors.push(
+      `${question.code}: предмет "${row.subject_code}" не входит в чертёж экзамена`,
+    );
+  }
+
+  if (
+    exam.gradeMin !== null &&
+    exam.gradeMax !== null &&
+    (row.grade_min > exam.gradeMax || row.grade_max < exam.gradeMin)
+  ) {
+    errors.push(
+      `${question.code}: тема за ${row.grade_min}-${row.grade_max} классы вне ` +
+        `программы экзамена (${exam.gradeMin}-${exam.gradeMax})`,
+    );
+  }
+
+  if (errors.length > 0) {
+    throw new ContentValidationError(file, errors);
+  }
+}
+
 async function loadMocks(
   sql: SqlExecutor,
   placeholders: Placeholder[],
@@ -342,11 +537,30 @@ async function loadMocks(
   const keepCodes: string[] = [];
 
   for (const file of listJson('questions').filter((name) => name.includes('mock'))) {
+    const raw = readJsonRaw(file);
+    const isPool = !isJsonObject(raw) || !('mock' in raw);
+
+    if (isPool) {
+      const pool = readJson(file, mockPoolFileSchema);
+      notePlaceholder(file, pool, placeholders);
+
+      const exam = await examShape(sql, file, pool.exam_code);
+      for (const question of pool.questions) {
+        await assertQuestionFitsExam(sql, file, question, exam);
+        await upsertQuestion(sql, file, question, 'exam_mock');
+        keepCodes.push(question.code);
+      }
+      questionCount += pool.questions.length;
+      continue;
+    }
+
     const parsed = readJson(file, mockFileSchema);
     notePlaceholder(file, parsed, placeholders);
 
+    const shape = await examShape(sql, file, parsed.exam_code);
     const questionIds: string[] = [];
     for (const question of parsed.questions) {
+      await assertQuestionFitsExam(sql, file, question, shape);
       questionIds.push(await upsertQuestion(sql, file, question, 'exam_mock'));
       keepCodes.push(question.code);
     }
@@ -400,42 +614,111 @@ async function loadMocks(
   };
 }
 
-async function loadLessons(sql: SqlExecutor, placeholders: Placeholder[]): Promise<number> {
-  const file = 'lessons.json';
-  if (!existsSync(join(CONTENT_DIR, file))) {
-    return 0;
+async function loadLessons(
+  sql: SqlExecutor,
+  placeholders: Placeholder[],
+): Promise<{ lessons: number; retired: number }> {
+  const files = [...listJson('lessons')];
+  if (existsSync(join(CONTENT_DIR, 'lessons.json'))) {
+    files.push('lessons.json');
   }
 
-  const parsed = readJson(file, lessonsFileSchema);
-  notePlaceholder(file, parsed, placeholders);
+  let count = 0;
+  const seenCodes: string[] = [];
 
-  for (const lesson of parsed.lessons) {
+  for (const file of files) {
+    const parsed = readJson(file, lessonsFileSchema);
+    notePlaceholder(file, parsed, placeholders);
+    count += parsed.lessons.length;
+
+    await loadLessonBatch(sql, file, parsed.lessons, seenCodes);
+  }
+
+  const retired = await sql<{ content_code: string }[]>`
+    update public.lessons
+       set is_active = false
+     where is_active
+       and origin = 'curated'
+       and content_code is not null
+       and content_code <> all(${[...seenCodes]}::text[])
+    returning content_code
+  `;
+
+  return { lessons: count, retired: retired.length };
+}
+
+type LessonInput = LessonsFile['lessons'][number];
+
+export function sanitizeLessonMaterial(
+  file: string,
+  lesson: LessonInput,
+): { title: string; summary: string | null; bodyMd: string; aiText: string | null } {
+  const { bodyMd, blocks } = sanitizeMarkdown(lesson.material.body_md);
+
+  if (bodyMd === '') {
+    throw new ContentValidationError(file, [
+      `${lesson.code}: после санитизации от материала ничего не осталось`,
+    ]);
+  }
+
+  const uncapped = normalizeMarkdown(lesson.material.body_md, {
+    maxLength: Number.MAX_SAFE_INTEGER,
+  });
+  if (uncapped !== bodyMd) {
+    throw new ContentValidationError(file, [
+      `${lesson.code}: материал длиннее ${MARKDOWN_LIMITS.material} символов и был бы обрезан`,
+    ]);
+  }
+
+  if (blocks.length >= MARKDOWN_LIMITS.maxBlocks) {
+    throw new ContentValidationError(file, [
+      `${lesson.code}: в материале больше ${MARKDOWN_LIMITS.maxBlocks} блоков`,
+    ]);
+  }
+
+  const summary =
+    lesson.material.summary === null ? null : normalizeMarkdown(lesson.material.summary) || null;
+  const aiText =
+    lesson.material.ai_text === null ? null : normalizeMarkdown(lesson.material.ai_text) || null;
+
+  return { title: normalizeMarkdown(lesson.material.title), summary, bodyMd, aiText };
+}
+
+async function loadLessonBatch(
+  sql: SqlExecutor,
+  file: string,
+  lessons: readonly LessonInput[],
+  seenCodes: string[],
+): Promise<void> {
+  for (const lesson of lessons) {
     const topic = await topicByCode(sql, file, lesson.topic_code);
+    const material = sanitizeLessonMaterial(file, lesson);
 
-    const [material] = await sql<{ id: string }[]>`
+    const [row] = await sql<{ id: string }[]>`
       insert into public.materials (
         content_code, kind, format, subject_id, grade_min, grade_max, title, summary,
-        body_md, status, content_hash, est_read_minutes
+        body_md, ai_text, status, content_hash, est_read_minutes
       ) values (
         ${lesson.code}, 'library', 'markdown', ${topic.subjectId},
-        ${lesson.grade_min}, ${lesson.grade_max}, ${lesson.material.title},
-        ${lesson.material.summary}, ${lesson.material.body_md}, 'published',
-        ${contentHash(lesson.material.body_md)}, ${lesson.material.est_read_minutes}
+        ${lesson.grade_min}, ${lesson.grade_max}, ${material.title},
+        ${material.summary}, ${material.bodyMd}, ${material.aiText},
+        'published', ${contentHash(material.bodyMd)}, ${lesson.material.est_read_minutes}
       )
       on conflict (content_code) where content_code is not null do update set
         subject_id = excluded.subject_id, grade_min = excluded.grade_min,
         grade_max = excluded.grade_max, title = excluded.title, summary = excluded.summary,
-        body_md = excluded.body_md, content_hash = excluded.content_hash,
+        body_md = excluded.body_md, ai_text = excluded.ai_text,
+        content_hash = excluded.content_hash,
         est_read_minutes = excluded.est_read_minutes, status = 'published'
       returning id
     `;
-    if (material === undefined) {
+    if (row === undefined) {
       throw new ContentValidationError(file, [`${lesson.code}: не удалось сохранить материал`]);
     }
 
     await sql`
       insert into public.material_topics (material_id, topic_id, weight)
-      values (${material.id}, ${topic.id}, 1.0)
+      values (${row.id}, ${topic.id}, 1.0)
       on conflict (material_id, topic_id) do nothing
     `;
 
@@ -444,7 +727,7 @@ async function loadLessons(sql: SqlExecutor, placeholders: Placeholder[]): Promi
         content_code, subject_id, topic_id, title, material_id, outline,
         grade_min, grade_max, origin, is_active
       ) values (
-        ${lesson.code}, ${topic.subjectId}, ${topic.id}, ${lesson.title}, ${material.id},
+        ${lesson.code}, ${topic.subjectId}, ${topic.id}, ${lesson.title}, ${row.id},
         ${sql.json(lesson.outline)}, ${lesson.grade_min}, ${lesson.grade_max},
         'curated', true
       )
@@ -453,32 +736,78 @@ async function loadLessons(sql: SqlExecutor, placeholders: Placeholder[]): Promi
         material_id = excluded.material_id, outline = excluded.outline,
         grade_min = excluded.grade_min, grade_max = excluded.grade_max, is_active = true
     `;
-  }
 
-  return parsed.lessons.length;
+    seenCodes.push(lesson.code);
+  }
+}
+
+async function assertPoolsDoNotOverlap(sql: SqlExecutor): Promise<void> {
+  const rows = await sql<{ a: string; b: string }[]>`
+    select a.content_code as a, b.content_code as b
+      from public.questions a
+      join public.questions b
+        on a.prompt_md = b.prompt_md and a.id <> b.id
+     where a.bank_pool = 'diagnostic'
+       and b.bank_pool = 'exam_mock'
+       and a.is_active and b.is_active
+     order by a.content_code, b.content_code
+     limit 20
+  `;
+
+  if (rows.length > 0) {
+    throw new ContentValidationError(
+      'questions/',
+      rows.map((row) => `${row.b}: повторяет вопрос диагностики ${row.a}`),
+    );
+  }
+}
+
+async function assertMockPoolHasNoRepeats(sql: SqlExecutor): Promise<void> {
+  const rows = await sql<{ a: string; b: string }[]>`
+    select a.content_code as a, b.content_code as b
+      from public.questions a
+      join public.questions b
+        on a.prompt_md = b.prompt_md and a.id < b.id
+     where a.bank_pool = 'exam_mock'
+       and b.bank_pool = 'exam_mock'
+       and a.is_active and b.is_active
+     order by a.content_code, b.content_code
+     limit 20
+  `;
+
+  if (rows.length > 0) {
+    throw new ContentValidationError(
+      'questions/',
+      rows.map((row) => `${row.b}: повторяет задание пробника ${row.a}`),
+    );
+  }
 }
 
 export async function loadContent(sql: SqlExecutor): Promise<LoadReport> {
   const placeholders: Placeholder[] = [];
 
   const subjects = await loadSubjects(sql);
-  const { topics, prerequisites } = await loadTopics(sql, placeholders);
+  const topicResult = await loadTopics(sql, placeholders);
   const goals = await loadGoals(sql);
   const exams = await loadExams(sql);
-  const lessons = await loadLessons(sql, placeholders);
+  const lessonResult = await loadLessons(sql, placeholders);
   const diagnostic = await loadDiagnostic(sql, placeholders);
   const mockResult = await loadMocks(sql, placeholders);
 
+  await assertPoolsDoNotOverlap(sql);
+  await assertMockPoolHasNoRepeats(sql);
+
   return {
     subjects,
-    topics,
-    prerequisites,
+    topics: topicResult.topics,
+    prerequisites: topicResult.prerequisites,
     goals,
     exams,
-    lessons,
+    lessons: lessonResult.lessons,
     questions: diagnostic.questions + mockResult.questions,
     mocks: mockResult.mocks,
-    retired: diagnostic.retired + mockResult.retired,
+    retired:
+      diagnostic.retired + mockResult.retired + topicResult.retired + lessonResult.retired,
     placeholders,
   };
 }
