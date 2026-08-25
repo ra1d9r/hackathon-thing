@@ -1,3 +1,3 @@
-import { TaskExecutionWorkspaceScreen } from "@/app/screens/TaskExecutionWorkspaceScreen";
+import { TaskExecutionWorkspaceScreen } from "@/screens/TaskExecutionWorkspaceScreen";
 
 export default TaskExecutionWorkspaceScreen;

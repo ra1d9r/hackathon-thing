@@ -1,15 +1,35 @@
 {
   "expo": {
-    "name": "EdFront",
-    "slug": "edfront",
+    "name": "Tlek",
+    "slug": "tlek",
     "version": "1.0.0",
     "orientation": "portrait",
-    "scheme": "edfront",
+    "scheme": "tlek",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Tlek просит доступ к галерее, чтобы вы могли поставить фото на аватар.",
+          "cameraPermission": "Tlek просит доступ к камере, чтобы вы могли снять фото для аватара."
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e5f02c29-6eec-49dd-8c02-5faf92e5d47c"
+      }
+    },
+    "android": {
+      "package": "com.ra1d9r.tlek",
+      "edgeToEdgeEnabled": true
     }
   }
 }

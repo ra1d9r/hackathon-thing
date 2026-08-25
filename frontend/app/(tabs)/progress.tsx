@@ -1,3 +1,3 @@
-import { DynamicRoadmapScreen } from "@/app/screens/DynamicRoadmapScreen";
+import { DynamicRoadmapScreen } from "@/screens/DynamicRoadmapScreen";
 
 export default DynamicRoadmapScreen;

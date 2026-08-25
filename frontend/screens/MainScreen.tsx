@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
 
 const audienceCards = [
@@ -75,9 +76,19 @@ const heatmapCells = [
 export function MainScreen() {
   const { width } = useWindowDimensions();
   const isNarrow = width < 360;
+  const status = useAuthStore((state) => state.status);
+  const me = useAuthStore((state) => state.me);
 
-  const startLearning = () => router.push(routes.usersTargetChoose);
-  const enterAsTeacher = () => undefined;
+  // Уже вошедшего пользователя ведём сразу туда, где он остановился —
+  // на онбординг или на панель, — а не заново на форму входа.
+  const startLearning = () => {
+    if (status !== "signed_in") {
+      router.push(routes.register);
+      return;
+    }
+    router.push(me?.requires_onboarding === false ? routes.tabsRoot : routes.usersTargetChoose);
+  };
+  const enterAsTeacher = () => router.push(routes.login);
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
@@ -156,7 +167,7 @@ interface HeaderProps {
 function Header({ onStart, onTeacherPress, isNarrow }: HeaderProps) {
   return (
     <View style={styles.header}>
-      <Text style={styles.logo}>EduPrep</Text>
+      <Text style={styles.logo}>Tlek</Text>
       <View style={styles.headerActions}>
         <ActionButton
           label="Войти как учитель"
@@ -353,13 +364,13 @@ function RoadmapGraphic() {
     <View style={styles.roadmapCanvas}>
       <View style={styles.roadmapSurface}>
         <View style={[styles.roadmapLabel, styles.roadmapLabelTop]}>
-          <Text style={styles.roadmapLabelText}>CHEMISTRY</Text>
+          <Text style={styles.roadmapLabelText}>ХИМИЯ</Text>
         </View>
         <View style={[styles.roadmapLabel, styles.roadmapLabelLeft]}>
-          <Text style={styles.roadmapLabelText}>MATH</Text>
+          <Text style={styles.roadmapLabelText}>МАТЕМАТИКА</Text>
         </View>
         <View style={[styles.roadmapLabel, styles.roadmapLabelRight]}>
-          <Text style={styles.roadmapLabelText}>PHYSICS</Text>
+          <Text style={styles.roadmapLabelText}>ФИЗИКА</Text>
         </View>
         <View style={[styles.roadmapLine, styles.roadmapLineA]} />
         <View style={[styles.roadmapLine, styles.roadmapLineB]} />
@@ -448,19 +459,19 @@ function TeacherPortalCard({ onTeacherPress }: { onTeacherPress: () => void }) {
 function Footer({ onTeacherPress }: { onTeacherPress: () => void }) {
   return (
     <View style={styles.footer}>
-      <Text style={styles.footerLogo}>EduPrep</Text>
+      <Text style={styles.footerLogo}>Tlek</Text>
       <View style={styles.footerLinks}>
-        <Text style={styles.footerLink}>Privacy Policy</Text>
-        <Text style={styles.footerLink}>Terms of Service</Text>
+        <Text style={styles.footerLink}>Политика конфиденциальности</Text>
+        <Text style={styles.footerLink}>Условия использования</Text>
       </View>
       <View style={styles.footerLinks}>
-        <Text style={styles.footerLink}>Contact Support</Text>
+        <Text style={styles.footerLink}>Поддержка</Text>
         <Pressable onPress={onTeacherPress}>
-          <Text style={styles.footerLink}>Enter as Teacher</Text>
+          <Text style={styles.footerLink}>Вход для учителей</Text>
         </Pressable>
       </View>
       <Text style={styles.copyright}>
-        © 2024 Exam Target Roadmaps. All rights reserved.
+        © 2026 Tlek. Все права защищены.
       </Text>
     </View>
   );

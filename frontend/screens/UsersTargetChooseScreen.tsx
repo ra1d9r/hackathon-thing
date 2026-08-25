@@ -1,10 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { subjectGroups } from "@/services/mockData";
+import { useAuthStore } from "@/store/useAuthStore";
 import { useOnboardingStore } from "@/store/useOnboardingStore";
 import { routes } from "@/types/navigation";
 import type { UserTarget } from "@/types/onboarding";
@@ -44,12 +44,19 @@ const targetOptions: TargetOption[] = [
 ];
 
 export function UsersTargetChooseScreen() {
+  const me = useAuthStore((state) => state.me);
+  const logout = useAuthStore((state) => state.logout);
   const selectedTarget = useOnboardingStore((state) => state.target);
-  const isSaving = useOnboardingStore((state) => state.isSaving);
+  const isSaving = useOnboardingStore((state) => state.isSaving) || useOnboardingStore((state) => state.isLoadingSubjects);
+  const error = useOnboardingStore((state) => state.error);
   const setTarget = useOnboardingStore((state) => state.setTarget);
-  const saveUserTarget = useOnboardingStore((state) => state.saveUserTarget);
-  const saveSelectedSubjects = useOnboardingStore((state) => state.saveSelectedSubjects);
+  const setGrade = useOnboardingStore((state) => state.setGrade);
+  const loadSubjectOptions = useOnboardingStore((state) => state.loadSubjectOptions);
   const [pendingTarget, setPendingTarget] = useState<UserTarget | null>(selectedTarget);
+
+  useEffect(() => {
+    if (me?.grade) setGrade(me.grade);
+  }, [me?.grade, setGrade]);
 
   const handleSelectTarget = (target: UserTarget) => {
     setPendingTarget(target);
@@ -57,19 +64,11 @@ export function UsersTargetChooseScreen() {
   };
 
   const handleNext = async () => {
-    if (!pendingTarget || isSaving) {
-      return;
-    }
-
-    await saveUserTarget(pendingTarget);
-
-    if (pendingTarget === "NIS") {
-      await saveSelectedSubjects(subjectGroups.NIS.map((subject) => subject.title));
-      router.push(routes.diagnosticTest);
-      return;
-    }
-
-    await saveSelectedSubjects([]);
+    if (!pendingTarget || isSaving) return;
+    await loadSubjectOptions();
+    // Список предметов приходит с сервера. Если он не загрузился, следующий
+    // экран показал бы бесконечный спиннер — остаёмся здесь и показываем ошибку.
+    if (useOnboardingStore.getState().subjectOptions === null) return;
     router.push(routes.chooseSubjects);
   };
 
@@ -77,7 +76,7 @@ export function UsersTargetChooseScreen() {
     <SafeAreaView style={styles.safeArea} edges={["top", "bottom"]}>
       <View style={styles.root}>
         <View style={styles.header}>
-          <Text style={styles.logo}>EduPrep</Text>
+          <Text style={styles.logo}>Tlek</Text>
         </View>
 
         <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
@@ -85,6 +84,8 @@ export function UsersTargetChooseScreen() {
             <Text style={styles.title}>Что вы хотите подготовить?</Text>
             <Text style={styles.subtitle}>Выберите вашу основную цель для индивидуальной настройки программы.</Text>
           </View>
+
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
           <View style={styles.cards}>
             {targetOptions.map((target) => (
@@ -100,10 +101,10 @@ export function UsersTargetChooseScreen() {
         </ScrollView>
 
         <View style={styles.footer}>
-          <FooterButton icon="chevron-back" label="Previous" onPress={() => router.back()} variant="ghost" />
+          <FooterButton icon="log-out-outline" label="Выйти" onPress={() => void logout()} variant="ghost" />
           <FooterButton
             icon={isSaving ? undefined : "chevron-forward"}
-            label="Next"
+            label="Далее"
             onPress={handleNext}
             disabled={!pendingTarget || isSaving}
             loading={isSaving}
@@ -236,6 +237,12 @@ const styles = StyleSheet.create({
     fontSize: 17,
     lineHeight: 25,
     textAlign: "center"
+  },
+  errorText: {
+    color: "#c31717",
+    fontSize: 14,
+    textAlign: "center",
+    marginBottom: 16
   },
   cards: {
     width: "100%",

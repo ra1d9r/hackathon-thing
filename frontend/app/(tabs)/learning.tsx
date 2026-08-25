@@ -1,3 +1,3 @@
-import { DailyTaskHubScreen } from "@/app/screens/DailyTaskHubScreen";
+import { DailyTaskHubScreen } from "@/screens/DailyTaskHubScreen";
 
 export default DailyTaskHubScreen;

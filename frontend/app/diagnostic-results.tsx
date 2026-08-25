@@ -1,3 +1,3 @@
-import { DiagnosticResultsScreen } from "@/app/screens/DiagnosticResultsScreen";
+import { DiagnosticResultsScreen } from "@/screens/DiagnosticResultsScreen";
 
 export default DiagnosticResultsScreen;

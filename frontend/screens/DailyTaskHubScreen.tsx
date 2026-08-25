@@ -1,19 +1,26 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router, useLocalSearchParams } from "expo-router";
-import { ActivityIndicator, Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback } from "react";
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { Avatar } from "@/components/Avatar";
 import { useDailyTasks, useUserProfile } from "@/hooks/useData";
 import type { TaskItem } from "@/types/app";
 import { routes } from "@/types/navigation";
 
 export function DailyTaskHubScreen() {
-  const params = useLocalSearchParams<{ completedTask?: string }>();
   const { user } = useUserProfile();
-  const { tasks: sourceTasks, isLoading, error } = useDailyTasks();
-  const tasks = sourceTasks.map((task) =>
-    task.id === params.completedTask ? { ...task, status: "COMPLETED" as const, progressPercentage: 100 } : task
+  const { tasks, isLoading, error, reload } = useDailyTasks();
+
+  // Список обновляется при возврате с экрана задания — иначе после
+  // выполнения задачи прогресс остаётся прежним до перезапуска приложения.
+  useFocusEffect(
+    useCallback(() => {
+      reload();
+    }, [reload]),
   );
+
   const completedCount = tasks.filter((task) => task.status === "COMPLETED").length;
   const completionPercent = tasks.length ? Math.round((completedCount / tasks.length) * 100) : 0;
 
@@ -21,8 +28,15 @@ export function DailyTaskHubScreen() {
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
       <View style={styles.root}>
         <View style={styles.header}>
-          <Text style={styles.logo}>EduPrep</Text>
-          <Image source={{ uri: user?.avatarUrl }} style={styles.avatar} />
+          <Text style={styles.logo}>Tlek</Text>
+          <Pressable
+            accessibilityLabel="Личный кабинет"
+            accessibilityRole="button"
+            onPress={() => router.push(routes.personalAccount)}
+            style={({ pressed }) => [pressed && styles.pressed]}
+          >
+            <Avatar uri={user?.avatarUrl} name={user?.name} size={30} />
+          </Pressable>
         </View>
 
         <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
@@ -30,11 +44,10 @@ export function DailyTaskHubScreen() {
             <View style={styles.focusHeader}>
               <View>
                 <Text style={styles.focusTitle}>Сегодняшний фокус</Text>
-                <Text style={styles.focusDate}>Вторник, авг 18</Text>
               </View>
               <View style={styles.streakPill}>
                 <Ionicons name="flame" size={15} color="#c84b16" />
-                <Text style={styles.streakText}>{user?.streakDays ?? "X"} дней подряд</Text>
+                <Text style={styles.streakText}>{user?.streakDays ?? 0} дней подряд</Text>
               </View>
             </View>
 
@@ -64,8 +77,14 @@ function TaskCard({ task }: { task: TaskItem }) {
   const isInProgress = task.status === "IN_PROGRESS";
 
   const openTask = () => {
-    if (!isCompleted) router.push(routes.taskExecutionWorkspace);
+    if (isCompleted) return;
+    router.push({ pathname: "/task-execution-workspace", params: { itemId: task.id } });
   };
+
+  // `meta` с сервера часто и есть длительность («20 мин»), а она уже показана
+  // отдельной плашкой — второй раз то же самое под заголовком не нужно.
+  const subtitle = task.subtitle.trim();
+  const showSubtitle = subtitle.length > 0 && subtitle !== `${task.durationMinutes} мин`;
 
   return (
     <View style={[styles.taskCard, isCompleted && styles.taskCardCompleted]}>
@@ -82,7 +101,9 @@ function TaskCard({ task }: { task: TaskItem }) {
       <View style={styles.taskBodyRow}>
         <View style={styles.taskCopy}>
           <Text style={[styles.taskTitle, isCompleted && styles.taskTitleCompleted]}>{task.title}</Text>
-          <Text style={[styles.taskSubtitle, isCompleted && styles.taskSubtitleCompleted]}>{task.subtitle}</Text>
+          {showSubtitle ? (
+            <Text style={[styles.taskSubtitle, isCompleted && styles.taskSubtitleCompleted]}>{subtitle}</Text>
+          ) : null}
         </View>
         {isCompleted ? (
           <View style={styles.doneBadge}>
@@ -154,7 +175,6 @@ const styles = StyleSheet.create({
   },
   focusHeader: { flexDirection: "row", alignItems: "flex-start", justifyContent: "space-between", gap: 14 },
   focusTitle: { color: colors.text, fontSize: 23, fontWeight: "900", lineHeight: 29 },
-  focusDate: { marginTop: 4, color: colors.muted, fontSize: 14, lineHeight: 19 },
   streakPill: {
     minHeight: 30,
     borderRadius: 15,

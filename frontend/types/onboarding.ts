@@ -1,21 +1,9 @@
+/**
+ * Цель обучения в терминах экранов онбординга.
+ *
+ * Внутрь API уходит уже в виде `goal`/`exam_code` — перевод делает
+ * `store/useOnboardingStore.ts` (TARGET_TO_GOAL, TARGET_TO_EXAM_CODE).
+ */
 export type UserTarget = "ENT" | "NIS" | "SUBJECTS" | "OLYMPIAD";
 
 export type NullableUserTarget = UserTarget | null;
-
-export interface OnboardingState {
-  target: NullableUserTarget;
-  selectedSubjects: string[];
-  isSaving: boolean;
-  error: string | null;
-}
-
-export interface OnboardingActions {
-  setTarget: (target: NullableUserTarget) => void;
-  setSelectedSubjects: (subjects: string[]) => void;
-  toggleSubject: (subject: string) => void;
-  resetOnboarding: () => void;
-  saveUserTarget: (target: UserTarget) => Promise<void>;
-  saveSelectedSubjects: (subjects: string[]) => Promise<void>;
-}
-
-export type OnboardingStore = OnboardingState & OnboardingActions;

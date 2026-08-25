@@ -3,7 +3,7 @@ import type { UserTarget } from "@/types/onboarding";
 export interface UserProfile {
   id: string;
   name: string;
-  avatarUrl: string;
+  avatarUrl: string | null;
   grade: string;
   target: UserTarget;
   selectedSubjects: Subject[];
