@@ -47,7 +47,9 @@ export function UsersTargetChooseScreen() {
   const me = useAuthStore((state) => state.me);
   const logout = useAuthStore((state) => state.logout);
   const selectedTarget = useOnboardingStore((state) => state.target);
-  const isSaving = useOnboardingStore((state) => state.isSaving) || useOnboardingStore((state) => state.isLoadingSubjects);
+  const isSavingTarget = useOnboardingStore((state) => state.isSaving);
+  const isLoadingSubjects = useOnboardingStore((state) => state.isLoadingSubjects);
+  const isSaving = isSavingTarget || isLoadingSubjects;
   const error = useOnboardingStore((state) => state.error);
   const setTarget = useOnboardingStore((state) => state.setTarget);
   const setGrade = useOnboardingStore((state) => state.setGrade);

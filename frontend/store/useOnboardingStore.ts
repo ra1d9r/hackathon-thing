@@ -128,8 +128,11 @@ export const useOnboardingStore = create<OnboardingState>((set, get) => ({
   },
 
   completeOnboarding: async () => {
-    const { target, selectedSubjects, grade } = get();
+    const { target, selectedSubjects, subjectOptions, grade } = get();
     if (!target) throw new Error("Цель не выбрана");
+
+    const mandatoryCodes = new Set(subjectOptions?.mandatory.map((subject) => subject.code) ?? []);
+    const profileCodes = selectedSubjects.filter((code) => !mandatoryCodes.has(code));
 
     set({ isSaving: true, error: null });
     try {
@@ -138,7 +141,7 @@ export const useOnboardingStore = create<OnboardingState>((set, get) => ({
         exam_code: TARGET_TO_EXAM_CODE[target],
         grade,
         target_date: null,
-        subject_codes: selectedSubjects,
+        subject_codes: profileCodes,
         answers: null,
       });
 
