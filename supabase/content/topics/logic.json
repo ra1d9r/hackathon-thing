@@ -1,55 +1,111 @@
 {
-  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
   "subject_code": "logic",
-  "placeholder": true,
+  "placeholder": false,
+  "_": "Раздел «Количественные характеристики» вступительного теста НИШ. Темы — типология заданий из docs/raw material/кол. характеристики.txt: задание всегда сравнивает величину A с величиной B, а различаются задания приёмом, которым сравнение делается быстро.",
   "topics": [
     {
-      "code": "logic.placeholder_01",
-      "title_ru": "Числовые закономерности",
-      "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
+      "code": "logic.g5.arithmetic-order",
+      "title_ru": "Арифметические выражения со скобками и модулем",
+      "grade_min": 5,
+      "grade_max": 6,
+      "exam_weight": 1.2,
       "sort_order": 10
     },
     {
-      "code": "logic.placeholder_02",
-      "title_ru": "Логические высказывания и выводы",
-      "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
+      "code": "logic.g5.fractions-compare",
+      "title_ru": "Сравнение сумм и произведений дробей",
+      "grade_min": 5,
+      "grade_max": 6,
+      "exam_weight": 1.3,
       "sort_order": 20
     },
     {
-      "code": "logic.placeholder_03",
-      "title_ru": "Пространственное мышление",
-      "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
+      "code": "logic.g5.fraction-reduce",
+      "title_ru": "Сокращение больших дробных выражений и телескопические произведения",
+      "grade_min": 5,
+      "grade_max": 6,
+      "exam_weight": 1.2,
       "sort_order": 30
     },
     {
-      "code": "logic.placeholder_04",
-      "title_ru": "Анализ данных и графиков",
-      "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
+      "code": "logic.g6.powers-order",
+      "title_ru": "Степени: сравнение порядка величины без вычисления",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1.2,
       "sort_order": 40
     },
     {
-      "code": "logic.placeholder_05",
-      "title_ru": "Комбинаторные задачи",
-      "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
+      "code": "logic.g6.last-digit",
+      "title_ru": "Последняя цифра числа и периодичность степеней",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1.0,
       "sort_order": 50
     },
     {
-      "code": "logic.placeholder_06",
-      "title_ru": "Критическое чтение условия",
-      "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
+      "code": "logic.g5.divisibility",
+      "title_ru": "Делимость, остатки, НОД и НОК в задачах",
+      "grade_min": 5,
+      "grade_max": 6,
+      "exam_weight": 1.3,
       "sort_order": 60
+    },
+    {
+      "code": "logic.g5.progressions",
+      "title_ru": "Суммы числовых рядов и закономерности последовательностей",
+      "grade_min": 5,
+      "grade_max": 6,
+      "exam_weight": 1.2,
+      "sort_order": 70
+    },
+    {
+      "code": "logic.g6.percent-proportion",
+      "title_ru": "Проценты, доли целого и пропорции",
+      "grade_min": 5,
+      "grade_max": 6,
+      "exam_weight": 1.4,
+      "sort_order": 80
+    },
+    {
+      "code": "logic.g6.word-problems",
+      "title_ru": "Текстовые задачи: движение, совместная работа, распределение величин",
+      "grade_min": 5,
+      "grade_max": 6,
+      "exam_weight": 1.4,
+      "sort_order": 90
+    },
+    {
+      "code": "logic.g6.equations",
+      "title_ru": "Линейные уравнения, пропорции-уравнения и цепные дроби",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1.2,
+      "sort_order": 100
+    },
+    {
+      "code": "logic.g6.formulas-variables",
+      "title_ru": "Буквенные формулы с несколькими переменными",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1.1,
+      "sort_order": 110
+    },
+    {
+      "code": "logic.g6.geometry-basics",
+      "title_ru": "Периметр, площадь, окружность и деление отрезка",
+      "grade_min": 5,
+      "grade_max": 6,
+      "exam_weight": 1.2,
+      "sort_order": 120
+    },
+    {
+      "code": "logic.g6.insufficient-data",
+      "title_ru": "Когда сравнение невозможно: недостаток данных",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1.0,
+      "sort_order": 130
     }
   ]
 }
