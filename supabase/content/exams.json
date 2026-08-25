@@ -8,6 +8,9 @@
       "scale_kind": "points",
       "max_score": 140,
       "profile_slot_count": 2,
+      "grade_min": 7,
+      "grade_max": 11,
+      "time_limit_sec": 14400,
       "is_active": true,
       "sections": [
         {
@@ -52,123 +55,67 @@
         }
       ],
       "subject_options": [
-        {
-          "subject_code": "kz_history",
-          "slot_kind": "mandatory",
-          "sort_order": 10
-        },
-        {
-          "subject_code": "reading_literacy",
-          "slot_kind": "mandatory",
-          "sort_order": 20
-        },
-        {
-          "subject_code": "math_literacy",
-          "slot_kind": "mandatory",
-          "sort_order": 30
-        },
-        {
-          "subject_code": "math",
-          "slot_kind": "profile",
-          "sort_order": 10
-        },
-        {
-          "subject_code": "physics",
-          "slot_kind": "profile",
-          "sort_order": 20
-        },
-        {
-          "subject_code": "informatics",
-          "slot_kind": "profile",
-          "sort_order": 30
-        },
-        {
-          "subject_code": "chemistry",
-          "slot_kind": "profile",
-          "sort_order": 40
-        },
-        {
-          "subject_code": "biology",
-          "slot_kind": "profile",
-          "sort_order": 50
-        }
+        { "subject_code": "kz_history", "slot_kind": "mandatory", "sort_order": 10 },
+        { "subject_code": "reading_literacy", "slot_kind": "mandatory", "sort_order": 20 },
+        { "subject_code": "math_literacy", "slot_kind": "mandatory", "sort_order": 30 },
+        { "subject_code": "math", "slot_kind": "profile", "sort_order": 10 },
+        { "subject_code": "physics", "slot_kind": "profile", "sort_order": 20 },
+        { "subject_code": "informatics", "slot_kind": "profile", "sort_order": 30 },
+        { "subject_code": "chemistry", "slot_kind": "profile", "sort_order": 40 },
+        { "subject_code": "biology", "slot_kind": "profile", "sort_order": 50 }
+      ],
+      "_ПАРЫ": "Профильные предметы сдаются утверждённой комбинацией, а не любым сочетанием. Официальных пар двенадцать; здесь перечислены те четыре, что состоят из поддерживаемых приложением предметов. Остальные (география, всемирная история, основы права, литература, иностранный язык) появятся вместе со своим наполнением.",
+      "profile_pairs": [
+        { "subjects": ["math", "physics"], "sort_order": 10 },
+        { "subjects": ["math", "informatics"], "sort_order": 20 },
+        { "subjects": ["biology", "chemistry"], "sort_order": 30 },
+        { "subjects": ["chemistry", "physics"], "sort_order": 40 }
       ]
     },
     {
       "code": "nis",
-      "title_ru": "Экзамен в НИШ",
+      "title_ru": "Экзамен в НИШ (7 класс)",
       "goal": "nis",
-      "_ЗАГОТОВКА": "Структура НИШ задана по нашему усмотрению. Сверьте распределение баллов с официальными требованиями и поправьте max_points — остальная логика подстроится сама.",
       "scale_kind": "points",
-      "max_score": 100,
-      "profile_slot_count": 1,
+      "max_score": 900,
+      "profile_slot_count": 0,
+      "grade_min": 5,
+      "grade_max": 6,
+      "time_limit_sec": 10800,
       "is_active": true,
+      "_": "Структура комплексного тестирования в 7 классы: «Математика» 400 баллов, «Количественные характеристики» 300, «Естествознание» 200. Пороги гранта «Өркен» — 140 по математике (35%) и 120 по количественным характеристикам (40%). Программа — 5–6 класс.",
       "sections": [
         {
           "slot_kind": "mandatory",
           "slot_index": 1,
           "subject_code": "math",
-          "max_points": 30,
-          "question_count": 30,
+          "max_points": 400,
+          "question_count": 40,
           "guess_floor": 0.2
         },
         {
           "slot_kind": "mandatory",
           "slot_index": 2,
           "subject_code": "logic",
-          "max_points": 30,
+          "max_points": 300,
           "question_count": 30,
-          "guess_floor": 0.2
+          "guess_floor": 0.25
         },
         {
           "slot_kind": "mandatory",
           "slot_index": 3,
           "subject_code": "natural_science",
-          "max_points": 20,
-          "question_count": 20,
-          "guess_floor": 0.2
-        },
-        {
-          "slot_kind": "profile",
-          "slot_index": 1,
-          "subject_code": null,
-          "max_points": 20,
+          "max_points": 200,
           "question_count": 20,
           "guess_floor": 0.2
         }
       ],
       "subject_options": [
-        {
-          "subject_code": "math",
-          "slot_kind": "mandatory",
-          "sort_order": 10
-        },
-        {
-          "subject_code": "logic",
-          "slot_kind": "mandatory",
-          "sort_order": 20
-        },
-        {
-          "subject_code": "natural_science",
-          "slot_kind": "mandatory",
-          "sort_order": 30
-        },
-        {
-          "subject_code": "kazakh_language",
-          "slot_kind": "profile",
-          "sort_order": 10
-        },
-        {
-          "subject_code": "russian_language",
-          "slot_kind": "profile",
-          "sort_order": 20
-        },
-        {
-          "subject_code": "english_language",
-          "slot_kind": "profile",
-          "sort_order": 30
-        }
-      ]
+        { "subject_code": "math", "slot_kind": "mandatory", "sort_order": 10 },
+        { "subject_code": "logic", "slot_kind": "mandatory", "sort_order": 20 },
+        { "subject_code": "natural_science", "slot_kind": "mandatory", "sort_order": 30 }
+      ],
+      "profile_pairs": []
     },
     {
       "code": "olympiad_generic",
@@ -178,6 +125,9 @@
       "scale_kind": "points",
       "max_score": 100,
       "profile_slot_count": 2,
+      "grade_min": 7,
+      "grade_max": 11,
+      "time_limit_sec": 14400,
       "is_active": true,
       "sections": [
         {
@@ -198,32 +148,13 @@
         }
       ],
       "subject_options": [
-        {
-          "subject_code": "math",
-          "slot_kind": "profile",
-          "sort_order": 10
-        },
-        {
-          "subject_code": "physics",
-          "slot_kind": "profile",
-          "sort_order": 20
-        },
-        {
-          "subject_code": "informatics",
-          "slot_kind": "profile",
-          "sort_order": 30
-        },
-        {
-          "subject_code": "chemistry",
-          "slot_kind": "profile",
-          "sort_order": 40
-        },
-        {
-          "subject_code": "biology",
-          "slot_kind": "profile",
-          "sort_order": 50
-        }
-      ]
+        { "subject_code": "math", "slot_kind": "profile", "sort_order": 10 },
+        { "subject_code": "physics", "slot_kind": "profile", "sort_order": 20 },
+        { "subject_code": "informatics", "slot_kind": "profile", "sort_order": 30 },
+        { "subject_code": "chemistry", "slot_kind": "profile", "sort_order": 40 },
+        { "subject_code": "biology", "slot_kind": "profile", "sort_order": 50 }
+      ],
+      "profile_pairs": []
     }
   ]
 }
