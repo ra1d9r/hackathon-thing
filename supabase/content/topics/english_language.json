@@ -1,55 +1,286 @@
 {
-  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
   "subject_code": "english_language",
-  "placeholder": true,
+  "placeholder": false,
   "topics": [
     {
-      "code": "eng.placeholder_01",
-      "title_ru": "Grammar: Tenses",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "eng.g5.home-and-away",
+      "title_ru": "Home and away",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 10
+      "sort_order": 5004
     },
     {
-      "code": "eng.placeholder_02",
-      "title_ru": "Grammar: Conditionals and Modals",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "eng.g5.sports",
+      "title_ru": "Sports",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 20
+      "sort_order": 5012
     },
     {
-      "code": "eng.placeholder_03",
-      "title_ru": "Vocabulary and Collocations",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "eng.g5.fantasy-world",
+      "title_ru": "Fantasy world",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 30
+      "sort_order": 5026
     },
     {
-      "code": "eng.placeholder_04",
-      "title_ru": "Reading Comprehension",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "eng.g5.living-things",
+      "title_ru": "Living things",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 40
+      "sort_order": 5040
     },
     {
-      "code": "eng.placeholder_05",
-      "title_ru": "Listening Comprehension",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "eng.g5.values",
+      "title_ru": "Values",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 50
+      "sort_order": 5054
     },
     {
-      "code": "eng.placeholder_06",
-      "title_ru": "Writing: Essays and Emails",
+      "code": "eng.g6.our-class",
+      "title_ru": "Our class",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6005
+    },
+    {
+      "code": "eng.g6.helping-heroes",
+      "title_ru": "Helping & Heroes",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6017
+    },
+    {
+      "code": "eng.g6.our-countryside",
+      "title_ru": "Our countryside",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6029
+    },
+    {
+      "code": "eng.g6.drama-comedy",
+      "title_ru": "Drama & Comedy",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6041
+    },
+    {
+      "code": "eng.g6.our-health",
+      "title_ru": "Our health",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6053
+    },
+    {
+      "code": "eng.g7.expressions-with-go",
+      "title_ru": "Expressions with go",
       "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7033
+    },
+    {
+      "code": "eng.g7.space-and-earth",
+      "title_ru": "Space and Earth",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7045
+    },
+    {
+      "code": "eng.g7.art-and-media",
+      "title_ru": "Art and media",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7069
+    },
+    {
+      "code": "eng.g7.extreme-weather",
+      "title_ru": "Extreme weather",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7081
+    },
+    {
+      "code": "eng.g7.priorities",
+      "title_ru": "Priorities",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7093
+    },
+    {
+      "code": "eng.g8.celebrations",
+      "title_ru": "Celebrations",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8005
+    },
+    {
+      "code": "eng.g8.everyday-objects",
+      "title_ru": "Everyday objects",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8017
+    },
+    {
+      "code": "eng.g8.entertainment-and-media",
+      "title_ru": "Entertainment and media",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8031
+    },
+    {
+      "code": "eng.g8.sports-qualities",
+      "title_ru": "Sports qualities",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8043
+    },
+    {
+      "code": "eng.g8.the-natural-world",
+      "title_ru": "The natural world",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8061
+    },
+    {
+      "code": "eng.g9.hobbies-qualities",
+      "title_ru": "Hobbies & Qualities",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9005
+    },
+    {
+      "code": "eng.g9.exercise-sport",
+      "title_ru": "Exercise & Sport",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9017
+    },
+    {
+      "code": "eng.g9.earth-our-place-on-it",
+      "title_ru": "Earth & our place on it",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9029
+    },
+    {
+      "code": "eng.g9.charities-conflict",
+      "title_ru": "Charities & Conflict",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9041
+    },
+    {
+      "code": "eng.g9.reading-for-pleasure",
+      "title_ru": "Reading for pleasure",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9053
+    },
+    {
+      "code": "eng.g10.starter",
+      "title_ru": "Starter",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10005
+    },
+    {
+      "code": "eng.g10.science-scientific-phenomena",
+      "title_ru": "Science & scientific phenomena",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10007
+    },
+    {
+      "code": "eng.g10.natural-disasters",
+      "title_ru": "Natural disasters",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10021
+    },
+    {
+      "code": "eng.g10.virtual-reality",
+      "title_ru": "Virtual reality",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10035
+    },
+    {
+      "code": "eng.g10.organic-and-non-organic-worlds",
+      "title_ru": "Organic and non-organic worlds",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10049
+    },
+    {
+      "code": "eng.g11.making-connections-in-biology",
+      "title_ru": "Making Connections in Biology",
+      "grade_min": 11,
       "grade_max": 11,
       "exam_weight": 1,
-      "sort_order": 60
+      "sort_order": 11007
+    },
+    {
+      "code": "eng.g11.the-animal-world",
+      "title_ru": "The Animal World",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11021
+    },
+    {
+      "code": "eng.g11.the-human-brain",
+      "title_ru": "The Human Brain",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11035
+    },
+    {
+      "code": "eng.g11.timekeeping-devices",
+      "title_ru": "Timekeeping Devices",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11049
+    },
+    {
+      "code": "eng.g11.work-inventions",
+      "title_ru": "Work & Inventions",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11063
     }
   ]
 }

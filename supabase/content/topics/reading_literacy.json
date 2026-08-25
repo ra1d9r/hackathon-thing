@@ -1,12 +1,79 @@
 {
   "subject_code": "reading_literacy",
   "placeholder": false,
+  "_": "Обязательный раздел ЕНТ: 10 вопросов к сплошным и несплошным текстам. Проверяется работа с текстом, а не знание предмета: найти сведение, связать части, отличить факт от мнения, оценить достоверность.",
   "topics": [
-    { "code": "read.main_idea", "title_ru": "Определение основной мысли текста", "grade_min": 7, "grade_max": 11, "exam_weight": 1.3, "sort_order": 10 },
-    { "code": "read.retrieval", "title_ru": "Поиск и извлечение информации", "grade_min": 7, "grade_max": 11, "exam_weight": 1.2, "sort_order": 20 },
-    { "code": "read.interpret", "title_ru": "Интерпретация и связывание фрагментов", "grade_min": 7, "grade_max": 11, "exam_weight": 1.3, "sort_order": 30 },
-    { "code": "read.evaluate", "title_ru": "Оценка достоверности и позиции автора", "grade_min": 9, "grade_max": 11, "exam_weight": 1.2, "sort_order": 40 },
-    { "code": "read.noncontinuous", "title_ru": "Несплошные тексты: таблицы и графики", "grade_min": 7, "grade_max": 11, "exam_weight": 1.1, "sort_order": 50 },
-    { "code": "read.vocabulary", "title_ru": "Значение слова в контексте", "grade_min": 7, "grade_max": 11, "exam_weight": 1.0, "sort_order": 60 }
+    {
+      "code": "read.locate-facts",
+      "title_ru": "Поиск и извлечение сведений из текста",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1.4,
+      "sort_order": 10
+    },
+    {
+      "code": "read.main-idea",
+      "title_ru": "Основная мысль, тема и назначение текста",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1.4,
+      "sort_order": 20
+    },
+    {
+      "code": "read.structure-links",
+      "title_ru": "Структура текста и связи между его частями",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 30
+    },
+    {
+      "code": "read.inference",
+      "title_ru": "Выводы, следствия и то, что в тексте не сказано прямо",
+      "grade_min": 8,
+      "grade_max": 11,
+      "exam_weight": 1.3,
+      "sort_order": 40
+    },
+    {
+      "code": "read.fact-opinion",
+      "title_ru": "Факт, мнение и оценочное суждение",
+      "grade_min": 8,
+      "grade_max": 11,
+      "exam_weight": 1.3,
+      "sort_order": 50
+    },
+    {
+      "code": "read.author-position",
+      "title_ru": "Позиция автора и средства убеждения",
+      "grade_min": 9,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 60
+    },
+    {
+      "code": "read.nonlinear-text",
+      "title_ru": "Несплошной текст: таблицы, схемы, объявления, инструкции",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1.3,
+      "sort_order": 70
+    },
+    {
+      "code": "read.compare-sources",
+      "title_ru": "Сопоставление двух текстов и оценка достоверности",
+      "grade_min": 9,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 80
+    },
+    {
+      "code": "read.vocabulary-context",
+      "title_ru": "Значение слова и выражения по контексту",
+      "grade_min": 7,
+      "grade_max": 11,
+      "exam_weight": 1.1,
+      "sort_order": 90
+    }
   ]
 }

@@ -1,55 +1,206 @@
 {
-  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
   "subject_code": "chemistry",
-  "placeholder": true,
+  "placeholder": false,
   "topics": [
     {
-      "code": "chem.placeholder_01",
-      "title_ru": "Строение атома и периодический закон",
+      "code": "chem.g7.predmet-himii-veschestva-i-ih-svoystva",
+      "title_ru": "Предмет химии. Вещества и их свойства",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 10
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7008
     },
     {
-      "code": "chem.placeholder_02",
-      "title_ru": "Химическая связь",
+      "code": "chem.g7.agregatnye-sostoyaniya-veschestva",
+      "title_ru": "Агрегатные состояния вещества",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 20
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7029
     },
     {
-      "code": "chem.placeholder_03",
-      "title_ru": "Растворы и электролитическая диссоциация",
+      "code": "chem.g7.atomy-i-molekuly-prostye-i-slozhnye-veschestva",
+      "title_ru": "Атомы и молекулы. Простые и сложные вещества",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 30
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7042
     },
     {
-      "code": "chem.placeholder_04",
-      "title_ru": "Скорость реакции и равновесие",
+      "code": "chem.g7.prirodnye-kisloty-i-osnovaniya-indikatory",
+      "title_ru": "Природные кислоты и основания. Индикаторы",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 40
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7068
     },
     {
-      "code": "chem.placeholder_05",
-      "title_ru": "Неорганическая химия: классы соединений",
+      "code": "chem.g7.klassifikaciya-himicheskih-elementov",
+      "title_ru": "Классификация химических элементов",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 50
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7080
     },
     {
-      "code": "chem.placeholder_06",
-      "title_ru": "Органическая химия: углеводороды",
-      "grade_min": 7,
+      "code": "chem.g8.raspredelenie-elektronov-v-atomah",
+      "title_ru": "Распределение электронов в атомах",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8004
+    },
+    {
+      "code": "chem.g8.tipy-himicheskih-reakciy",
+      "title_ru": "Типы химических реакций",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8031
+    },
+    {
+      "code": "chem.g8.korroziya-metallov-i-mery-po-ee-preduprezhdeniyu",
+      "title_ru": "Коррозия металлов и меры по ее предупреждению",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8049
+    },
+    {
+      "code": "chem.g8.kolichestvo-veschestva-mol-chislo-avogadro",
+      "title_ru": "Количество вещества. Моль. Число Авогадро",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8054
+    },
+    {
+      "code": "chem.g8.vodorod",
+      "title_ru": "Водород",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8086
+    },
+    {
+      "code": "chem.g9.suschnost-teorii-elektroliticheskoy-dissociacii",
+      "title_ru": "Сущность теории электролитической диссоциации",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9004
+    },
+    {
+      "code": "chem.g9.kachestvennye-reakcii-na-kationy",
+      "title_ru": "Качественные реакции на катионы",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9046
+    },
+    {
+      "code": "chem.g9.skorost-himicheskih-reakciy",
+      "title_ru": "Скорость химических реакций",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9059
+    },
+    {
+      "code": "chem.g9.stepen-okisleniya",
+      "title_ru": "Степень окисления",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9072
+    },
+    {
+      "code": "chem.g9.obschaya-harakteristika-metallov",
+      "title_ru": "Общая характеристика металлов",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9081
+    },
+    {
+      "code": "chem.g10.sovremennaya-teoriya-stroeniya-atoma-sostoyanie",
+      "title_ru": "Современная теория строения атома. Состояние и движение электронов в атоме",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10005
+    },
+    {
+      "code": "chem.g10.zakonomernosti-izmeneniya-svoystv-elementov-v",
+      "title_ru": "Закономерности изменения свойств элементов в Периодической системе Д. И. Менделеева",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10024
+    },
+    {
+      "code": "chem.g10.kovalentnaya-svyaz",
+      "title_ru": "Ковалентная связь",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10032
+    },
+    {
+      "code": "chem.g10.klassifikaciya-himicheskih-reakciy",
+      "title_ru": "Классификация химических реакций",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10057
+    },
+    {
+      "code": "chem.g10.skorost-himicheskoy-reakcii",
+      "title_ru": "Скорость химической реакции",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10084
+    },
+    {
+      "code": "chem.g11.osobennosti-stroeniya-atoma-ugleroda",
+      "title_ru": "Особенности строения атома углерода, гибридизация",
+      "grade_min": 11,
       "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 60
+      "exam_weight": 1.2,
+      "sort_order": 11005
+    },
+    {
+      "code": "chem.g11.alkany",
+      "title_ru": "Алканы",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11041
+    },
+    {
+      "code": "chem.g11.odnoatomnye-spirty",
+      "title_ru": "Одноатомные спирты",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11119
+    },
+    {
+      "code": "chem.g11.aminy",
+      "title_ru": "Амины",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11180
+    },
+    {
+      "code": "chem.g11.vysokomolekulyarnye-soedineniya",
+      "title_ru": "Высокомолекулярные соединения",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11205
     }
   ]
 }

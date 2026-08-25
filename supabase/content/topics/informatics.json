@@ -1,55 +1,214 @@
 {
-  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
   "subject_code": "informatics",
-  "placeholder": true,
+  "placeholder": false,
   "topics": [
     {
-      "code": "inf.placeholder_01",
-      "title_ru": "Алгоритмы и блок-схемы",
+      "code": "inf.g7.edinicy-izmereniya-informacii",
+      "title_ru": "Единицы измерения информации",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 10
+      "grade_max": 7,
+      "exam_weight": 1.1,
+      "sort_order": 7004
     },
     {
-      "code": "inf.placeholder_02",
-      "title_ru": "Основы программирования",
+      "code": "inf.g7.kompyuternaya-pamyat",
+      "title_ru": "Компьютерная память",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 20
+      "grade_max": 7,
+      "exam_weight": 1.1,
+      "sort_order": 7009
     },
     {
-      "code": "inf.placeholder_03",
-      "title_ru": "Типы данных и структуры",
+      "code": "inf.g7.kompyuternye-seti-i-ih-klassifikaciya",
+      "title_ru": "Компьютерные сети и их классификация",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 30
+      "grade_max": 7,
+      "exam_weight": 1.1,
+      "sort_order": 7024
     },
     {
-      "code": "inf.placeholder_04",
-      "title_ru": "Базы данных и запросы",
+      "code": "inf.g7.tipy-dannyh",
+      "title_ru": "Типы данных",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 40
+      "grade_max": 7,
+      "exam_weight": 1.1,
+      "sort_order": 7065
     },
     {
-      "code": "inf.placeholder_05",
-      "title_ru": "Компьютерные сети",
+      "code": "inf.g7.rabota-s-faylami",
+      "title_ru": "Работа с файлами",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 50
+      "grade_max": 7,
+      "exam_weight": 1.1,
+      "sort_order": 7105
     },
     {
-      "code": "inf.placeholder_06",
-      "title_ru": "Информационная безопасность",
-      "grade_min": 7,
+      "code": "inf.g8.izmerenie-informacii-alfavitnyy-podhod",
+      "title_ru": "Измерение информации. Алфавитный подход",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.1,
+      "sort_order": 8004
+    },
+    {
+      "code": "inf.g8.negativnye-aspekty-ispolzovaniya-kompyutera",
+      "title_ru": "Негативные аспекты использования компьютера",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.1,
+      "sort_order": 8030
+    },
+    {
+      "code": "inf.g8.vstroennye-funkcii",
+      "title_ru": "Встроенные функции",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.1,
+      "sort_order": 8051
+    },
+    {
+      "code": "inf.g8.cikl-for",
+      "title_ru": "Цикл for",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.1,
+      "sort_order": 8077
+    },
+    {
+      "code": "inf.g8.trassirovka-algoritma",
+      "title_ru": "Трассировка алгоритма",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.1,
+      "sort_order": 8102
+    },
+    {
+      "code": "inf.g9.svoystva-informacii",
+      "title_ru": "Свойства информации",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.1,
+      "sort_order": 9004
+    },
+    {
+      "code": "inf.g9.konfiguraciya-kompyutera",
+      "title_ru": "Конфигурация компьютера",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.1,
+      "sort_order": 9022
+    },
+    {
+      "code": "inf.g9.baza-dannyh",
+      "title_ru": "База данных",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.1,
+      "sort_order": 9037
+    },
+    {
+      "code": "inf.g9.odnomernyy-massiv",
+      "title_ru": "Одномерный массив",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.1,
+      "sort_order": 9071
+    },
+    {
+      "code": "inf.g9.pygame-pygame-biblioteka",
+      "title_ru": "PyGame. PyGame Библиотека",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.1,
+      "sort_order": 9124
+    },
+    {
+      "code": "inf.g10.organizaciya-kompyuternyh-setey",
+      "title_ru": "Организация компьютерных сетей",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.1,
+      "sort_order": 10004
+    },
+    {
+      "code": "inf.g10.sistemy-schisleniya",
+      "title_ru": "Системы счисления",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.1,
+      "sort_order": 10032
+    },
+    {
+      "code": "inf.g10.polzovatelskie-funkcii-i-procedury",
+      "title_ru": "Пользовательские функции и процедуры",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.1,
+      "sort_order": 10061
+    },
+    {
+      "code": "inf.g10.web-proektirovanie-ponyatie-o-web-sayte",
+      "title_ru": "Web-проектирование. Понятие о Web-сайте",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.1,
+      "sort_order": 10105
+    },
+    {
+      "code": "inf.g10.bigdata",
+      "title_ru": "Bigdata",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.1,
+      "sort_order": 10163
+    },
+    {
+      "code": "inf.g11.iskusstvennyy-intellekt-osnova-sovremennyh",
+      "title_ru": "Искусственный интеллект — основа современных информационных технологий",
+      "grade_min": 11,
       "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 60
+      "exam_weight": 1.1,
+      "sort_order": 11004
+    },
+    {
+      "code": "inf.g11.virtualnaya-i-dopolnennaya-realnost",
+      "title_ru": "Виртуальная и дополненная реальность",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.1,
+      "sort_order": 11037
+    },
+    {
+      "code": "inf.g11.virtualnaya-mashina",
+      "title_ru": "Виртуальная машина",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.1,
+      "sort_order": 11071
+    },
+    {
+      "code": "inf.g11.chto-takoe-internet-veschey",
+      "title_ru": "Что такое Интернет вещей",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.1,
+      "sort_order": 11093
+    },
+    {
+      "code": "inf.g11.kak-zapustit-svoy-startap",
+      "title_ru": "Как запустить свой стартап",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.1,
+      "sort_order": 11139
+    },
+    {
+      "code": "inf.g11.cifrovizaciya-v-kazahstane",
+      "title_ru": "Цифровизация в Казахстане",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.1,
+      "sort_order": 11167
     }
   ]
 }

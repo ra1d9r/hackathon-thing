@@ -2,17 +2,205 @@
   "subject_code": "physics",
   "placeholder": false,
   "topics": [
-    { "code": "phys.kinematics", "title_ru": "Кинематика", "grade_min": 9, "grade_max": 11, "exam_weight": 1.3, "sort_order": 10 },
-    { "code": "phys.dynamics", "title_ru": "Динамика. Законы Ньютона", "grade_min": 9, "grade_max": 11, "exam_weight": 1.4, "sort_order": 20, "prerequisites": ["phys.kinematics"] },
-    { "code": "phys.conservation", "title_ru": "Законы сохранения импульса и энергии", "grade_min": 9, "grade_max": 11, "exam_weight": 1.3, "sort_order": 30, "prerequisites": ["phys.dynamics"] },
-    { "code": "phys.molecular", "title_ru": "Молекулярная физика и газовые законы", "grade_min": 10, "grade_max": 11, "exam_weight": 1.2, "sort_order": 40 },
-    { "code": "phys.thermodynamics", "title_ru": "Термодинамика", "grade_min": 10, "grade_max": 11, "exam_weight": 1.2, "sort_order": 50, "prerequisites": ["phys.molecular"] },
-    { "code": "phys.electrostatics", "title_ru": "Электростатика", "grade_min": 10, "grade_max": 11, "exam_weight": 1.2, "sort_order": 60 },
-    { "code": "phys.current", "title_ru": "Постоянный электрический ток", "grade_min": 10, "grade_max": 11, "exam_weight": 1.3, "sort_order": 70, "prerequisites": ["phys.electrostatics"] },
-    { "code": "phys.magnetism", "title_ru": "Магнитное поле и электромагнитная индукция", "grade_min": 11, "grade_max": 11, "exam_weight": 1.3, "sort_order": 80, "prerequisites": ["phys.current"] },
-    { "code": "phys.oscillations", "title_ru": "Электромагнитные колебания и волны", "grade_min": 11, "grade_max": 11, "exam_weight": 1.1, "sort_order": 90, "prerequisites": ["phys.magnetism"] },
-    { "code": "phys.optics", "title_ru": "Оптика", "grade_min": 11, "grade_max": 11, "exam_weight": 1.1, "sort_order": 100 },
-    { "code": "phys.quantum", "title_ru": "Квантовая физика. Фотоэффект", "grade_min": 11, "grade_max": 11, "exam_weight": 1.0, "sort_order": 110 },
-    { "code": "phys.nuclear", "title_ru": "Физика атомного ядра", "grade_min": 11, "grade_max": 11, "exam_weight": 1.0, "sort_order": 120 }
+    {
+      "code": "phys.g7.mehanicheskoe-dvizhenie-i-ego-harakteristiki",
+      "title_ru": "Механическое движение и его характеристики",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7032
+    },
+    {
+      "code": "phys.g7.massa-i-izmerenie-massy-tela",
+      "title_ru": "Масса и измерение массы тела",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7067
+    },
+    {
+      "code": "phys.g7.sila-uprugosti-zakon-guka",
+      "title_ru": "Сила упругости. Закон Гука",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7093
+    },
+    {
+      "code": "phys.g7.mehanicheskaya-rabota-moschnost",
+      "title_ru": "Механическая работа. Мощность",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7154
+    },
+    {
+      "code": "phys.g7.kineticheskaya-i-potencialnaya-energiya",
+      "title_ru": "Кинетическая и потенциальная энергия",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7160
+    },
+    {
+      "code": "phys.g8.teplovoe-dvizhenie",
+      "title_ru": "Тепловое движение",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8006
+    },
+    {
+      "code": "phys.g8.plavlenie-i-kristallizaciya-tverdyh-tel",
+      "title_ru": "Плавление и кристаллизация твердых тел",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8042
+    },
+    {
+      "code": "phys.g8.pervyy-zakon-termodinamiki",
+      "title_ru": "Первый закон термодинамики",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8060
+    },
+    {
+      "code": "phys.g8.elektricheskiy-zaryad",
+      "title_ru": "Электрический заряд",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8076
+    },
+    {
+      "code": "phys.g8.postoyannyy-elektricheskiy-tok",
+      "title_ru": "Постоянный электрический ток",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8106
+    },
+    {
+      "code": "phys.g9.mehanicheskoe-dvizhenie",
+      "title_ru": "Механическое движение",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9006
+    },
+    {
+      "code": "phys.g9.zvezdnoe-nebo",
+      "title_ru": "Звездное небо",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9052
+    },
+    {
+      "code": "phys.g9.pervyy-zakon-nyutona-inercialnye-sistemy",
+      "title_ru": "Первый закон Ньютона, инерциальные системы отсчета",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9082
+    },
+    {
+      "code": "phys.g9.impuls-tela-i-impuls-sily-zakon-sohraneniya",
+      "title_ru": "Импульс тела и импульс силы. Закон сохранения импульса",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9120
+    },
+    {
+      "code": "phys.g9.kolebatelnoe-dvizhenie",
+      "title_ru": "Колебательное движение",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9142
+    },
+    {
+      "code": "phys.g10.osnovnye-ponyatiya-i-uravneniya-kinematiki",
+      "title_ru": "Основные понятия и уравнения кинематики равноускоренного движения тела",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10010
+    },
+    {
+      "code": "phys.g10.pervyy-zakon-nyutona-inercialnye-sistemy",
+      "title_ru": "Первый закон Ньютона. Инерциальные системы отсчета",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10047
+    },
+    {
+      "code": "phys.g10.ravnovesie-tel-uslovie-ravnovesiya-tel-centr",
+      "title_ru": "Равновесие тел. Условие равновесия тел. Центр масс и центр тяжести",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10099
+    },
+    {
+      "code": "phys.g10.impuls-tela-i-impuls-sily-zakon-sohraneniya",
+      "title_ru": "Импульс тела и импульс силы. Закон сохранения импульса",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10109
+    },
+    {
+      "code": "phys.g10.vnutrennyaya-energiya",
+      "title_ru": "Внутренняя энергия",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10191
+    },
+    {
+      "code": "phys.g11.mehanicheskie-kolebaniya",
+      "title_ru": "Механические колебания",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11005
+    },
+    {
+      "code": "phys.g11.elektromagnitnye-kolebaniya",
+      "title_ru": "Электромагнитные колебания",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11013
+    },
+    {
+      "code": "phys.g11.peremennyy-tok",
+      "title_ru": "Переменный ток",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11027
+    },
+    {
+      "code": "phys.g11.volnovoe-dvizhenie",
+      "title_ru": "Волновое движение",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11069
+    },
+    {
+      "code": "phys.g11.elektromagnitnye-volny",
+      "title_ru": "Электромагнитные волны",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11083
+    }
   ]
 }

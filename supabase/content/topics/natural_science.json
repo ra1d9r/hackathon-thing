@@ -1,55 +1,86 @@
 {
-  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
   "subject_code": "natural_science",
-  "placeholder": true,
+  "placeholder": false,
   "topics": [
     {
-      "code": "nat.placeholder_01",
-      "title_ru": "Явления природы и измерения",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "nat.g5.kakova-rol-nauki-v-zhizni-cheloveka",
+      "title_ru": "Какова роль науки в жизни человека?",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 10
+      "sort_order": 5006
     },
     {
-      "code": "nat.placeholder_02",
-      "title_ru": "Вещества и их превращения",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "nat.g5.v-chem-shodstva-i-razlichiya-mikro-i-makromira",
+      "title_ru": "В чем сходства и различия микро- и макромира",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 20
+      "sort_order": 5036
     },
     {
-      "code": "nat.placeholder_03",
-      "title_ru": "Живые организмы",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "nat.g5.pochemu-my-chuvstvuem-zapahi-na-rasstoyanii",
+      "title_ru": "Почему мы чувствуем запахи на расстоянии?",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 30
+      "sort_order": 5098
     },
     {
-      "code": "nat.placeholder_04",
-      "title_ru": "Земля и космос",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "nat.g5.kakimi-svoystvami-obladayut-razlichnye",
+      "title_ru": "Какими свойствами обладают различные вещества?",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 40
+      "sort_order": 5108
     },
     {
-      "code": "nat.placeholder_05",
-      "title_ru": "Энергия и её формы",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "nat.g5.v-chem-raznica-mezhdu-chistym-veschestvom-i",
+      "title_ru": "В чем разница между чистым веществом и смесью?",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 50
+      "sort_order": 5122
     },
     {
-      "code": "nat.placeholder_06",
-      "title_ru": "Научный метод и эксперимент",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "nat.g6.obekty-issledovaniya-estestvennyh-nauk",
+      "title_ru": "Объекты исследования естественных наук",
+      "grade_min": 6,
+      "grade_max": 6,
       "exam_weight": 1,
-      "sort_order": 60
+      "sort_order": 6006
+    },
+    {
+      "code": "nat.g6.v-chem-shodstva-i-razlichiya-mikro-i-makromira",
+      "title_ru": "В чем сходства и различия микро- и макромира",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6036
+    },
+    {
+      "code": "nat.g6.s-chem-svyazany-osobennosti-razmescheniya",
+      "title_ru": "С чем связаны особенности размещения населения Земли",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6095
+    },
+    {
+      "code": "nat.g6.iz-chego-sostoit-veschestva",
+      "title_ru": "Из чего состоит вещества",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6104
+    },
+    {
+      "code": "nat.g6.kak-klassificirovat-vse-veschestva-na",
+      "title_ru": "Как классифицировать все вещества на органические и неорганические",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6119
     }
   ]
 }
