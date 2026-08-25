@@ -1,55 +1,214 @@
 {
-  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
   "subject_code": "biology",
-  "placeholder": true,
+  "placeholder": false,
   "topics": [
     {
-      "code": "bio.placeholder_01",
-      "title_ru": "Клетка и её строение",
+      "code": "bio.g7.ekologicheskie-faktory-sred-abioticheskie",
+      "title_ru": "Экологические факторы сред: абиотические, биотические и антропогенные",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 10
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7008
     },
     {
-      "code": "bio.placeholder_02",
-      "title_ru": "Обмен веществ и энергии",
+      "code": "bio.g7.obschaya-harakteristika-pyati-carstv-zhivyh",
+      "title_ru": "Общая характеристика пяти царств живых организмов",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 20
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7040
     },
     {
-      "code": "bio.placeholder_03",
-      "title_ru": "Генетика и наследственность",
+      "code": "bio.g7.transport-pitatelnyh-veschestv-dlya",
+      "title_ru": "Транспорт питательных веществ для жизнедеятельности живых организмов",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 30
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7086
     },
     {
-      "code": "bio.placeholder_04",
-      "title_ru": "Эволюционное учение",
+      "code": "bio.g7.sravnenie-tipov-nervnoy-sistemy-zhivotnyh",
+      "title_ru": "Сравнение типов нервной системы животных",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 40
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7181
     },
     {
-      "code": "bio.placeholder_05",
-      "title_ru": "Организм человека и системы органов",
+      "code": "bio.g7.bespoloe-i-polovoe-razmnozhenie-rasteniy",
+      "title_ru": "Бесполое и половое размножение растений",
       "grade_min": 7,
-      "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 50
+      "grade_max": 7,
+      "exam_weight": 1.2,
+      "sort_order": 7237
     },
     {
-      "code": "bio.placeholder_06",
-      "title_ru": "Экология и биосфера",
-      "grade_min": 7,
+      "code": "bio.g8.stroenie-kletok-prokariot-i-eukariot",
+      "title_ru": "Строение клеток прокариот и эукариот",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8004
+    },
+    {
+      "code": "bio.g8.organicheskie-veschestva-kletki-polimery-i",
+      "title_ru": "Органические вещества клетки: полимеры и мономеры",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8015
+    },
+    {
+      "code": "bio.g8.pischevaritelnaya-sistema-zhivotnyh",
+      "title_ru": "Пищеварительная система животных",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8041
+    },
+    {
+      "code": "bio.g8.sostav-i-funkcii-krovi",
+      "title_ru": "Состав и функции крови",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8070
+    },
+    {
+      "code": "bio.g8.gazoobmen",
+      "title_ru": "Газообмен",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1.2,
+      "sort_order": 8103
+    },
+    {
+      "code": "bio.g9.anaerobnoe-i-aerobnoe-dyhanie",
+      "title_ru": "Анаэробное и аэробное дыхание",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9073
+    },
+    {
+      "code": "bio.g9.stroenie-i-funkcii-nefrona",
+      "title_ru": "Строение и функции нефрона",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9080
+    },
+    {
+      "code": "bio.g9.tipy-i-funkcii-neyronov-sinapsy-i-mediatory",
+      "title_ru": "Типы и функции нейронов, синапсы и медиаторы",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9096
+    },
+    {
+      "code": "bio.g9.interfaza-i-ee-stadii",
+      "title_ru": "Интерфаза и ее стадии",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9132
+    },
+    {
+      "code": "bio.g9.obschaya-shema-biotehnologicheskogo",
+      "title_ru": "Общая схема биотехнологического производства, ее значение",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1.2,
+      "sort_order": 9191
+    },
+    {
+      "code": "bio.g10.znachenie-vody-dlya-zhizni-na-zemle",
+      "title_ru": "Значение воды для жизни на Земле",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10005
+    },
+    {
+      "code": "bio.g10.osobennosti-stroeniya-i-funkciy-organoidov-v",
+      "title_ru": "Особенности строения и функций органоидов в клетке (общий обзор)",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10079
+    },
+    {
+      "code": "bio.g10.stroenie-i-funkcii-gemoglobina-i-mioglobina",
+      "title_ru": "Строение и функции гемоглобина и миоглобина человека",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10145
+    },
+    {
+      "code": "bio.g10.stroenie-i-funkcii-adenozintrifosfornoy-kisloty",
+      "title_ru": "Строение и функции аденозинтрифосфорной кислоты (АТФ)",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10170
+    },
+    {
+      "code": "bio.g10.absorbciya-i-reabsorbciya-obrazovanie-mochi",
+      "title_ru": "Абсорбция и реабсорбция. Образование мочи",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1.2,
+      "sort_order": 10202
+    },
+    {
+      "code": "bio.g11.mehanizm-vzaimodeystviya-mezhdu-antigenom-i",
+      "title_ru": "Механизм взаимодействия между антигеном и антителом",
+      "grade_min": 11,
       "grade_max": 11,
-      "exam_weight": 1,
-      "sort_order": 60
+      "exam_weight": 1.2,
+      "sort_order": 11007
+    },
+    {
+      "code": "bio.g11.strukturnye-komponenty-hloroplasta-i-ih-funkcii",
+      "title_ru": "Структурные компоненты хлоропласта и их функции",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11034
+    },
+    {
+      "code": "bio.g11.mehanizm-aktivnogo-transporta-na-primere-natriy",
+      "title_ru": "Механизм активного транспорта на примере натрий-калиевого насоса",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11065
+    },
+    {
+      "code": "bio.g11.sistemy-upravleniya-v-biologii-ponyatie-sistema",
+      "title_ru": "Системы управления в биологии. Понятие «система управления» в биологии",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11081
+    },
+    {
+      "code": "bio.g11.gametogenez-stadii-gametogeneza-cheloveka",
+      "title_ru": "Гаметогенез. Стадии гаметогенеза человека",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11105
+    },
+    {
+      "code": "bio.g11.stvolovye-kletki-ponyatie-i-svoystva",
+      "title_ru": "Стволовые клетки: понятие и свойства (самообновление, дифференциация)",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1.2,
+      "sort_order": 11115
     }
   ]
 }
