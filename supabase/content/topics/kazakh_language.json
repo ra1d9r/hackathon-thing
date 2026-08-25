@@ -1,55 +1,294 @@
 {
-  "_ЗАГОТОВКА": "Список тем сгенерирован как временный. Замените его настоящей программой по предмету: поменяйте code, title_ru, диапазон классов и exam_weight. После правки выполните: npm run content",
   "subject_code": "kazakh_language",
-  "placeholder": true,
+  "placeholder": false,
   "topics": [
     {
-      "code": "kaz.placeholder_01",
-      "title_ru": "Лексика и фразеология",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "kaz.g5.qazaq-otbasynyn-d-sturleri",
+      "title_ru": "Қазақ отбасының дәстүрлері",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 10
+      "sort_order": 5004
     },
     {
-      "code": "kaz.placeholder_02",
-      "title_ru": "Морфология",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "kaz.g5.menin-mektebim",
+      "title_ru": "Менің мектебім",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 20
+      "sort_order": 5026
     },
     {
-      "code": "kaz.placeholder_03",
-      "title_ru": "Синтаксис и пунктуация",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "kaz.g5.qyzyl-kitap",
+      "title_ru": "«Қызыл кітап»",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 30
+      "sort_order": 5051
     },
     {
-      "code": "kaz.placeholder_04",
-      "title_ru": "Стилистика текста",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "kaz.g5.koshpeliler-turaly-tusinik",
+      "title_ru": "Көшпелілер туралы түсінік",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 40
+      "sort_order": 5074
     },
     {
-      "code": "kaz.placeholder_05",
-      "title_ru": "Чтение и понимание",
-      "grade_min": 7,
-      "grade_max": 11,
+      "code": "kaz.g5.susyz-omir-zhoq",
+      "title_ru": "Сусыз өмір жоқ",
+      "grade_min": 5,
+      "grade_max": 5,
       "exam_weight": 1,
-      "sort_order": 50
+      "sort_order": 5094
     },
     {
-      "code": "kaz.placeholder_06",
-      "title_ru": "Письменная речь",
+      "code": "kaz.g6.otbasy-kunin-toyladyq",
+      "title_ru": "«Отбасы күнін» тойладық",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6004
+    },
+    {
+      "code": "kaz.g6.auyl-ym-altyn-besigim",
+      "title_ru": "Ауыл ым — алтын бесігім",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6024
+    },
+    {
+      "code": "kaz.g6.qazaqstandagy-qanday-taulardy-bilesin",
+      "title_ru": "Қазақстандағы қандай тауларды білесің?",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6045
+    },
+    {
+      "code": "kaz.g6.quat-kozine-ne-zhatady",
+      "title_ru": "Қуат көзіне не жатады?",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6068
+    },
+    {
+      "code": "kaz.g6.astana-elimnin-maqtanyshy",
+      "title_ru": "Астана — елімнің мақтанышы",
+      "grade_min": 6,
+      "grade_max": 6,
+      "exam_weight": 1,
+      "sort_order": 6099
+    },
+    {
+      "code": "kaz.g7.kop-til-bilgim-keledi",
+      "title_ru": "Көп тіл білгім келеді",
       "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7004
+    },
+    {
+      "code": "kaz.g7.uaqyt-syy",
+      "title_ru": "Уақыт — сый",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7027
+    },
+    {
+      "code": "kaz.g7.galamdyq-ekologiya-m-seleleri",
+      "title_ru": "Ғаламдық экология мәселелері",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7047
+    },
+    {
+      "code": "kaz.g7.uly-dala-orkenieti",
+      "title_ru": "Ұлы Дала өркениеті",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7066
+    },
+    {
+      "code": "kaz.g7.sport-densaulyq-kepili",
+      "title_ru": "Спорт — денсаулық кепілі",
+      "grade_min": 7,
+      "grade_max": 7,
+      "exam_weight": 1,
+      "sort_order": 7103
+    },
+    {
+      "code": "kaz.g8.bilim-gylym-innovaciya",
+      "title_ru": "Білім. Ғылым. Инновация",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8004
+    },
+    {
+      "code": "kaz.g8.dosyma-syylyq-tandaymyn",
+      "title_ru": "Досыма сыйлық таңдаймын",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8030
+    },
+    {
+      "code": "kaz.g8.zhahandyq-energetikalyq-dagdarys",
+      "title_ru": "Жаһандық энергетикалық дағдарыс",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8052
+    },
+    {
+      "code": "kaz.g8.bolashaq-energiyasy",
+      "title_ru": "Болашақ энергиясы",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8058
+    },
+    {
+      "code": "kaz.g8.qazaqstan-dostyq-pen-tatulyq-mekeni",
+      "title_ru": "Қазақстан — достық пен татулық мекені",
+      "grade_min": 8,
+      "grade_max": 8,
+      "exam_weight": 1,
+      "sort_order": 8077
+    },
+    {
+      "code": "kaz.g9.kultegin-zhyry",
+      "title_ru": "«Күлтегін» жыры",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9012
+    },
+    {
+      "code": "kaz.g9.muqagali-maqataev-erten-biz-zhol-zhuremiz",
+      "title_ru": "Мұқағали Мақатаев. Ертең біз жол жүреміз",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9028
+    },
+    {
+      "code": "kaz.g9.iliyas-esenberlin-koshpendiler-uzindi",
+      "title_ru": "Ілияс Есенберлин. Көшпенділер (үзінді)",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9054
+    },
+    {
+      "code": "kaz.g9.aybatyr-seytaq-azat-eldin-ar-namysy-ata-zan",
+      "title_ru": "Айбатыр Сейтақ. Азат елдің ар-намысы — Ата заң!",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9074
+    },
+    {
+      "code": "kaz.g9.maraltay-ybyraev-elbasyma",
+      "title_ru": "Маралтай Ыбыраев. Елбасыма",
+      "grade_min": 9,
+      "grade_max": 9,
+      "exam_weight": 1,
+      "sort_order": 9086
+    },
+    {
+      "code": "kaz.g10.enbek-narygy-zh-ne-suranys",
+      "title_ru": "Еңбек нарығы және сұраныс",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10004
+    },
+    {
+      "code": "kaz.g10.otandyq-onerk-sip-onimi",
+      "title_ru": "Отандық өнеркәсіп өнімі",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10021
+    },
+    {
+      "code": "kaz.g10.qazaq-kinosy-men-teatrynyn-qazirgi-kelbeti",
+      "title_ru": "Қазақ киносы мен театрының қазіргі келбеті",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10040
+    },
+    {
+      "code": "kaz.g10.ulttyq-ekologiyalyq-m-deniet",
+      "title_ru": "Ұлттық экологиялық мәдениет",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10059
+    },
+    {
+      "code": "kaz.g10.muhit-tirshilik-mekeni",
+      "title_ru": "Мұхит – тіршілік мекені",
+      "grade_min": 10,
+      "grade_max": 10,
+      "exam_weight": 1,
+      "sort_order": 10074
+    },
+    {
+      "code": "kaz.g11.leumettik-m-sele-turaly-ne-bilesin",
+      "title_ru": "Әлеуметтік мәселе туралы не білесің?",
+      "grade_min": 11,
       "grade_max": 11,
       "exam_weight": 1,
-      "sort_order": 60
+      "sort_order": 11004
+    },
+    {
+      "code": "kaz.g11.tabigatty-ayala",
+      "title_ru": "Табиғатты аяла",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11035
+    },
+    {
+      "code": "kaz.g11.eki-tildi-bilgen-eki-adam",
+      "title_ru": "Екі тілді білген — екі адам",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11062
+    },
+    {
+      "code": "kaz.g11.zhumys-zh-ne-tabys",
+      "title_ru": "Жұмыс және табыс",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11083
+    },
+    {
+      "code": "kaz.g11.uly-dalanyn-zheti-qyry",
+      "title_ru": "Ұлы даланың жеті қыры",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11114
+    },
+    {
+      "code": "kaz.g11.qazaq-teatrynyn-qaynary",
+      "title_ru": "Қазақ театрының қайнары",
+      "grade_min": 11,
+      "grade_max": 11,
+      "exam_weight": 1,
+      "sort_order": 11143
     }
   ]
 }
