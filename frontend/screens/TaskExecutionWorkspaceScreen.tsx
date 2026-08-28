@@ -13,7 +13,11 @@ type Stage = "loading" | "material" | "quiz" | "done" | "error";
 interface LessonMaterialDto {
   lesson: { id: string; title: string };
   material: {
-    body_blocks: { type: string; spans?: { text: string }[] }[];
+    body_blocks: {
+      type: string;
+      spans?: { text: string }[];
+      items?: { spans?: { text: string }[] }[];
+    }[];
   } | null;
 }
 
@@ -33,12 +37,17 @@ interface KnowledgeCheckResponse {
   assessment: { id: string } | null;
   job: QueuedJobRef | null;
 }
-
 function extractParagraphs(material: LessonMaterialDto["material"]): string[] {
   if (!material) return [];
   return material.body_blocks
-    .filter((block) => block.type === "paragraph" || block.type === "heading")
-    .map((block) => block.spans?.map((span) => span.text).join("") ?? "")
+    .map((block) => {
+      if (block.type === "list") {
+        return (block.items ?? [])
+          .map((item) => `• ${item.spans?.map((span) => span.text).join("") ?? ""}`)
+          .join("\n");
+      }
+      return block.spans?.map((span) => span.text).join("") ?? "";
+    })
     .filter(Boolean);
 }
 
@@ -80,20 +89,21 @@ export function TaskExecutionWorkspaceScreen() {
     (async () => {
       try {
         if (params.itemId) {
-          const started = await apiPost<StartItemResponse>(`/v1/daily-plan/items/${params.itemId}/start`);
-          let resolved = started;
+          let resolved = await apiPost<StartItemResponse>(`/v1/daily-plan/items/${params.itemId}/start`);
 
-          if (resolved.job) {
-            await waitForJob(resolved.job.job_id, { totalTimeoutMs: 90_000, waitMs: 20_000 });
+          const jobDeadline = Date.now() + 240_000;
+          while (
+            resolved.job &&
+            !resolved.assessment_id &&
+            !resolved.attempt_id &&
+            Date.now() < jobDeadline &&
+            !cancelled
+          ) {
+            await waitForJob(resolved.job.job_id, { totalTimeoutMs: 20_000, waitMs: 20_000 });
             resolved = await apiPost<StartItemResponse>(`/v1/daily-plan/items/${params.itemId}/start`);
           }
 
           if (cancelled) return;
-
-          
-          
-          
-          
           if (resolved.assessment_id || resolved.attempt_id) {
             await resolveQuiz(resolved.assessment_id, resolved.attempt_id);
           } else if (resolved.lesson_id) {
@@ -117,7 +127,6 @@ export function TaskExecutionWorkspaceScreen() {
     return () => {
       cancelled = true;
     };
-    
   }, [params.itemId, params.lessonId]);
 
   const continueToQuiz = async () => {
@@ -128,8 +137,9 @@ export function TaskExecutionWorkspaceScreen() {
       await apiPost(`/v1/lessons/${lessonId}/material-read`);
       let check = await apiPost<KnowledgeCheckResponse>(`/v1/lessons/${lessonId}/knowledge-check`);
 
-      if (check.job) {
-        await waitForJob(check.job.job_id, { totalTimeoutMs: 90_000, waitMs: 20_000 });
+      const jobDeadline = Date.now() + 240_000;
+      while (check.job && !check.assessment && Date.now() < jobDeadline) {
+        await waitForJob(check.job.job_id, { totalTimeoutMs: 20_000, waitMs: 20_000 });
         check = await apiPost<KnowledgeCheckResponse>(`/v1/lessons/${lessonId}/knowledge-check`);
       }
 
@@ -147,7 +157,6 @@ export function TaskExecutionWorkspaceScreen() {
       await attempt.submit();
       setStage("done");
     } catch {
-      
     }
   };
 
