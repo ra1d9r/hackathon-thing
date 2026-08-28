@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { apiGet } from "@/services/api";
+import { apiGet, waitForJob } from "@/services/api";
 import { waitForAttemptJob, type JobRef } from "@/hooks/useAttempt";
+import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
 
 interface TopicResult {
@@ -65,10 +66,18 @@ export function DiagnosticResultsScreen() {
       }
 
       try {
-        
         await waitForAttemptJob(params.jobId);
-        const data = await apiGet<AttemptResult>(`/v1/attempts/${params.attemptId}/result`);
+        let data = await apiGet<AttemptResult>(`/v1/attempts/${params.attemptId}/result`);
         if (!cancelled) setResult(data);
+
+        const jobDeadline = Date.now() + 240_000;
+        while (data.job && Date.now() < jobDeadline && !cancelled) {
+          await waitForJob(data.job.id, { totalTimeoutMs: 20_000, waitMs: 20_000 });
+          data = await apiGet<AttemptResult>(`/v1/attempts/${params.attemptId}/result`);
+          if (!cancelled) setResult(data);
+        }
+
+        if (!cancelled) await useAuthStore.getState().refreshMe();
       } catch (e) {
         if (!cancelled) setError(e instanceof Error ? e.message : "Не удалось загрузить результат");
       } finally {
