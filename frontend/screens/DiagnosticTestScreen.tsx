@@ -52,9 +52,16 @@ export function DiagnosticTestScreen() {
 
     (async () => {
       try {
-        
         const diag = await apiGet<DiagnosticState>("/v1/diagnostic");
         if (cancelled) return;
+
+        if (diag.attempt && diag.attempt.status !== "in_progress") {
+          router.replace({
+            pathname: "/diagnostic-results",
+            params: { attemptId: diag.attempt.id },
+          });
+          return;
+        }
 
         if (diag.attempt && diag.attempt.status === "in_progress") {
           await loadExisting(diag.attempt.id);
@@ -73,7 +80,6 @@ export function DiagnosticTestScreen() {
     return () => {
       cancelled = true;
     };
-    
   }, []);
 
   const total = questions.length;
