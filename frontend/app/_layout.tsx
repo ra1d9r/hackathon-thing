@@ -16,6 +16,8 @@ const ONBOARDING_SEGMENTS = new Set([
   "diagnostic-results",
 ]);
 
+const DIAGNOSTIC_SEGMENTS = new Set(["diagnostic-test", "diagnostic-results"]);
+
 function useAuthGuard(): void {
   const status = useAuthStore((state) => state.status);
   const me = useAuthStore((state) => state.me);
@@ -24,7 +26,6 @@ function useAuthGuard(): void {
   const navigationState = useRootNavigationState();
 
   useEffect(() => {
-    
     if (!navigationState?.key) return;
     if (status === "bootstrapping") return;
 
@@ -37,9 +38,16 @@ function useAuthGuard(): void {
     }
 
     const needsOnboarding = me?.requires_onboarding !== false;
-    const target = needsOnboarding ? routes.usersTargetChoose : routes.tabsRoot;
+    const needsDiagnostic =
+      !needsOnboarding &&
+      me?.student?.diagnostic_attempt_id == null &&
+      me?.student?.diagnostic_available === true;
+    const target = needsOnboarding
+      ? routes.usersTargetChoose
+      : needsDiagnostic
+        ? routes.diagnosticTest
+        : routes.tabsRoot;
 
-    
     if (first === undefined || first === "login" || first === "register") {
       router.replace(target);
       return;
@@ -50,8 +58,12 @@ function useAuthGuard(): void {
       return;
     }
 
+    if (needsDiagnostic && !DIAGNOSTIC_SEGMENTS.has(first)) {
+      router.replace(routes.diagnosticTest);
+      return;
+    }
+
     if (!needsOnboarding && ONBOARDING_SEGMENTS.has(first)) {
-      
       if (first === "users-target-choose") router.replace(routes.tabsRoot);
     }
   }, [status, me, segments, router, navigationState?.key]);
