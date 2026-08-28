@@ -36,6 +36,7 @@ interface StudentRow {
   target_date: Date | null;
   onboarding_completed_at: Date | null;
   diagnostic_attempt_id: string | null;
+  diagnostic_available: boolean;
   class_name: string | null;
   streak_days: number;
   questions_answered: number;
@@ -76,6 +77,9 @@ export async function getMe(
         sp.target_date,
         sp.onboarding_completed_at,
         sp.diagnostic_attempt_id,
+        exists (select 1 from public.assessments da
+                 where da.student_id = p.id and da.kind = 'diagnostic' and da.is_active)
+                                                     as diagnostic_available,
         (select c.name
            from public.class_members cm
            join public.classes c on c.id = cm.class_id
@@ -114,6 +118,7 @@ export async function getMe(
       target_date: row?.target_date?.toISOString().slice(0, 10) ?? null,
       onboarding_completed_at: row?.onboarding_completed_at?.toISOString() ?? null,
       diagnostic_attempt_id: row?.diagnostic_attempt_id ?? null,
+      diagnostic_available: row?.diagnostic_available ?? false,
       subjects: subjects.map((subject) => ({
         code: subject.code,
         name: subject.name,
@@ -196,8 +201,6 @@ export async function prepareAvatarUpload(
   }
 
   const fileId = randomUUID();
-  
-  
   const path = `${user.id}/${fileId}.${extension}`;
 
   await sql`
@@ -249,7 +252,6 @@ export async function commitAvatar(
     throw new AppError('NOT_FOUND', { message: 'Файл не найден' });
   }
 
-  
   const { data, error } = await admin.client.storage.from(AVATAR_BUCKET).download(file.path);
   if (error !== null) {
     throw new AppError('NOT_FOUND', { message: 'Файл ещё не загружен' });
