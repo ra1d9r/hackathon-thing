@@ -43,7 +43,6 @@ export const teacherRequestSchema = z.object({
 export const teacherRequestResponseSchema = z.object({
   request_id: z.uuid(),
   status: z.enum(['pending', 'approved']),
-  
   can_register_now: z.boolean(),
 });
 
@@ -65,6 +64,7 @@ export const meResponseSchema = z.object({
       target_date: z.string().nullable(),
       onboarding_completed_at: z.iso.datetime().nullable(),
       diagnostic_attempt_id: z.uuid().nullable(),
+      diagnostic_available: z.boolean(),
       subjects: z.array(
         z.object({
           code: z.string(),
