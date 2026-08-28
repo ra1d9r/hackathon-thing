@@ -1,6 +1,7 @@
 import type { FastifyBaseLogger } from 'fastify';
 
 import type { SupabaseAdmin } from '../auth/supabase-admin.js';
+import { writeAudit } from '../db/audit.js';
 import type { Sql } from '../db/sql.js';
 import { submitAttempt } from '../modules/attempts/service.js';
 
@@ -19,13 +20,15 @@ const ORPHAN_FILE_AGE = '1 day';
 const PRIORITY_STALE_AFTER = '20 hours';
 
 async function autoSubmitExpired(sql: Sql, log: FastifyBaseLogger): Promise<number> {
-  const expired = await sql<{ id: string; student_id: string }[]>`
-    select id, student_id
-      from public.attempts
-     where status = 'in_progress'
-       and deadline_at is not null
-       and deadline_at < now()
-     order by deadline_at
+  const expired = await sql<{ id: string; student_id: string; answered: number }[]>`
+    select a.id, a.student_id,
+           (select count(*)::int from public.attempt_answers aa
+             where aa.attempt_id = a.id) as answered
+      from public.attempts a
+     where a.status = 'in_progress'
+       and a.deadline_at is not null
+       and a.deadline_at < now()
+     order by a.deadline_at
      limit ${AUTOSUBMIT_BATCH}
   `;
 
@@ -33,12 +36,27 @@ async function autoSubmitExpired(sql: Sql, log: FastifyBaseLogger): Promise<numb
 
   for (const attempt of expired) {
     try {
-      await submitAttempt(
-        sql,
-        { id: attempt.student_id, role: 'student' },
-        attempt.id,
-        { automatic: true },
-      );
+      if (attempt.answered === 0) {
+        await sql`
+          update public.attempts
+             set status = 'abandoned'
+           where id = ${attempt.id} and status = 'in_progress'
+        `;
+
+        await writeAudit(sql, {
+          action: 'attempt.autoabandon',
+          entityType: 'attempt',
+          entityId: attempt.id,
+          summary: { reason: 'deadline_expired_no_answers' },
+        });
+      } else {
+        await submitAttempt(
+          sql,
+          { id: attempt.student_id, role: 'student' },
+          attempt.id,
+          { automatic: true },
+        );
+      }
       submitted += 1;
     } catch (error: unknown) {
       log.warn({ err: error, attempt_id: attempt.id }, 'автоотправка попытки не выполнена');
