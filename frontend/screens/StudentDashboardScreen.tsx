@@ -24,11 +24,27 @@ interface DailyPlanItemDto {
   status: "pending" | "in_progress" | "completed" | "skipped";
 }
 
+interface FocusTopicDto {
+  topic_id: string;
+  title: string;
+  subject_name: string;
+  mastery_pct: number;
+  status: "unknown" | "weak" | "improving" | "mastered";
+}
+
 interface DashboardResponse {
   goal: { kind: string; title: string; days_left: number | null };
   predicted_score: { value: number; max: number } | null;
+  today_focus: FocusTopicDto[];
   daily_plan: { completed: number; total: number; items: DailyPlanItemDto[] };
 }
+
+const focusStatusLabels: Record<FocusTopicDto["status"], string> = {
+  weak: "Слабая тема",
+  improving: "Улучшается",
+  unknown: "Мало данных",
+  mastered: "Освоено",
+};
 
 export function StudentDashboardScreen() {
   const me = useAuthStore((state) => state.me);
@@ -108,6 +124,22 @@ export function StudentDashboardScreen() {
               <View style={styles.focusHeader}>
                 <Ionicons name="radio-button-on-outline" size={22} color={colors.text} />
                 <Text style={styles.focusTitle}>Сегодняшний фокус</Text>
+              </View>
+              <View style={styles.taskList}>
+                {data.today_focus.length === 0 ? (
+                  <Text style={styles.emptyText}>Явных слабых тем пока нет.</Text>
+                ) : (
+                  data.today_focus.map((topic) => (
+                    <FocusTopicCard key={topic.topic_id} topic={topic} />
+                  ))
+                )}
+              </View>
+            </View>
+
+            <View style={styles.focusCard}>
+              <View style={styles.focusHeader}>
+                <Ionicons name="checkbox-outline" size={22} color={colors.text} />
+                <Text style={styles.focusTitle}>Дневные задачи</Text>
                 <Text style={styles.focusCount}>
                   {data.daily_plan.completed}/{data.daily_plan.total}
                 </Text>
@@ -166,6 +198,29 @@ function TaskCard({ title, meta, subject, done, onPress }: TaskCardProps) {
         </View>
       ) : null}
     </Pressable>
+  );
+}
+
+const focusStatusColors: Record<FocusTopicDto["status"], string> = {
+  weak: "#c31717",
+  improving: "#c8890f",
+  unknown: "#6b7280",
+  mastered: "#0d8a3f",
+};
+
+function FocusTopicCard({ topic }: { topic: FocusTopicDto }) {
+  return (
+    <View style={styles.taskCard}>
+      <View style={styles.taskCopy}>
+        <Text style={styles.taskTitle}>{topic.title}</Text>
+        <Text style={[styles.taskMeta, { color: focusStatusColors[topic.status] }]}>
+          {focusStatusLabels[topic.status]} · {Math.round(topic.mastery_pct)}%
+        </Text>
+      </View>
+      <View style={styles.subjectBadge}>
+        <Text style={styles.subjectBadgeText}>{topic.subject_name}</Text>
+      </View>
+    </View>
   );
 }
 
