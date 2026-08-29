@@ -8,7 +8,9 @@ import { Avatar } from "@/components/Avatar";
 
 import { useLessonPreview, useRoadmap, useUserProfile } from "@/hooks/useData";
 import { apiGet } from "@/services/api";
+import { routes } from "@/types/navigation";
 import type { RoadmapNode, Subject } from "@/types/app";
+
 
 interface RoadmapNodeDetail {
   node: { lesson_id: string | null };
@@ -18,10 +20,6 @@ export function DynamicRoadmapScreen() {
   const { user, isLoading: isUserLoading } = useUserProfile();
   const subjects = user?.selectedSubjects ?? [];
 
-  
-  
-  
-  
   const { nodes, currentScore, subject, isLoading: isRoadmapLoading, error } = useRoadmap();
   const [selectedNode, setSelectedNode] = useState<RoadmapNode | null>(null);
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
@@ -49,7 +47,14 @@ export function DynamicRoadmapScreen() {
       <View style={styles.root}>
         <View style={styles.header}>
           <Text style={styles.logo}>Tlek</Text>
-          <Avatar uri={user?.avatarUrl} name={user?.name} size={30} />
+          <Pressable
+            accessibilityLabel="Личный кабинет"
+            accessibilityRole="button"
+            onPress={() => router.push(routes.personalAccount)}
+            style={({ pressed }) => [styles.avatarButton, pressed && styles.pressed]}
+          >
+            <Avatar uri={user?.avatarUrl} name={user?.name} size={30} />
+          </Pressable>
         </View>
 
         <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
@@ -188,6 +193,7 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.background },
   header: { height: 63, flexDirection: "row", alignItems: "center", justifyContent: "space-between", borderBottomColor: "#e1e4ea", borderBottomWidth: 1, paddingHorizontal: 16 },
   logo: { color: colors.blue, fontSize: 24, fontWeight: "900", lineHeight: 29 },
+  avatarButton: { borderRadius: 15 },
   scroll: { flex: 1 },
   content: { paddingBottom: 24 },
   chipRow: { gap: 8, paddingHorizontal: 16, paddingTop: 17, paddingBottom: 20 },

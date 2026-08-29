@@ -19,7 +19,7 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_BASE_URL": "https://pediatric-probe-dimensions-athletic.trycloudflare.com",
+        "EXPO_PUBLIC_API_BASE_URL": "https://hackathon-thing-xbpz.onrender.com",
         "EXPO_PUBLIC_SUPABASE_URL": "https://tlafdqdsjotkbbzclurv.supabase.co",
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRsYWZkcWRzam90a2JiemNsdXJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNDI4NzgsImV4cCI6MjEwMjcxODg3OH0.4Im0l0WRnSPXQlfRhlw8PBQ2_QKrd6XjfZBvCyLcmnA"
       }
@@ -27,7 +27,7 @@
     "production": {
       "autoIncrement": true,
       "env": {
-        "EXPO_PUBLIC_API_BASE_URL": "https://pediatric-probe-dimensions-athletic.trycloudflare.com",
+        "EXPO_PUBLIC_API_BASE_URL": "https://hackathon-thing-xbpz.onrender.com",
         "EXPO_PUBLIC_SUPABASE_URL": "https://tlafdqdsjotkbbzclurv.supabase.co",
         "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRsYWZkcWRzam90a2JiemNsdXJ2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcxNDI4NzgsImV4cCI6MjEwMjcxODg3OH0.4Im0l0WRnSPXQlfRhlw8PBQ2_QKrd6XjfZBvCyLcmnA"
       }
