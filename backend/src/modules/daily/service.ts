@@ -46,8 +46,6 @@ function toItemView(item: PlanItemRow): DailyItemView {
 }
 
 function completedCount(items: readonly PlanItemRow[]): number {
-  
-  
   return items.filter((item) => item.status === 'completed' || item.status === 'skipped').length;
 }
 
@@ -102,8 +100,6 @@ async function generatePlan(
   });
 
   if (created !== null) {
-    
-    
     await enqueueJob(sql, {
       opType: 'daily_plan',
       requestedBy: studentId,
@@ -116,6 +112,12 @@ async function generatePlan(
   return loadPlan(sql, studentId, planDate);
 }
 
+export async function ensureTodayPlan(sql: Sql, studentId: string): Promise<PlanRow | null> {
+  const { date, timezone } = await studentDate(sql, studentId, undefined);
+  const existing = await loadPlan(sql, studentId, date);
+  return existing ?? (await generatePlan(sql, studentId, date, timezone));
+}
+
 export async function getDailyPlan(
   sql: Sql,
   user: AuthUser,
@@ -126,8 +128,6 @@ export async function getDailyPlan(
 
   let plan = await loadPlan(sql, user.id, date);
 
-  
-  
   if (plan === null && requestedDate === undefined) {
     plan = await generatePlan(sql, user.id, date, timezone);
   }
@@ -169,7 +169,6 @@ interface OwnedItem {
   readonly item: PlanItemRow;
   readonly plan: PlanRow;
 }
-
 async function loadItemOwned(sql: Sql, studentId: string, itemId: string): Promise<OwnedItem> {
   const [row] = await sql<{ plan_date: Date }[]>`
     select p.plan_date
@@ -192,6 +191,23 @@ async function loadItemOwned(sql: Sql, studentId: string, itemId: string): Promi
   return { item, plan };
 }
 
+async function resumableAttemptId(
+  sql: Sql,
+  studentId: string,
+  attemptId: string | null,
+): Promise<string | null> {
+  if (attemptId === null) {
+    return null;
+  }
+
+  const [row] = await sql<{ id: string }[]>`
+    select id from public.attempts
+     where id = ${attemptId} and student_id = ${studentId} and status = 'in_progress'
+  `;
+
+  return row?.id ?? null;
+}
+
 export async function startItem(
   sql: Sql,
   user: AuthUser,
@@ -210,8 +226,6 @@ export async function startItem(
      where id = ${itemId} and status = 'pending'
   `;
 
-  
-  
   if (item.kind === 'lesson') {
     const refreshed = await loadItemOwned(sql, user.id, itemId);
     return {
@@ -223,30 +237,31 @@ export async function startItem(
     };
   }
 
-  
-  
   if (item.assessmentId !== null) {
-    
-    
-    
-    const attempt = await startAttempt(
-      sql,
-      user,
-      { assessment_id: item.assessmentId, client_attempt_id: null },
-      requestId,
-    );
+    const attemptId =
+      (await resumableAttemptId(sql, user.id, item.attemptId)) ??
+      (
+        await startAttempt(
+          sql,
+          user,
+          { assessment_id: item.assessmentId, client_attempt_id: null },
+          requestId,
+        )
+      ).attempt.id;
 
-    await sql`
-      update public.daily_plan_items
-         set attempt_id = ${attempt.attempt.id}
-       where id = ${itemId}
-    `;
+    if (attemptId !== item.attemptId) {
+      await sql`
+        update public.daily_plan_items
+           set attempt_id = ${attemptId}
+         where id = ${itemId}
+      `;
+    }
 
     const refreshed = await loadItemOwned(sql, user.id, itemId);
     return {
       item: toItemView(refreshed.item),
       assessment_id: item.assessmentId,
-      attempt_id: attempt.attempt.id,
+      attempt_id: attemptId,
       lesson_id: item.lessonId,
       job: null,
     };
@@ -336,8 +351,6 @@ export async function generateTask(
        and t.grade_max >= ${curriculum.scope.gradeMin}::int
   `;
 
-  
-  
   if (topic === undefined) {
     throw new AppError('NOT_FOUND');
   }
