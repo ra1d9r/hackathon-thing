@@ -1,3 +1,3 @@
-import { DailyTaskHubScreen } from "@/screens/DailyTaskHubScreen";
+import { LessonLibraryScreen } from "@/screens/LessonLibraryScreen";
 
-export default DailyTaskHubScreen;
+export default LessonLibraryScreen;
