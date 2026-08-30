@@ -6,7 +6,7 @@ import { refreshSession, signInWithPassword, type SupabaseSession } from "@/serv
 
 const STORAGE_KEY = "tlek.session.v1";
 
-export type LearningGoal = "ent" | "nis" | "olympiad" | "subjects";
+export type LearningGoal = "ent" | "nis" | "subjects";
 
 export interface StudentInfo {
   goal: LearningGoal | null;

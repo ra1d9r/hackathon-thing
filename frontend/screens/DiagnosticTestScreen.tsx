@@ -21,7 +21,6 @@ const targetLabels: Record<string, string> = {
   ent: "ЕНТ",
   nis: "НИШ",
   subjects: "Школьные предметы",
-  olympiad: "Олимпиада",
 };
 
 export function DiagnosticTestScreen() {

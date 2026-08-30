@@ -30,7 +30,6 @@ type AccountTab = "main" | "stats";
 const goalLabels: Record<string, string> = {
   ent: "ЕНТ",
   nis: "НИШ",
-  olympiad: "Олимпиада",
   subjects: "Предметы",
 };
 

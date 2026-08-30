@@ -13,7 +13,6 @@ const targetLabels: Record<string, string> = {
   ent: "ЕНТ",
   nis: "НИШ",
   subjects: "Предметы",
-  olympiad: "Олимпиада",
 };
 
 interface DailyPlanItemDto {

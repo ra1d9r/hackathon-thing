@@ -61,8 +61,7 @@ export async function registerCatalogRoutes(app: FastifyInstance): Promise<void>
         tags: ['catalog'],
         summary: 'Цели обучения и доступные экзамены',
         description:
-          'Формулировки и состав экзаменов приходят из данных: новая олимпиада появляется ' +
-          'здесь после правки supabase/content/exams.json, без изменений в коде.',
+          'Формулировки и состав экзаменов приходят из данных supabase/content/exams.json.',
         security: secured.security,
         response: { 200: goalsResponseSchema, 401: errorEnvelopeSchema },
       },

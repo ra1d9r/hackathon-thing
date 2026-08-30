@@ -30,12 +30,6 @@ const targetOptions: TargetOption[] = [
     icon: "school"
   },
   {
-    title: "Олимпиада",
-    description: "Углубленное изучение предметов для участия и победы в предметных олимпиадах.",
-    value: "OLYMPIAD",
-    icon: "trophy"
-  },
-  {
     title: "Экзамен в НИШ",
     description: "Специализированная подготовка к вступительным экзаменам в Назарбаев Интеллектуальные школы.",
     value: "NIS",

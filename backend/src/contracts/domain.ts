@@ -3,10 +3,10 @@ import { z } from 'zod';
 export const userRoleSchema = z.enum(['student', 'teacher']);
 export type UserRole = z.infer<typeof userRoleSchema>;
 
-export const learningGoalSchema = z.enum(['ent', 'nis', 'olympiad', 'subjects']);
+export const learningGoalSchema = z.enum(['ent', 'nis', 'subjects']);
 export type LearningGoal = z.infer<typeof learningGoalSchema>;
 
-export const EXAM_GOALS = ['ent', 'nis', 'olympiad'] as const;
+export const EXAM_GOALS = ['ent', 'nis'] as const;
 
 export function isExamGoal(goal: LearningGoal): boolean {
   return EXAM_GOALS.some((examGoal) => examGoal === goal);
