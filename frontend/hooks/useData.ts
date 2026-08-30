@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import { formatGrade } from "@/constants/grades";
 import { apiGet } from "@/services/api";
 import { useAuthStore } from "@/store/useAuthStore";
-import type { LessonMaterial, RoadmapNode, TaskItem, UserProfile } from "@/types/app";
+import type { LessonMaterial, RoadmapNode, UserProfile } from "@/types/app";
 
 function useResource<T>(loader: () => Promise<T>, deps: React.DependencyList = []) {
   const [data, setData] = useState<T | null>(null);
@@ -27,7 +27,6 @@ function useResource<T>(loader: () => Promise<T>, deps: React.DependencyList = [
     return () => {
       cancelled = true;
     };
-    
   }, deps);
 
   useEffect(() => reload(), [reload]);
@@ -54,54 +53,6 @@ export function useUserProfile() {
     : null;
 
   return { user, isLoading: false, error: null, updateUserTarget: refreshMe };
-}
-
-interface DailyPlanItemDto {
-  id: string;
-  kind: "task" | "lesson" | "review";
-  title: string;
-  meta: string;
-  subject_name: string | null;
-  est_minutes: number | null;
-  status: "pending" | "in_progress" | "completed" | "skipped";
-  topic: { id: string; title: string };
-}
-
-interface DailyPlanResponse {
-  items: DailyPlanItemDto[];
-  empty_reason: string | null;
-}
-
-const KIND_TO_TYPE: Record<DailyPlanItemDto["kind"], TaskItem["type"]> = {
-  task: "QUIZ",
-  lesson: "LESSON",
-  review: "DRILL",
-};
-
-function toTaskItem(item: DailyPlanItemDto): TaskItem {
-  return {
-    id: item.id,
-    subjectId: item.topic.id,
-    subjectTitle: item.subject_name ?? item.topic.title,
-    title: item.title,
-    subtitle: item.meta,
-    durationMinutes: item.est_minutes ?? 0,
-    status: item.status === "completed" || item.status === "skipped" ? "COMPLETED" : item.status === "in_progress" ? "IN_PROGRESS" : "NOT_STARTED",
-    progressPercentage: item.status === "completed" || item.status === "skipped" ? 100 : item.status === "in_progress" ? 50 : 0,
-    type: KIND_TO_TYPE[item.kind],
-  };
-}
-
-export function useDailyTasks() {
-  const { data, isLoading, error, reload } = useResource<TaskItem[]>(async () => {
-    const plan = await apiGet<DailyPlanResponse>("/v1/daily-plan");
-    return plan.items.map(toTaskItem);
-  }, []);
-
-  const tasks = data ?? [];
-  const isCompleted = tasks.length > 0 && tasks.every((task) => task.status === "COMPLETED");
-
-  return { tasks, isCompleted, isLoading, error, markTaskComplete: reload, reload };
 }
 
 interface RoadmapNodeDto {

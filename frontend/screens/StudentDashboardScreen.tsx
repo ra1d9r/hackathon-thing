@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -36,8 +36,19 @@ interface DashboardResponse {
   goal: { kind: string; title: string; days_left: number | null };
   predicted_score: { value: number; max: number } | null;
   today_focus: FocusTopicDto[];
-  daily_plan: { completed: number; total: number; items: DailyPlanItemDto[] };
+  daily_plan: {
+    completed: number;
+    total: number;
+    items: DailyPlanItemDto[];
+    empty_reason: "not_generated_yet" | "no_topics" | null;
+  };
+  streak: { current: number; longest: number; today_completed: boolean };
 }
+
+const planEmptyMessages: Record<"not_generated_yet" | "no_topics", string> = {
+  not_generated_yet: "План на сегодня ещё собирается. Обновите экран через минуту.",
+  no_topics: "По вашим предметам пока нет тем с уроками — задачи появятся вместе с ними.",
+};
 
 const focusStatusLabels: Record<FocusTopicDto["status"], string> = {
   weak: "Слабая тема",
@@ -61,7 +72,6 @@ export function StudentDashboardScreen() {
       .finally(() => setIsLoading(false));
   }, []);
 
-  useEffect(load, [load]);
   useFocusEffect(useCallback(() => load(), [load]));
 
   return (
@@ -140,13 +150,29 @@ export function StudentDashboardScreen() {
               <View style={styles.focusHeader}>
                 <Ionicons name="checkbox-outline" size={22} color={colors.text} />
                 <Text style={styles.focusTitle}>Дневные задачи</Text>
-                <Text style={styles.focusCount}>
-                  {data.daily_plan.completed}/{data.daily_plan.total}
-                </Text>
+                <View style={styles.streakPill}>
+                  <Ionicons name="flame" size={14} color={colors.orange} />
+                  <Text style={styles.streakText}>{data.streak.current} дней подряд</Text>
+                </View>
               </View>
+
+              <View style={styles.planProgressRow}>
+                <Text style={styles.planProgressText}>
+                  {data.daily_plan.completed} из {data.daily_plan.total} выполнено
+                </Text>
+                <Text style={styles.planProgressText}>{planPercent(data.daily_plan)}%</Text>
+              </View>
+              <View style={styles.planProgressTrack}>
+                <View style={[styles.planProgressFill, { width: `${planPercent(data.daily_plan)}%` }]} />
+              </View>
+
               <View style={styles.taskList}>
                 {data.daily_plan.items.length === 0 ? (
-                  <Text style={styles.emptyText}>На сегодня заданий нет.</Text>
+                  <Text style={styles.emptyText}>
+                    {data.daily_plan.empty_reason === null
+                      ? "На сегодня заданий нет."
+                      : planEmptyMessages[data.daily_plan.empty_reason]}
+                  </Text>
                 ) : (
                   data.daily_plan.items.map((task) => (
                     <TaskCard
@@ -168,6 +194,10 @@ export function StudentDashboardScreen() {
       </ScrollView>
     </SafeAreaView>
   );
+}
+
+function planPercent(plan: DashboardResponse["daily_plan"]): number {
+  return plan.total === 0 ? 0 : Math.round((plan.completed / plan.total) * 100);
 }
 
 interface TaskCardProps {
@@ -292,7 +322,20 @@ const styles = StyleSheet.create({
   },
   focusHeader: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 16 },
   focusTitle: { flex: 1, color: colors.text, fontSize: 22, fontWeight: "900", lineHeight: 28 },
-  focusCount: { color: colors.muted, fontSize: 14, fontWeight: "800" },
+  streakPill: {
+    minHeight: 28,
+    borderRadius: 14,
+    backgroundColor: "#fdeee7",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    paddingHorizontal: 10
+  },
+  streakText: { color: colors.orange, fontSize: 12, fontWeight: "800" },
+  planProgressRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 8 },
+  planProgressText: { color: colors.muted, fontSize: 13, fontWeight: "700" },
+  planProgressTrack: { height: 8, overflow: "hidden", borderRadius: 4, backgroundColor: "#e8e8e8", marginBottom: 16 },
+  planProgressFill: { height: "100%", borderRadius: 4, backgroundColor: colors.blue },
   taskList: { gap: 12 },
   taskCard: {
     minHeight: 74,

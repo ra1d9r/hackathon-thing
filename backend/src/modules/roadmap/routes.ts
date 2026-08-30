@@ -4,6 +4,7 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import {
   knowledgeCheckResponseSchema,
+  lessonLibraryResponseSchema,
   lessonResponseSchema,
   materialReadResponseSchema,
   roadmapNodeOutlineSchema,
@@ -17,7 +18,7 @@ import { AppError, errorEnvelopeSchema } from '../../contracts/errors.js';
 import type { Sql } from '../../db/sql.js';
 import { perUser } from '../../plugins/rate-limit.js';
 import type { AuthUser } from '../../types/fastify.js';
-import { getLesson, markMaterialRead, openKnowledgeCheck } from '../lessons/service.js';
+import { getLesson, listLessons, markMaterialRead, openKnowledgeCheck } from '../lessons/service.js';
 import {
   getRoadmap,
   getRoadmapNode,
@@ -85,9 +86,6 @@ export async function registerRoadmapRoutes(app: FastifyInstance): Promise<void>
     {
       preHandler: onboarded,
       config: {
-        
-        
-        
         idempotency: 'off',
         rateLimit: perUser(12, '1 hour'),
       },
@@ -176,7 +174,32 @@ export async function registerRoadmapRoutes(app: FastifyInstance): Promise<void>
       ),
   );
 
-  
+  typed.get(
+    '/v1/lessons',
+    {
+      preHandler: onboarded,
+      schema: {
+        tags: ['roadmap'],
+        summary: 'Уроки ученика по предметам',
+        description:
+          'Библиотека вкладки «Обучение»: материал и проверка знаний, независимо ' +
+          'от дневного плана и дорожной карты. Тема представлена одним уроком — тем же, ' +
+          'в который ведёт дневной план.',
+        security,
+        response: {
+          200: lessonLibraryResponseSchema,
+          304: z.void(),
+          401: errorEnvelopeSchema,
+          403: errorEnvelopeSchema,
+          409: errorEnvelopeSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      const payload = await listLessons(requireSql(app), requireStudent(request.authUser));
+      return reply.sendCached(payload);
+    },
+  );
 
   typed.get(
     '/v1/lessons/:id',
@@ -266,8 +289,6 @@ export async function registerRoadmapRoutes(app: FastifyInstance): Promise<void>
         requireStudent(request.authUser),
         request.params.id,
       );
-      
-      
       return reply.code(payload.assessment === null ? 202 : 200).send(payload);
     },
   );

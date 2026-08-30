@@ -5,6 +5,7 @@ import type { Sql, SqlExecutor } from '../../db/sql.js';
 import { localDate } from '../../domain/day.js';
 import { nextFatigue, pickFocus, type FocusCandidate } from '../../domain/focus.js';
 import type { AuthUser } from '../../types/fastify.js';
+import { ensureTodayPlan } from '../daily/service.js';
 import { loadScoreContext, storePredictedScore } from '../stats/score.js';
 
 const CRITICAL_GAP_PCT = 20;
@@ -152,6 +153,8 @@ export async function buildDashboard(sql: Sql, user: AuthUser): Promise<Dashboar
   `;
   const planDate = localDate(timezoneRow?.timezone ?? 'UTC');
 
+  await ensureTodayPlan(sql, user.id);
+
   const [topics, activity, latestScores, plan, streak, mocks, pending] = await Promise.all([
     sql<TopicRow[]>`
       select m.topic_id, t.title_ru as topic_title, s.code as subject_code,
@@ -225,9 +228,6 @@ export async function buildDashboard(sql: Sql, user: AuthUser): Promise<Dashboar
        where student_id = ${user.id}
          and status in ('queued','running','awaiting_retry')
     `,
-    
-    
-
   ]);
 
   const scoreHistoryRows = await sql<{ computed_at: Date; value: string }[]>`
@@ -237,16 +237,12 @@ export async function buildDashboard(sql: Sql, user: AuthUser): Promise<Dashboar
      limit 60
   `;
 
-  
   const candidates: FocusCandidate[] = topics.map((row) => ({
     topicId: row.topic_id,
     priority: Number(row.priority),
     focusFatigue: row.focus_fatigue,
   }));
 
-  
-  
-  
   const decidedToday = topics.filter((row) => isoDate(row.last_focus_date) === planDate);
 
   const pickedIds =
@@ -270,7 +266,6 @@ export async function buildDashboard(sql: Sql, user: AuthUser): Promise<Dashboar
       status: masteryStatusSchema.parse(row.status),
     }));
 
-  
   const [latest, previous] = latestScores;
   let predicted: DashboardResponse['predicted_score'] = null;
 
@@ -289,9 +284,6 @@ export async function buildDashboard(sql: Sql, user: AuthUser): Promise<Dashboar
       source: latest.source === 'ai' ? 'ai' : 'baseline',
     };
   } else {
-    
-    
-    
     const context = await loadScoreContext(sql, user.id);
     if (context !== null) {
       const stored = await storePredictedScore(sql, user.id, {
@@ -353,7 +345,7 @@ export async function buildDashboard(sql: Sql, user: AuthUser): Promise<Dashboar
             : 'pending',
         kind: item.kind,
       })),
-      empty_reason: plan.length === 0 ? 'not_generated_yet' : null,
+      empty_reason: plan.length === 0 ? 'no_topics' : null,
     },
     streak: {
       current: streakRow?.current_streak ?? 0,

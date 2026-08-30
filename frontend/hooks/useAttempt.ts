@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from "react";
 
-import { apiGet, apiPatch, apiPost, waitForJob } from "@/services/api";
+import { apiGet, apiPatch, apiPost } from "@/services/api";
 
 export type QuestionKind = "mcq_single" | "mcq_multi" | "free_text" | "numeric";
 
@@ -163,7 +163,6 @@ export function useAttempt() {
     const unsaved = questions
       .filter((q) => answers[q.id] && !savedQuestionIds.current.has(q.id))
       .map((q) => ({ question_id: q.id, answer: answers[q.id]!, time_spent_sec: 1 }));
-    
     for (let i = 0; i < unsaved.length; i += 50) {
       const batch = unsaved.slice(i, i + 50);
       if (batch.length === 0) continue;
@@ -208,9 +207,4 @@ export function useAttempt() {
     goPrev: () => goTo(index - 1),
     submit,
   };
-}
-
-export async function waitForAttemptJob(jobId: string | null | undefined): Promise<void> {
-  if (!jobId) return;
-  await waitForJob(jobId, { totalTimeoutMs: 90_000, waitMs: 20_000 }).catch(() => undefined);
 }

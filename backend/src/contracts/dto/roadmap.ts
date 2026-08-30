@@ -15,10 +15,8 @@ export const roadmapNodeSchema = z.object({
   progress_pct: z.number(),
   lesson_id: z.uuid().nullable(),
   outline: z.array(lessonOutlineStepSchema),
-  
   outline_edited: z.boolean(),
   rationale: z.string().nullable(),
-  
   topics_covered: z.array(z.object({ id: z.uuid(), title: z.string() })),
   completed_at: z.iso.datetime().nullable(),
 });
@@ -27,7 +25,6 @@ export const roadmapPredictedScoreSchema = z.object({
   scale: scaleKindSchema,
   value: z.number(),
   max: z.number(),
-  
   grade_5: z.number().int().nullable(),
 });
 
@@ -39,14 +36,12 @@ export const roadmapResponseSchema = z.object({
       version: z.number().int(),
       generated_at: z.iso.datetime(),
       overall_progress_pct: z.number(),
-      
       source: z.enum(['ai', 'fallback']),
       replan_reason: z.string().nullable(),
     })
     .nullable(),
   nodes: z.array(roadmapNodeSchema),
   predicted_score: roadmapPredictedScoreSchema.nullable(),
-  
   empty_reason: z.enum(['not_generated', 'no_topics', 'subject_not_selected']).nullable(),
 });
 
@@ -56,7 +51,6 @@ export const roadmapQuerySchema = z.object({
 
 export const roadmapRegenerateSchema = z.object({
   subject_id: z.uuid(),
-  
   reason: z.string().trim().min(1).max(300).optional(),
 });
 
@@ -65,7 +59,6 @@ export const roadmapRegenerateResponseSchema = z.object({
   status: z.string(),
   poll_url: z.string(),
   suggested_wait_ms: z.number().int(),
-  
   created: z.boolean(),
 });
 
@@ -82,6 +75,7 @@ export const roadmapNodeOutlineSchema = z.object({
   outline: z.array(lessonOutlineStepSchema).min(1).max(10),
 });
 
+
 export const materialViewKindSchema = z.enum(['markdown', 'bundled', 'file', 'link']);
 
 export const lessonMaterialSchema = z.object({
@@ -89,11 +83,9 @@ export const lessonMaterialSchema = z.object({
   title: z.string(),
   summary: z.string().nullable(),
   view_kind: materialViewKindSchema,
-  
   content_hash: z.string(),
   body_md: z.string().nullable(),
   body_blocks: blocksSchema,
-  
   bundle: z.object({ key: z.string(), hash: z.string() }).nullable(),
   external_url: z.url().nullable(),
   est_read_minutes: z.number().int().nullable(),
@@ -117,11 +109,34 @@ export const lessonResponseSchema = z.object({
   }),
   material: lessonMaterialSchema.nullable(),
   progress: lessonProgressSchema,
-  
   offline: z.object({
     material_available: z.boolean(),
     knowledge_check_requires_network: z.literal(true),
   }),
+});
+
+export const lessonLibraryItemSchema = z.object({
+  id: z.uuid(),
+  title: z.string(),
+  topic: z.object({ id: z.uuid(), title: z.string() }),
+  est_read_minutes: z.number().int().nullable(),
+  has_material: z.boolean(),
+  progress_pct: z.number(),
+  material_read: z.boolean(),
+  best_check_pct: z.number().nullable(),
+  completed: z.boolean(),
+});
+
+export const lessonLibraryResponseSchema = z.object({
+  subjects: z.array(
+    z.object({
+      id: z.uuid(),
+      code: z.string(),
+      name: z.string(),
+      lessons: z.array(lessonLibraryItemSchema),
+    }),
+  ),
+  empty_reason: z.enum(['no_subjects', 'no_lessons']).nullable(),
 });
 
 export const materialReadResponseSchema = z.object({
@@ -132,7 +147,6 @@ export const materialReadResponseSchema = z.object({
 });
 
 export const knowledgeCheckResponseSchema = z.object({
-  
   assessment: z
     .object({
       id: z.uuid(),

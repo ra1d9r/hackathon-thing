@@ -4,6 +4,7 @@ import {
   materialViewKindSchema,
   roadmapNodeStatusSchema,
   type knowledgeCheckResponseSchema,
+  type lessonLibraryResponseSchema,
   type lessonResponseSchema,
   type materialReadResponseSchema,
 } from '../../contracts/dto/roadmap.js';
@@ -13,12 +14,14 @@ import type { Sql, SqlExecutor } from '../../db/sql.js';
 import { nodeProgress, nodeStatus } from '../../domain/roadmap.js';
 import { enqueueJob, pollUrl, SUGGESTED_WAIT_MS } from '../../queue/jobs.js';
 import type { AuthUser } from '../../types/fastify.js';
+import { loadStudentCurriculum } from '../curriculum/scope.js';
 import { completeLessonItems } from '../daily/streak.js';
 import { parseOutline, syncRoadmapStates } from '../roadmap/queries.js';
 
 export type LessonResponse = z.infer<typeof lessonResponseSchema>;
 export type MaterialReadResponse = z.infer<typeof materialReadResponseSchema>;
 export type KnowledgeCheckResponse = z.infer<typeof knowledgeCheckResponseSchema>;
+export type LessonLibraryResponse = z.infer<typeof lessonLibraryResponseSchema>;
 
 interface LessonRow {
   id: string;
@@ -85,7 +88,6 @@ async function assertInScope(sql: SqlExecutor, studentId: string, lesson: Lesson
 
 interface ProgressRow {
   progress_pct: string;
-  
   material_read_at: Date | null;
   best_check_pct: string | null;
   completed_at: Date | null;
@@ -126,12 +128,7 @@ function toMaterialView(row: LessonRow): LessonResponse['material'] {
     return null;
   }
 
-  
-  
   const parsed = row.material_body_md === null ? null : sanitizeMarkdown(row.material_body_md);
-  
-  
-  
   const viewKind = materialViewKindSchema.catch('markdown').parse(row.material_view_kind);
 
   return {
@@ -176,13 +173,101 @@ export async function getLesson(
     material,
     progress: await loadProgress(sql, user.id, lessonId),
     offline: {
-      
-      
       material_available:
         material !== null && (material.view_kind === 'bundled' || material.view_kind === 'markdown'),
       knowledge_check_requires_network: true,
     },
   };
+}
+
+interface LibraryRow {
+  lesson_id: string;
+  lesson_title: string;
+  topic_id: string;
+  topic_title: string;
+  subject_id: string;
+  subject_code: string;
+  subject_name: string;
+  subject_sort: number;
+  topic_sort: number;
+  has_material: boolean;
+  est_read_minutes: number | null;
+  progress_pct: string | null;
+  material_read_at: Date | null;
+  best_check_pct: string | null;
+  completed_at: Date | null;
+}
+
+export async function listLessons(sql: Sql, user: AuthUser): Promise<LessonLibraryResponse> {
+  const curriculum = await loadStudentCurriculum(sql, user.id);
+
+  if (curriculum.subjectIds.length === 0) {
+    return { subjects: [], empty_reason: 'no_subjects' };
+  }
+
+  const rows = await sql<LibraryRow[]>`
+    select distinct on (t.id)
+           l.id as lesson_id, l.title as lesson_title,
+           t.id as topic_id, t.title_ru as topic_title,
+           s.id as subject_id, s.code as subject_code, s.name_ru as subject_name,
+           s.sort_order as subject_sort, t.sort_order as topic_sort,
+           (m.id is not null) as has_material,
+           m.est_read_minutes,
+           lp.progress_pct, lp.material_read_at, lp.best_check_pct, lp.completed_at
+      from public.lessons l
+      join public.topics t on t.id = l.topic_id
+      join public.subjects s on s.id = l.subject_id
+      join public.student_subjects ss
+            on ss.subject_id = s.id and ss.student_id = ${user.id} and ss.removed_at is null
+      left join public.materials m on m.id = l.material_id and m.status = 'published'
+      left join public.lesson_progress lp
+             on lp.lesson_id = l.id and lp.student_id = ${user.id}
+     where l.is_active and t.is_active and s.is_active
+       and t.grade_min <= ${curriculum.scope.gradeMax}::int
+       and t.grade_max >= ${curriculum.scope.gradeMin}::int
+     -- distinct on требует, чтобы порядок начинался с той же темы; всё
+     -- остальное — правило выбора урока внутри неё.
+     order by t.id, (l.origin = 'curated') desc, l.created_at, l.id
+  `;
+
+  if (rows.length === 0) {
+    return { subjects: [], empty_reason: 'no_lessons' };
+  }
+
+  const ordered = [...rows].sort(
+    (left, right) =>
+      left.subject_sort - right.subject_sort ||
+      left.subject_code.localeCompare(right.subject_code) ||
+      left.topic_sort - right.topic_sort ||
+      left.topic_title.localeCompare(right.topic_title),
+  );
+
+  const bySubject = new Map<string, LessonLibraryResponse['subjects'][number]>();
+
+  for (const row of ordered) {
+    const subject = bySubject.get(row.subject_id) ?? {
+      id: row.subject_id,
+      code: row.subject_code,
+      name: row.subject_name,
+      lessons: [],
+    };
+
+    subject.lessons.push({
+      id: row.lesson_id,
+      title: row.lesson_title,
+      topic: { id: row.topic_id, title: row.topic_title },
+      est_read_minutes: row.est_read_minutes,
+      has_material: row.has_material,
+      progress_pct: Number(row.progress_pct ?? 0),
+      material_read: row.material_read_at !== null,
+      best_check_pct: row.best_check_pct === null ? null : Number(row.best_check_pct),
+      completed: row.completed_at !== null,
+    });
+
+    bySubject.set(row.subject_id, subject);
+  }
+
+  return { subjects: [...bySubject.values()], empty_reason: null };
 }
 
 export async function refreshLessonProgress(
@@ -215,8 +300,6 @@ export async function refreshLessonProgress(
 
   await syncNodesForLesson(sql, studentId, lessonId);
 
-  
-  
   if (progress.completed) {
     await completeLessonItems(sql, studentId, lessonId);
   }
@@ -250,7 +333,6 @@ export async function markMaterialRead(
   await assertInScope(sql, user.id, lesson);
 
   await sql.begin(async (tx) => {
-    
     await tx`
       insert into public.lesson_progress (student_id, lesson_id, material_read_at)
       values (${user.id}, ${lessonId}, now())
@@ -303,7 +385,6 @@ export async function openKnowledgeCheck(
   }
 
   if (lesson.material_id === null) {
-    
     throw new AppError('STATE_CONFLICT', {
       message: 'У урока нет материала, по которому можно составить проверку',
     });

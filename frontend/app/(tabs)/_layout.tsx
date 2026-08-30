@@ -17,7 +17,7 @@ const tabConfig: Record<
   },
   learning: {
     label: "Обучение",
-    icon: "help-buoy-outline"
+    icon: "book-outline"
   },
   progress: {
     label: "Прогресс",
