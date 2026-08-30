@@ -476,7 +476,7 @@ function StatsTab({ stats }: { stats: Stats }) {
           error={error}
           onRetry={reload}
           isEmpty={predicted === null}
-          emptyText="Балл появится после диагностики или первых проверенных работ."
+          emptyText="Балл появится после первых проверенных работ."
         >
           {predicted ? (
             <View style={styles.scoreBlock}>

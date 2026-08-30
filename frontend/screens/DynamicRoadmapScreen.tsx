@@ -72,8 +72,8 @@ export function DynamicRoadmapScreen() {
             {error ? <Text style={styles.emptyText}>{error}</Text> : null}
             {!isRoadmapLoading && !error && nodes.length === 0 ? (
               <Text style={styles.emptyText}>
-                Дорожная карта ещё не построена. Она появится после диагностики — тогда ИИ
-                подберёт темы под ваши слабые места.
+                Дорожная карта ещё не построена. Она появится, когда будут готовы первые данные
+                по темам и заданиям.
               </Text>
             ) : null}
             {nodes.map((node) => (
