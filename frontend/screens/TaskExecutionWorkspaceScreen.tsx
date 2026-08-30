@@ -8,7 +8,42 @@ import { QuestionCard } from "@/components/QuestionCard";
 import { apiGet, apiPost, waitForJob } from "@/services/api";
 import { useAttempt } from "@/hooks/useAttempt";
 
-type Stage = "loading" | "material" | "quiz" | "done" | "error";
+type Stage = "loading" | "preparing" | "material" | "quiz" | "done" | "error";
+
+const GENERATION_TIMEOUT_MS = 240_000;
+
+const JOB_ERROR_MESSAGES: Record<string, string> = {
+  NO_QUESTIONS: "По этой теме пока нет ни материала, ни вопросов.",
+  TOPIC_NOT_FOUND: "Тема больше не доступна.",
+  SUBJECT_NOT_SELECTED: "Предмет убран из вашего профиля.",
+  QUOTA_EXCEEDED: "Дневной лимит обращений к ИИ исчерпан. Попробуйте завтра.",
+};
+
+interface FinishedJob {
+  status: string;
+  error_code: string | null;
+}
+
+async function awaitGeneration(jobId: string): Promise<FinishedJob> {
+  const status = await waitForJob(jobId, {
+    totalTimeoutMs: GENERATION_TIMEOUT_MS,
+    waitMs: 25_000,
+  });
+  return { status: status.job.status, error_code: status.job.error_code };
+}
+
+function generationError(job: FinishedJob): Error {
+  if (job.status === "succeeded") {
+    return new Error("Задание составлено, но открыть его не удалось. Попробуйте ещё раз.");
+  }
+  if (job.error_code !== null && JOB_ERROR_MESSAGES[job.error_code] !== undefined) {
+    return new Error(JOB_ERROR_MESSAGES[job.error_code]);
+  }
+  if (job.status === "queued" || job.status === "running" || job.status === "awaiting_retry") {
+    return new Error("Задание всё ещё готовится. Загляните сюда через пару минут.");
+  }
+  return new Error("Не удалось составить задание. Попробуйте ещё раз.");
+}
 
 interface LessonMaterialDto {
   lesson: { id: string; title: string };
@@ -37,6 +72,7 @@ interface KnowledgeCheckResponse {
   assessment: { id: string } | null;
   job: QueuedJobRef | null;
 }
+
 function extractParagraphs(material: LessonMaterialDto["material"]): string[] {
   if (!material) return [];
   return material.body_blocks
@@ -59,12 +95,15 @@ export function TaskExecutionWorkspaceScreen() {
   const [lessonTitle, setLessonTitle] = useState("Урок");
   const [paragraphs, setParagraphs] = useState<string[]>([]);
   const [aiOpen, setAiOpen] = useState(false);
+  const [retryToken, setRetryToken] = useState(0);
   const lessonIdRef = useRef<string | null>(null);
 
   const attempt = useAttempt();
 
   useEffect(() => {
     let cancelled = false;
+    setStage("loading");
+    setError(null);
 
     async function resolveQuiz(assessmentId: string | null, attemptId: string | null) {
       if (attemptId) {
@@ -91,19 +130,17 @@ export function TaskExecutionWorkspaceScreen() {
         if (params.itemId) {
           let resolved = await apiPost<StartItemResponse>(`/v1/daily-plan/items/${params.itemId}/start`);
 
-          const jobDeadline = Date.now() + 240_000;
-          while (
-            resolved.job &&
-            !resolved.assessment_id &&
-            !resolved.attempt_id &&
-            Date.now() < jobDeadline &&
-            !cancelled
-          ) {
-            await waitForJob(resolved.job.job_id, { totalTimeoutMs: 20_000, waitMs: 20_000 });
+          if (resolved.job && !resolved.assessment_id && !resolved.attempt_id) {
+            if (cancelled) return;
+            setStage("preparing");
+            const job = await awaitGeneration(resolved.job.job_id);
+            if (cancelled) return;
+            if (job.status !== "succeeded") throw generationError(job);
             resolved = await apiPost<StartItemResponse>(`/v1/daily-plan/items/${params.itemId}/start`);
           }
 
           if (cancelled) return;
+
           if (resolved.assessment_id || resolved.attempt_id) {
             await resolveQuiz(resolved.assessment_id, resolved.attempt_id);
           } else if (resolved.lesson_id) {
@@ -127,7 +164,7 @@ export function TaskExecutionWorkspaceScreen() {
     return () => {
       cancelled = true;
     };
-  }, [params.itemId, params.lessonId]);
+  }, [params.itemId, params.lessonId, retryToken]);
 
   const continueToQuiz = async () => {
     const lessonId = lessonIdRef.current;
@@ -137,9 +174,10 @@ export function TaskExecutionWorkspaceScreen() {
       await apiPost(`/v1/lessons/${lessonId}/material-read`);
       let check = await apiPost<KnowledgeCheckResponse>(`/v1/lessons/${lessonId}/knowledge-check`);
 
-      const jobDeadline = Date.now() + 240_000;
-      while (check.job && !check.assessment && Date.now() < jobDeadline) {
-        await waitForJob(check.job.job_id, { totalTimeoutMs: 20_000, waitMs: 20_000 });
+      if (check.job && !check.assessment) {
+        setStage("preparing");
+        const job = await awaitGeneration(check.job.job_id);
+        if (job.status !== "succeeded") throw generationError(job);
         check = await apiPost<KnowledgeCheckResponse>(`/v1/lessons/${lessonId}/knowledge-check`);
       }
 
@@ -181,7 +219,22 @@ export function TaskExecutionWorkspaceScreen() {
           showsVerticalScrollIndicator={false}
         >
           {stage === "loading" ? <ActivityIndicator color={colors.blue} /> : null}
-          {stage === "error" ? <Text style={styles.emptyText}>{error}</Text> : null}
+          {stage === "preparing" ? <PreparingCard /> : null}
+
+          {stage === "error" ? (
+            <View style={styles.materialCard}>
+              <Text style={styles.cardTitle}>Задание не открылось</Text>
+              <Text style={styles.paragraph}>{error}</Text>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => setRetryToken((value) => value + 1)}
+                style={({ pressed }) => [styles.nextButton, pressed && styles.pressed]}
+              >
+                <Text style={styles.nextButtonText}>Попробовать снова</Text>
+                <Ionicons name="refresh" size={16} color="#ffffff" />
+              </Pressable>
+            </View>
+          ) : null}
 
           {stage === "material" || stage === "quiz" ? (
             <View style={styles.stepper}>
@@ -261,8 +314,8 @@ export function TaskExecutionWorkspaceScreen() {
             <View style={styles.materialCard}>
               <Text style={styles.cardTitle}>Готово!</Text>
               <Text style={styles.paragraph}>Задание засчитано. Прогресс обновится на панели.</Text>
-              <Pressable accessibilityRole="button" onPress={() => router.replace("/(tabs)/learning")} style={({ pressed }) => [styles.nextButton, pressed && styles.pressed]}>
-                <Text style={styles.nextButtonText}>К дневному плану</Text>
+              <Pressable accessibilityRole="button" onPress={() => router.replace("/(tabs)/dashboard")} style={({ pressed }) => [styles.nextButton, pressed && styles.pressed]}>
+                <Text style={styles.nextButtonText}>На панель</Text>
                 <Ionicons name="arrow-forward" size={16} color="#ffffff" />
               </Pressable>
             </View>
@@ -272,6 +325,27 @@ export function TaskExecutionWorkspaceScreen() {
         <AIModal visible={aiOpen} onClose={() => setAiOpen(false)} />
       </View>
     </SafeAreaView>
+  );
+}
+
+function PreparingCard() {
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => setSeconds((value) => value + 1), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <View style={styles.preparingCard}>
+      <ActivityIndicator color={colors.blue} size="large" />
+      <Text style={styles.cardTitle}>Готовим задание</Text>
+      <Text style={styles.paragraph}>
+        ИИ подбирает вопросы под вашу тему и уровень. Обычно это занимает меньше минуты;
+        экран откроется сам.
+      </Text>
+      <Text style={styles.preparingTimer}>{seconds} с</Text>
+    </View>
   );
 }
 
@@ -325,6 +399,16 @@ const styles = StyleSheet.create({
   stepTextActive: { color: colors.blue },
   stepLine: { flex: 1, height: 1, backgroundColor: colors.border },
   materialCard: { borderRadius: 10, borderColor: colors.border, borderWidth: 1, backgroundColor: colors.card, padding: 18, gap: 4 },
+  preparingCard: {
+    borderRadius: 10,
+    borderColor: colors.border,
+    borderWidth: 1,
+    backgroundColor: colors.card,
+    alignItems: "center",
+    padding: 24,
+    gap: 6,
+  },
+  preparingTimer: { marginTop: 6, color: colors.muted, fontSize: 13, fontWeight: "800" },
   cardTitle: { color: colors.text, fontSize: 22, fontWeight: "900", lineHeight: 29 },
   paragraph: { marginTop: 12, color: colors.muted, fontSize: 16, lineHeight: 24 },
   aiBanner: { minHeight: 82, borderRadius: 10, borderColor: "#f0d4b8", borderWidth: 1, backgroundColor: "#fff7ed", flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 16 },
