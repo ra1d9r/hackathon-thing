@@ -169,6 +169,7 @@ interface OwnedItem {
   readonly item: PlanItemRow;
   readonly plan: PlanRow;
 }
+
 async function loadItemOwned(sql: Sql, studentId: string, itemId: string): Promise<OwnedItem> {
   const [row] = await sql<{ plan_date: Date }[]>`
     select p.plan_date
@@ -225,7 +226,7 @@ export async function startItem(
        set status = 'in_progress'
      where id = ${itemId} and status = 'pending'
   `;
-
+  
   if (item.kind === 'lesson') {
     const refreshed = await loadItemOwned(sql, user.id, itemId);
     return {
