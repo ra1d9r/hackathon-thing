@@ -6,12 +6,9 @@ export const predictedScoreSchema = z.object({
   scale: scaleKindSchema,
   value: z.number(),
   max: z.number(),
-  
   five_grade: z.number().int().nullable(),
   confidence: z.number(),
-  
   baseline_value: z.number(),
-  
   delta_vs_previous: z.number().nullable(),
   computed_at: z.iso.datetime(),
   source: z.enum(['ai', 'baseline']),
@@ -57,8 +54,7 @@ export const dailyPlanSchema = z.object({
       kind: z.string(),
     }),
   ),
-  
-  empty_reason: z.enum(['not_generated_yet']).nullable(),
+  empty_reason: z.enum(['not_generated_yet', 'no_topics']).nullable(),
 });
 
 export const upcomingMockSchema = z.object({
@@ -66,7 +62,6 @@ export const upcomingMockSchema = z.object({
   title: z.string(),
   question_count: z.number().int(),
   time_limit_sec: z.number().int().nullable(),
-  
   attempted: z.boolean(),
 });
 
@@ -91,11 +86,9 @@ export const dashboardResponseSchema = z.object({
     attempts_graded: z.number().int(),
     score_history: z.array(scorePointSchema),
     weak_topics: z.array(weakTopicSchema),
-    
     critical_topic: weakTopicSchema.nullable(),
   }),
   upcoming_mocks: z.array(upcomingMockSchema),
-  
   pending_ai: z.object({ jobs: z.number().int() }),
   computed_at: z.iso.datetime(),
 });
@@ -128,7 +121,6 @@ export const statsTopicsQuerySchema = z.object({
 
 export const statsTopicsSchema = z.object({
   topics: z.array(weakTopicSchema),
-  
   empty_reason: z.enum(['no_evidence_yet', 'filter_matched_nothing']).nullable(),
   computed_at: z.iso.datetime(),
 });
@@ -147,7 +139,6 @@ export const scoreHistorySchema = z.object({
 export const heartbeatSchema = z.object({
   context: z.enum(['lesson', 'task', 'mock', 'diagnostic', 'assistant']),
   ref_id: z.uuid().nullable().default(null),
-  
   seconds: z.number().int().min(1).max(1_800),
 });
 
