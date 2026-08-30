@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -16,14 +16,49 @@ interface RoadmapNodeDetail {
   node: { lesson_id: string | null };
 }
 
+interface LessonSubjectDto {
+  id: string;
+  code: string;
+  name: string;
+}
+
+interface LessonLibraryResponse {
+  subjects: LessonSubjectDto[];
+}
+
 export function DynamicRoadmapScreen() {
   const { user, isLoading: isUserLoading } = useUserProfile();
-  const subjects = user?.selectedSubjects ?? [];
+  const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
+  const [roadmapSubjects, setRoadmapSubjects] = useState<Subject[]>([]);
+  const fallbackSubjects = user?.selectedSubjects ?? [];
+  const subjects = roadmapSubjects.length > 0 ? roadmapSubjects : fallbackSubjects;
+  const activeSubjectId = selectedSubjectId ?? roadmapSubjects[0]?.id ?? null;
 
-  const { nodes, currentScore, subject, isLoading: isRoadmapLoading, error } = useRoadmap();
+  const { nodes, currentScore, subject, isLoading: isRoadmapLoading, error } = useRoadmap(activeSubjectId);
   const [selectedNode, setSelectedNode] = useState<RoadmapNode | null>(null);
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
   const { material } = useLessonPreview(selectedLessonId);
+
+  useEffect(() => {
+    let cancelled = false;
+    apiGet<LessonLibraryResponse>("/v1/lessons")
+      .then((response) => {
+        if (cancelled) return;
+        setRoadmapSubjects(
+          response.subjects.map((item) => ({
+            id: item.id,
+            code: item.code,
+            title: item.name,
+          })),
+        );
+      })
+      .catch(() => {
+        if (!cancelled) setRoadmapSubjects([]);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const openTask = async (node: RoadmapNode) => {
     if (node.status === "LOCKED") return;
@@ -58,7 +93,12 @@ export function DynamicRoadmapScreen() {
         </View>
 
         <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-          <SubjectSelector subjects={subjects} activeCode={subject?.code ?? null} />
+          <SubjectSelector
+            subjects={subjects}
+            activeId={activeSubjectId ?? subject?.id ?? null}
+            canSelect={roadmapSubjects.length > 0}
+            onSelect={setSelectedSubjectId}
+          />
           <ReadinessScoreCard score={nodes.length > 0 ? currentScore : null} subjectName={subject?.name ?? null} />
 
           <View style={styles.roadmapSection}>
@@ -86,7 +126,17 @@ export function DynamicRoadmapScreen() {
   );
 }
 
-function SubjectSelector({ subjects, activeCode }: { subjects: Subject[]; activeCode: string | null }) {
+function SubjectSelector({
+  subjects,
+  activeId,
+  canSelect,
+  onSelect,
+}: {
+  subjects: Subject[];
+  activeId: string | null;
+  canSelect: boolean;
+  onSelect: (id: string) => void;
+}) {
   if (subjects.length === 0) return null;
   return (
     <ScrollView
@@ -95,11 +145,22 @@ function SubjectSelector({ subjects, activeCode }: { subjects: Subject[]; active
       contentContainerStyle={styles.subjectRow}
     >
       {subjects.map((subj) => (
-        <View key={subj.id} style={[styles.subjectChip, activeCode === subj.code && styles.subjectChipActive]}>
-          <Text style={[styles.subjectChipText, activeCode === subj.code && styles.subjectChipTextActive]} numberOfLines={1}>
+        <Pressable
+          key={subj.id}
+          accessibilityRole="button"
+          accessibilityState={{ selected: activeId === subj.id }}
+          disabled={!canSelect}
+          onPress={() => onSelect(subj.id)}
+          style={({ pressed }) => [
+            styles.subjectChip,
+            activeId === subj.id && styles.subjectChipActive,
+            pressed && canSelect && styles.pressed,
+          ]}
+        >
+          <Text style={[styles.subjectChipText, activeId === subj.id && styles.subjectChipTextActive]} numberOfLines={1}>
             {subj.title}
           </Text>
-        </View>
+        </Pressable>
       ))}
     </ScrollView>
   );
