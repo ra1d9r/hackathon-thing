@@ -5,7 +5,7 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, View, Pressable } from
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { apiGet, waitForJob } from "@/services/api";
-import { waitForAttemptJob, type JobRef } from "@/hooks/useAttempt";
+import { type JobRef } from "@/hooks/useAttempt";
 import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
 
@@ -49,46 +49,63 @@ interface AttemptResult {
   job: JobRef | null;
 }
 
+const REFINE_DEADLINE_MS = 300_000;
+
 export function DiagnosticResultsScreen() {
-  const params = useLocalSearchParams<{ attemptId?: string; jobId?: string }>();
+  const params = useLocalSearchParams<{ attemptId?: string }>();
   const [result, setResult] = useState<AttemptResult | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isRefining, setIsRefining] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
+    const attemptId = params.attemptId;
 
     (async () => {
-      if (!params.attemptId) {
+      if (!attemptId) {
         setError("Попытка не найдена");
         setIsLoading(false);
         return;
       }
 
+      let data: AttemptResult;
       try {
-        await waitForAttemptJob(params.jobId);
-        let data = await apiGet<AttemptResult>(`/v1/attempts/${params.attemptId}/result`);
-        if (!cancelled) setResult(data);
-
-        const jobDeadline = Date.now() + 240_000;
-        while (data.job && Date.now() < jobDeadline && !cancelled) {
-          await waitForJob(data.job.id, { totalTimeoutMs: 20_000, waitMs: 20_000 });
-          data = await apiGet<AttemptResult>(`/v1/attempts/${params.attemptId}/result`);
-          if (!cancelled) setResult(data);
-        }
-
-        if (!cancelled) await useAuthStore.getState().refreshMe();
+        data = await apiGet<AttemptResult>(`/v1/attempts/${attemptId}/result`);
       } catch (e) {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Не удалось загрузить результат");
-      } finally {
-        if (!cancelled) setIsLoading(false);
+        if (!cancelled) {
+          setError(e instanceof Error ? e.message : "Не удалось загрузить результат");
+          setIsLoading(false);
+        }
+        return;
       }
+
+      if (cancelled) return;
+      setResult(data);
+      setIsLoading(false);
+      setIsRefining(data.job !== null);
+
+      const deadline = Date.now() + REFINE_DEADLINE_MS;
+      while (data.job !== null && Date.now() < deadline && !cancelled) {
+        try {
+          await waitForJob(data.job.id, { totalTimeoutMs: 25_000, waitMs: 25_000 });
+          data = await apiGet<AttemptResult>(`/v1/attempts/${attemptId}/result`);
+        } catch {
+          break;
+        }
+        if (cancelled) return;
+        setResult(data);
+      }
+
+      if (cancelled) return;
+      setIsRefining(false);
+      await useAuthStore.getState().refreshMe().catch(() => undefined);
     })();
 
     return () => {
       cancelled = true;
     };
-  }, [params.attemptId, params.jobId]);
+  }, [params.attemptId]);
 
   if (isLoading) {
     return (
@@ -115,8 +132,11 @@ export function DiagnosticResultsScreen() {
     );
   }
 
-  const maxScore = result.attempt.max_score ?? 0;
-  const rawScore = result.attempt.raw_score ?? 0;
+  const pending = result.attempt.pending_questions;
+  const checkedPossible = result.subjects.reduce((sum, item) => sum + item.points_possible, 0);
+  const checkedEarned = result.subjects.reduce((sum, item) => sum + item.points_earned, 0);
+  const maxScore = pending > 0 ? checkedPossible : result.attempt.max_score ?? 0;
+  const rawScore = pending > 0 ? checkedEarned : result.attempt.raw_score ?? 0;
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top", "bottom"]}>
@@ -140,12 +160,22 @@ export function DiagnosticResultsScreen() {
             <Text style={styles.scoreNumber}>{Math.round(rawScore)}</Text>
             <Text style={styles.scoreTotal}>/ {Math.round(maxScore)}</Text>
           </View>
-          {result.attempt.pending_questions > 0 ? (
+          {pending > 0 ? (
             <Text style={styles.pendingText}>
-              {result.attempt.pending_questions} ответов ещё проверяются моделью
+              По проверенной части. Свободных ответов на проверке: {pending}
             </Text>
           ) : null}
         </View>
+
+        {isRefining ? (
+          <View style={styles.refiningCard}>
+            <ActivityIndicator color={colors.blue} size="small" />
+            <Text style={styles.refiningText}>
+              ИИ дочитывает развёрнутые ответы и собирает разбор. Экран обновится сам —
+              уходить не нужно.
+            </Text>
+          </View>
+        ) : null}
 
         {result.strengths.length > 0 ? (
           <InsightCard
@@ -277,6 +307,22 @@ const styles = StyleSheet.create({
   scoreNumber: { color: colors.teal, fontSize: 44, fontWeight: "900", lineHeight: 52 },
   scoreTotal: { marginTop: -4, color: "#252936", fontSize: 13, fontWeight: "800" },
   pendingText: { marginTop: 16, color: "#c84b16", fontSize: 13, fontWeight: "700", textAlign: "center" },
+  refiningCard: {
+    width: "100%",
+    maxWidth: 358,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    borderRadius: 6,
+    borderColor: "#c8d8f5",
+    borderWidth: 1,
+    backgroundColor: "#eef4ff",
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    marginTop: 16,
+    marginHorizontal: 16,
+  },
+  refiningText: { flex: 1, color: "#274779", fontSize: 13, lineHeight: 19 },
   insightCard: { width: "100%", maxWidth: 358, borderRadius: 6, borderColor: colors.border, borderWidth: 1, backgroundColor: colors.card, paddingHorizontal: 16, paddingVertical: 16, marginTop: 25, marginHorizontal: 16 },
   insightHeader: { flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 14 },
   insightTitle: { color: colors.text, fontSize: 22, fontWeight: "900", lineHeight: 28 },
