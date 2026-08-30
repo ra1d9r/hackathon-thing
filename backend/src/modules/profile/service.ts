@@ -35,12 +35,23 @@ interface StudentRow {
   target_exam_code: string | null;
   target_date: Date | null;
   onboarding_completed_at: Date | null;
+  passed_diagnostics: boolean;
   diagnostic_attempt_id: string | null;
   diagnostic_available: boolean;
   class_name: string | null;
   streak_days: number;
   questions_answered: number;
   ai_usage_count: number;
+}
+
+interface DiagnosticDraftRow {
+  attempt_id: string;
+  assessment_id: string;
+  status: 'in_progress';
+  started_at: Date;
+  submitted_at: Date | null;
+  answered_count: number;
+  total_count: number;
 }
 
 export async function getMe(
@@ -76,6 +87,7 @@ export async function getMe(
         e.code                                       as target_exam_code,
         sp.target_date,
         sp.onboarding_completed_at,
+        coalesce(sp.passed_diagnostics, false)       as passed_diagnostics,
         sp.diagnostic_attempt_id,
         exists (select 1 from public.assessments da
                  where da.student_id = p.id and da.kind = 'diagnostic' and da.is_active)
@@ -111,14 +123,44 @@ export async function getMe(
     `;
 
     const goal = row?.goal === null || row?.goal === undefined ? null : learningGoalSchema.parse(row.goal);
+    const [diagnosticDraft] = await sql<DiagnosticDraftRow[]>`
+      select
+        a.id as attempt_id,
+        a.assessment_id,
+        a.status::text as status,
+        a.started_at,
+        a.submitted_at,
+        (select count(*)::int from public.attempt_answers aa where aa.attempt_id = a.id) as answered_count,
+        (select count(*)::int from public.assessment_questions aq where aq.assessment_id = a.assessment_id) as total_count
+      from public.attempts a
+      join public.assessments asm on asm.id = a.assessment_id
+      where a.student_id = ${user.id}
+        and asm.kind = 'diagnostic'
+        and a.status = 'in_progress'
+      order by a.started_at desc
+      limit 1
+    `;
 
     student = {
       goal,
       target_exam_code: row?.target_exam_code ?? null,
       target_date: row?.target_date?.toISOString().slice(0, 10) ?? null,
       onboarding_completed_at: row?.onboarding_completed_at?.toISOString() ?? null,
+      passed_diagnostics: row?.passed_diagnostics ?? false,
       diagnostic_attempt_id: row?.diagnostic_attempt_id ?? null,
       diagnostic_available: row?.diagnostic_available ?? false,
+      diagnostic_draft:
+        diagnosticDraft === undefined
+          ? null
+          : {
+              attempt_id: diagnosticDraft.attempt_id,
+              assessment_id: diagnosticDraft.assessment_id,
+              status: diagnosticDraft.status,
+              started_at: diagnosticDraft.started_at.toISOString(),
+              submitted_at: diagnosticDraft.submitted_at?.toISOString() ?? null,
+              answered_count: diagnosticDraft.answered_count,
+              total_count: diagnosticDraft.total_count,
+            },
       subjects: subjects.map((subject) => ({
         code: subject.code,
         name: subject.name,
