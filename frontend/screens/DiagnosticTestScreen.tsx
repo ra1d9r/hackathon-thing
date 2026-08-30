@@ -98,7 +98,7 @@ export function DiagnosticTestScreen() {
       const result = await submit();
       router.replace({
         pathname: "/diagnostic-results",
-        params: { attemptId: attempt?.id ?? "", jobId: result.job?.id ?? "" },
+        params: { attemptId: result.attempt.id },
       });
     } catch {
       setPhase("ready");
