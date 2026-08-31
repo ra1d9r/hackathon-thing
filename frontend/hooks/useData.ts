@@ -76,28 +76,25 @@ const NODE_STATUS: Record<RoadmapNodeDto["status"], RoadmapNode["status"]> = {
   locked: "LOCKED",
 };
 
-export function useRoadmap(subjectId?: string | null) {
+export function useRoadmap() {
   const { data, isLoading, error } = useResource<{
     nodes: RoadmapNode[];
     subject: { id: string; code: string; name: string } | null;
   }>(async () => {
-    const response = await apiGet<RoadmapResponseDto>(
-      "/v1/roadmap",
-      subjectId ? { subject_id: subjectId } : undefined,
-    );
-    const roadmapSubjectId = response.roadmap?.subject.id ?? "";
+    const response = await apiGet<RoadmapResponseDto>("/v1/roadmap");
+    const subjectId = response.roadmap?.subject.id ?? "";
     return {
       subject: response.roadmap?.subject ?? null,
       nodes: response.nodes.map((node) => ({
         id: node.id,
-        subjectId: roadmapSubjectId,
+        subjectId,
         title: node.title,
         masteryPercentage: Math.round(node.progress_pct),
         status: NODE_STATUS[node.status],
         badgeText: node.status === "completed" ? `${Math.round(node.progress_pct)}% выполнено` : undefined,
       })),
     };
-  }, [subjectId]);
+  }, []);
 
   const nodes = data?.nodes ?? [];
   const currentScore = nodes.length

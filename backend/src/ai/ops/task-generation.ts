@@ -6,7 +6,7 @@ import {
 import type { LessonOutlineStep } from '../../contracts/ai/roadmap.js';
 import { toResponseSchema } from '../../contracts/ai/envelope.js';
 import type { JsonValue } from '../../contracts/json.js';
-import { mcqQualityBlock, operationBlock, schemaBlock, scopeBlock, studentBlock, systemCoreBlock } from '../prompt.js';
+import { operationBlock, schemaBlock, scopeBlock, studentBlock, systemCoreBlock } from '../prompt.js';
 import { callAndValidate, type CallLogEntry, type ModelFailureReason } from '../validate.js';
 import type { ModelCaller } from '../types.js';
 
@@ -69,7 +69,6 @@ export async function proposeTaskSet(
 ): Promise<TaskOutcome> {
   const blocks = [
     systemCoreBlock(),
-    mcqQualityBlock(),
     schemaBlock(RESPONSE_SCHEMA),
     scopeBlock(context.scope, [context.subjectName]),
     studentBlock(contextPayload(context)),
@@ -91,7 +90,6 @@ export async function proposeTaskSet(
         'Требования к эталонам, иначе вопрос будет отброшен:',
         '— mcq_single: ровно один верный вариант, options не пустые;',
         '— mcq_multi: минимум два верных, но не все;',
-        '— для всех MCQ варианты одинаковой длины и детализации; правильный ответ не должен выделяться объёмом или стилем;',
         '— numeric: answer_key = {"value": число, "tolerance": допуск}, options = null;',
         '— free_text: answer_key = {"expected_points": [...]}, обязателен rubric_md,',
         '  options = null.',

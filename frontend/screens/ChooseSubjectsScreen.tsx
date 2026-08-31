@@ -40,7 +40,12 @@ export function ChooseSubjectsScreen() {
   const handleNext = async () => {
     setLocalError(null);
     try {
-      await completeOnboarding();
+      const response = await completeOnboarding();
+      if (response.diagnostic_unavailable_reason) {
+        
+        router.replace(routes.tabsRoot);
+        return;
+      }
       router.push(routes.diagnosticTest);
     } catch (e) {
       setLocalError(e instanceof Error ? e.message : "Не удалось завершить онбординг");

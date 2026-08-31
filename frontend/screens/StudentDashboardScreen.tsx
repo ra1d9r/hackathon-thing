@@ -13,6 +13,7 @@ const targetLabels: Record<string, string> = {
   ent: "ЕНТ",
   nis: "НИШ",
   subjects: "Предметы",
+  olympiad: "Олимпиада",
 };
 
 interface DailyPlanItemDto {
@@ -149,7 +150,10 @@ export function StudentDashboardScreen() {
               <View style={styles.focusHeader}>
                 <Ionicons name="checkbox-outline" size={22} color={colors.text} />
                 <Text style={styles.focusTitle}>Дневные задачи</Text>
-                <DailyStreakPill streak={data.streak} />
+                <View style={styles.streakPill}>
+                  <Ionicons name="flame" size={14} color={colors.orange} />
+                  <Text style={styles.streakText}>{data.streak.current} дней подряд</Text>
+                </View>
               </View>
 
               <View style={styles.planProgressRow}>
@@ -194,18 +198,6 @@ export function StudentDashboardScreen() {
 
 function planPercent(plan: DashboardResponse["daily_plan"]): number {
   return plan.total === 0 ? 0 : Math.round((plan.completed / plan.total) * 100);
-}
-
-function DailyStreakPill({ streak }: { streak: DashboardResponse["streak"] }) {
-  if (streak.current <= 1) return null;
-
-  const active = streak.today_completed;
-  return (
-    <View style={[styles.streakPill, !active && styles.streakPillMuted]}>
-      <Ionicons name="flame" size={14} color={active ? colors.orange : "#8d95a3"} />
-      <Text style={[styles.streakText, !active && styles.streakTextMuted]}>{streak.current} дней подряд</Text>
-    </View>
-  );
 }
 
 interface TaskCardProps {
@@ -339,9 +331,7 @@ const styles = StyleSheet.create({
     gap: 5,
     paddingHorizontal: 10
   },
-  streakPillMuted: { backgroundColor: "#eef0f3" },
   streakText: { color: colors.orange, fontSize: 12, fontWeight: "800" },
-  streakTextMuted: { color: "#7b8494" },
   planProgressRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 8 },
   planProgressText: { color: colors.muted, fontSize: 13, fontWeight: "700" },
   planProgressTrack: { height: 8, overflow: "hidden", borderRadius: 4, backgroundColor: "#e8e8e8", marginBottom: 16 },

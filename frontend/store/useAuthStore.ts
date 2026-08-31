@@ -6,25 +6,14 @@ import { refreshSession, signInWithPassword, type SupabaseSession } from "@/serv
 
 const STORAGE_KEY = "tlek.session.v1";
 
-export type LearningGoal = "ent" | "nis" | "subjects";
+export type LearningGoal = "ent" | "nis" | "olympiad" | "subjects";
 
 export interface StudentInfo {
   goal: LearningGoal | null;
   target_exam_code: string | null;
   target_date: string | null;
   onboarding_completed_at: string | null;
-  passed_diagnostics: boolean;
   diagnostic_attempt_id: string | null;
-  diagnostic_available: boolean;
-  diagnostic_draft: {
-    attempt_id: string;
-    assessment_id: string;
-    status: "in_progress";
-    started_at: string;
-    submitted_at: string | null;
-    answered_count: number;
-    total_count: number;
-  } | null;
   subjects: { code: string; name: string; is_profile: boolean }[];
   class_name: string | null;
   streak_days: number;

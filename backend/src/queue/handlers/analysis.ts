@@ -390,8 +390,7 @@ async function run(ctx: JobContext): Promise<JsonObject> {
       await snapshotMastery(tx, attempt.studentId, 'diagnostic');
       await tx`
         update public.student_profiles
-           set diagnostic_attempt_id = ${attempt.id},
-               passed_diagnostics = true
+           set diagnostic_attempt_id = ${attempt.id}
          where student_id = ${attempt.studentId}
       `;
 
