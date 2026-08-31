@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { LessonReader, type LessonBodyBlock } from "@/components/LessonReader";
 import { QuestionCard } from "@/components/QuestionCard";
 import { apiGet, apiPost, waitForJob } from "@/services/api";
 import { useAttempt } from "@/hooks/useAttempt";
@@ -48,11 +49,7 @@ function generationError(job: FinishedJob): Error {
 interface LessonMaterialDto {
   lesson: { id: string; title: string };
   material: {
-    body_blocks: {
-      type: string;
-      spans?: { text: string }[];
-      items?: { spans?: { text: string }[] }[];
-    }[];
+    body_blocks: LessonBodyBlock[];
   } | null;
 }
 
@@ -73,27 +70,13 @@ interface KnowledgeCheckResponse {
   job: QueuedJobRef | null;
 }
 
-function extractParagraphs(material: LessonMaterialDto["material"]): string[] {
-  if (!material) return [];
-  return material.body_blocks
-    .map((block) => {
-      if (block.type === "list") {
-        return (block.items ?? [])
-          .map((item) => `• ${item.spans?.map((span) => span.text).join("") ?? ""}`)
-          .join("\n");
-      }
-      return block.spans?.map((span) => span.text).join("") ?? "";
-    })
-    .filter(Boolean);
-}
-
 export function TaskExecutionWorkspaceScreen() {
   const insets = useSafeAreaInsets();
   const params = useLocalSearchParams<{ itemId?: string; lessonId?: string }>();
   const [stage, setStage] = useState<Stage>("loading");
   const [error, setError] = useState<string | null>(null);
   const [lessonTitle, setLessonTitle] = useState("Урок");
-  const [paragraphs, setParagraphs] = useState<string[]>([]);
+  const [bodyBlocks, setBodyBlocks] = useState<LessonBodyBlock[]>([]);
   const [aiOpen, setAiOpen] = useState(false);
   const [retryToken, setRetryToken] = useState(0);
   const lessonIdRef = useRef<string | null>(null);
@@ -121,7 +104,7 @@ export function TaskExecutionWorkspaceScreen() {
       const lesson = await apiGet<LessonMaterialDto>(`/v1/lessons/${lessonId}`);
       if (cancelled) return;
       setLessonTitle(lesson.lesson.title);
-      setParagraphs(extractParagraphs(lesson.material));
+      setBodyBlocks(lesson.material?.body_blocks ?? []);
       setStage("material");
     }
 
@@ -252,15 +235,7 @@ export function TaskExecutionWorkspaceScreen() {
             <>
               <View style={styles.materialCard}>
                 <Text style={styles.cardTitle}>{lessonTitle}</Text>
-                {paragraphs.length === 0 ? (
-                  <Text style={styles.paragraph}>Материал ещё готовится.</Text>
-                ) : (
-                  paragraphs.map((paragraph, i) => (
-                    <Text key={`${paragraph.slice(0, 20)}-${i}`} style={styles.paragraph}>
-                      {paragraph}
-                    </Text>
-                  ))
-                )}
+                <LessonReader blocks={bodyBlocks} emptyText="Материал ещё готовится." />
               </View>
 
               <Pressable accessibilityRole="button" onPress={() => setAiOpen(true)} style={({ pressed }) => [styles.aiBanner, pressed && styles.pressed]}>

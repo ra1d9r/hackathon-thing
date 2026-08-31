@@ -40,7 +40,7 @@ function useAuthGuard(): void {
     const needsOnboarding = me?.requires_onboarding !== false;
     const needsDiagnostic =
       !needsOnboarding &&
-      me?.student?.diagnostic_attempt_id == null &&
+      me?.student?.passed_diagnostics !== true &&
       me?.student?.diagnostic_available === true;
     const target = needsOnboarding
       ? routes.usersTargetChoose

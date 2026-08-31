@@ -8,7 +8,7 @@ export const ALL_GRADES: number[] = Array.from(
   (_, index) => MIN_GRADE + index,
 );
 
-export const SELECTABLE_GRADES: number[] = [7, 8, 9, 10, 11];
+export const SELECTABLE_GRADES: number[] = [5, 6, 7, 8, 9, 10, 11];
 
 export const DEFAULT_GRADE = 11;
 

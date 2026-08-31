@@ -50,7 +50,7 @@ export const goalsFileSchema = z.object({
   goals: z
     .array(
       z.object({
-        goal: z.enum(['subjects', 'ent', 'nis', 'olympiad']),
+        goal: z.enum(['subjects', 'ent', 'nis']),
         title_ru: z.string().min(1).max(160),
         description_ru: z.string().min(1).max(400),
         sort_order: z.number().int().min(0).max(1000).default(100),
@@ -66,7 +66,7 @@ export const examsFileSchema = z.object({
       z.object({
         code,
         title_ru: z.string().min(1).max(120),
-        goal: z.enum(['ent', 'nis', 'olympiad']),
+        goal: z.enum(['ent', 'nis']),
         scale_kind: z.enum(['points', 'ten']),
         max_score: z.number().min(1).max(2000),
         profile_slot_count: z.number().int().min(0).max(5).default(0),

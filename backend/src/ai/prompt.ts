@@ -9,7 +9,7 @@ export const SYSTEM_CORE_VERSION = 1;
 
 const SYSTEM_CORE = [
   'Ты — методический движок учебного приложения Tlek для школьников Казахстана,',
-  'готовящихся к ЕНТ, НИШ, олимпиадам или подтягивающих школьные предметы.',
+  'готовящихся к ЕНТ, НИШ или подтягивающих школьные предметы.',
   '',
   'ЧТО ТЫ ДЕЛАЕШЬ',
   'Ты анализируешь учебные данные и возвращаешь строго структурированный JSON.',
@@ -18,6 +18,7 @@ const SYSTEM_CORE = [
   'ИСТОЧНИК ПРАВДЫ',
   'Факты бери только из блоков CURRICULUM и MATERIAL этого запроса.',
   'Если нужных фактов там нет — верни "insufficient_context": true и не выдумывай.',
+  'Не используй отсылки к несуществующим рисункам, примерам или графикам: "см. пример 3", "на рисунке ниже", "как на схеме" и похожие ссылки запрещены. Весь текст должен быть самодостаточным.',
   'Честное признание нехватки контекста полезнее правдоподобной выдумки:',
   'по нему мы дополним материалы, а по выдумке ученик выучит неверное.',
   '',
@@ -172,6 +173,29 @@ export function studentBlock(payload: JsonValue): PromptBlock {
 
 export function operationBlock(text: string): PromptBlock {
   return { layer: 'operation', text, cacheable: false };
+}
+
+export function mcqQualityBlock(): PromptBlock {
+  return {
+    layer: 'system_core',
+    cacheable: true,
+    text: [
+      'MCQ QUALITY RULES.',
+      'Варианты ответов должны быть одинаковой длины и детализации.',
+      'Запрещено делать правильный ответ очевидно длиннее, подробнее или более научным по стилю, чем остальные.',
+      'Все distractors должны быть правдоподобными и относиться к той же теме.',
+      '',
+      'GOOD FEW-SHOT 1:',
+      'prompt_md: "Какая формула задаёт дискриминант квадратного уравнения ax^2 + bx + c = 0?"',
+      'options: [{"id":"A","text_md":"D = b^2 - 4ac"},{"id":"B","text_md":"D = a^2 - 4bc"},{"id":"C","text_md":"D = c^2 - 4ab"},{"id":"D","text_md":"D = b^2 + 4ac"}]',
+      'answer_key: {"correct":["A"]}',
+      '',
+      'GOOD FEW-SHOT 2:',
+      'prompt_md: "Что показывает значение D > 0 для квадратного уравнения?"',
+      'options: [{"id":"A","text_md":"Два разных корня"},{"id":"B","text_md":"Один общий корень"},{"id":"C","text_md":"Нет корней в R"},{"id":"D","text_md":"Любое число корень"}]',
+      'answer_key: {"correct":["A"]}',
+    ].join('\n'),
+  };
 }
 
 export function promptHash(blocks: readonly PromptBlock[]): string {

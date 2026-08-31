@@ -1,4 +1,4 @@
 
-export type UserTarget = "ENT" | "NIS" | "SUBJECTS" | "OLYMPIAD";
+export type UserTarget = "ENT" | "NIS" | "SUBJECTS";
 
 export type NullableUserTarget = UserTarget | null;
