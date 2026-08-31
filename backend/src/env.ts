@@ -64,7 +64,7 @@ const envSchema = z.object({
 
   AI_API_KEY: optionalSecret,
   AI_BASE_URL: z.url().default('https://api.deepseek.com'),
-  AI_MODEL: nonEmpty.default('deepseek-v4-flash'),
+  AI_MODEL: nonEmpty.default('deepseek-v4-pro'),
 
   AI_MODEL_OVERRIDES: z
     .string()

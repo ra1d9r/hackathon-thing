@@ -44,6 +44,10 @@ export function curriculumScope(input: ScopeInput): CurriculumScope {
     };
   }
 
+  if (input.goal === 'olympiad') {
+    return { gradeMin: grade, gradeMax: MAX_GRADE, reason: 'класс ученика и выше' };
+  }
+
   return {
     gradeMin: clampGrade(grade - 1),
     gradeMax: grade,

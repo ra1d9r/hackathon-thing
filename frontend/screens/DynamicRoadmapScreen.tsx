@@ -16,49 +16,14 @@ interface RoadmapNodeDetail {
   node: { lesson_id: string | null };
 }
 
-interface LessonSubjectDto {
-  id: string;
-  code: string;
-  name: string;
-}
-
-interface LessonLibraryResponse {
-  subjects: LessonSubjectDto[];
-}
-
 export function DynamicRoadmapScreen() {
   const { user, isLoading: isUserLoading } = useUserProfile();
-  const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
-  const [roadmapSubjects, setRoadmapSubjects] = useState<Subject[]>([]);
-  const fallbackSubjects = user?.selectedSubjects ?? [];
-  const subjects = roadmapSubjects.length > 0 ? roadmapSubjects : fallbackSubjects;
-  const activeSubjectId = selectedSubjectId ?? roadmapSubjects[0]?.id ?? null;
+  const subjects = user?.selectedSubjects ?? [];
 
-  const { nodes, currentScore, subject, isLoading: isRoadmapLoading, error } = useRoadmap(activeSubjectId);
+  const { nodes, currentScore, subject, isLoading: isRoadmapLoading, error } = useRoadmap();
   const [selectedNode, setSelectedNode] = useState<RoadmapNode | null>(null);
   const [selectedLessonId, setSelectedLessonId] = useState<string | null>(null);
   const { material } = useLessonPreview(selectedLessonId);
-
-  useEffect(() => {
-    let cancelled = false;
-    apiGet<LessonLibraryResponse>("/v1/lessons")
-      .then((response) => {
-        if (cancelled) return;
-        setRoadmapSubjects(
-          response.subjects.map((item) => ({
-            id: item.id,
-            code: item.code,
-            title: item.name,
-          })),
-        );
-      })
-      .catch(() => {
-        if (!cancelled) setRoadmapSubjects([]);
-      });
-    return () => {
-      cancelled = true;
-    };
-  }, []);
 
   const openTask = async (node: RoadmapNode) => {
     if (node.status === "LOCKED") return;
@@ -93,24 +58,27 @@ export function DynamicRoadmapScreen() {
         </View>
 
         <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-          <SubjectSelector
-            subjects={subjects}
-            activeId={activeSubjectId ?? subject?.id ?? null}
-            canSelect={roadmapSubjects.length > 0}
-            onSelect={setSelectedSubjectId}
-          />
-          <ReadinessScoreCard score={nodes.length > 0 ? currentScore : null} subjectName={subject?.name ?? null} />
+          <SubjectChips subjects={subjects} activeCode={subject?.code ?? null} />
 
-          <View style={styles.roadmapSection}>
+          <View style={styles.scoreCard}>
+            <Text style={styles.scoreLabel}>СРЕДНЯЯ ГОТОВНОСТЬ</Text>
+            <Text style={styles.scoreValue}>
+              <Text style={styles.scoreX}>{nodes.length > 0 ? currentScore : "—"}</Text> / 100 по темам карты
+            </Text>
+          </View>
+
+          <View style={styles.roadmap}>
             {isUserLoading || isRoadmapLoading ? <ActivityIndicator color={colors.blue} /> : null}
             {error ? <Text style={styles.emptyText}>{error}</Text> : null}
             {!isRoadmapLoading && !error && nodes.length === 0 ? (
               <Text style={styles.emptyText}>
-                Дорожная карта ещё не построена. Она появится, когда будут готовы первые данные
-                по темам и заданиям.
+                Дорожная карта ещё не построена. Она появится после диагностики — тогда ИИ
+                подберёт темы под ваши слабые места.
               </Text>
             ) : null}
-            {nodes.length > 0 ? <RoadmapTimeline nodes={nodes} onNodePress={openTask} /> : null}
+            {nodes.map((node) => (
+              <NodeCard key={node.id} node={node} onPress={() => openTask(node)} />
+            ))}
           </View>
         </ScrollView>
 
@@ -126,112 +94,24 @@ export function DynamicRoadmapScreen() {
   );
 }
 
-function SubjectSelector({
-  subjects,
-  activeId,
-  canSelect,
-  onSelect,
-}: {
-  subjects: Subject[];
-  activeId: string | null;
-  canSelect: boolean;
-  onSelect: (id: string) => void;
-}) {
+function SubjectChips({ subjects, activeCode }: { subjects: Subject[]; activeCode: string | null }) {
   if (subjects.length === 0) return null;
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      contentContainerStyle={styles.subjectRow}
-    >
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chipRow}>
       {subjects.map((subj) => (
-        <Pressable
-          key={subj.id}
-          accessibilityRole="button"
-          accessibilityState={{ selected: activeId === subj.id }}
-          disabled={!canSelect}
-          onPress={() => onSelect(subj.id)}
-          style={({ pressed }) => [
-            styles.subjectChip,
-            activeId === subj.id && styles.subjectChipActive,
-            pressed && canSelect && styles.pressed,
-          ]}
-        >
-          <Text style={[styles.subjectChipText, activeId === subj.id && styles.subjectChipTextActive]} numberOfLines={1}>
+        <View key={subj.id} style={[styles.chip, activeCode === subj.code && styles.chipActive]}>
+          <Text style={[styles.chipText, activeCode === subj.code && styles.chipTextActive]} numberOfLines={1}>
             {subj.title}
           </Text>
-        </Pressable>
+        </View>
       ))}
     </ScrollView>
   );
 }
 
-function ReadinessScoreCard({ score, subjectName }: { score: number | null; subjectName: string | null }) {
-  const pct = score ?? 0;
-
-  return (
-    <View style={styles.scoreCard}>
-      <View style={styles.scoreTopRow}>
-        <View>
-          <Text style={styles.scoreLabel}>СРЕДНЯЯ ГОТОВНОСТЬ</Text>
-          <Text style={styles.scoreSubject}>{subjectName ?? "Дорожная карта"}</Text>
-        </View>
-        <Text style={styles.scoreValue}>
-          <Text style={styles.scoreX}>{score ?? "—"}</Text>
-          <Text style={styles.scoreMax}> / 100</Text>
-        </Text>
-      </View>
-      <View style={styles.scoreTrack}>
-        <View style={[styles.scoreFill, { width: `${Math.min(100, Math.max(0, pct))}%` }]} />
-      </View>
-      <Text style={styles.scoreHint}>Прогресс считается по освоенным темам текущего маршрута.</Text>
-    </View>
-  );
-}
-
-function RoadmapTimeline({ nodes, onNodePress }: { nodes: RoadmapNode[]; onNodePress: (node: RoadmapNode) => void }) {
-  return (
-    <View style={styles.timeline}>
-      <View style={styles.timelineLine} />
-      {nodes.map((node, index) => (
-        <TimelineItem
-          key={node.id}
-          node={node}
-          index={index}
-          isLast={index === nodes.length - 1}
-          onPress={() => onNodePress(node)}
-        />
-      ))}
-    </View>
-  );
-}
-
-function TimelineItem({ node, index, isLast, onPress }: { node: RoadmapNode; index: number; isLast: boolean; onPress: () => void }) {
-  return (
-    <View style={[styles.timelineItem, isLast && styles.timelineItemLast]}>
-      <StatusIcon status={node.status} />
-      <NodeCard node={node} index={index} onPress={onPress} />
-    </View>
-  );
-}
-
-function StatusIcon({ status }: { status: RoadmapNode["status"] }) {
-  const isCompleted = status === "COMPLETED";
-  const isLocked = status === "LOCKED";
-  const icon = isCompleted ? "checkmark" : isLocked ? "lock-closed-outline" : "play";
-
-  return (
-    <View style={[styles.statusIcon, isCompleted && styles.statusIconCompleted, isLocked && styles.statusIconLocked]}>
-      <Ionicons name={icon} size={isLocked ? 18 : 20} color={isLocked ? "#8a92a3" : "#ffffff"} />
-    </View>
-  );
-}
-
-function NodeCard({ node, index, onPress }: { node: RoadmapNode; index: number; onPress: () => void }) {
-  const isCompleted = node.status === "COMPLETED";
-  const isActive = node.status === "ACTIVE";
-  const isLocked = node.status === "LOCKED";
-  const meta = isCompleted ? "Выполнено" : isActive ? "Текущий шаг" : "Откроется позже";
+function NodeCard({ node, onPress }: { node: RoadmapNode; onPress: () => void }) {
+  const icon = node.status === "COMPLETED" ? "checkmark-circle" : node.status === "LOCKED" ? "lock-closed-outline" : "play-circle-outline";
+  const iconColor = node.status === "COMPLETED" ? colors.green : node.status === "LOCKED" ? "#9aa1af" : colors.blue;
 
   return (
     <Pressable
@@ -240,27 +120,15 @@ function NodeCard({ node, index, onPress }: { node: RoadmapNode; index: number; 
       onPress={onPress}
       style={({ pressed }) => [
         styles.nodeCard,
-        isActive && styles.nodeCardActive,
-        isLocked && styles.nodeCardLocked,
-        pressed && !isLocked && styles.pressed,
+        node.status === "ACTIVE" && styles.nodeCardActive,
+        node.status === "LOCKED" && styles.nodeCardLocked,
+        pressed && node.status !== "LOCKED" && styles.pressed,
       ]}
     >
-      {isActive ? (
-        <View style={styles.ctaBadge}>
-          <Text style={styles.ctaBadgeText}>Начать задание</Text>
-          <Ionicons name="arrow-forward" size={13} color="#ffffff" />
-        </View>
-      ) : null}
+      <Ionicons name={icon} size={28} color={iconColor} />
       <View style={styles.nodeCopy}>
-        <Text style={[styles.nodeTitle, isLocked && styles.nodeTitleLocked]}>{node.title}</Text>
-        <View style={styles.nodeMetaRow}>
-          <View style={[styles.nodeBadge, isCompleted && styles.nodeBadgeCompleted, isLocked && styles.nodeBadgeLocked]}>
-            <Text style={[styles.nodeBadgeText, isCompleted && styles.nodeBadgeTextCompleted, isLocked && styles.nodeBadgeTextLocked]}>
-              {isCompleted ? `${node.masteryPercentage}%` : `Шаг ${index + 1}`}
-            </Text>
-          </View>
-          <Text style={[styles.nodeMeta, isLocked && styles.nodeMetaLocked]}>{meta}</Text>
-        </View>
+        <Text style={[styles.nodeTitle, node.status === "LOCKED" && styles.nodeTitleLocked]}>{node.title}</Text>
+        <Text style={styles.nodeMeta}>{node.masteryPercentage}% пройдено</Text>
       </View>
     </Pressable>
   );
@@ -311,7 +179,6 @@ function TaskSheet({
 
 const colors = {
   background: "#fbfaf9",
-  panel: "#f5f3f1",
   card: "#ffffff",
   text: "#202124",
   muted: "#4f5362",
@@ -319,7 +186,6 @@ const colors = {
   blue: "#0057d9",
   navy: "#274779",
   green: "#11a857",
-  orange: "#c84b16",
 };
 
 const styles = StyleSheet.create({
@@ -329,196 +195,24 @@ const styles = StyleSheet.create({
   logo: { color: colors.blue, fontSize: 24, fontWeight: "900", lineHeight: 29 },
   avatarButton: { borderRadius: 15 },
   scroll: { flex: 1 },
-  content: { paddingBottom: 28 },
-  subjectRow: {
-    gap: 10,
-    paddingHorizontal: 16,
-    paddingTop: 17,
-    paddingBottom: 18,
-  },
-  subjectChip: {
-    height: 34,
-    minWidth: 128,
-    maxWidth: 190,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 14,
-    borderColor: colors.border,
-    borderWidth: 1,
-    backgroundColor: colors.card,
-    paddingHorizontal: 16,
-  },
-  subjectChipActive: {
-    borderColor: colors.blue,
-    borderWidth: 2,
-    backgroundColor: colors.navy,
-  },
-  subjectChipText: {
-    color: colors.muted,
-    fontSize: 13,
-    fontWeight: "800",
-    lineHeight: 17,
-  },
-  subjectChipTextActive: { color: "#ffffff" },
-  scoreCard: {
-    marginHorizontal: 16,
-    borderRadius: 14,
-    borderColor: colors.border,
-    borderWidth: 1,
-    backgroundColor: colors.card,
-    padding: 16,
-    marginBottom: 26,
-    shadowColor: "#243b63",
-    shadowOpacity: 0.05,
-    shadowRadius: 14,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 2,
-  },
-  scoreTopRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    gap: 14,
-  },
+  content: { paddingBottom: 24 },
+  chipRow: { gap: 8, paddingHorizontal: 16, paddingTop: 17, paddingBottom: 20 },
+  chip: { height: 32, minWidth: 120, alignItems: "center", justifyContent: "center", borderRadius: 12, borderColor: colors.border, borderWidth: 1, backgroundColor: colors.card, paddingHorizontal: 16 },
+  chipActive: { borderColor: "#1765ff", borderWidth: 2, backgroundColor: colors.navy },
+  chipText: { color: colors.muted, fontSize: 13, fontWeight: "800", lineHeight: 17 },
+  chipTextActive: { color: "#ffffff" },
+  scoreCard: { minHeight: 78, marginHorizontal: 17, borderRadius: 10, borderColor: colors.border, borderWidth: 1, backgroundColor: colors.card, justifyContent: "center", paddingHorizontal: 16, marginBottom: 24 },
   scoreLabel: { color: colors.muted, fontSize: 12, fontWeight: "900", letterSpacing: 0.4, lineHeight: 16 },
-  scoreSubject: {
-    marginTop: 3,
-    color: colors.text,
-    fontSize: 18,
-    fontWeight: "900",
-    lineHeight: 24,
-  },
-  scoreValue: { color: colors.muted, fontSize: 15, lineHeight: 30, flexShrink: 0 },
-  scoreX: { color: colors.blue, fontSize: 30, fontWeight: "900" },
-  scoreMax: { color: colors.muted, fontSize: 15, fontWeight: "700" },
-  scoreTrack: {
-    height: 9,
-    overflow: "hidden",
-    borderRadius: 5,
-    backgroundColor: "#e7ebf2",
-    marginTop: 16,
-  },
-  scoreFill: {
-    height: "100%",
-    borderRadius: 5,
-    backgroundColor: "#55aab1",
-  },
-  scoreHint: {
-    marginTop: 10,
-    color: colors.muted,
-    fontSize: 12,
-    lineHeight: 17,
-  },
-  roadmapSection: {
-    borderTopColor: colors.border,
-    borderTopWidth: 1,
-    paddingHorizontal: 16,
-    paddingTop: 30,
-    paddingBottom: 12,
-    backgroundColor: colors.background,
-  },
-  timeline: {
-    position: "relative",
-    gap: 0,
-    paddingLeft: 44,
-  },
-  timelineLine: {
-    position: "absolute",
-    top: 18,
-    bottom: 18,
-    left: 22,
-    width: 2,
-    borderRadius: 1,
-    backgroundColor: "#dbe3ef",
-  },
-  timelineItem: {
-    position: "relative",
-    paddingBottom: 28,
-  },
-  timelineItemLast: {
-    paddingBottom: 4,
-  },
-  statusIcon: {
-    position: "absolute",
-    left: -40,
-    top: 20,
-    zIndex: 2,
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 3,
-    borderColor: colors.background,
-    backgroundColor: colors.blue,
-  },
-  statusIconCompleted: { backgroundColor: colors.green },
-  statusIconLocked: { backgroundColor: "#eef0f3" },
-  nodeCard: {
-    minHeight: 112,
-    borderRadius: 14,
-    borderColor: colors.border,
-    borderWidth: 1,
-    backgroundColor: colors.card,
-    justifyContent: "center",
-    paddingHorizontal: 18,
-    paddingVertical: 18,
-    shadowColor: "#243b63",
-    shadowOpacity: 0.05,
-    shadowRadius: 12,
-    shadowOffset: { width: 0, height: 6 },
-    elevation: 2,
-  },
-  nodeCardActive: {
-    borderColor: colors.blue,
-    borderWidth: 1.5,
-    backgroundColor: "#fbfdff",
-  },
-  nodeCardLocked: {
-    backgroundColor: "#f3f4f6",
-    shadowOpacity: 0,
-    elevation: 0,
-  },
-  ctaBadge: {
-    position: "absolute",
-    top: -13,
-    left: 18,
-    minHeight: 26,
-    borderRadius: 13,
-    backgroundColor: colors.blue,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
-    paddingHorizontal: 12,
-  },
-  ctaBadgeText: {
-    color: "#ffffff",
-    fontSize: 12,
-    fontWeight: "900",
-  },
+  scoreValue: { color: colors.muted, fontSize: 16, lineHeight: 25 },
+  scoreX: { color: colors.blue, fontSize: 24, fontWeight: "900" },
+  roadmap: { paddingHorizontal: 16, gap: 12 },
+  nodeCard: { minHeight: 74, borderRadius: 8, borderColor: colors.border, borderWidth: 1, backgroundColor: colors.card, flexDirection: "row", alignItems: "center", gap: 14, paddingHorizontal: 16 },
+  nodeCardActive: { borderColor: "#1765ff", borderWidth: 1.5 },
+  nodeCardLocked: { opacity: 0.6 },
   nodeCopy: { flex: 1 },
-  nodeTitle: { color: colors.text, fontSize: 20, fontWeight: "900", lineHeight: 26 },
+  nodeTitle: { color: colors.text, fontSize: 17, fontWeight: "800" },
   nodeTitleLocked: { color: "#8b8d96" },
-  nodeMetaRow: {
-    marginTop: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    flexWrap: "wrap",
-  },
-  nodeBadge: {
-    borderRadius: 6,
-    backgroundColor: "#eaf1ff",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-  },
-  nodeBadgeCompleted: { backgroundColor: "#e4f6ed" },
-  nodeBadgeLocked: { backgroundColor: "#e4e7ec" },
-  nodeBadgeText: { color: colors.blue, fontSize: 12, fontWeight: "900" },
-  nodeBadgeTextCompleted: { color: colors.green },
-  nodeBadgeTextLocked: { color: "#7a8291" },
-  nodeMeta: { color: colors.muted, fontSize: 13, fontWeight: "700" },
-  nodeMetaLocked: { color: "#8b8d96" },
+  nodeMeta: { marginTop: 4, color: colors.muted, fontSize: 13 },
   emptyText: { color: colors.muted, fontSize: 14, lineHeight: 20, textAlign: "center", marginTop: 12 },
   sheetOverlay: { ...StyleSheet.absoluteFillObject, justifyContent: "flex-end" },
   hidden: { opacity: 0 },

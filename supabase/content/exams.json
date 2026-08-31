@@ -1,5 +1,5 @@
 {
-  "_": "Чертежи экзаменов. Сумма max_points по секциям обязана равняться max_score — загрузчик это проверяет.",
+  "_": "Чертежи экзаменов. Сумма max_points по секциям обязана равняться max_score — загрузчик это проверяет. Чтобы добавить свой экзамен или олимпиаду, скопируйте блок и поменяйте code, max_score и секции.",
   "exams": [
     {
       "code": "ent",
@@ -114,6 +114,45 @@
         { "subject_code": "math", "slot_kind": "mandatory", "sort_order": 10 },
         { "subject_code": "logic", "slot_kind": "mandatory", "sort_order": 20 },
         { "subject_code": "natural_science", "slot_kind": "mandatory", "sort_order": 30 }
+      ],
+      "profile_pairs": []
+    },
+    {
+      "code": "olympiad_generic",
+      "title_ru": "Олимпиада",
+      "goal": "olympiad",
+      "_НАСТРАИВАЕТСЯ": "Шкала олимпиады зависит от конкретного состязания. Чтобы завести своё: скопируйте этот блок, задайте свой code (например olympiad_math_regional), max_score и секции. Оно появится в онбординге само, без изменений в коде.",
+      "scale_kind": "points",
+      "max_score": 100,
+      "profile_slot_count": 2,
+      "grade_min": 7,
+      "grade_max": 11,
+      "time_limit_sec": 14400,
+      "is_active": true,
+      "sections": [
+        {
+          "slot_kind": "profile",
+          "slot_index": 1,
+          "subject_code": null,
+          "max_points": 50,
+          "question_count": null,
+          "guess_floor": 0.05
+        },
+        {
+          "slot_kind": "profile",
+          "slot_index": 2,
+          "subject_code": null,
+          "max_points": 50,
+          "question_count": null,
+          "guess_floor": 0.05
+        }
+      ],
+      "subject_options": [
+        { "subject_code": "math", "slot_kind": "profile", "sort_order": 10 },
+        { "subject_code": "physics", "slot_kind": "profile", "sort_order": 20 },
+        { "subject_code": "informatics", "slot_kind": "profile", "sort_order": 30 },
+        { "subject_code": "chemistry", "slot_kind": "profile", "sort_order": 40 },
+        { "subject_code": "biology", "slot_kind": "profile", "sort_order": 50 }
       ],
       "profile_pairs": []
     }

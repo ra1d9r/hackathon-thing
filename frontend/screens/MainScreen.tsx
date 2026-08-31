@@ -1,13 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { useState } from "react";
 import {
-  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   useWindowDimensions,
   View,
 } from "react-native";
@@ -26,6 +23,11 @@ const audienceCards = [
     icon: "business-outline" as const,
     title: "Поступающие в НИШ",
     body: "Тщательная логика и специализированная подготовка по предметам для поступления в элитные школы",
+  },
+  {
+    icon: "trophy-outline" as const,
+    title: "Участники олимпиады",
+    body: "Продвинутые модули для решения задач для региональных и национальных академических соревнований",
   },
   {
     icon: "book-outline" as const,
@@ -76,7 +78,6 @@ export function MainScreen() {
   const isNarrow = width < 360;
   const status = useAuthStore((state) => state.status);
   const me = useAuthStore((state) => state.me);
-  const [teacherLeadOpen, setTeacherLeadOpen] = useState(false);
 
   
   
@@ -87,7 +88,7 @@ export function MainScreen() {
     }
     router.push(me?.requires_onboarding === false ? routes.tabsRoot : routes.usersTargetChoose);
   };
-  const enterAsTeacher = () => setTeacherLeadOpen(true);
+  const enterAsTeacher = () => router.push(routes.login);
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
@@ -107,8 +108,8 @@ export function MainScreen() {
             Подготовка к экзаменам с персональной ИИ-поддержкой
           </Text>
           <Text style={styles.heroText}>
-            Набирайте максимальные баллы на ЕНТ, поступайте в НИШ или улучшайте
-            школьные результаты с динамически подстраивающимися планами обучения,
+            Набирайте максимальные баллы на ЕНТ, поступайте в НИШ или побеждайте
+            на олимпиадах с динамически подстраивающимися планами обучения,
             разработанными для вашего успеха.
           </Text>
           <View style={styles.heroActions}>
@@ -153,7 +154,6 @@ export function MainScreen() {
 
         <Footer onTeacherPress={enterAsTeacher} />
       </ScrollView>
-      <TeacherLeadModal visible={teacherLeadOpen} onClose={() => setTeacherLeadOpen(false)} />
     </SafeAreaView>
   );
 }
@@ -473,95 +473,6 @@ function Footer({ onTeacherPress }: { onTeacherPress: () => void }) {
       <Text style={styles.copyright}>
         © 2026 Tlek. Все права защищены.
       </Text>
-    </View>
-  );
-}
-
-function TeacherLeadModal({ visible, onClose }: { visible: boolean; onClose: () => void }) {
-  const [email, setEmail] = useState("");
-  const [school, setSchool] = useState("");
-  const [message, setMessage] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-  const canSubmit = email.trim().length > 3 && school.trim().length > 1;
-
-  const submit = () => {
-    if (!canSubmit) return;
-    setSubmitted(true);
-  };
-
-  return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
-      <View style={styles.teacherModalLayer}>
-        <Pressable style={styles.teacherModalBackdrop} onPress={onClose} />
-        <View style={styles.teacherModal}>
-          <View style={styles.teacherModalHandle} />
-          <View style={styles.teacherModalHeader}>
-            <View>
-              <Text style={styles.teacherModalKicker}>Портал для учителей</Text>
-              <Text style={styles.teacherModalTitle}>Заявка на доступ</Text>
-            </View>
-            <Pressable accessibilityRole="button" accessibilityLabel="Закрыть" onPress={onClose} style={styles.teacherModalClose}>
-              <Ionicons name="close" size={24} color={colors.ink} />
-            </Pressable>
-          </View>
-
-          {submitted ? (
-            <View style={styles.teacherSuccess}>
-              <Ionicons name="checkmark-circle" size={36} color="#11a857" />
-              <Text style={styles.teacherSuccessTitle}>Заявка принята</Text>
-              <Text style={styles.teacherSuccessText}>Мы свяжемся с вами после проверки псевдо-организации.</Text>
-            </View>
-          ) : (
-            <View style={styles.teacherLeadForm}>
-              <TeacherField label="Email организации">
-                <TextInput
-                  value={email}
-                  onChangeText={setEmail}
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                  placeholder="teacher@school.kz"
-                  style={styles.teacherInput}
-                />
-              </TeacherField>
-              <TeacherField label="Псевдо-организация">
-                <TextInput
-                  value={school}
-                  onChangeText={setSchool}
-                  placeholder="Например, Tlek Demo School"
-                  style={styles.teacherInput}
-                />
-              </TeacherField>
-              <TeacherField label="Комментарий">
-                <TextInput
-                  value={message}
-                  onChangeText={setMessage}
-                  placeholder="Класс, предмет или цель пилота"
-                  multiline
-                  style={[styles.teacherInput, styles.teacherTextArea]}
-                />
-              </TeacherField>
-              <Pressable
-                accessibilityRole="button"
-                disabled={!canSubmit}
-                onPress={submit}
-                style={({ pressed }) => [styles.teacherSubmit, (!canSubmit || pressed) && styles.teacherSubmitDisabled]}
-              >
-                <Text style={styles.teacherSubmitText}>Отправить заявку</Text>
-                <Ionicons name="arrow-forward" size={18} color="#ffffff" />
-              </Pressable>
-            </View>
-          )}
-        </View>
-      </View>
-    </Modal>
-  );
-}
-
-function TeacherField({ label, children }: { label: string; children: React.ReactNode }) {
-  return (
-    <View style={styles.teacherField}>
-      <Text style={styles.teacherFieldLabel}>{label}</Text>
-      {children}
     </View>
   );
 }
@@ -1260,125 +1171,5 @@ const styles = StyleSheet.create({
     color: "#005fd4",
     fontSize: 15,
     lineHeight: 21,
-  },
-  teacherModalLayer: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  teacherModalBackdrop: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.28)",
-  },
-  teacherModal: {
-    width: "100%",
-    borderTopLeftRadius: 18,
-    borderTopRightRadius: 18,
-    backgroundColor: colors.page,
-    paddingHorizontal: 20,
-    paddingTop: 12,
-    paddingBottom: 28,
-  },
-  teacherModalHandle: {
-    width: 48,
-    height: 5,
-    borderRadius: 3,
-    alignSelf: "center",
-    backgroundColor: colors.border,
-    marginBottom: 18,
-  },
-  teacherModalHeader: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    gap: 16,
-  },
-  teacherModalKicker: {
-    color: colors.muted,
-    fontSize: 12,
-    fontWeight: "900",
-    letterSpacing: 0.5,
-    textTransform: "uppercase",
-  },
-  teacherModalTitle: {
-    marginTop: 4,
-    color: colors.ink,
-    fontSize: 26,
-    fontWeight: "900",
-    lineHeight: 32,
-  },
-  teacherModalClose: {
-    width: 40,
-    height: 40,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 20,
-    backgroundColor: "#ffffff",
-  },
-  teacherLeadForm: {
-    marginTop: 22,
-    gap: 14,
-  },
-  teacherField: {
-    gap: 7,
-  },
-  teacherFieldLabel: {
-    color: colors.muted,
-    fontSize: 13,
-    fontWeight: "800",
-  },
-  teacherInput: {
-    minHeight: 48,
-    borderRadius: 9,
-    borderColor: colors.border,
-    borderWidth: 1,
-    backgroundColor: "#ffffff",
-    paddingHorizontal: 14,
-    color: colors.ink,
-    fontSize: 15,
-  },
-  teacherTextArea: {
-    minHeight: 86,
-    paddingTop: 12,
-    textAlignVertical: "top",
-  },
-  teacherSubmit: {
-    minHeight: 52,
-    borderRadius: 10,
-    backgroundColor: colors.blue,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 8,
-    marginTop: 6,
-  },
-  teacherSubmitDisabled: {
-    opacity: 0.52,
-  },
-  teacherSubmitText: {
-    color: "#ffffff",
-    fontSize: 16,
-    fontWeight: "900",
-  },
-  teacherSuccess: {
-    marginTop: 26,
-    borderRadius: 12,
-    borderColor: "#bee6cf",
-    borderWidth: 1,
-    backgroundColor: "#f0fbf5",
-    alignItems: "center",
-    padding: 22,
-  },
-  teacherSuccessTitle: {
-    marginTop: 10,
-    color: colors.ink,
-    fontSize: 20,
-    fontWeight: "900",
-  },
-  teacherSuccessText: {
-    marginTop: 6,
-    color: colors.muted,
-    fontSize: 14,
-    lineHeight: 20,
-    textAlign: "center",
   },
 });

@@ -30,6 +30,7 @@ type AccountTab = "main" | "stats";
 const goalLabels: Record<string, string> = {
   ent: "ЕНТ",
   nis: "НИШ",
+  olympiad: "Олимпиада",
   subjects: "Предметы",
 };
 
@@ -341,8 +342,8 @@ function MainTab({ stats }: { stats: Stats }) {
           value={overview ? `${overview.streak_days}` : "—"}
           unit="дней подряд"
           icon="flame"
-          color={(overview?.streak_days ?? 0) > 1 ? "#c84b16" : "#8d95a3"}
-          background={(overview?.streak_days ?? 0) > 1 ? "#fdeee7" : "#eef0f3"}
+          color="#c84b16"
+          background="#fdeee7"
         />
         <MetricCard
           label="ЗАДАНИЙ"
@@ -475,7 +476,7 @@ function StatsTab({ stats }: { stats: Stats }) {
           error={error}
           onRetry={reload}
           isEmpty={predicted === null}
-          emptyText="Балл появится после первых проверенных работ."
+          emptyText="Балл появится после диагностики или первых проверенных работ."
         >
           {predicted ? (
             <View style={styles.scoreBlock}>

@@ -63,20 +63,8 @@ export const meResponseSchema = z.object({
       target_exam_code: z.string().nullable(),
       target_date: z.string().nullable(),
       onboarding_completed_at: z.iso.datetime().nullable(),
-      passed_diagnostics: z.boolean(),
       diagnostic_attempt_id: z.uuid().nullable(),
       diagnostic_available: z.boolean(),
-      diagnostic_draft: z
-        .object({
-          attempt_id: z.uuid(),
-          assessment_id: z.uuid(),
-          status: z.enum(['in_progress']),
-          started_at: z.iso.datetime(),
-          submitted_at: z.iso.datetime().nullable(),
-          answered_count: z.number().int(),
-          total_count: z.number().int(),
-        })
-        .nullable(),
       subjects: z.array(
         z.object({
           code: z.string(),

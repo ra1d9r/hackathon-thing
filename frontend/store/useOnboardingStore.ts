@@ -8,12 +8,14 @@ import type { UserTarget } from "@/types/onboarding";
 const TARGET_TO_GOAL: Record<UserTarget, LearningGoal> = {
   ENT: "ent",
   NIS: "nis",
+  OLYMPIAD: "olympiad",
   SUBJECTS: "subjects",
 };
 
 const TARGET_TO_EXAM_CODE: Record<UserTarget, string | null> = {
   ENT: "ent",
   NIS: "nis",
+  OLYMPIAD: "olympiad_generic",
   SUBJECTS: null,
 };
 
