@@ -1,3 +1,4 @@
+import { MIN_GRADE } from '../../contracts/domain.js';
 import type { DiagnosticSummary } from '../../contracts/dto/onboarding.js';
 import { AppError } from '../../contracts/errors.js';
 import type { SqlExecutor } from '../../db/sql.js';
@@ -27,7 +28,7 @@ interface CandidateRow {
   subject_code: string;
   subject_name: string;
   topic_id: string;
-  
+
   grade_min: number;
   grade_max: number;
 }
@@ -72,13 +73,12 @@ function pickQuestions(candidates: readonly CandidateRow[]): CandidateRow[] {
   const picked: CandidateRow[] = [];
   const usedTopics = new Set<string>();
   const perSubjectCount = new Map<string, number>();
-  
+
   const perSubjectGrade = new Map<string, number>();
 
   const gradeKey = (candidate: CandidateRow): string =>
     `${candidate.subject_id}:${candidate.grade_max}`;
 
-  
   const passes = [
     { newTopic: true, newGrade: true },
     { newTopic: true, newGrade: false },
@@ -183,7 +183,7 @@ export async function describeDiagnostic(sql: SqlExecutor, assessmentId: string)
 
 export interface AssembleResult {
   readonly diagnostic: DiagnosticSummary | null;
-  
+
   readonly unavailableReason: 'not_enough_questions' | null;
   readonly candidatesFound: number;
 }
@@ -210,7 +210,13 @@ export async function assembleDiagnostic(
     };
   }
 
-  const candidates = await fetchCandidates(sql, studentId, scope, subjectIds);
+  const diagnosticScope: CurriculumScope = {
+    ...scope,
+    gradeMin: MIN_GRADE,
+    gradeMax: Math.max(scope.gradeMax, MIN_GRADE),
+  };
+
+  const candidates = await fetchCandidates(sql, studentId, diagnosticScope, subjectIds);
   const picked = pickQuestions(candidates);
 
   if (picked.length < DIAGNOSTIC_LIMITS.minQuestions) {

@@ -58,6 +58,14 @@ export function DiagnosticResultsScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [isRefining, setIsRefining] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isLeaving, setIsLeaving] = useState(false);
+
+  const goToDashboard = async () => {
+    if (isLeaving) return;
+    setIsLeaving(true);
+    await useAuthStore.getState().refreshMe().catch(() => undefined);
+    router.replace(routes.tabsRoot);
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -85,6 +93,8 @@ export function DiagnosticResultsScreen() {
       setResult(data);
       setIsLoading(false);
       setIsRefining(data.job !== null);
+
+      await useAuthStore.getState().refreshMe().catch(() => undefined);
 
       const deadline = Date.now() + REFINE_DEADLINE_MS;
       while (data.job !== null && Date.now() < deadline && !cancelled) {
@@ -216,11 +226,18 @@ export function DiagnosticResultsScreen() {
 
         <Pressable
           accessibilityRole="button"
-          onPress={() => router.replace(routes.tabsRoot)}
-          style={({ pressed }) => [styles.nextButton, pressed && styles.pressed]}
+          disabled={isLeaving}
+          onPress={() => void goToDashboard()}
+          style={({ pressed }) => [styles.nextButton, (pressed || isLeaving) && styles.pressed]}
         >
-          <Text style={styles.nextButtonText}>Дальше</Text>
-          <Ionicons name="arrow-forward" size={16} color="#ffffff" />
+          {isLeaving ? (
+            <ActivityIndicator color="#ffffff" size="small" />
+          ) : (
+            <>
+              <Text style={styles.nextButtonText}>Дальше</Text>
+              <Ionicons name="arrow-forward" size={16} color="#ffffff" />
+            </>
+          )}
         </Pressable>
       </ScrollView>
     </SafeAreaView>
