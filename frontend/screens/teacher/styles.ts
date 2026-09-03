@@ -28,6 +28,13 @@ export const teacherStyles = StyleSheet.create({
   logo: { color: teacherColors.blue, fontSize: 22, fontWeight: "900", lineHeight: 27 },
   headerSubtitle: { color: teacherColors.muted, fontSize: 13 },
   headerAction: { color: teacherColors.navy, fontSize: 13, fontWeight: "900" },
+  avatarButton: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   scroll: { flex: 1 },
   content: { paddingHorizontal: 16, paddingTop: 18, paddingBottom: 28 },
   titleBlock: { marginBottom: 18 },

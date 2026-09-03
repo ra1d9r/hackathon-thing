@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { apiGet } from "@/services/api";
 import { errorText } from "@/services/errors";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export interface PredictedScore {
   scale: string;
@@ -43,12 +44,22 @@ interface ScoreHistory {
 }
 
 export function useProfileStats() {
+  // Маршруты `/v1/stats/*` требуют завершённого онбординга ученика (см.
+  // `requireOnboarding` в backend/src/plugins/auth.ts) и отвечают учителю
+  // `FORBIDDEN_ROLE`. Хук вызывается на общем экране профиля, поэтому сам
+  // решает, стоит ли вообще идти в сеть, а не полагается на вызывающий код.
+  const role = useAuthStore((state) => state.me?.role);
   const [overview, setOverview] = useState<StatsOverview | null>(null);
   const [history, setHistory] = useState<ScoreHistory | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(role === "student");
   const [error, setError] = useState<string | null>(null);
 
   const reload = useCallback(() => {
+    if (role !== "student") {
+      setIsLoading(false);
+      return () => undefined;
+    }
+
     let cancelled = false;
     setIsLoading(true);
     setError(null);
@@ -72,7 +83,7 @@ export function useProfileStats() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [role]);
 
   useEffect(() => reload(), [reload]);
 

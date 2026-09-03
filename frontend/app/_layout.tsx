@@ -18,7 +18,7 @@ const ONBOARDING_SEGMENTS = new Set([
 
 const DIAGNOSTIC_SEGMENTS = new Set(["diagnostic-test", "diagnostic-results"]);
 
-const TEACHER_SEGMENTS = new Set(["(teacher)", "class-members", "chat-channel"]);
+const TEACHER_SEGMENTS = new Set(["(teacher)", "class-members", "chat-channel", "personal-account"]);
 
 function useAuthGuard(): void {
   const status = useAuthStore((state) => state.status);

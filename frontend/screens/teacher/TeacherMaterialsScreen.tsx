@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as DocumentPicker from "expo-document-picker";
-import { useFocusEffect } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
   ActivityIndicator,
@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { Avatar } from "@/components/Avatar";
 import { LessonReader } from "@/components/LessonReader";
 import { apiGet, apiPost } from "@/services/api";
 import { errorText } from "@/services/errors";
@@ -27,6 +28,8 @@ import {
   uploadMaterialFile,
   type MaterialDetail,
 } from "@/services/materials";
+import { useAuthStore } from "@/store/useAuthStore";
+import { routes } from "@/types/navigation";
 import { teacherStyles as shared, teacherColors as colors } from "@/screens/teacher/styles";
 import type { TeacherClass } from "@/screens/teacher/TeacherClassesScreen";
 
@@ -66,6 +69,7 @@ interface ClassListResponse {
 }
 
 export function TeacherMaterialsScreen() {
+  const me = useAuthStore((state) => state.me);
   const [materials, setMaterials] = useState<Material[]>([]);
   const [distributions, setDistributions] = useState<Distribution[]>([]);
   const [classes, setClasses] = useState<TeacherClass[]>([]);
@@ -177,8 +181,18 @@ export function TeacherMaterialsScreen() {
     <SafeAreaView style={shared.safeArea} edges={["top"]}>
       <View style={shared.root}>
         <View style={shared.header}>
-          <Text style={shared.logo}>Tlek</Text>
-          <Text style={shared.headerSubtitle}>Материалы</Text>
+          <View>
+            <Text style={shared.logo}>Tlek</Text>
+            <Text style={shared.headerSubtitle}>Материалы</Text>
+          </View>
+          <Pressable
+            accessibilityLabel="Личный кабинет"
+            accessibilityRole="button"
+            onPress={() => router.push(routes.personalAccount)}
+            style={({ pressed }) => [shared.avatarButton, pressed && shared.pressed]}
+          >
+            <Avatar uri={me?.avatar_url} name={me?.display_name} size={34} />
+          </Pressable>
         </View>
 
         <ScrollView

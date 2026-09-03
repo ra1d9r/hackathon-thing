@@ -30,12 +30,6 @@ const targetOptions: TargetOption[] = [
     icon: "school"
   },
   {
-    title: "Олимпиада",
-    description: "Углубленное изучение предметов для участия и победы в предметных олимпиадах.",
-    value: "OLYMPIAD",
-    icon: "trophy"
-  },
-  {
     title: "Экзамен в НИШ",
     description: "Специализированная подготовка к вступительным экзаменам в Назарбаев Интеллектуальные школы.",
     value: "NIS",
@@ -60,7 +54,10 @@ export function UsersTargetChooseScreen() {
     if (me?.grade) setGrade(me.grade);
   }, [me?.grade, setGrade]);
 
+  const isNisEligible = me?.grade === 5 || me?.grade === 6;
+
   const handleSelectTarget = (target: UserTarget) => {
+    if (target === "NIS" && !isNisEligible) return;
     setPendingTarget(target);
     setTarget(target);
   };
@@ -68,8 +65,8 @@ export function UsersTargetChooseScreen() {
   const handleNext = async () => {
     if (!pendingTarget || isSaving) return;
     await loadSubjectOptions();
-    
-    
+    // Список предметов приходит с сервера. Если он не загрузился, следующий
+    // экран показал бы бесконечный спиннер — остаёмся здесь и показываем ошибку.
     if (useOnboardingStore.getState().subjectOptions === null) return;
     router.push(routes.chooseSubjects);
   };
@@ -90,15 +87,19 @@ export function UsersTargetChooseScreen() {
           {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
           <View style={styles.cards}>
-            {targetOptions.map((target) => (
-              <TargetCard
-                key={target.value}
-                option={target}
-                selected={pendingTarget === target.value}
-                disabled={isSaving}
-                onPress={() => handleSelectTarget(target.value)}
-              />
-            ))}
+            {targetOptions.map((target) => {
+              const locked = target.value === "NIS" && !isNisEligible;
+              return (
+                <TargetCard
+                  key={target.value}
+                  option={target}
+                  selected={pendingTarget === target.value}
+                  disabled={isSaving || locked}
+                  hint={locked ? "Доступно ученикам 5–6 класса" : null}
+                  onPress={() => handleSelectTarget(target.value)}
+                />
+              );
+            })}
           </View>
         </ScrollView>
 
@@ -121,10 +122,11 @@ interface TargetCardProps {
   option: TargetOption;
   selected: boolean;
   disabled: boolean;
+  hint: string | null;
   onPress: () => void;
 }
 
-function TargetCard({ option, selected, disabled, onPress }: TargetCardProps) {
+function TargetCard({ option, selected, disabled, hint, onPress }: TargetCardProps) {
   return (
     <Pressable
       accessibilityRole="button"
@@ -138,6 +140,7 @@ function TargetCard({ option, selected, disabled, onPress }: TargetCardProps) {
       </View>
       <Text style={styles.cardTitle}>{option.title}</Text>
       <Text style={styles.cardDescription}>{option.description}</Text>
+      {hint ? <Text style={styles.cardHint}>{hint}</Text> : null}
     </Pressable>
   );
 }
@@ -286,6 +289,12 @@ const styles = StyleSheet.create({
     color: colors.muted,
     fontSize: 15,
     lineHeight: 22
+  },
+  cardHint: {
+    marginTop: 10,
+    color: "#c84b16",
+    fontSize: 13,
+    fontWeight: "700"
   },
   footer: {
     minHeight: 80,
