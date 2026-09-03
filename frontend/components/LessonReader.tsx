@@ -29,7 +29,6 @@ export interface LessonListBlock {
   items: { spans?: LessonSpan[] }[];
 }
 
-/** Форма блоков совпадает с `backend/src/contracts/markdown.ts`, blockSchema. */
 export interface LessonFormulaBlock {
   type: "formula";
   formula?: string;
@@ -102,10 +101,6 @@ function LessonBlock({ block }: { block: LessonBodyBlock }) {
   }
 }
 
-/**
- * Таблица. Ширина колонок равная, содержимое переносится: горизонтальная
- * прокрутка на телефоне читается хуже, чем перенос в узкой колонке.
- */
 function TableBlock({ block }: { block: LessonTableBlock }) {
   const header = block.header ?? [];
   const rows = block.rows ?? [];
