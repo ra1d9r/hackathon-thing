@@ -38,6 +38,9 @@ export function PersonalAccountScreen() {
   const me = useAuthStore((state) => state.me);
   const logout = useAuthStore((state) => state.logout);
   const [activeTab, setActiveTab] = useState<AccountTab>("main");
+  // Хук читает роль из стора сам и не ходит в сеть для учителя — см. его же
+  // комментарий в hooks/useProfileStats.ts. Вызывается безусловно: у хуков
+  // React нет способа звать их по условию.
   const stats = useProfileStats();
 
   if (!me) {
@@ -50,6 +53,9 @@ export function PersonalAccountScreen() {
     );
   }
 
+  const isStudent = me.role === "student";
+  const homeRoute = isStudent ? routes.tabsRoot : routes.teacherRoot;
+
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
       <View style={styles.root}>
@@ -57,7 +63,7 @@ export function PersonalAccountScreen() {
           <Pressable
             accessibilityLabel="Назад"
             accessibilityRole="button"
-            onPress={() => (router.canGoBack() ? router.back() : router.replace(routes.tabsRoot))}
+            onPress={() => (router.canGoBack() ? router.back() : router.replace(homeRoute))}
             style={({ pressed }) => [styles.backButton, pressed && styles.pressed]}
           >
             <Ionicons name="chevron-back" size={24} color={colors.text} />
@@ -68,8 +74,12 @@ export function PersonalAccountScreen() {
 
         <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <ProfileCard />
-          <SegmentedTabs activeTab={activeTab} onChange={setActiveTab} />
-          {activeTab === "main" ? <MainTab stats={stats} /> : <StatsTab stats={stats} />}
+          {isStudent ? (
+            <>
+              <SegmentedTabs activeTab={activeTab} onChange={setActiveTab} />
+              {activeTab === "main" ? <MainTab stats={stats} /> : <StatsTab stats={stats} />}
+            </>
+          ) : null}
 
           <Pressable
             accessibilityRole="button"

@@ -17,7 +17,7 @@ export interface ResolvedSelection {
   readonly examId: string | null;
   readonly examCode: string | null;
   readonly subjects: { id: string; code: string; name: string; isProfile: boolean }[];
-  
+  /** Программа выбранного экзамена — из неё выводится охват контекста. */
   readonly examScope: ExamScope | null;
 }
 
@@ -53,6 +53,7 @@ export async function resolveSelection(
   goal: LearningGoal,
   examCode: string | null,
   subjectCodes: readonly string[],
+  grade: number,
 ): Promise<ResolvedSelection> {
   const unique = [...new Set(subjectCodes)];
   if (unique.length !== subjectCodes.length) {
@@ -90,6 +91,17 @@ export async function resolveSelection(
     });
   }
 
+  if (
+    exam.gradeMin !== null &&
+    exam.gradeMax !== null &&
+    (grade < exam.gradeMin || grade > exam.gradeMax)
+  ) {
+    throw new AppError('VALIDATION_FAILED', {
+      message: `«${exam.title}» рассчитан на ${exam.gradeMin}–${exam.gradeMax} класс`,
+      details: { goal, exam_code: examCode, grade, grade_min: exam.gradeMin, grade_max: exam.gradeMax },
+    });
+  }
+
   const options = await listSubjectOptions(sql, examCode);
   const allowedProfile = new Set(options.profile.map((option) => option.code));
 
@@ -108,8 +120,8 @@ export async function resolveSelection(
     });
   }
 
-  
-  
+  // На ЕНТ профильные предметы сдаются утверждённой парой. Пустой список пар
+  // означает, что у экзамена такого ограничения нет (олимпиада).
   if (options.profilePairs.length > 0) {
     const chosen = [...unique].sort().join('+');
     const known = options.profilePairs.some(
@@ -200,7 +212,13 @@ export async function completeOnboarding(
       });
     }
 
-    const selection = await resolveSelection(tx, input.goal, input.exam_code, input.subject_codes);
+    const selection = await resolveSelection(
+      tx,
+      input.goal,
+      input.exam_code,
+      input.subject_codes,
+      input.grade,
+    );
 
     await tx`update public.profiles set grade = ${input.grade} where id = ${user.id}`;
 
@@ -288,10 +306,12 @@ export async function updateLearningProfile(
       goal: LearningGoal | null;
       exam_code: string | null;
       onboarding_completed_at: Date | null;
+      grade: number;
     }[]
   >`
-    select sp.goal, e.code as exam_code, sp.onboarding_completed_at
+    select sp.goal, e.code as exam_code, sp.onboarding_completed_at, p.grade
       from public.student_profiles sp
+      join public.profiles p on p.id = sp.student_id
       left join public.exam_profiles e on e.id = sp.target_exam_id
      where sp.student_id = ${user.id}
   `;
@@ -317,7 +337,7 @@ export async function updateLearningProfile(
   const subjectCodes = input.subject_codes ?? existingSubjects.map((row) => row.code);
 
   return sql.begin(async (tx) => {
-    const selection = await resolveSelection(tx, goal, examCode, subjectCodes);
+    const selection = await resolveSelection(tx, goal, examCode, subjectCodes, current.grade);
 
     await tx`
       update public.student_profiles

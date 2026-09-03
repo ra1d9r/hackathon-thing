@@ -12,10 +12,12 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { Avatar } from "@/components/Avatar";
 import { apiGet, apiPost } from "@/services/api";
 import { errorText } from "@/services/errors";
 import { SELECTABLE_GRADES } from "@/constants/grades";
 import { useAuthStore } from "@/store/useAuthStore";
+import { routes } from "@/types/navigation";
 import { teacherStyles as shared, teacherColors as colors } from "@/screens/teacher/styles";
 
 export interface TeacherClass {
@@ -36,7 +38,6 @@ interface ClassListResponse {
 
 export function TeacherClassesScreen() {
   const me = useAuthStore((state) => state.me);
-  const logout = useAuthStore((state) => state.logout);
   const [classes, setClasses] = useState<TeacherClass[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -84,8 +85,13 @@ export function TeacherClassesScreen() {
             <Text style={shared.logo}>Tlek</Text>
             <Text style={shared.headerSubtitle}>{me?.display_name ?? "Учитель"}</Text>
           </View>
-          <Pressable accessibilityRole="button" onPress={() => void logout()}>
-            <Text style={shared.headerAction}>Выйти</Text>
+          <Pressable
+            accessibilityLabel="Личный кабинет"
+            accessibilityRole="button"
+            onPress={() => router.push(routes.personalAccount)}
+            style={({ pressed }) => [shared.avatarButton, pressed && shared.pressed]}
+          >
+            <Avatar uri={me?.avatar_url} name={me?.display_name} size={34} />
           </Pressable>
         </View>
 

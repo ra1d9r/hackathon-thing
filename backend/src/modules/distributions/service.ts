@@ -142,6 +142,7 @@ export async function createDistribution(
 
     await seedReceipts(tx, row.id, body.class_id ?? null, body.student_id ?? null);
     await announceInClassChat(tx, body.class_id ?? null, material.title, note);
+    await pruneOldDistributions(tx, user.id);
     return row.id;
   });
 
@@ -164,6 +165,34 @@ export async function createDistribution(
   }
 
   return { distribution: toDistributionView(row) };
+}
+
+/**
+ * Сколько последних рассылок учителя остаётся во вкладке «Отправленное».
+ *
+ * Список растёт с каждой отправкой и без предела превратился бы в самую
+ * длинную часть экрана материалов. Рассылка — не архив: то, что было
+ * отправлено, уже дошло до ученика и осталось у него во входящих, поэтому
+ * старую запись здесь не жаль потерять ради компактного списка.
+ */
+const DISTRIBUTION_HISTORY_LIMIT = 10;
+
+/**
+ * Каскад на `material_distributions.id` уносит с собой и отметки просмотра
+ * удаляемой рассылки, и уведомление в чате остаётся — оно самостоятельная
+ * запись в `chat_messages`, ни на что здесь не ссылается.
+ */
+async function pruneOldDistributions(tx: SqlExecutor, teacherId: string): Promise<void> {
+  await tx`
+    delete from public.material_distributions
+     where teacher_id = ${teacherId}
+       and id not in (
+         select id from public.material_distributions
+          where teacher_id = ${teacherId}
+          order by created_at desc, id
+          limit ${DISTRIBUTION_HISTORY_LIMIT}
+       )
+  `;
 }
 
 async function announceInClassChat(
