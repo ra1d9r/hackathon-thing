@@ -19,6 +19,7 @@ import { perUser } from '../../plugins/rate-limit.js';
 import type { AuthUser } from '../../types/fastify.js';
 import {
   createMaterial,
+  deleteMaterial,
   getFileUrl,
   getMaterial,
   listMaterials,
@@ -205,6 +206,38 @@ export async function registerMaterialRoutes(app: FastifyInstance): Promise<void
         request.body,
         request.id,
       ),
+  );
+
+  typed.delete(
+    '/v1/materials/:id',
+    {
+      preHandler: teacher,
+      schema: {
+        tags: ['materials'],
+        summary: 'Удалить материал',
+        description:
+          'Удаляется вместе с рассылками и отметками просмотра — у учеников ' +
+          'материал пропадает из входящих. Уведомление в чате класса остаётся: ' +
+          'это след события, а не копия материала.',
+        security,
+        params: idParams,
+        response: {
+          204: z.null(),
+          401: errorEnvelopeSchema,
+          403: errorEnvelopeSchema,
+          404: errorEnvelopeSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      await deleteMaterial(
+        requireSql(app),
+        requireUser(request.authUser),
+        request.params.id,
+        request.id,
+      );
+      return reply.status(204).send(null);
+    },
   );
 
   typed.get(

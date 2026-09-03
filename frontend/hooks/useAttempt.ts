@@ -1,6 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 
 import { apiGet, apiPatch, apiPost } from "@/services/api";
+import { errorText } from "@/services/errors";
 
 export type QuestionKind = "mcq_single" | "mcq_multi" | "free_text" | "numeric";
 
@@ -81,12 +82,15 @@ export function useAttempt() {
 
   const applyView = useCallback((view: AttemptView) => {
     setAttempt(view.attempt);
-    setQuestions([...view.questions].sort((a, b) => a.position - b.position));
+    const ordered = [...view.questions].sort((a, b) => a.position - b.position);
+    setQuestions(ordered);
     const restored: Record<string, AnswerPayload> = {};
     for (const saved of view.answers) restored[saved.question_id] = saved.answer;
     setAnswers(restored);
     savedQuestionIds.current = new Set(view.answers.map((a) => a.question_id));
-    setIndex(0);
+
+    const firstUnanswered = ordered.findIndex((question) => restored[question.id] === undefined);
+    setIndex(firstUnanswered === -1 ? Math.max(0, ordered.length - 1) : firstUnanswered);
     questionStartedAt.current = Date.now();
   }, []);
 
@@ -101,7 +105,7 @@ export function useAttempt() {
         });
         applyView(view);
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Не удалось начать попытку");
+        setError(errorText(e, "Не удалось начать попытку"));
         throw e;
       } finally {
         setIsLoading(false);
@@ -118,7 +122,7 @@ export function useAttempt() {
         const view = await apiGet<AttemptView>(`/v1/attempts/${attemptId}`);
         applyView(view);
       } catch (e) {
-        setError(e instanceof Error ? e.message : "Не удалось загрузить попытку");
+        setError(errorText(e, "Не удалось загрузить попытку"));
         throw e;
       } finally {
         setIsLoading(false);
@@ -163,6 +167,7 @@ export function useAttempt() {
     const unsaved = questions
       .filter((q) => answers[q.id] && !savedQuestionIds.current.has(q.id))
       .map((q) => ({ question_id: q.id, answer: answers[q.id]!, time_spent_sec: 1 }));
+
     for (let i = 0; i < unsaved.length; i += 50) {
       const batch = unsaved.slice(i, i + 50);
       if (batch.length === 0) continue;
@@ -181,9 +186,12 @@ export function useAttempt() {
         await persistAnswer(current.id).catch(() => undefined);
       }
       await flushAll();
-      return await apiPost<SubmitResponse>(`/v1/attempts/${attempt.id}/submit`);
+
+      return await apiPost<SubmitResponse>(`/v1/attempts/${attempt.id}/submit`, undefined, {
+        idempotencyKey: `attempt-submit:${attempt.id}`,
+      });
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Не удалось отправить попытку");
+      setError(errorText(e, "Не удалось отправить попытку"));
       throw e;
     } finally {
       setIsSubmitting(false);

@@ -86,8 +86,8 @@ export async function createDistribution(
 ): Promise<DistributionResponse> {
   requireTeacher(user);
 
-  const [material] = await sql<{ id: string }[]>`
-    select id from public.materials
+  const [material] = await sql<{ id: string; title: string }[]>`
+    select id, title from public.materials
      where id = ${body.material_id} and author_id = ${user.id} and status = 'published'
   `;
 
@@ -105,8 +105,6 @@ export async function createDistribution(
   }
 
   if (body.student_id !== undefined) {
-    
-    
     const [shared] = await sql<{ student_id: string }[]>`
       select cm.student_id
         from public.class_members cm
@@ -143,6 +141,7 @@ export async function createDistribution(
     }
 
     await seedReceipts(tx, row.id, body.class_id ?? null, body.student_id ?? null);
+    await announceInClassChat(tx, body.class_id ?? null, material.title, note);
     return row.id;
   });
 
@@ -165,6 +164,31 @@ export async function createDistribution(
   }
 
   return { distribution: toDistributionView(row) };
+}
+
+async function announceInClassChat(
+  tx: SqlExecutor,
+  classId: string | null,
+  materialTitle: string,
+  note: string | null,
+): Promise<void> {
+  if (classId === null) return;
+
+  const [channel] = await tx<{ id: string }[]>`
+    select id from public.chat_channels
+     where class_id = ${classId} and kind = 'class_chat'
+  `;
+
+  if (channel === undefined) return;
+
+  const body = note === null
+    ? `📎 Новый материал: **${materialTitle}**`
+    : `📎 Новый материал: **${materialTitle}**\n\n${note}`;
+
+  await tx`
+    insert into public.chat_messages (channel_id, sender_id, sender_kind, body_md, moderation)
+    values (${channel.id}, null, 'system', ${body.slice(0, 4000)}, 'allow')
+  `;
 }
 
 async function seedReceipts(
@@ -303,7 +327,6 @@ export async function markSeen(
     returning seen_at, opened_at
   `;
 
-  
   if (row === undefined) {
     throw new AppError('NOT_FOUND', { message: 'Рассылка не найдена' });
   }

@@ -1,15 +1,20 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useEffect, useState } from "react";
 import {
+  Modal,
   Pressable,
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   useWindowDimensions,
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { apiPost } from "@/services/api";
+import { errorText } from "@/services/errors";
 import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
 
@@ -23,11 +28,6 @@ const audienceCards = [
     icon: "business-outline" as const,
     title: "Поступающие в НИШ",
     body: "Тщательная логика и специализированная подготовка по предметам для поступления в элитные школы",
-  },
-  {
-    icon: "trophy-outline" as const,
-    title: "Участники олимпиады",
-    body: "Продвинутые модули для решения задач для региональных и национальных академических соревнований",
   },
   {
     icon: "book-outline" as const,
@@ -78,9 +78,8 @@ export function MainScreen() {
   const isNarrow = width < 360;
   const status = useAuthStore((state) => state.status);
   const me = useAuthStore((state) => state.me);
+  const [teacherLeadOpen, setTeacherLeadOpen] = useState(false);
 
-  
-  
   const startLearning = () => {
     if (status !== "signed_in") {
       router.push(routes.register);
@@ -88,7 +87,7 @@ export function MainScreen() {
     }
     router.push(me?.requires_onboarding === false ? routes.tabsRoot : routes.usersTargetChoose);
   };
-  const enterAsTeacher = () => router.push(routes.login);
+  const enterAsTeacher = () => setTeacherLeadOpen(true);
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
@@ -108,8 +107,8 @@ export function MainScreen() {
             Подготовка к экзаменам с персональной ИИ-поддержкой
           </Text>
           <Text style={styles.heroText}>
-            Набирайте максимальные баллы на ЕНТ, поступайте в НИШ или побеждайте
-            на олимпиадах с динамически подстраивающимися планами обучения,
+            Набирайте максимальные баллы на ЕНТ, поступайте в НИШ или улучшайте
+            школьные результаты с динамически подстраивающимися планами обучения,
             разработанными для вашего успеха.
           </Text>
           <View style={styles.heroActions}>
@@ -154,6 +153,7 @@ export function MainScreen() {
 
         <Footer onTeacherPress={enterAsTeacher} />
       </ScrollView>
+      <TeacherLeadModal visible={teacherLeadOpen} onClose={() => setTeacherLeadOpen(false)} />
     </SafeAreaView>
   );
 }
@@ -477,6 +477,181 @@ function Footer({ onTeacherPress }: { onTeacherPress: () => void }) {
   );
 }
 
+interface TeacherRequestResult {
+  request_id: string;
+  status: "pending" | "approved";
+
+  can_register_now: boolean;
+}
+
+function TeacherLeadModal({ visible, onClose }: { visible: boolean; onClose: () => void }) {
+  const [email, setEmail] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [organizationEmail, setOrganizationEmail] = useState("");
+  const [organizationName, setOrganizationName] = useState("");
+  const [message, setMessage] = useState("");
+  const [result, setResult] = useState<TeacherRequestResult | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isSending, setIsSending] = useState(false);
+
+  const canSubmit =
+    email.trim().length > 3 &&
+    displayName.trim().length > 1 &&
+    organizationEmail.trim().length > 3 &&
+    !isSending;
+
+  useEffect(() => {
+    if (visible) return;
+    setResult(null);
+    setError(null);
+  }, [visible]);
+
+  const submit = () => {
+    if (!canSubmit) return;
+    setIsSending(true);
+    setError(null);
+    apiPost<TeacherRequestResult>(
+      "/v1/auth/teacher-requests",
+      {
+        email: email.trim().toLowerCase(),
+        display_name: displayName.trim(),
+        organization_email: organizationEmail.trim().toLowerCase(),
+        ...(organizationName.trim() === "" ? {} : { organization_name: organizationName.trim() }),
+        ...(message.trim() === "" ? {} : { message: message.trim() }),
+      },
+      { skipAuth: true },
+    )
+      .then(setResult)
+      .catch((e: unknown) =>
+        setError(errorText(e, "Не удалось отправить заявку")),
+      )
+      .finally(() => setIsSending(false));
+  };
+
+  return (
+    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
+      <View style={styles.teacherModalLayer}>
+        <Pressable style={styles.teacherModalBackdrop} onPress={onClose} />
+        <View style={styles.teacherModal}>
+          <View style={styles.teacherModalHandle} />
+          <View style={styles.teacherModalHeader}>
+            <View>
+              <Text style={styles.teacherModalKicker}>Портал для учителей</Text>
+              <Text style={styles.teacherModalTitle}>Заявка на доступ</Text>
+            </View>
+            <Pressable accessibilityRole="button" accessibilityLabel="Закрыть" onPress={onClose} style={styles.teacherModalClose}>
+              <Ionicons name="close" size={24} color={colors.ink} />
+            </Pressable>
+          </View>
+
+          {result !== null ? (
+            <View style={styles.teacherSuccess}>
+              <Ionicons
+                name={result.can_register_now ? "checkmark-circle" : "time-outline"}
+                size={36}
+                color={result.can_register_now ? "#11a857" : "#c84b16"}
+              />
+              <Text style={styles.teacherSuccessTitle}>
+                {result.can_register_now ? "Доступ открыт" : "Заявка принята"}
+              </Text>
+              <Text style={styles.teacherSuccessText}>
+                {result.can_register_now
+                  ? "Организация опознана. Можно создавать учительский аккаунт."
+                  : "Заявка на рассмотрении. Мы ответим на указанную почту после проверки организации."}
+              </Text>
+              {result.can_register_now ? (
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => {
+                    onClose();
+                    router.push({
+                      pathname: "/register",
+                      params: { role: "teacher", email: email.trim().toLowerCase() },
+                    });
+                  }}
+                  style={({ pressed }) => [styles.teacherSubmit, pressed && styles.teacherSubmitDisabled]}
+                >
+                  <Text style={styles.teacherSubmitText}>Создать аккаунт</Text>
+                  <Ionicons name="arrow-forward" size={18} color="#ffffff" />
+                </Pressable>
+              ) : null}
+            </View>
+          ) : (
+            <View style={styles.teacherLeadForm}>
+              <TeacherField label="Ваше имя">
+                <TextInput
+                  value={displayName}
+                  onChangeText={setDisplayName}
+                  placeholder="Айгуль Сериковна"
+                  style={styles.teacherInput}
+                />
+              </TeacherField>
+              <TeacherField label="Ваша почта">
+                <TextInput
+                  value={email}
+                  onChangeText={setEmail}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  placeholder="teacher@example.com"
+                  style={styles.teacherInput}
+                />
+              </TeacherField>
+              <TeacherField label="Email организации">
+                <TextInput
+                  value={organizationEmail}
+                  onChangeText={setOrganizationEmail}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  placeholder="info@school.kz"
+                  style={styles.teacherInput}
+                />
+              </TeacherField>
+              <TeacherField label="Организация">
+                <TextInput
+                  value={organizationName}
+                  onChangeText={setOrganizationName}
+                  placeholder="Например, Школа-лицей №5"
+                  style={styles.teacherInput}
+                />
+              </TeacherField>
+              <TeacherField label="Комментарий">
+                <TextInput
+                  value={message}
+                  onChangeText={setMessage}
+                  placeholder="Класс, предмет или цель пилота"
+                  multiline
+                  style={[styles.teacherInput, styles.teacherTextArea]}
+                />
+              </TeacherField>
+
+              {error ? <Text style={styles.teacherError}>{error}</Text> : null}
+
+              <Pressable
+                accessibilityRole="button"
+                disabled={!canSubmit}
+                onPress={submit}
+                style={({ pressed }) => [styles.teacherSubmit, (!canSubmit || pressed) && styles.teacherSubmitDisabled]}
+              >
+                <Text style={styles.teacherSubmitText}>Отправить заявку</Text>
+                <Ionicons name="arrow-forward" size={18} color="#ffffff" />
+              </Pressable>
+            </View>
+          )}
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
+function TeacherField({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <View style={styles.teacherField}>
+      <Text style={styles.teacherFieldLabel}>{label}</Text>
+      {children}
+    </View>
+  );
+}
+
 const colors = {
   ink: "#222326",
   muted: "#536382",
@@ -487,6 +662,24 @@ const colors = {
 };
 
 const styles = StyleSheet.create({
+  teacherNotice: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    marginHorizontal: 16,
+    marginTop: 12,
+    borderRadius: 10,
+    borderColor: "#f0d4b8",
+    borderWidth: 1,
+    backgroundColor: "#fff7ed",
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  teacherNoticeCopy: { flex: 1 },
+  teacherNoticeTitle: { color: "#222326", fontSize: 15, fontWeight: "900" },
+  teacherNoticeText: { marginTop: 2, color: "#536382", fontSize: 13, lineHeight: 18 },
+  teacherNoticeAction: { color: "#274779", fontSize: 13, fontWeight: "900" },
+  teacherError: { color: "#c31717", fontSize: 14, lineHeight: 20 },
   safeArea: {
     flex: 1,
     backgroundColor: colors.page,
@@ -1171,5 +1364,125 @@ const styles = StyleSheet.create({
     color: "#005fd4",
     fontSize: 15,
     lineHeight: 21,
+  },
+  teacherModalLayer: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  teacherModalBackdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.28)",
+  },
+  teacherModal: {
+    width: "100%",
+    borderTopLeftRadius: 18,
+    borderTopRightRadius: 18,
+    backgroundColor: colors.page,
+    paddingHorizontal: 20,
+    paddingTop: 12,
+    paddingBottom: 28,
+  },
+  teacherModalHandle: {
+    width: 48,
+    height: 5,
+    borderRadius: 3,
+    alignSelf: "center",
+    backgroundColor: colors.border,
+    marginBottom: 18,
+  },
+  teacherModalHeader: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: 16,
+  },
+  teacherModalKicker: {
+    color: colors.muted,
+    fontSize: 12,
+    fontWeight: "900",
+    letterSpacing: 0.5,
+    textTransform: "uppercase",
+  },
+  teacherModalTitle: {
+    marginTop: 4,
+    color: colors.ink,
+    fontSize: 26,
+    fontWeight: "900",
+    lineHeight: 32,
+  },
+  teacherModalClose: {
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 20,
+    backgroundColor: "#ffffff",
+  },
+  teacherLeadForm: {
+    marginTop: 22,
+    gap: 14,
+  },
+  teacherField: {
+    gap: 7,
+  },
+  teacherFieldLabel: {
+    color: colors.muted,
+    fontSize: 13,
+    fontWeight: "800",
+  },
+  teacherInput: {
+    minHeight: 48,
+    borderRadius: 9,
+    borderColor: colors.border,
+    borderWidth: 1,
+    backgroundColor: "#ffffff",
+    paddingHorizontal: 14,
+    color: colors.ink,
+    fontSize: 15,
+  },
+  teacherTextArea: {
+    minHeight: 86,
+    paddingTop: 12,
+    textAlignVertical: "top",
+  },
+  teacherSubmit: {
+    minHeight: 52,
+    borderRadius: 10,
+    backgroundColor: colors.blue,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    marginTop: 6,
+  },
+  teacherSubmitDisabled: {
+    opacity: 0.52,
+  },
+  teacherSubmitText: {
+    color: "#ffffff",
+    fontSize: 16,
+    fontWeight: "900",
+  },
+  teacherSuccess: {
+    marginTop: 26,
+    borderRadius: 12,
+    borderColor: "#bee6cf",
+    borderWidth: 1,
+    backgroundColor: "#f0fbf5",
+    alignItems: "center",
+    padding: 22,
+  },
+  teacherSuccessTitle: {
+    marginTop: 10,
+    color: colors.ink,
+    fontSize: 20,
+    fontWeight: "900",
+  },
+  teacherSuccessText: {
+    marginTop: 6,
+    color: colors.muted,
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: "center",
   },
 });

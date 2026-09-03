@@ -19,6 +19,7 @@
     "test:coverage": "vitest run --coverage",
     "gen:openapi": "tsx scripts/gen-openapi.ts",
     "fixtures": "tsx scripts/dev-fixtures.ts",
+    "demo:teacher": "tsx scripts/demo-teacher.ts",
     "check": "npm run typecheck && npm run lint && npm run test",
     "migrate": "tsx scripts/migrate.ts",
     "content": "tsx scripts/load-content.ts",
@@ -26,7 +27,8 @@
     "ai:smoke": "tsx scripts/ai-smoke.ts",
     "ai:eval": "tsx scripts/ai-eval.ts",
     "ai:e2e": "tsx scripts/ai-e2e.ts",
-    "ai:assistant": "tsx scripts/ai-assistant-check.ts"
+    "ai:assistant": "tsx scripts/ai-assistant-check.ts",
+    "backfill:receipts": "tsx scripts/backfill-receipts.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.3.0",

@@ -109,9 +109,6 @@ export async function prepareUpload(
     throw new AppError('UNSUPPORTED_FILE_TYPE');
   }
 
-  
-  
-  
   const declared = body.filename.split('.').pop()?.toLowerCase() ?? '';
   if (declared !== spec.extension) {
     throw new AppError('UNSUPPORTED_FILE_TYPE', {
@@ -202,7 +199,6 @@ async function verifyUploaded(
 
   const head = new Uint8Array(await response.arrayBuffer());
 
-  
   const range = response.headers.get('content-range');
   const total = range === null ? null : Number(range.split('/')[1] ?? '');
   const actualSize = total !== null && Number.isFinite(total) ? total : null;
@@ -267,8 +263,6 @@ export async function createMaterial(
   let estMinutes: number | null = null;
 
   if (body.format === 'markdown') {
-    
-    
     const sanitized = sanitizeMarkdown(body.body_md, { maxLength: MARKDOWN_LIMITS.material });
     if (sanitized.bodyMd === '') {
       throw new AppError('VALIDATION_FAILED', { message: 'После очистки текст пуст' });
@@ -398,8 +392,6 @@ export async function patchMaterial(
   requireTeacher(user);
   const current = await ownedMaterial(sql, user.id, materialId);
 
-  
-  
   if (body.body_md !== undefined && current.format !== 'markdown') {
     throw new AppError('VALIDATION_FAILED', {
       message: 'Текст есть только у материала с разметкой',
@@ -448,6 +440,28 @@ export async function patchMaterial(
   return { material: toMaterialView(await ownedMaterial(sql, user.id, materialId)) };
 }
 
+export async function deleteMaterial(
+  sql: Sql,
+  user: AuthUser,
+  materialId: string,
+  requestId: string,
+): Promise<void> {
+  requireTeacher(user);
+  const current = await ownedMaterial(sql, user.id, materialId);
+
+  await sql`delete from public.materials where id = ${materialId} and author_id = ${user.id}`;
+
+  await writeAudit(sql, {
+    actorId: user.id,
+    actorRole: user.role,
+    action: 'material.deleted',
+    entityType: 'material',
+    entityId: materialId,
+    summary: { title: current.title, format: current.format },
+    requestId,
+  });
+}
+
 export async function getFileUrl(
   sql: Sql,
   admin: SupabaseAdmin,
@@ -483,8 +497,6 @@ export async function getFileUrl(
      where f.id = ${fileId} and f.scan_status = 'clean'
   `;
 
-  
-  
   if (file?.visible !== true) {
     throw new AppError('NOT_FOUND', { message: 'Файл не найден' });
   }

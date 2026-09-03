@@ -1,5 +1,3 @@
-
-
 export const API_BASE_URL =
   process.env.EXPO_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ?? "http://localhost:3000";
 
@@ -41,9 +39,27 @@ interface CryptoLike {
   randomUUID?: () => string;
 }
 
+export function randomUuid(): string {
+  const globalCrypto = (globalThis as { crypto?: CryptoLike }).crypto;
+  if (globalCrypto?.randomUUID) return globalCrypto.randomUUID();
+
+  const hex = "0123456789abcdef";
+  let out = "";
+  for (let index = 0; index < 36; index += 1) {
+    if (index === 8 || index === 13 || index === 18 || index === 23) {
+      out += "-";
+    } else if (index === 14) {
+      out += "4";
+    } else if (index === 19) {
+      out += hex[8 + Math.floor(Math.random() * 4)];
+    } else {
+      out += hex[Math.floor(Math.random() * 16)];
+    }
+  }
+  return out;
+}
+
 function randomId(): string {
-  
-  
   const globalCrypto = (globalThis as { crypto?: CryptoLike }).crypto;
   if (globalCrypto?.randomUUID) return globalCrypto.randomUUID();
   return `id-${Date.now()}-${Math.random().toString(36).slice(2, 10)}-${Math.random().toString(36).slice(2, 10)}`;
@@ -53,11 +69,11 @@ export interface RequestOptions {
   method?: "GET" | "POST" | "PATCH" | "PUT" | "DELETE";
   body?: unknown;
   query?: Record<string, string | number | boolean | undefined>;
-  
+
   idempotencyKey?: string | null;
-  
+
   skipIdempotency?: boolean;
-  
+
   skipAuth?: boolean;
   timeoutMs?: number;
 }
@@ -73,11 +89,6 @@ function encodeQuery(query: RequestOptions["query"]): string {
 }
 
 function buildUrl(path: string, query?: RequestOptions["query"]): string {
-  
-  
-  
-  
-  
   const base = path.startsWith("http") ? path : `${API_BASE_URL}${path}`;
   const search = encodeQuery(query);
   if (search === "") return base;
@@ -85,6 +96,8 @@ function buildUrl(path: string, query?: RequestOptions["query"]): string {
 }
 
 const DEFAULT_TIMEOUT_MS = 30_000;
+
+const RETRY_PAUSE_MS = 700;
 
 export async function apiFetch<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { method = "GET", body, query, timeoutMs = DEFAULT_TIMEOUT_MS } = options;
@@ -102,35 +115,50 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
     headers["Idempotency-Key"] = options.idempotencyKey ?? randomId();
   }
 
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  const url = buildUrl(path, query);
+  const payload = body === undefined ? undefined : JSON.stringify(body);
 
-  let response: Response;
-  try {
-    response = await fetch(buildUrl(path, query), {
-      method,
-      headers,
-      body: body === undefined ? undefined : JSON.stringify(body),
-      signal: controller.signal,
-    });
-  } catch (error) {
-    clearTimeout(timer);
-    if (error instanceof Error && error.name === "AbortError") {
-      throw new ApiError(0, {
-        code: "TIMEOUT",
-        message: "Сервер не ответил вовремя. Проверьте подключение.",
-        retryable: true,
-        request_id: "local",
-      });
+  let response: Response | null = null;
+  let lastFailure: ApiError | null = null;
+
+  for (let attempt = 0; attempt < 2 && response === null; attempt += 1) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+      response = await fetch(url, { method, headers, body: payload, signal: controller.signal });
+    } catch (error) {
+      lastFailure =
+        error instanceof Error && error.name === "AbortError"
+          ? new ApiError(0, {
+              code: "TIMEOUT",
+              message: "Сервер не ответил вовремя. Проверьте подключение.",
+              retryable: true,
+              request_id: "local",
+            })
+          : new ApiError(0, {
+              code: "NETWORK_ERROR",
+              message: "Нет соединения с сервером. Проверьте адрес API и подключение к сети.",
+              retryable: true,
+              request_id: "local",
+            });
+    } finally {
+      clearTimeout(timer);
     }
-    throw new ApiError(0, {
+
+    if (response === null && lastFailure?.code === "TIMEOUT") break;
+    if (response === null && attempt === 0) {
+      await new Promise((resolve) => setTimeout(resolve, RETRY_PAUSE_MS));
+    }
+  }
+
+  if (response === null) {
+    throw lastFailure ?? new ApiError(0, {
       code: "NETWORK_ERROR",
       message: "Нет соединения с сервером. Проверьте адрес API и подключение к сети.",
       retryable: true,
       request_id: "local",
     });
-  } finally {
-    clearTimeout(timer);
   }
 
   if (response.status === 204 || response.status === 304) {
@@ -138,7 +166,21 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
   }
 
   const text = await response.text();
-  const json: unknown = text ? JSON.parse(text) : undefined;
+
+  let json: unknown;
+  try {
+    json = text ? JSON.parse(text) : undefined;
+  } catch {
+    if (response.status === 401) {
+      onUnauthorized?.();
+    }
+    throw new ApiError(response.status, {
+      code: "BAD_GATEWAY",
+      message: "Сервер ответил неразборчиво. Проверьте адрес API.",
+      retryable: true,
+      request_id: "local",
+    });
+  }
 
   if (!response.ok) {
     const errorBody =
@@ -190,6 +232,8 @@ export interface JobStatusResponse {
 
 const TERMINAL_STATUSES = new Set(["succeeded", "failed", "canceled", "dead_letter"]);
 
+const MIN_POLL_PAUSE_MS = 1_500;
+
 export async function waitForJob(
   jobId: string,
   options: { totalTimeoutMs?: number; waitMs?: number } = {},
@@ -199,8 +243,15 @@ export async function waitForJob(
   const deadline = Date.now() + totalTimeoutMs;
 
   for (;;) {
+    const startedAt = Date.now();
     const status = await apiGet<JobStatusResponse>(`/v1/ai/jobs/${jobId}`, { wait_ms: waitMs });
     if (TERMINAL_STATUSES.has(status.job.status)) return status;
     if (Date.now() >= deadline) return status;
+
+    const elapsed = Date.now() - startedAt;
+    const pause = Math.max(status.retry_after_ms ?? MIN_POLL_PAUSE_MS, MIN_POLL_PAUSE_MS) - elapsed;
+    if (pause > 0) {
+      await new Promise((resolve) => setTimeout(resolve, Math.min(pause, deadline - Date.now())));
+    }
   }
 }

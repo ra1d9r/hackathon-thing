@@ -44,6 +44,8 @@ export interface AssistantPlanItem {
   readonly kind: string;
   readonly title: string;
   readonly status: string;
+
+  readonly scorePct: number | null;
 }
 
 export interface AssistantContext {
@@ -54,15 +56,15 @@ export interface AssistantContext {
   readonly examCode: string | null;
   readonly scope: CurriculumScope;
   readonly subjectNames: readonly string[];
-  
+
   readonly topicIds: readonly string[];
   readonly weakTopics: readonly AssistantWeakTopic[];
   readonly planItems: readonly AssistantPlanItem[];
   readonly streakDays: number;
-  
+
   readonly screenTopic: { readonly id: string; readonly title: string } | null;
   readonly history: readonly AssistantHistoryTurn[];
-  
+
   readonly sensitive: boolean;
 }
 
@@ -90,6 +92,7 @@ function contextPayload(context: AssistantContext): JsonValue {
       kind: item.kind,
       title: item.title,
       status: item.status,
+      score_pct: item.scorePct,
     })),
   };
 }
@@ -137,6 +140,9 @@ function instructions(context: AssistantContext): string {
     'Школьная программа в границах SCOPE, разбор домашнего задания, объяснение',
     'темы, вопросы о собственных слабых темах и о плане занятий — на них отвечай',
     'по данным из STUDENT_CONTEXT, а не догадками.',
+    'В today_plan поле score_pct — процент верных за сегодняшний пункт плана.',
+    'Пусто — пункт ещё не сдан. По нему можно сказать, что сегодня не пошло,',
+    'но выдумывать за него разбор конкретных ответов нельзя: их у тебя нет.',
     '',
     'КОГДА ОТКАЗЫВАТЬСЯ',
     'refused = true и причина:',

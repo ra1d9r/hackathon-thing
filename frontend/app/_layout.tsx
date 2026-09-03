@@ -18,6 +18,8 @@ const ONBOARDING_SEGMENTS = new Set([
 
 const DIAGNOSTIC_SEGMENTS = new Set(["diagnostic-test", "diagnostic-results"]);
 
+const TEACHER_SEGMENTS = new Set(["(teacher)", "class-members", "chat-channel"]);
+
 function useAuthGuard(): void {
   const status = useAuthStore((state) => state.status);
   const me = useAuthStore((state) => state.me);
@@ -30,6 +32,9 @@ function useAuthGuard(): void {
     if (status === "bootstrapping") return;
 
     const first: string | undefined = segments[0];
+
+    if (first === "+not-found") return;
+
     const isPublic = first === undefined || PUBLIC_SEGMENTS.has(first);
 
     if (status === "signed_out") {
@@ -37,10 +42,16 @@ function useAuthGuard(): void {
       return;
     }
 
+    if (me?.role === "teacher") {
+      if (!TEACHER_SEGMENTS.has(first ?? "")) router.replace(routes.teacherRoot);
+      return;
+    }
+
     const needsOnboarding = me?.requires_onboarding !== false;
+
     const needsDiagnostic =
       !needsOnboarding &&
-      me?.student?.diagnostic_attempt_id == null &&
+      me?.student?.passed_diagnostics !== true &&
       me?.student?.diagnostic_available === true;
     const target = needsOnboarding
       ? routes.usersTargetChoose
@@ -98,8 +109,11 @@ function AppStack() {
       <Stack.Screen name="diagnostic-test" />
       <Stack.Screen name="diagnostic-results" />
       <Stack.Screen name="(tabs)" />
+      <Stack.Screen name="(teacher)" />
       <Stack.Screen name="personal-account" />
       <Stack.Screen name="task-execution-workspace" />
+      <Stack.Screen name="class-members" />
+      <Stack.Screen name="chat-channel" />
     </Stack>
   );
 }

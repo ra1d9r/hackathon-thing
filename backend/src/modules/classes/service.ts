@@ -188,9 +188,6 @@ export async function addMember(
   requireTeacher(user);
   const view = await ownedClass(sql, user.id, classId);
 
-  
-  
-  
   const publicId = body.public_id.trim().toUpperCase();
 
   const [student] = await sql<{ id: string }[]>`
@@ -220,13 +217,19 @@ export async function addMember(
   }
 
   await sql.begin(async (tx) => {
-    
-    
     await tx`
       insert into public.class_members (class_id, student_id, status, added_by)
       values (${classId}, ${student.id}, 'active', ${user.id})
       on conflict (class_id, student_id)
       do update set status = 'active', removed_at = null, added_by = ${user.id}
+    `;
+
+    await tx`
+      insert into public.distribution_receipts (distribution_id, student_id)
+      select d.id, ${student.id}
+        from public.material_distributions d
+       where d.class_id = ${classId}
+      on conflict do nothing
     `;
 
     const channelId = await ensureClassChannel(tx, classId, view.name, user.id);
@@ -276,7 +279,6 @@ export async function removeMember(
     `;
 
     if (rows.length > 0) {
-      
       await tx`
         delete from public.chat_channel_members
          where user_id = ${studentId}

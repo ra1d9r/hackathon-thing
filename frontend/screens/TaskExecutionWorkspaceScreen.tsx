@@ -1,11 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
+import { LessonReader, type LessonBodyBlock } from "@/components/LessonReader";
 import { QuestionCard } from "@/components/QuestionCard";
 import { apiGet, apiPost, waitForJob } from "@/services/api";
+import { errorText } from "@/services/errors";
 import { useAttempt } from "@/hooks/useAttempt";
 
 type Stage = "loading" | "preparing" | "material" | "quiz" | "done" | "error";
@@ -46,13 +48,9 @@ function generationError(job: FinishedJob): Error {
 }
 
 interface LessonMaterialDto {
-  lesson: { id: string; title: string };
+  lesson: { id: string; title: string; topic: { id: string; title: string } };
   material: {
-    body_blocks: {
-      type: string;
-      spans?: { text: string }[];
-      items?: { spans?: { text: string }[] }[];
-    }[];
+    body_blocks: LessonBodyBlock[];
   } | null;
 }
 
@@ -73,32 +71,49 @@ interface KnowledgeCheckResponse {
   job: QueuedJobRef | null;
 }
 
-function extractParagraphs(material: LessonMaterialDto["material"]): string[] {
-  if (!material) return [];
-  return material.body_blocks
-    .map((block) => {
-      if (block.type === "list") {
-        return (block.items ?? [])
-          .map((item) => `• ${item.spans?.map((span) => span.text).join("") ?? ""}`)
-          .join("\n");
-      }
-      return block.spans?.map((span) => span.text).join("") ?? "";
-    })
-    .filter(Boolean);
+interface ReviewAnswer {
+  question_id: string;
+  position: number;
+  prompt_md: string;
+  is_correct: boolean | null;
+  points: number;
+  points_awarded: number;
+  grader: "deterministic" | "ai" | "pending" | "ungraded";
+  explanation_md: string | null;
+  ai_feedback_md: string | null;
+}
+
+interface AttemptReview {
+  attempt: {
+    raw_score: number | null;
+    max_score: number | null;
+    pending_questions: number;
+  };
+
+  exam: {
+    exam: { title: string };
+    scaled_score: number;
+    max_score: number;
+  } | null;
+  answers: ReviewAnswer[];
 }
 
 export function TaskExecutionWorkspaceScreen() {
   const insets = useSafeAreaInsets();
-  const params = useLocalSearchParams<{ itemId?: string; lessonId?: string }>();
+  const params = useLocalSearchParams<{ itemId?: string; lessonId?: string; assessmentId?: string }>();
   const [stage, setStage] = useState<Stage>("loading");
   const [error, setError] = useState<string | null>(null);
   const [lessonTitle, setLessonTitle] = useState("Урок");
-  const [paragraphs, setParagraphs] = useState<string[]>([]);
-  const [aiOpen, setAiOpen] = useState(false);
+  const [bodyBlocks, setBodyBlocks] = useState<LessonBodyBlock[]>([]);
   const [retryToken, setRetryToken] = useState(0);
+  const [review, setReview] = useState<AttemptReview | null>(null);
   const lessonIdRef = useRef<string | null>(null);
+  const topicIdRef = useRef<string | null>(null);
 
   const attempt = useAttempt();
+
+  const attemptRef = useRef(attempt);
+  attemptRef.current = attempt;
 
   useEffect(() => {
     let cancelled = false;
@@ -107,9 +122,9 @@ export function TaskExecutionWorkspaceScreen() {
 
     async function resolveQuiz(assessmentId: string | null, attemptId: string | null) {
       if (attemptId) {
-        await attempt.loadExisting(attemptId);
+        await attemptRef.current.loadExisting(attemptId);
       } else if (assessmentId) {
-        await attempt.startFromAssessment(assessmentId);
+        await attemptRef.current.startFromAssessment(assessmentId);
       } else {
         throw new Error("Не удалось получить задание");
       }
@@ -121,7 +136,8 @@ export function TaskExecutionWorkspaceScreen() {
       const lesson = await apiGet<LessonMaterialDto>(`/v1/lessons/${lessonId}`);
       if (cancelled) return;
       setLessonTitle(lesson.lesson.title);
-      setParagraphs(extractParagraphs(lesson.material));
+      topicIdRef.current = lesson.lesson.topic.id;
+      setBodyBlocks(lesson.material?.body_blocks ?? []);
       setStage("material");
     }
 
@@ -150,12 +166,15 @@ export function TaskExecutionWorkspaceScreen() {
           }
         } else if (params.lessonId) {
           await loadLesson(params.lessonId);
+        } else if (params.assessmentId) {
+          setLessonTitle("Пробный экзамен");
+          await resolveQuiz(params.assessmentId, null);
         } else {
           throw new Error("Задание не указано");
         }
       } catch (e) {
         if (!cancelled) {
-          setError(e instanceof Error ? e.message : "Не удалось загрузить задание");
+          setError(errorText(e, "Не удалось загрузить задание"));
           setStage("error");
         }
       }
@@ -164,7 +183,7 @@ export function TaskExecutionWorkspaceScreen() {
     return () => {
       cancelled = true;
     };
-  }, [params.itemId, params.lessonId, retryToken]);
+  }, [params.itemId, params.lessonId, params.assessmentId, retryToken]);
 
   const continueToQuiz = async () => {
     const lessonId = lessonIdRef.current;
@@ -185,15 +204,18 @@ export function TaskExecutionWorkspaceScreen() {
       await attempt.startFromAssessment(check.assessment.id);
       setStage("quiz");
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Не удалось начать проверку знаний");
+      setError(errorText(e, "Не удалось начать проверку знаний"));
       setStage("error");
     }
   };
 
   const completeTask = async () => {
     try {
-      await attempt.submit();
+      const result = await attempt.submit();
       setStage("done");
+
+      const view = await apiGet<AttemptReview>(`/v1/attempts/${result.attempt.id}/result`);
+      setReview(view);
     } catch {
     }
   };
@@ -252,24 +274,25 @@ export function TaskExecutionWorkspaceScreen() {
             <>
               <View style={styles.materialCard}>
                 <Text style={styles.cardTitle}>{lessonTitle}</Text>
-                {paragraphs.length === 0 ? (
-                  <Text style={styles.paragraph}>Материал ещё готовится.</Text>
-                ) : (
-                  paragraphs.map((paragraph, i) => (
-                    <Text key={`${paragraph.slice(0, 20)}-${i}`} style={styles.paragraph}>
-                      {paragraph}
-                    </Text>
-                  ))
-                )}
+                <LessonReader blocks={bodyBlocks} emptyText="Материал ещё готовится." />
               </View>
 
-              <Pressable accessibilityRole="button" onPress={() => setAiOpen(true)} style={({ pressed }) => [styles.aiBanner, pressed && styles.pressed]}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() =>
+                  router.push({
+                    pathname: "/(tabs)/assistant",
+                    params: topicIdRef.current === null ? {} : { topicId: topicIdRef.current },
+                  })
+                }
+                style={({ pressed }) => [styles.aiBanner, pressed && styles.pressed]}
+              >
                 <View style={styles.aiIcon}>
                   <Ionicons name="bulb-outline" size={23} color="#c84b16" />
                 </View>
                 <View style={styles.aiCopy}>
-                  <Text style={styles.aiTitle}>Есть вопросы? Спроси AI-ассистента</Text>
-                  <Text style={styles.aiText}>Откройте вкладку ассистента на панели, чтобы получить подсказку.</Text>
+                  <Text style={styles.aiTitle}>Есть вопросы? Спроси ИИ-ассистента</Text>
+                  <Text style={styles.aiText}>Он видит эту тему, ваши слабые места и план на сегодня.</Text>
                 </View>
                 <Ionicons name="chevron-forward" size={20} color={colors.muted} />
               </Pressable>
@@ -311,20 +334,80 @@ export function TaskExecutionWorkspaceScreen() {
           ) : null}
 
           {stage === "done" ? (
-            <View style={styles.materialCard}>
-              <Text style={styles.cardTitle}>Готово!</Text>
-              <Text style={styles.paragraph}>Задание засчитано. Прогресс обновится на панели.</Text>
+            <>
+              <View style={styles.materialCard}>
+                <Text style={styles.cardTitle}>Готово!</Text>
+                {review === null ? (
+                  <Text style={styles.paragraph}>Задание засчитано. Считаем результат…</Text>
+                ) : review.exam !== null ? (
+                  <Text style={styles.paragraph}>
+                    {review.exam.exam.title}: {Math.round(review.exam.scaled_score)} из{" "}
+                    {Math.round(review.exam.max_score)} баллов.
+                  </Text>
+                ) : (
+                  <Text style={styles.paragraph}>
+                    Набрано {Math.round(review.attempt.raw_score ?? 0)} из{" "}
+                    {Math.round(review.attempt.max_score ?? 0)}.
+                    {review.attempt.pending_questions > 0
+                      ? ` Свободных ответов на проверке: ${review.attempt.pending_questions}.`
+                      : ""}
+                  </Text>
+                )}
+              </View>
+
+              {review?.answers.map((item) => (
+                <ReviewCard key={item.question_id} answer={item} />
+              ))}
+
               <Pressable accessibilityRole="button" onPress={() => router.replace("/(tabs)/dashboard")} style={({ pressed }) => [styles.nextButton, pressed && styles.pressed]}>
                 <Text style={styles.nextButtonText}>На панель</Text>
                 <Ionicons name="arrow-forward" size={16} color="#ffffff" />
               </Pressable>
-            </View>
+            </>
           ) : null}
         </ScrollView>
 
-        <AIModal visible={aiOpen} onClose={() => setAiOpen(false)} />
       </View>
     </SafeAreaView>
+  );
+}
+
+const REVIEW_STATUS: Record<
+  ReviewAnswer["grader"],
+  { label: string; color: string; background: string } | null
+> = {
+  deterministic: null,
+  ai: null,
+  pending: { label: "На проверке", color: "#c84b16", background: "#fdeee7" },
+  ungraded: { label: "Не проверено", color: "#6b7280", background: "#eeeeee" },
+};
+
+function ReviewCard({ answer }: { answer: ReviewAnswer }) {
+  const status = REVIEW_STATUS[answer.grader];
+  const verdict =
+    status ??
+    (answer.is_correct === true
+      ? { label: "Верно", color: "#0d8a3f", background: "#e6f6ec" }
+      : { label: "Неверно", color: "#b42318", background: "#fdecec" });
+
+  return (
+    <View style={styles.reviewCard}>
+      <View style={styles.reviewHead}>
+        <View style={[styles.reviewBadge, { backgroundColor: verdict.background }]}>
+          <Text style={[styles.reviewBadgeText, { color: verdict.color }]}>{verdict.label}</Text>
+        </View>
+        <Text style={styles.reviewScore}>
+          {Math.round(answer.points_awarded)} / {Math.round(answer.points)}
+        </Text>
+      </View>
+
+      <Text style={styles.reviewPrompt}>
+        {answer.position}. {answer.prompt_md}
+      </Text>
+
+      {answer.ai_feedback_md ? <Text style={styles.reviewNote}>{answer.ai_feedback_md}</Text> : null}
+      {answer.explanation_md ? <Text style={styles.reviewNote}>{answer.explanation_md}</Text> : null}
+    </View>
   );
 }
 
@@ -346,29 +429,6 @@ function PreparingCard() {
       </Text>
       <Text style={styles.preparingTimer}>{seconds} с</Text>
     </View>
-  );
-}
-
-function AIModal({ visible, onClose }: { visible: boolean; onClose: () => void }) {
-  return (
-    <Modal visible={visible} transparent animationType="slide" onRequestClose={onClose}>
-      <View style={styles.modalLayer}>
-        <Pressable style={styles.modalBackdrop} onPress={onClose} />
-        <View style={styles.aiSheet}>
-          <View style={styles.dragHandle} />
-          <View style={styles.aiSheetHeader}>
-            <Text style={styles.aiSheetTitle}>AI-ассистент</Text>
-            <Pressable accessibilityLabel="Close AI assistant" accessibilityRole="button" onPress={onClose}>
-              <Ionicons name="close" size={26} color={colors.text} />
-            </Pressable>
-          </View>
-          <Text style={styles.aiSheetText}>
-            Полноценный чат с ассистентом доступен на вкладке «Ассистент» — там он видит вашу
-            текущую тему и слабые места и помогает без готового ответа.
-          </Text>
-        </View>
-      </View>
-    </Modal>
   );
 }
 
@@ -409,6 +469,19 @@ const styles = StyleSheet.create({
     gap: 6,
   },
   preparingTimer: { marginTop: 6, color: colors.muted, fontSize: 13, fontWeight: "800" },
+  reviewCard: {
+    borderRadius: 10,
+    borderColor: colors.border,
+    borderWidth: 1,
+    backgroundColor: colors.card,
+    padding: 16,
+  },
+  reviewHead: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
+  reviewBadge: { borderRadius: 3, paddingHorizontal: 9, paddingVertical: 4 },
+  reviewBadgeText: { fontSize: 11, fontWeight: "900", letterSpacing: 0.3 },
+  reviewScore: { color: colors.muted, fontSize: 13, fontWeight: "800" },
+  reviewPrompt: { marginTop: 12, color: colors.text, fontSize: 16, lineHeight: 23 },
+  reviewNote: { marginTop: 10, color: colors.muted, fontSize: 15, lineHeight: 22 },
   cardTitle: { color: colors.text, fontSize: 22, fontWeight: "900", lineHeight: 29 },
   paragraph: { marginTop: 12, color: colors.muted, fontSize: 16, lineHeight: 24 },
   aiBanner: { minHeight: 82, borderRadius: 10, borderColor: "#f0d4b8", borderWidth: 1, backgroundColor: "#fff7ed", flexDirection: "row", alignItems: "center", gap: 12, paddingHorizontal: 16 },
@@ -419,13 +492,6 @@ const styles = StyleSheet.create({
   quizCard: { borderRadius: 10, borderColor: colors.border, borderWidth: 1, backgroundColor: colors.card, padding: 18, gap: 14 },
   nextButton: { minHeight: 52, borderRadius: 8, backgroundColor: colors.navy, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8 },
   nextButtonText: { color: "#ffffff", fontSize: 16, fontWeight: "900" },
-  modalLayer: { flex: 1, justifyContent: "flex-end" },
-  modalBackdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(0,0,0,0.22)" },
-  aiSheet: { borderTopLeftRadius: 16, borderTopRightRadius: 16, backgroundColor: colors.card, paddingHorizontal: 20, paddingTop: 12, paddingBottom: 28 },
-  dragHandle: { width: 48, height: 5, borderRadius: 3, alignSelf: "center", backgroundColor: colors.border, marginBottom: 16 },
-  aiSheetHeader: { flexDirection: "row", alignItems: "center", justifyContent: "space-between" },
-  aiSheetTitle: { color: colors.text, fontSize: 22, fontWeight: "900" },
-  aiSheetText: { marginTop: 12, color: colors.muted, fontSize: 16, lineHeight: 24 },
   emptyText: { color: colors.muted, fontSize: 15, lineHeight: 21, textAlign: "center" },
   disabled: { opacity: 0.46 },
   pressed: { opacity: 0.76 },
