@@ -15,6 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
+import { errorText } from "@/services/errors";
 
 export function LoginScreen() {
   const login = useAuthStore((state) => state.login);
@@ -30,12 +31,11 @@ export function LoginScreen() {
     setLocalError(null);
     try {
       await login(email.trim().toLowerCase(), password);
-      
-      
+
       const me = useAuthStore.getState().me;
       router.replace(me?.requires_onboarding === false ? routes.tabsRoot : routes.usersTargetChoose);
     } catch (error) {
-      setLocalError(error instanceof Error ? error.message : "Не удалось войти");
+      setLocalError(errorText(error, "Не удалось войти"));
     }
   };
 

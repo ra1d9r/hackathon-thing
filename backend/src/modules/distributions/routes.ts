@@ -36,11 +36,10 @@ const distributionParams = z.object({ distributionId: z.uuid() });
 
 const seenBodySchema = z
   .object({
-    
     opened: z.boolean().optional(),
   })
   .strict()
-  .optional();
+  .nullish();
 
 export async function registerDistributionRoutes(app: FastifyInstance): Promise<void> {
   const typed = app.withTypeProvider<ZodTypeProvider>();

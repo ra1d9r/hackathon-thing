@@ -1,11 +1,13 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useMemo, useState } from "react";
-import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Avatar } from "@/components/Avatar";
-import { apiGet } from "@/services/api";
+import { LessonReader, type LessonBodyBlock } from "@/components/LessonReader";
+import { apiGet, apiPost } from "@/services/api";
+import { errorText } from "@/services/errors";
 import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
 
@@ -33,6 +35,33 @@ interface LessonLibraryResponse {
   empty_reason: "no_subjects" | "no_lessons" | null;
 }
 
+interface InboxItem {
+  distribution_id: string;
+  material: { id: string; title: string; body_blocks: LessonBodyBlock[] | null };
+  teacher: { id: string; display_name: string };
+  class_name: string | null;
+  message_md: string | null;
+  due_at: string | null;
+  seen_at: string | null;
+}
+
+interface InboxResponse {
+  items: InboxItem[];
+  unread: number;
+  empty_reason: "no_items" | null;
+}
+
+interface ChatChannelDto {
+  id: string;
+  kind: "class_chat" | "ai_assistant";
+  title: string;
+  unread: number;
+}
+
+interface ChannelListResponse {
+  channels: ChatChannelDto[];
+}
+
 const emptyMessages: Record<NonNullable<LessonLibraryResponse["empty_reason"]>, string> = {
   no_subjects: "Сначала выберите предметы в профиле — тогда здесь появятся уроки.",
   no_lessons: "По вашим предметам и классу уроков пока нет. Загляните позже.",
@@ -45,17 +74,30 @@ export function LessonLibraryScreen() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const [inbox, setInbox] = useState<InboxItem[]>([]);
+  const [channels, setChannels] = useState<ChatChannelDto[]>([]);
+  const [opened, setOpened] = useState<InboxItem | null>(null);
+
   const load = useCallback(() => {
     setError(null);
     apiGet<LessonLibraryResponse>("/v1/lessons")
       .then(setData)
-      .catch((e: unknown) => setError(e instanceof Error ? e.message : "Не удалось загрузить уроки"))
+      .catch((e: unknown) => setError(errorText(e, "Не удалось загрузить уроки")))
       .finally(() => setIsLoading(false));
+
+    apiGet<InboxResponse>("/v1/inbox")
+      .then((response) => setInbox(response.items))
+      .catch(() => setInbox([]));
+    apiGet<ChannelListResponse>("/v1/channels")
+      .then((response) =>
+        setChannels(response.channels.filter((channel) => channel.kind === "class_chat")),
+      )
+      .catch(() => setChannels([]));
   }, []);
 
   useFocusEffect(useCallback(() => load(), [load]));
 
-  const subjects = data?.subjects ?? [];
+  const subjects = useMemo(() => data?.subjects ?? [], [data]);
   const current = useMemo(
     () => subjects.find((subject) => subject.code === activeSubject) ?? subjects[0] ?? null,
     [subjects, activeSubject],
@@ -92,6 +134,65 @@ export function LessonLibraryScreen() {
           {error ? <Text style={styles.emptyText}>{error}</Text> : null}
           {!isLoading && !error && data?.empty_reason ? (
             <Text style={styles.emptyText}>{emptyMessages[data.empty_reason]}</Text>
+          ) : null}
+
+          {channels.map((channel) => (
+            <Pressable
+              key={channel.id}
+              accessibilityRole="button"
+              onPress={() =>
+                router.push({
+                  pathname: "/chat-channel",
+                  params: { channelId: channel.id, title: channel.title },
+                })
+              }
+              style={({ pressed }) => [styles.inboxCard, pressed && styles.pressed]}
+            >
+              <Ionicons name="chatbubbles-outline" size={22} color={colors.navy} />
+              <View style={styles.inboxCopy}>
+                <Text style={styles.inboxTitle}>{channel.title}</Text>
+                <Text style={styles.inboxMeta}>
+                  Чат класса{channel.unread > 0 ? ` · новых: ${channel.unread}` : ""}
+                </Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color={colors.muted} />
+            </Pressable>
+          ))}
+
+          {inbox.length > 0 ? (
+            <>
+              <Text style={styles.sectionTitle}>От учителя</Text>
+              <View style={styles.inboxList}>
+                {inbox.map((item) => (
+                  <Pressable
+                    key={item.distribution_id}
+                    accessibilityRole="button"
+                    onPress={() => {
+                      setOpened(item);
+
+                      apiPost(`/v1/inbox/${item.distribution_id}/seen`, { opened: true })
+                        .then(() => load())
+                        .catch(() => undefined);
+                    }}
+                    style={({ pressed }) => [styles.inboxCard, pressed && styles.pressed]}
+                  >
+                    <Ionicons
+                      name={item.seen_at === null ? "mail-unread-outline" : "mail-open-outline"}
+                      size={22}
+                      color={item.seen_at === null ? colors.orange : colors.muted}
+                    />
+                    <View style={styles.inboxCopy}>
+                      <Text style={styles.inboxTitle}>{item.material.title}</Text>
+                      <Text style={styles.inboxMeta}>
+                        {item.teacher.display_name}
+                        {item.class_name === null ? "" : ` · ${item.class_name}`}
+                      </Text>
+                    </View>
+                    <Ionicons name="chevron-forward" size={20} color={colors.muted} />
+                  </Pressable>
+                ))}
+              </View>
+            </>
           ) : null}
 
           {subjects.length > 1 ? (
@@ -136,6 +237,29 @@ export function LessonLibraryScreen() {
             </>
           ) : null}
         </ScrollView>
+
+        <Modal
+          visible={opened !== null}
+          animationType="slide"
+          onRequestClose={() => setOpened(null)}
+        >
+          <SafeAreaView style={styles.safeArea} edges={["top", "bottom"]}>
+            <View style={styles.header}>
+              <Text style={styles.logo} numberOfLines={1}>
+                {opened?.material.title ?? ""}
+              </Text>
+              <Pressable accessibilityRole="button" accessibilityLabel="Закрыть" onPress={() => setOpened(null)}>
+                <Ionicons name="close" size={26} color={colors.text} />
+              </Pressable>
+            </View>
+            <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+              {opened?.message_md ? (
+                <Text style={styles.inboxNote}>{opened.message_md}</Text>
+              ) : null}
+              <LessonReader blocks={opened?.material.body_blocks ?? []} />
+            </ScrollView>
+          </SafeAreaView>
+        </Modal>
       </View>
     </SafeAreaView>
   );
@@ -259,6 +383,23 @@ const styles = StyleSheet.create({
   },
   summaryLabel: { color: colors.muted, fontSize: 12, fontWeight: "900", letterSpacing: 0.4 },
   summaryValue: { marginTop: 4, marginBottom: 12, color: colors.text, fontSize: 19, fontWeight: "900" },
+  sectionTitle: { marginTop: 6, marginBottom: 12, color: colors.text, fontSize: 20, fontWeight: "900" },
+  inboxList: { gap: 12, marginBottom: 20 },
+  inboxCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    borderRadius: 10,
+    borderColor: colors.border,
+    borderWidth: 1,
+    backgroundColor: colors.card,
+    padding: 14,
+    marginBottom: 12,
+  },
+  inboxCopy: { flex: 1 },
+  inboxTitle: { color: colors.text, fontSize: 16, fontWeight: "900" },
+  inboxMeta: { marginTop: 3, color: colors.muted, fontSize: 13 },
+  inboxNote: { marginBottom: 16, color: colors.muted, fontSize: 15, lineHeight: 22 },
   lessonList: { gap: 14 },
   lessonCard: { borderRadius: 10, borderColor: colors.border, borderWidth: 1, backgroundColor: colors.card, padding: 16 },
   lessonCardDone: { backgroundColor: "#f7f7f7" },

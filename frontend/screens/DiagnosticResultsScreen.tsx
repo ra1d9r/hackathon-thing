@@ -5,6 +5,7 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, View, Pressable } from
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { apiGet, waitForJob } from "@/services/api";
+import { errorText } from "@/services/errors";
 import { type JobRef } from "@/hooks/useAttempt";
 import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
@@ -74,7 +75,7 @@ export function DiagnosticResultsScreen() {
         data = await apiGet<AttemptResult>(`/v1/attempts/${attemptId}/result`);
       } catch (e) {
         if (!cancelled) {
-          setError(e instanceof Error ? e.message : "Не удалось загрузить результат");
+          setError(errorText(e, "Не удалось загрузить результат"));
           setIsLoading(false);
         }
         return;
@@ -99,6 +100,7 @@ export function DiagnosticResultsScreen() {
 
       if (cancelled) return;
       setIsRefining(false);
+
       await useAuthStore.getState().refreshMe().catch(() => undefined);
     })();
 
@@ -133,6 +135,7 @@ export function DiagnosticResultsScreen() {
   }
 
   const pending = result.attempt.pending_questions;
+
   const checkedPossible = result.subjects.reduce((sum, item) => sum + item.points_possible, 0);
   const checkedEarned = result.subjects.reduce((sum, item) => sum + item.points_earned, 0);
   const maxScore = pending > 0 ? checkedPossible : result.attempt.max_score ?? 0;

@@ -87,7 +87,7 @@ function baseContext(topics: readonly TopicRow[], question: string): AssistantCo
     planItems:
       second === undefined
         ? []
-        : [{ kind: 'lesson', title: second.title_ru, status: 'pending' }],
+        : [{ kind: 'lesson', title: second.title_ru, status: 'pending', scorePct: null }],
     streakDays: 4,
     screenTopic: first === undefined ? null : { id: first.id, title: first.title_ru },
     history: [],
@@ -100,7 +100,7 @@ const CYRILLIC = /[а-яё]/iu;
 interface AssistantCase {
   readonly id: string;
   readonly question: string;
-  
+
   readonly mustRefuse: boolean | null;
   readonly reason?: string;
   readonly sensitive?: boolean;
@@ -148,7 +148,7 @@ interface ModerationCase {
   readonly id: string;
   readonly text: string;
   readonly suspected: string;
-  
+
   readonly allowed: readonly string[];
 }
 
@@ -214,7 +214,6 @@ function checkAssistant(
     problems.push(`причина ${reply.refusal_reason}, ожидалась ${item.reason}`);
   }
 
-  
   const strayTopics = reply.referenced_topics.filter((id) => !allowedIds.has(id));
   const strayActions = reply.suggested_actions.filter((action) => !allowedIds.has(action.ref_id));
   if (strayTopics.length > 0) {

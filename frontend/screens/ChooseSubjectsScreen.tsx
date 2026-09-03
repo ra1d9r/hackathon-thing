@@ -7,6 +7,7 @@ import { PrimaryButton } from "@/components/PrimaryButton";
 import { ScreenContainer } from "@/components/ScreenContainer";
 import { useOnboardingStore } from "@/store/useOnboardingStore";
 import { routes } from "@/types/navigation";
+import { errorText } from "@/services/errors";
 
 export function ChooseSubjectsScreen() {
   const subjectOptions = useOnboardingStore((state) => state.subjectOptions);
@@ -40,15 +41,10 @@ export function ChooseSubjectsScreen() {
   const handleNext = async () => {
     setLocalError(null);
     try {
-      const response = await completeOnboarding();
-      if (response.diagnostic_unavailable_reason) {
-        
-        router.replace(routes.tabsRoot);
-        return;
-      }
+      await completeOnboarding();
       router.push(routes.diagnosticTest);
     } catch (e) {
-      setLocalError(e instanceof Error ? e.message : "Не удалось завершить онбординг");
+      setLocalError(errorText(e, "Не удалось завершить онбординг"));
     }
   };
 

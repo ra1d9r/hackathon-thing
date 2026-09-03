@@ -30,9 +30,9 @@ interface MessageContext {
   readonly channelId: string;
   readonly text: string;
   readonly timezone: string;
-  
+
   readonly moderation: string;
-  
+
   readonly screen: string | null;
 }
 
@@ -182,11 +182,29 @@ async function loadPlanItems(
     return [];
   }
 
-  return plan.items.map((item) => ({
-    kind: item.kind,
-    title: item.title,
-    status: item.status,
-  }));
+  const attemptIds = plan.items
+    .map((item) => item.attemptId)
+    .filter((id): id is string => id !== null);
+
+  const scores =
+    attemptIds.length === 0
+      ? []
+      : await sql<{ id: string; score_pct: string | null }[]>`
+          select id, score_pct from public.attempts
+           where id = any(${attemptIds}::uuid[]) and student_id = ${studentId}
+        `;
+
+  const byAttempt = new Map(scores.map((row) => [row.id, row.score_pct]));
+
+  return plan.items.map((item) => {
+    const raw = item.attemptId === null ? null : (byAttempt.get(item.attemptId) ?? null);
+    return {
+      kind: item.kind,
+      title: item.title,
+      status: item.status,
+      scorePct: raw === null ? null : Math.round(Number(raw)),
+    };
+  });
 }
 
 async function refuseUnreviewed(
@@ -245,16 +263,10 @@ export const assistantChat: JobHandler = async (ctx) => {
     throw new PermanentJobError('сообщение не найдено', 'MESSAGE_NOT_FOUND');
   }
 
-  
-  
   if (message.moderation !== 'allow') {
     return { skipped: true, reason: 'moderation', verdict: message.moderation };
   }
 
-  
-  
-  
-  
   if (message.screen === 'review') {
     ctx.log.warn(
       { job_id: ctx.job.id, message_id: messageId },
@@ -268,9 +280,6 @@ export const assistantChat: JobHandler = async (ctx) => {
     limit: ASSISTANT_TOPIC_LIMIT,
   });
 
-  
-  
-  
   const weak: AssistantWeakTopic[] = scoped
     .filter((topic) => topic.masteryPct !== null && topic.masteryPct < 60)
     .slice(0, 5)
@@ -329,9 +338,6 @@ export const assistantChat: JobHandler = async (ctx) => {
       );
 
       if (outcome.failure === 'insufficient_context') {
-        
-        
-        
         replyText = unclearQuestionText();
       } else {
         const fallback = fallbackReply(weak);
@@ -351,9 +357,6 @@ export const assistantChat: JobHandler = async (ctx) => {
       rejected = checked.rejected;
       source = 'ai';
 
-      
-      
-      
       if (replyText === '') {
         const fallback = fallbackReply(weak);
         replyText = fallback.text;

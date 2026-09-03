@@ -2,7 +2,7 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Clipboard from "expo-clipboard";
 import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Alert,
@@ -24,13 +24,13 @@ import { useProfileStats, type SubjectMastery } from "@/hooks/useProfileStats";
 import { guessMimeType, updateProfile, uploadAvatar } from "@/services/profile";
 import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
+import { errorText } from "@/services/errors";
 
 type AccountTab = "main" | "stats";
 
 const goalLabels: Record<string, string> = {
   ent: "ЕНТ",
   nis: "НИШ",
-  olympiad: "Олимпиада",
   subjects: "Предметы",
 };
 
@@ -97,6 +97,15 @@ function ProfileCard() {
   const [message, setMessage] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
 
+  const copiedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(
+    () => () => {
+      if (copiedTimerRef.current !== null) clearTimeout(copiedTimerRef.current);
+    },
+    [],
+  );
+
   if (!me) return null;
 
   const isStudent = me.role === "student";
@@ -122,7 +131,6 @@ function ProfileCard() {
       if (trimmed !== me.display_name) payload.display_name = trimmed;
       if (isStudent && grade !== null && grade !== me.grade) payload.grade = grade;
 
-      
       if (Object.keys(payload).length === 0) {
         setIsEditing(false);
         return;
@@ -131,7 +139,7 @@ function ProfileCard() {
       setMe(await updateProfile(payload));
       setIsEditing(false);
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Не удалось сохранить");
+      setMessage(errorText(error, "Не удалось сохранить"));
     } finally {
       setIsSaving(false);
     }
@@ -168,7 +176,7 @@ function ProfileCard() {
     try {
       setMe(await uploadAvatar(asset.uri, mimeType));
     } catch (error) {
-      setMessage(error instanceof Error ? error.message : "Не удалось загрузить аватар");
+      setMessage(errorText(error, "Не удалось загрузить аватар"));
     } finally {
       setIsUploading(false);
     }
@@ -177,7 +185,8 @@ function ProfileCard() {
   const copyId = async () => {
     await Clipboard.setStringAsync(me.public_id);
     setCopied(true);
-    setTimeout(() => setCopied(false), 1600);
+    if (copiedTimerRef.current !== null) clearTimeout(copiedTimerRef.current);
+    copiedTimerRef.current = setTimeout(() => setCopied(false), 1600);
   };
 
   return (
@@ -342,8 +351,8 @@ function MainTab({ stats }: { stats: Stats }) {
           value={overview ? `${overview.streak_days}` : "—"}
           unit="дней подряд"
           icon="flame"
-          color="#c84b16"
-          background="#fdeee7"
+          color={(overview?.streak_days ?? 0) > 1 ? "#c84b16" : "#8d95a3"}
+          background={(overview?.streak_days ?? 0) > 1 ? "#fdeee7" : "#eef0f3"}
         />
         <MetricCard
           label="ЗАДАНИЙ"
@@ -476,7 +485,7 @@ function StatsTab({ stats }: { stats: Stats }) {
           error={error}
           onRetry={reload}
           isEmpty={predicted === null}
-          emptyText="Балл появится после диагностики или первых проверенных работ."
+          emptyText="Балл появится после первых проверенных работ."
         >
           {predicted ? (
             <View style={styles.scoreBlock}>

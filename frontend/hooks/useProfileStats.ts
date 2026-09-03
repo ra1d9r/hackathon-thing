@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import { apiGet } from "@/services/api";
+import { errorText } from "@/services/errors";
 
 export interface PredictedScore {
   scale: string;
@@ -62,7 +63,7 @@ export function useProfileStats() {
         setHistory(nextHistory);
       })
       .catch((e: unknown) => {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Не удалось загрузить статистику");
+        if (!cancelled) setError(errorText(e, "Не удалось загрузить статистику"));
       })
       .finally(() => {
         if (!cancelled) setIsLoading(false);

@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AppState, type NativeEventSubscription } from "react-native";
 import { create } from "zustand";
 
 import { apiGet, apiPost, setAuthTokenProvider, setUnauthorizedHandler } from "@/services/api";
@@ -6,14 +7,25 @@ import { refreshSession, signInWithPassword, type SupabaseSession } from "@/serv
 
 const STORAGE_KEY = "tlek.session.v1";
 
-export type LearningGoal = "ent" | "nis" | "olympiad" | "subjects";
+export type LearningGoal = "ent" | "nis" | "subjects";
 
 export interface StudentInfo {
   goal: LearningGoal | null;
   target_exam_code: string | null;
   target_date: string | null;
   onboarding_completed_at: string | null;
+  passed_diagnostics: boolean;
   diagnostic_attempt_id: string | null;
+  diagnostic_available: boolean;
+  diagnostic_draft: {
+    attempt_id: string;
+    assessment_id: string;
+    status: "in_progress";
+    started_at: string;
+    submitted_at: string | null;
+    answered_count: number;
+    total_count: number;
+  } | null;
   subjects: { code: string; name: string; is_profile: boolean }[];
   class_name: string | null;
   streak_days: number;
@@ -61,7 +73,7 @@ interface AuthState {
   register: (payload: RegisterPayload) => Promise<void>;
   logout: () => Promise<void>;
   refreshMe: () => Promise<void>;
-  
+
   setMe: (me: MeResponse) => void;
   clearError: () => void;
 }
@@ -83,13 +95,24 @@ function fromSupabaseSession(session: SupabaseSession): PersistedSession {
 }
 
 let refreshTimer: ReturnType<typeof setInterval> | null = null;
+let appStateSubscription: NativeEventSubscription | null = null;
 
 export const useAuthStore = create<AuthState>((set, get) => {
-  
-  
   setAuthTokenProvider(() => get().session?.access_token ?? null);
+
   setUnauthorizedHandler(() => {
-    void get().logout();
+    void (async () => {
+      const session = get().session;
+      if (!session) return;
+
+      try {
+        const next = fromSupabaseSession(await refreshSession(session.refresh_token));
+        await persist(next);
+        set({ session: next });
+      } catch {
+        await get().logout();
+      }
+    })();
   });
 
   function scheduleRefresh(): void {
@@ -97,6 +120,12 @@ export const useAuthStore = create<AuthState>((set, get) => {
     refreshTimer = setInterval(() => {
       void maybeRefresh();
     }, 60_000);
+
+    if (appStateSubscription === null) {
+      appStateSubscription = AppState.addEventListener("change", (state) => {
+        if (state === "active") void maybeRefresh();
+      });
+    }
   }
 
   async function maybeRefresh(): Promise<void> {
@@ -110,7 +139,6 @@ export const useAuthStore = create<AuthState>((set, get) => {
       await persist(next);
       set({ session: next });
     } catch {
-      
       await get().logout();
     }
   }
@@ -141,7 +169,6 @@ export const useAuthStore = create<AuthState>((set, get) => {
 
         const stored = JSON.parse(raw) as PersistedSession;
 
-        
         const session =
           stored.expires_at - Date.now() < 5 * 60_000
             ? fromSupabaseSession(await refreshSession(stored.refresh_token))

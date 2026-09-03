@@ -5,7 +5,8 @@ import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Avatar } from "@/components/Avatar";
-import { apiGet } from "@/services/api";
+import { apiGet, apiPost } from "@/services/api";
+import { errorText } from "@/services/errors";
 import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
 
@@ -13,7 +14,6 @@ const targetLabels: Record<string, string> = {
   ent: "ЕНТ",
   nis: "НИШ",
   subjects: "Предметы",
-  olympiad: "Олимпиада",
 };
 
 interface DailyPlanItemDto {
@@ -35,7 +35,9 @@ interface FocusTopicDto {
 interface DashboardResponse {
   goal: { kind: string; title: string; days_left: number | null };
   predicted_score: { value: number; max: number } | null;
+
   today_focus: FocusTopicDto[];
+
   daily_plan: {
     completed: number;
     total: number;
@@ -43,6 +45,14 @@ interface DashboardResponse {
     empty_reason: "not_generated_yet" | "no_topics" | null;
   };
   streak: { current: number; longest: number; today_completed: boolean };
+
+  upcoming_mocks: {
+    assessment_id: string;
+    title: string;
+    question_count: number;
+    time_limit_sec: number | null;
+    attempted: boolean;
+  }[];
 }
 
 const planEmptyMessages: Record<"not_generated_yet" | "no_topics", string> = {
@@ -68,11 +78,22 @@ export function StudentDashboardScreen() {
     setError(null);
     apiGet<DashboardResponse>("/v1/dashboard")
       .then(setData)
-      .catch((e: unknown) => setError(e instanceof Error ? e.message : "Не удалось загрузить панель"))
+      .catch((e: unknown) => setError(errorText(e, "Не удалось загрузить панель")))
       .finally(() => setIsLoading(false));
   }, []);
 
   useFocusEffect(useCallback(() => load(), [load]));
+
+  const skipTask = useCallback(
+    (itemId: string) => {
+      apiPost(`/v1/daily-plan/items/${itemId}/skip`)
+        .then(() => load())
+        .catch((e: unknown) =>
+          setError(errorText(e, "Не удалось пропустить задание")),
+        );
+    },
+    [load],
+  );
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
@@ -150,10 +171,7 @@ export function StudentDashboardScreen() {
               <View style={styles.focusHeader}>
                 <Ionicons name="checkbox-outline" size={22} color={colors.text} />
                 <Text style={styles.focusTitle}>Дневные задачи</Text>
-                <View style={styles.streakPill}>
-                  <Ionicons name="flame" size={14} color={colors.orange} />
-                  <Text style={styles.streakText}>{data.streak.current} дней подряд</Text>
-                </View>
+                <DailyStreakPill streak={data.streak} />
               </View>
 
               <View style={styles.planProgressRow}>
@@ -181,14 +199,30 @@ export function StudentDashboardScreen() {
                       meta={task.meta}
                       subject={task.subject_name}
                       done={task.status === "completed" || task.status === "skipped"}
+                      skipped={task.status === "skipped"}
                       onPress={() =>
                         router.push({ pathname: "/task-execution-workspace", params: { itemId: task.id } })
                       }
+                      onSkip={() => skipTask(task.id)}
                     />
                   ))
                 )}
               </View>
             </View>
+
+            {data.upcoming_mocks.length > 0 ? (
+              <View style={styles.focusCard}>
+                <View style={styles.focusHeader}>
+                  <Ionicons name="document-text-outline" size={22} color={colors.text} />
+                  <Text style={styles.focusTitle}>Пробные экзамены</Text>
+                </View>
+                <View style={styles.taskList}>
+                  {data.upcoming_mocks.map((mock) => (
+                    <MockCard key={mock.assessment_id} mock={mock} />
+                  ))}
+                </View>
+              </View>
+            ) : null}
           </>
         ) : null}
       </ScrollView>
@@ -196,8 +230,46 @@ export function StudentDashboardScreen() {
   );
 }
 
+function MockCard({ mock }: { mock: DashboardResponse["upcoming_mocks"][number] }) {
+  const minutes = mock.time_limit_sec === null ? null : Math.round(mock.time_limit_sec / 60);
+
+  return (
+    <Pressable
+      accessibilityRole="button"
+      onPress={() =>
+        router.push({
+          pathname: "/task-execution-workspace",
+          params: { assessmentId: mock.assessment_id },
+        })
+      }
+      style={({ pressed }) => [styles.taskCard, pressed && styles.pressed]}
+    >
+      <View style={styles.taskCopy}>
+        <Text style={styles.taskTitle}>{mock.title}</Text>
+        <Text style={styles.taskMeta}>
+          {mock.question_count} вопросов{minutes === null ? "" : ` · ${minutes} мин`}
+          {mock.attempted ? " · уже проходили" : ""}
+        </Text>
+      </View>
+      <Ionicons name="chevron-forward" size={20} color={colors.muted} />
+    </Pressable>
+  );
+}
+
 function planPercent(plan: DashboardResponse["daily_plan"]): number {
   return plan.total === 0 ? 0 : Math.round((plan.completed / plan.total) * 100);
+}
+
+function DailyStreakPill({ streak }: { streak: DashboardResponse["streak"] }) {
+  if (streak.current <= 1) return null;
+
+  const active = streak.today_completed;
+  return (
+    <View style={[styles.streakPill, !active && styles.streakPillMuted]}>
+      <Ionicons name="flame" size={14} color={active ? colors.orange : "#8d95a3"} />
+      <Text style={[styles.streakText, !active && styles.streakTextMuted]}>{streak.current} дней подряд</Text>
+    </View>
+  );
 }
 
 interface TaskCardProps {
@@ -205,10 +277,12 @@ interface TaskCardProps {
   meta: string;
   subject: string | null;
   done: boolean;
+  skipped: boolean;
   onPress: () => void;
+  onSkip: () => void;
 }
 
-function TaskCard({ title, meta, subject, done, onPress }: TaskCardProps) {
+function TaskCard({ title, meta, subject, done, skipped, onPress, onSkip }: TaskCardProps) {
   return (
     <Pressable
       disabled={done}
@@ -220,7 +294,15 @@ function TaskCard({ title, meta, subject, done, onPress }: TaskCardProps) {
       </View>
       <View style={styles.taskCopy}>
         <Text style={[styles.taskTitle, done && styles.taskTitleDone]}>{title}</Text>
-        <Text style={[styles.taskMeta, done && styles.taskMetaDone]}>{meta}</Text>
+        <Text style={[styles.taskMeta, done && styles.taskMetaDone]}>
+          {skipped ? "Пропущено" : meta}
+        </Text>
+        {}
+        {done ? null : (
+          <Pressable accessibilityRole="button" onPress={onSkip} hitSlop={8}>
+            <Text style={styles.skipLink}>Пропустить</Text>
+          </Pressable>
+        )}
       </View>
       {subject ? (
         <View style={styles.subjectBadge}>
@@ -331,7 +413,9 @@ const styles = StyleSheet.create({
     gap: 5,
     paddingHorizontal: 10
   },
+  streakPillMuted: { backgroundColor: "#eef0f3" },
   streakText: { color: colors.orange, fontSize: 12, fontWeight: "800" },
+  streakTextMuted: { color: "#7b8494" },
   planProgressRow: { flexDirection: "row", justifyContent: "space-between", marginBottom: 8 },
   planProgressText: { color: colors.muted, fontSize: 13, fontWeight: "700" },
   planProgressTrack: { height: 8, overflow: "hidden", borderRadius: 4, backgroundColor: "#e8e8e8", marginBottom: 16 },
@@ -356,6 +440,7 @@ const styles = StyleSheet.create({
   taskTitleDone: { color: "#777777", textDecorationLine: "line-through" },
   taskMeta: { marginTop: 8, color: "#6b6b6b", fontSize: 15, lineHeight: 20 },
   taskMetaDone: { color: "#777777" },
+  skipLink: { marginTop: 8, color: colors.muted, fontSize: 13, fontWeight: "800" },
   subjectBadge: { maxWidth: 132, borderRadius: 3, backgroundColor: "#e9e7e7", paddingHorizontal: 8, paddingVertical: 3 },
   subjectBadgeText: { color: colors.muted, fontSize: 11, fontWeight: "800" },
   pressed: { opacity: 0.76 }

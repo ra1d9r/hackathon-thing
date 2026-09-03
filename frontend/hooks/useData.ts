@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { formatGrade } from "@/constants/grades";
 import { apiGet } from "@/services/api";
-import { useAuthStore } from "@/store/useAuthStore";
+import { errorText } from "@/services/errors";
+import { useAuthStore, type LearningGoal } from "@/store/useAuthStore";
 import type { LessonMaterial, RoadmapNode, UserProfile } from "@/types/app";
 
 function useResource<T>(loader: () => Promise<T>, deps: React.DependencyList = []) {
@@ -10,28 +11,52 @@ function useResource<T>(loader: () => Promise<T>, deps: React.DependencyList = [
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const generationRef = useRef(0);
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  const loaderRef = useRef(loader);
+  loaderRef.current = loader;
+
   const reload = useCallback(() => {
-    let cancelled = false;
+    generationRef.current += 1;
+    const generation = generationRef.current;
+    const isCurrent = () => mountedRef.current && generationRef.current === generation;
+
     setIsLoading(true);
     setError(null);
-    loader()
+    loaderRef.current()
       .then((value) => {
-        if (!cancelled) setData(value);
+        if (isCurrent()) setData(value);
       })
       .catch((e: unknown) => {
-        if (!cancelled) setError(e instanceof Error ? e.message : "Не удалось загрузить данные");
+        if (isCurrent()) setError(errorText(e, "Не удалось загрузить данные"));
       })
       .finally(() => {
-        if (!cancelled) setIsLoading(false);
+        if (isCurrent()) setIsLoading(false);
       });
-    return () => {
-      cancelled = true;
-    };
   }, deps);
 
   useEffect(() => reload(), [reload]);
 
   return { data, setData, isLoading, error, reload };
+}
+
+function toUserTarget(goal: LearningGoal | null | undefined): UserProfile["target"] {
+  switch (goal) {
+    case "ent":
+      return "ENT";
+    case "nis":
+      return "NIS";
+    default:
+      return "SUBJECTS";
+  }
 }
 
 export function useUserProfile() {
@@ -44,7 +69,7 @@ export function useUserProfile() {
         name: me.display_name,
         avatarUrl: me.avatar_url,
         grade: formatGrade(me.grade),
-        target: (me.student?.goal?.toUpperCase() as UserProfile["target"]) ?? "SUBJECTS",
+        target: toUserTarget(me.student?.goal),
         selectedSubjects: (me.student?.subjects ?? []).map((s) => ({ id: s.code, code: s.code, title: s.name })),
         streakDays: me.student?.streak_days ?? 0,
         totalPracticeCount: me.student?.questions_answered ?? 0,
@@ -76,25 +101,28 @@ const NODE_STATUS: Record<RoadmapNodeDto["status"], RoadmapNode["status"]> = {
   locked: "LOCKED",
 };
 
-export function useRoadmap() {
+export function useRoadmap(subjectId?: string | null) {
   const { data, isLoading, error } = useResource<{
     nodes: RoadmapNode[];
     subject: { id: string; code: string; name: string } | null;
   }>(async () => {
-    const response = await apiGet<RoadmapResponseDto>("/v1/roadmap");
-    const subjectId = response.roadmap?.subject.id ?? "";
+    const response = await apiGet<RoadmapResponseDto>(
+      "/v1/roadmap",
+      subjectId ? { subject_id: subjectId } : undefined,
+    );
+    const roadmapSubjectId = response.roadmap?.subject.id ?? "";
     return {
       subject: response.roadmap?.subject ?? null,
       nodes: response.nodes.map((node) => ({
         id: node.id,
-        subjectId,
+        subjectId: roadmapSubjectId,
         title: node.title,
         masteryPercentage: Math.round(node.progress_pct),
         status: NODE_STATUS[node.status],
         badgeText: node.status === "completed" ? `${Math.round(node.progress_pct)}% выполнено` : undefined,
       })),
     };
-  }, []);
+  }, [subjectId]);
 
   const nodes = data?.nodes ?? [];
   const currentScore = nodes.length
@@ -128,38 +156,4 @@ export function useLessonPreview(lessonId: string | null) {
   }, [lessonId]);
 
   return { material: data, isLoading, error };
-}
-
-interface DashboardResponseDto {
-  analytics: {
-    questions_answered: number;
-    study_hours: number;
-    weak_topics: { topic_id: string; title: string; mastery_pct: number }[];
-    score_history: { at: string; value: number }[];
-  };
-}
-
-export function useLearningStats() {
-  const { data, isLoading, error } = useResource(async () => {
-    const dashboard = await apiGet<DashboardResponseDto>("/v1/dashboard");
-    return {
-      subjectProgress: dashboard.analytics.weak_topics.map((topic) => ({
-        label: topic.title,
-        value: Math.round(topic.mastery_pct),
-        color: topic.mastery_pct >= 70 ? "#2b63f1" : "#c91f1f",
-        important: topic.mastery_pct < 50,
-      })),
-      gradeChartData: dashboard.analytics.score_history.slice(-5).map((point, index) => ({
-        value: Math.max(1, Math.round(point.value / 14)),
-        label: `Д${index + 1}`,
-      })),
-    };
-  }, []);
-
-  return {
-    subjectProgress: data?.subjectProgress ?? [],
-    gradeChartData: data?.gradeChartData ?? [],
-    isLoading,
-    error,
-  };
 }

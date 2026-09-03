@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useState } from "react";
 import {
   ActivityIndicator,
@@ -16,12 +16,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { DEFAULT_GRADE, SELECTABLE_GRADES } from "@/constants/grades";
 import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
+import { errorText } from "@/services/errors";
 
 export function RegisterScreen() {
   const register = useAuthStore((state) => state.register);
   const isBusy = useAuthStore((state) => state.isBusy);
+  const params = useLocalSearchParams<{ role?: string; email?: string }>();
+
+  const isTeacher = params.role === "teacher";
   const [displayName, setDisplayName] = useState("");
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(params.email ?? "");
   const [password, setPassword] = useState("");
   const [grade, setGrade] = useState(DEFAULT_GRADE);
   const [localError, setLocalError] = useState<string | null>(null);
@@ -37,12 +41,13 @@ export function RegisterScreen() {
         email: email.trim().toLowerCase(),
         password,
         display_name: displayName.trim(),
-        role: "student",
-        grade,
+        role: isTeacher ? "teacher" : "student",
+
+        ...(isTeacher ? {} : { grade }),
       });
-      router.replace(routes.usersTargetChoose);
+      router.replace(isTeacher ? routes.teacherRoot : routes.usersTargetChoose);
     } catch (error) {
-      setLocalError(error instanceof Error ? error.message : "Не удалось зарегистрироваться");
+      setLocalError(errorText(error, "Не удалось зарегистрироваться"));
     }
   };
 
@@ -52,7 +57,11 @@ export function RegisterScreen() {
         <ScrollView contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
           <Text style={styles.logo}>Tlek</Text>
           <Text style={styles.title}>Регистрация</Text>
-          <Text style={styles.subtitle}>Создайте аккаунт ученика, чтобы начать подготовку.</Text>
+          <Text style={styles.subtitle}>
+            {isTeacher
+              ? "Аккаунт учителя. Регистрация доступна по одобренной заявке организации."
+              : "Создайте аккаунт ученика, чтобы начать подготовку."}
+          </Text>
 
           <View style={styles.form}>
             <Field label="Имя">
@@ -79,6 +88,7 @@ export function RegisterScreen() {
                 style={styles.input}
               />
             </Field>
+            {isTeacher ? null : (
             <Field label="Класс">
               <View style={styles.gradeRow}>
                 {SELECTABLE_GRADES.map((value) => (
@@ -94,6 +104,7 @@ export function RegisterScreen() {
                 ))}
               </View>
             </Field>
+            )}
 
             {localError ? <Text style={styles.error}>{localError}</Text> : null}
 
