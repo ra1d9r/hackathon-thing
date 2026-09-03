@@ -43,6 +43,7 @@ export const teacherRequestSchema = z.object({
 export const teacherRequestResponseSchema = z.object({
   request_id: z.uuid(),
   status: z.enum(['pending', 'approved']),
+  /** Подсказка клиенту: можно ли сразу открывать форму регистрации. */
   can_register_now: z.boolean(),
 });
 
@@ -63,8 +64,23 @@ export const meResponseSchema = z.object({
       target_exam_code: z.string().nullable(),
       target_date: z.string().nullable(),
       onboarding_completed_at: z.iso.datetime().nullable(),
+      passed_diagnostics: z.boolean(),
       diagnostic_attempt_id: z.uuid().nullable(),
+      // Различает «диагностику ещё не прошёл» от «банк вопросов пуст»: без
+      // этого клиент не может понять, есть ли смысл вести ученика назад
+      // на экран диагностики, или там нечего показывать.
       diagnostic_available: z.boolean(),
+      diagnostic_draft: z
+        .object({
+          attempt_id: z.uuid(),
+          assessment_id: z.uuid(),
+          status: z.enum(['in_progress']),
+          started_at: z.iso.datetime(),
+          submitted_at: z.iso.datetime().nullable(),
+          answered_count: z.number().int(),
+          total_count: z.number().int(),
+        })
+        .nullable(),
       subjects: z.array(
         z.object({
           code: z.string(),
