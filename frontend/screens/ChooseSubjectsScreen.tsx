@@ -26,10 +26,11 @@ export function ChooseSubjectsScreen() {
   const profileSelection = selectedSubjects.filter((code) => !mandatoryCodes.has(code));
   const slotCount = subjectOptions?.exam?.profile_slot_count ?? 0;
   const hasProfileSlots = slotCount > 0;
+  const hasProfileChoice = (subjectOptions?.profile.length ?? 0) > 0;
 
   const canContinue = hasProfileSlots
     ? profileSelection.length === slotCount
-    : selectedSubjects.length > 0;
+    : !hasProfileChoice || selectedSubjects.length > 0;
 
   const toggleProfileSubject = (code: string) => {
     if (hasProfileSlots && !selectedSubjects.includes(code) && profileSelection.length >= slotCount) {
@@ -63,7 +64,9 @@ export function ChooseSubjectsScreen() {
       subtitle={
         hasProfileSlots
           ? `Обязательные предметы закреплены. Выберите ровно ${slotCount} профильных.`
-          : "Выберите один или несколько предметов."
+          : hasProfileChoice
+            ? "Выберите один или несколько предметов."
+            : "Все предметы этого экзамена обязательные — выбирать ничего не нужно."
       }
     >
       {subjectOptions.mandatory.length > 0 ? (
@@ -75,20 +78,22 @@ export function ChooseSubjectsScreen() {
         </View>
       ) : null}
 
-      <View style={{ gap: 12 }}>
-        <Text style={{ color: "#101828", fontSize: 16, fontWeight: "800" }}>
-          {hasProfileSlots ? `Профильные предметы (${profileSelection.length}/${slotCount})` : "Доступные предметы"}
-        </Text>
-        {subjectOptions.profile.map((subject) => (
-          <OptionCard
-            key={subject.code}
-            title={subject.name}
-            selected={selectedSubjects.includes(subject.code)}
-            disabled={hasProfileSlots && profileSelection.length >= slotCount && !selectedSubjects.includes(subject.code)}
-            onPress={() => toggleProfileSubject(subject.code)}
-          />
-        ))}
-      </View>
+      {hasProfileChoice ? (
+        <View style={{ gap: 12 }}>
+          <Text style={{ color: "#101828", fontSize: 16, fontWeight: "800" }}>
+            {hasProfileSlots ? `Профильные предметы (${profileSelection.length}/${slotCount})` : "Доступные предметы"}
+          </Text>
+          {subjectOptions.profile.map((subject) => (
+            <OptionCard
+              key={subject.code}
+              title={subject.name}
+              selected={selectedSubjects.includes(subject.code)}
+              disabled={hasProfileSlots && profileSelection.length >= slotCount && !selectedSubjects.includes(subject.code)}
+              onPress={() => toggleProfileSubject(subject.code)}
+            />
+          ))}
+        </View>
+      ) : null}
 
       {(localError ?? error) ? <Text style={{ color: "#c31717", fontSize: 14 }}>{localError ?? error}</Text> : null}
 
