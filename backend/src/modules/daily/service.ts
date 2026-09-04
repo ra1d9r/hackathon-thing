@@ -12,13 +12,20 @@ import type {
 import { dailyItemStatusSchema } from '../../contracts/dto/daily.js';
 import { AppError } from '../../contracts/errors.js';
 import type { Sql, SqlExecutor } from '../../db/sql.js';
-import { itemMeta, planDailyItems } from '../../domain/daily.js';
+import { itemMeta, liveStreak, planDailyItems } from '../../domain/daily.js';
 import { localDate, resolveTimeZone } from '../../domain/day.js';
 import { enqueueJob, pollUrl, SUGGESTED_WAIT_MS } from '../../queue/jobs.js';
 import type { AuthUser } from '../../types/fastify.js';
 import { startAttempt } from '../attempts/service.js';
 import { loadStudentCurriculum } from '../curriculum/scope.js';
-import { loadDailyCandidates, loadPlan, storePlan, type PlanItemRow, type PlanRow } from './queries.js';
+import {
+  appendPlanItem,
+  loadDailyCandidates,
+  loadPlan,
+  storePlan,
+  type PlanItemRow,
+  type PlanRow,
+} from './queries.js';
 import { readStreak } from './streak.js';
 
 export type DailyPlanResponse = z.infer<typeof dailyPlanResponseSchema>;
@@ -137,7 +144,7 @@ export async function getDailyPlan(
       plan: null,
       items: [],
       streak: {
-        current: streak.current,
+        current: liveStreak(streak, date),
         longest: streak.longest,
         today_completed: streak.lastCompletedDate === date,
       },
@@ -157,7 +164,7 @@ export async function getDailyPlan(
     },
     items: plan.items.map(toItemView),
     streak: {
-      current: streak.current,
+      current: liveStreak(streak, date),
       longest: streak.longest,
       today_completed: streak.lastCompletedDate === date,
     },
@@ -209,6 +216,19 @@ async function resumableAttemptId(
   return row?.id ?? null;
 }
 
+async function isLessonCompleted(sql: Sql, studentId: string, lessonId: string): Promise<boolean> {
+  const [row] = await sql<{ completed: boolean }[]>`
+    select exists (
+      select 1 from public.lesson_progress lp
+       where lp.student_id = ${studentId}
+         and lp.lesson_id = ${lessonId}
+         and lp.completed_at is not null
+    ) as completed
+  `;
+
+  return row?.completed === true;
+}
+
 export async function startItem(
   sql: Sql,
   user: AuthUser,
@@ -226,8 +246,20 @@ export async function startItem(
        set status = 'in_progress'
      where id = ${itemId} and status = 'pending'
   `;
-  
+
   if (item.kind === 'lesson') {
+    if (item.lessonId !== null && (await isLessonCompleted(sql, user.id, item.lessonId))) {
+      await sql`
+        update public.daily_plan_items
+           set status = 'completed', completed_at = coalesce(completed_at, now())
+         where id = ${itemId}
+      `;
+
+      throw new AppError('STATE_CONFLICT', {
+        message: 'Урок уже пройден — пункт плана закрыт. Повторить его можно в дорожной карте.',
+      });
+    }
+
     const refreshed = await loadItemOwned(sql, user.id, itemId);
     return {
       item: toItemView(refreshed.item),
@@ -295,12 +327,58 @@ export async function startItem(
   };
 }
 
+async function completedLessonIds(sql: Sql, studentId: string): Promise<Set<string>> {
+  const rows = await sql<{ lesson_id: string }[]>`
+    select lesson_id from public.lesson_progress
+     where student_id = ${studentId} and completed_at is not null
+  `;
+
+  return new Set(rows.map((row) => row.lesson_id));
+}
+
+async function addReplacementItem(sql: Sql, studentId: string, plan: PlanRow): Promise<void> {
+  const curriculum = await loadStudentCurriculum(sql, studentId);
+  const candidates = await loadDailyCandidates(
+    sql,
+    studentId,
+    curriculum.scope.gradeMin,
+    curriculum.scope.gradeMax,
+  );
+
+  const usedTopics = new Set(plan.items.map((item) => item.topicId));
+  const finished = await completedLessonIds(sql, studentId);
+
+  const fresh = candidates.filter(
+    (candidate) =>
+      !usedTopics.has(candidate.topicId) &&
+      (candidate.lessonId === null || !finished.has(candidate.lessonId)),
+  );
+
+  const [planned] = planDailyItems(fresh, 1);
+  if (planned === undefined) {
+    return;
+  }
+
+  const lastPosition = plan.items.reduce((max, item) => Math.max(max, item.position), 0);
+
+  await appendPlanItem(sql, plan.id, {
+    position: lastPosition + 1,
+    kind: planned.kind,
+    topicId: planned.topicId,
+    subjectId: planned.subjectId,
+    title: planned.title,
+    meta: itemMeta(planned.estMinutes, null),
+    estMinutes: planned.estMinutes,
+    lessonId: planned.lessonId,
+  });
+}
+
 export async function skipItem(
   sql: Sql,
   user: AuthUser,
   itemId: string,
 ): Promise<SkipItemResponse> {
-  const { item } = await loadItemOwned(sql, user.id, itemId);
+  const { item, plan } = await loadItemOwned(sql, user.id, itemId);
 
   if (item.status === 'completed') {
     throw new AppError('STATE_CONFLICT', { message: 'Выполненный пункт нельзя пропустить' });
@@ -311,6 +389,8 @@ export async function skipItem(
        set status = 'skipped', completed_at = coalesce(completed_at, now())
      where id = ${itemId}
   `;
+
+  await addReplacementItem(sql, user.id, plan);
 
   const after = await loadItemOwned(sql, user.id, itemId);
 
@@ -326,7 +406,7 @@ export async function getStreak(sql: Sql, user: AuthUser): Promise<StreakRespons
   const streak = await readStreak(sql, user.id);
 
   return {
-    current: streak.current,
+    current: liveStreak(streak, date),
     longest: streak.longest,
     today_completed: streak.lastCompletedDate === date,
     date,

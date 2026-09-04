@@ -186,6 +186,32 @@ export interface StorePlanInput {
   }[];
 }
 
+export interface AppendItemInput {
+  readonly position: number;
+  readonly kind: DailyItemKind;
+  readonly topicId: string;
+  readonly subjectId: string | null;
+  readonly title: string;
+  readonly meta: string | null;
+  readonly estMinutes: number | null;
+  readonly lessonId: string | null;
+}
+
+export async function appendPlanItem(
+  sql: SqlExecutor,
+  planId: string,
+  item: AppendItemInput,
+): Promise<void> {
+  await sql`
+    insert into public.daily_plan_items (
+      plan_id, position, kind, topic_id, subject_id, title, meta, est_minutes, lesson_id
+    ) values (
+      ${planId}, ${item.position}, ${item.kind}::public.daily_item_kind, ${item.topicId},
+      ${item.subjectId}, ${item.title}, ${item.meta}, ${item.estMinutes}, ${item.lessonId}
+    )
+  `;
+}
+
 export async function storePlan(
   sql: SqlExecutor,
   input: StorePlanInput,
@@ -204,9 +230,6 @@ export async function storePlan(
     return null;
   }
 
-  
-  
-  
   const payload = input.items.map((item) => ({
     position: item.position,
     kind: item.kind,

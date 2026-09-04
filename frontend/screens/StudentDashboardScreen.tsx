@@ -72,6 +72,7 @@ export function StudentDashboardScreen() {
   const [data, setData] = useState<DashboardResponse | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isSkipping, setIsSkipping] = useState(false);
 
   const load = useCallback(() => {
     setIsLoading(true);
@@ -86,11 +87,13 @@ export function StudentDashboardScreen() {
 
   const skipTask = useCallback(
     (itemId: string) => {
+      setIsSkipping(true);
       apiPost(`/v1/daily-plan/items/${itemId}/skip`)
         .then(() => load())
         .catch((e: unknown) =>
           setError(errorText(e, "Не удалось пропустить задание")),
-        );
+        )
+        .finally(() => setIsSkipping(false));
     },
     [load],
   );
@@ -226,6 +229,13 @@ export function StudentDashboardScreen() {
           </>
         ) : null}
       </ScrollView>
+
+      {isSkipping ? (
+        <View style={styles.skipOverlay}>
+          <ActivityIndicator color={colors.blue} size="large" />
+          <Text style={styles.skipOverlayText}>Подбираем новое задание…</Text>
+        </View>
+      ) : null}
     </SafeAreaView>
   );
 }
@@ -441,6 +451,14 @@ const styles = StyleSheet.create({
   taskMeta: { marginTop: 8, color: "#6b6b6b", fontSize: 15, lineHeight: 20 },
   taskMetaDone: { color: "#777777" },
   skipLink: { marginTop: 8, color: colors.muted, fontSize: 13, fontWeight: "800" },
+  skipOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(251,250,249,0.82)",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 12,
+  },
+  skipOverlayText: { color: colors.muted, fontSize: 14, fontWeight: "700" },
   subjectBadge: { maxWidth: 132, borderRadius: 3, backgroundColor: "#e9e7e7", paddingHorizontal: 8, paddingVertical: 3 },
   subjectBadgeText: { color: colors.muted, fontSize: 11, fontWeight: "800" },
   pressed: { opacity: 0.76 }

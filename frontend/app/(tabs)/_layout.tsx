@@ -1,8 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 import type { BottomTabBarProps } from "@react-navigation/bottom-tabs";
-import { Tabs } from "expo-router";
+import { router, Tabs } from "expo-router";
+import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+
+import { routes } from "@/types/navigation";
 
 const tabConfig: Record<
   string,
@@ -23,25 +26,94 @@ const tabConfig: Record<
     label: "Прогресс",
     icon: "git-compare-outline"
   },
-  assistant: {
-    label: "Ассистент",
-    icon: "sparkles-outline"
+  chat: {
+    label: "Чат",
+    icon: "chatbubbles-outline"
   }
 };
 
+const HIDDEN_TABS = new Set(["assistant"]);
+
 export default function TabsLayout() {
   return (
-    <Tabs
-      tabBar={(props) => <AppTabBar {...props} />}
-      screenOptions={{
-        headerShown: false
-      }}
-    >
-      <Tabs.Screen name="dashboard" options={{ title: "Панель" }} />
-      <Tabs.Screen name="learning" options={{ title: "Обучение" }} />
-      <Tabs.Screen name="progress" options={{ title: "Прогресс" }} />
-      <Tabs.Screen name="assistant" options={{ title: "Ассистент" }} />
-    </Tabs>
+    <View style={styles.root}>
+      <Tabs
+        tabBar={(props) => <AppTabBar {...props} />}
+        screenOptions={{
+          headerShown: false
+        }}
+      >
+        <Tabs.Screen name="dashboard" options={{ title: "Панель" }} />
+        <Tabs.Screen name="learning" options={{ title: "Обучение" }} />
+        <Tabs.Screen name="progress" options={{ title: "Прогресс" }} />
+        <Tabs.Screen name="chat" options={{ title: "Чат" }} />
+        <Tabs.Screen name="assistant" options={{ title: "Ассистент" }} />
+      </Tabs>
+      <AssistantDock />
+    </View>
+  );
+}
+
+function AssistantDock() {
+  const insets = useSafeAreaInsets();
+  const [isOpen, setIsOpen] = useState(false);
+
+  if (!isOpen) {
+    return (
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="ИИ-ассистент"
+        onPress={() => setIsOpen(true)}
+        style={({ pressed }) => [
+          styles.dockHandle,
+          { bottom: 96 + insets.bottom },
+          pressed && styles.pressed
+        ]}
+      >
+        <Ionicons name="sparkles-outline" size={22} color="#ffffff" />
+      </Pressable>
+    );
+  }
+
+  return (
+    <View style={styles.dockLayer}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Закрыть панель"
+        onPress={() => setIsOpen(false)}
+        style={styles.dockBackdrop}
+      />
+      <View style={[styles.dockPanel, { bottom: 84 + insets.bottom }]}>
+        <View style={styles.dockHeader}>
+          <Ionicons name="sparkles" size={20} color={colors.active} />
+          <Text style={styles.dockTitle}>ИИ-ассистент</Text>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Свернуть"
+            onPress={() => setIsOpen(false)}
+            style={({ pressed }) => [pressed && styles.pressed]}
+          >
+            <Ionicons name="close" size={22} color={colors.inactive} />
+          </Pressable>
+        </View>
+
+        <Text style={styles.dockHint}>
+          Разберёт тему, подскажет по домашнему заданию и объяснит непонятное.
+        </Text>
+
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => {
+            setIsOpen(false);
+            router.push(routes.assistant);
+          }}
+          style={({ pressed }) => [styles.dockButton, pressed && styles.pressed]}
+        >
+          <Ionicons name="chatbubble-ellipses-outline" size={18} color="#ffffff" />
+          <Text style={styles.dockButtonText}>Открыть ИИ-ассистента</Text>
+        </Pressable>
+      </View>
+    </View>
   );
 }
 
@@ -52,6 +124,8 @@ function AppTabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   return (
     <View style={[styles.tabBar, { paddingBottom: bottomPadding, minHeight: 70 + bottomPadding }]}>
       {state.routes.map((route, index) => {
+        if (HIDDEN_TABS.has(route.name)) return null;
+
         const focused = state.index === index;
         const config = tabConfig[route.name];
         const options = descriptors[route.key]?.options;
@@ -107,6 +181,51 @@ const colors = {
 };
 
 const styles = StyleSheet.create({
+  root: { flex: 1 },
+  dockHandle: {
+    position: "absolute",
+    right: 0,
+    width: 44,
+    height: 52,
+    borderTopLeftRadius: 14,
+    borderBottomLeftRadius: 14,
+    backgroundColor: colors.active,
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  dockLayer: {
+    ...StyleSheet.absoluteFillObject
+  },
+  dockBackdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0,0,0,0.22)"
+  },
+  dockPanel: {
+    position: "absolute",
+    right: 12,
+    left: 12,
+    maxWidth: 360,
+    alignSelf: "flex-end",
+    borderRadius: 14,
+    borderColor: colors.border,
+    borderWidth: 1,
+    backgroundColor: "#ffffff",
+    padding: 16,
+    gap: 12
+  },
+  dockHeader: { flexDirection: "row", alignItems: "center", gap: 8 },
+  dockTitle: { flex: 1, color: colors.active, fontSize: 17, fontWeight: "900" },
+  dockHint: { color: colors.inactive, fontSize: 14, lineHeight: 20 },
+  dockButton: {
+    minHeight: 46,
+    borderRadius: 10,
+    backgroundColor: colors.active,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8
+  },
+  dockButtonText: { color: "#ffffff", fontSize: 15, fontWeight: "800" },
   tabBar: {
     width: "100%",
     borderTopColor: colors.border,
