@@ -11,6 +11,7 @@ export interface MaintenanceReport {
   readonly idempotencyKeysRemoved: number;
   readonly orphanFilesRemoved: number;
   readonly prioritiesRefreshed: number;
+  readonly expiredMaterialsRemoved: number;
 }
 
 const AUTOSUBMIT_BATCH = 25;
@@ -18,6 +19,8 @@ const AUTOSUBMIT_BATCH = 25;
 const ORPHAN_FILE_AGE = '1 day';
 
 const PRIORITY_STALE_AFTER = '20 hours';
+
+const TEACHER_MATERIAL_TTL = '30 days';
 
 async function autoSubmitExpired(sql: Sql, log: FastifyBaseLogger): Promise<number> {
   const expired = await sql<{ id: string; student_id: string; answered: number }[]>`
@@ -91,6 +94,41 @@ async function removeOrphanFiles(
   return orphans.length;
 }
 
+async function removeExpiredTeacherMaterials(
+  sql: Sql,
+  admin: SupabaseAdmin | null,
+  log: FastifyBaseLogger,
+): Promise<number> {
+  const expired = await sql<{ id: string; bucket: string | null; path: string | null }[]>`
+    with doomed as (
+      delete from public.materials m
+       where m.kind in ('teacher_upload', 'teacher_link', 'teacher_text')
+         and m.created_at < now() - ${TEACHER_MATERIAL_TTL}::interval
+      returning m.id, m.file_id
+    ),
+    files as (
+      delete from public.file_objects f
+       using doomed d
+       where f.id = d.file_id
+      returning f.id as file_id, f.bucket, f.path
+    )
+    select d.id, f.bucket, f.path
+      from doomed d
+      left join files f on f.file_id = d.file_id
+  `;
+
+  if (admin !== null) {
+    for (const item of expired) {
+      if (item.bucket === null || item.path === null) continue;
+      await admin.removeObject(item.bucket, item.path).catch((error: unknown) => {
+        log.warn({ err: error, path: item.path }, 'файл истёкшего материала не удалён');
+      });
+    }
+  }
+
+  return expired.length;
+}
+
 export interface MaintenanceOptions {
   readonly admin?: SupabaseAdmin | null;
 }
@@ -116,11 +154,18 @@ export async function runMaintenance(
 
   const orphanFilesRemoved = await removeOrphanFiles(sql, options.admin ?? null, log);
 
+  const expiredMaterialsRemoved = await removeExpiredTeacherMaterials(
+    sql,
+    options.admin ?? null,
+    log,
+  );
+
   return {
     reclaimed: reclaimRow?.reclaim_stale_jobs ?? 0,
     autoSubmitted,
     idempotencyKeysRemoved: expiredKeys.length,
     orphanFilesRemoved,
     prioritiesRefreshed: priorityRow?.refresh_priorities ?? 0,
+    expiredMaterialsRemoved,
   };
 }

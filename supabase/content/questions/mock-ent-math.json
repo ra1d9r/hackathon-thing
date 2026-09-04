@@ -5,25 +5,67 @@
   "questions": [
     {
       "code": "mock.ent.math.g7.power.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g7.stepen-s-celym-pokazatelem",
       "grade": 7,
       "difficulty": 3,
       "prompt_md": "Вычислите значение выражения 3^4 · 3^(−2).",
-      "options": null,
-      "answer_key": { "value": 9, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "3"
+        },
+        {
+          "id": "b",
+          "text_md": "9"
+        },
+        {
+          "id": "c",
+          "text_md": "27"
+        },
+        {
+          "id": "d",
+          "text_md": "81"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "При умножении степеней с одинаковым основанием показатели складываются: 3^(4−2) = 3^2 = 9.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g7.power.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g7.stepen-s-celym-pokazatelem",
       "grade": 7,
       "difficulty": 3,
       "prompt_md": "Вычислите значение выражения (2^3)^2 : 2^4.",
-      "options": null,
-      "answer_key": { "value": 4, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2"
+        },
+        {
+          "id": "b",
+          "text_md": "4"
+        },
+        {
+          "id": "c",
+          "text_md": "8"
+        },
+        {
+          "id": "d",
+          "text_md": "16"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "(2^3)^2 = 2^6. Далее 2^6 : 2^4 = 2^2 = 4.",
       "points": 1
     },
@@ -35,12 +77,28 @@
       "difficulty": 3,
       "prompt_md": "Приведите одночлен к стандартному виду: 3x · 2x²y · 5y.",
       "options": [
-        { "id": "a", "text_md": "30x³y²" },
-        { "id": "b", "text_md": "10x³y²" },
-        { "id": "c", "text_md": "30x²y²" },
-        { "id": "d", "text_md": "30x³y" }
+        {
+          "id": "a",
+          "text_md": "30x³y²"
+        },
+        {
+          "id": "b",
+          "text_md": "10x³y²"
+        },
+        {
+          "id": "c",
+          "text_md": "30x²y²"
+        },
+        {
+          "id": "d",
+          "text_md": "30x³y"
+        }
       ],
-      "answer_key": { "correct": ["a"] },
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
       "explanation_md": "Коэффициенты перемножаются: 3 · 2 · 5 = 30. Показатели одинаковых букв складываются: x^(1+2) = x³, y^(1+1) = y².",
       "points": 1
     },
@@ -52,24 +110,61 @@
       "difficulty": 3,
       "prompt_md": "Разложите на множители: x² − 9y².",
       "options": [
-        { "id": "a", "text_md": "(x − 3y)(x + 3y)" },
-        { "id": "b", "text_md": "(x − 9y)(x + 9y)" },
-        { "id": "c", "text_md": "(x − 3y)²" },
-        { "id": "d", "text_md": "x(x − 9y)" }
+        {
+          "id": "a",
+          "text_md": "(x − 3y)(x + 3y)"
+        },
+        {
+          "id": "b",
+          "text_md": "(x − 9y)(x + 9y)"
+        },
+        {
+          "id": "c",
+          "text_md": "(x − 3y)²"
+        },
+        {
+          "id": "d",
+          "text_md": "x(x − 9y)"
+        }
       ],
-      "answer_key": { "correct": ["a"] },
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
       "explanation_md": "Это разность квадратов: x² − (3y)² = (x − 3y)(x + 3y).",
       "points": 1
     },
     {
       "code": "mock.ent.math.g7.polynomial.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g7.mnogochleny",
       "grade": 7,
       "difficulty": 4,
       "prompt_md": "Найдите значение выражения (a − b)(a + b) при a = 13 и b = 12.",
-      "options": null,
-      "answer_key": { "value": 25, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "1"
+        },
+        {
+          "id": "b",
+          "text_md": "25"
+        },
+        {
+          "id": "c",
+          "text_md": "156"
+        },
+        {
+          "id": "d",
+          "text_md": "313"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "(a − b)(a + b) = a² − b² = 169 − 144 = 25. Считать по формуле быстрее, чем возводить в квадрат по отдельности.",
       "points": 1
     },
@@ -81,12 +176,28 @@
       "difficulty": 3,
       "prompt_md": "График функции y = 2x − 6 пересекает ось абсцисс в точке с абсциссой:",
       "options": [
-        { "id": "a", "text_md": "−6" },
-        { "id": "b", "text_md": "2" },
-        { "id": "c", "text_md": "3" },
-        { "id": "d", "text_md": "6" }
+        {
+          "id": "a",
+          "text_md": "−6"
+        },
+        {
+          "id": "b",
+          "text_md": "2"
+        },
+        {
+          "id": "c",
+          "text_md": "3"
+        },
+        {
+          "id": "d",
+          "text_md": "6"
+        }
       ],
-      "answer_key": { "correct": ["c"] },
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
       "explanation_md": "На оси абсцисс y = 0, значит 2x − 6 = 0 и x = 3. Число −6 — это точка пересечения с осью ординат.",
       "points": 1
     },
@@ -98,36 +209,94 @@
       "difficulty": 3,
       "prompt_md": "Раскройте скобки: (3a + 2)².",
       "options": [
-        { "id": "a", "text_md": "9a² + 4" },
-        { "id": "b", "text_md": "9a² + 6a + 4" },
-        { "id": "c", "text_md": "9a² + 12a + 4" },
-        { "id": "d", "text_md": "3a² + 12a + 4" }
+        {
+          "id": "a",
+          "text_md": "9a² + 4"
+        },
+        {
+          "id": "b",
+          "text_md": "9a² + 6a + 4"
+        },
+        {
+          "id": "c",
+          "text_md": "9a² + 12a + 4"
+        },
+        {
+          "id": "d",
+          "text_md": "3a² + 12a + 4"
+        }
       ],
-      "answer_key": { "correct": ["c"] },
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
       "explanation_md": "(a + b)² = a² + 2ab + b². Здесь 9a² + 2 · 3a · 2 + 4 = 9a² + 12a + 4.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g7.square.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g7.kvadrat-summy-i-kvadrat-raznosti-dvuh-vyrazheniy",
       "grade": 7,
       "difficulty": 4,
       "prompt_md": "Известно, что a + b = 7 и ab = 10. Найдите a² + b².",
-      "options": null,
-      "answer_key": { "value": 29, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "24"
+        },
+        {
+          "id": "b",
+          "text_md": "29"
+        },
+        {
+          "id": "c",
+          "text_md": "39"
+        },
+        {
+          "id": "d",
+          "text_md": "49"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "(a + b)² = a² + 2ab + b², значит a² + b² = 49 − 2 · 10 = 29.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g8.sqrt.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g8.opredelenie-kvadratnogo-kornya",
       "grade": 8,
       "difficulty": 3,
       "prompt_md": "Вычислите значение выражения sqrt(144) − sqrt(81).",
-      "options": null,
-      "answer_key": { "value": 3, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "3"
+        },
+        {
+          "id": "b",
+          "text_md": "7"
+        },
+        {
+          "id": "c",
+          "text_md": "21"
+        },
+        {
+          "id": "d",
+          "text_md": "63"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
       "explanation_md": "sqrt(144) = 12, sqrt(81) = 9. Разность равна 3.",
       "points": 1
     },
@@ -139,24 +308,61 @@
       "difficulty": 4,
       "prompt_md": "Упростите выражение sqrt(72) + sqrt(8).",
       "options": [
-        { "id": "a", "text_md": "8·sqrt(2)" },
-        { "id": "b", "text_md": "sqrt(80)" },
-        { "id": "c", "text_md": "10·sqrt(2)" },
-        { "id": "d", "text_md": "6·sqrt(2)" }
+        {
+          "id": "a",
+          "text_md": "8·sqrt(2)"
+        },
+        {
+          "id": "b",
+          "text_md": "sqrt(80)"
+        },
+        {
+          "id": "c",
+          "text_md": "10·sqrt(2)"
+        },
+        {
+          "id": "d",
+          "text_md": "6·sqrt(2)"
+        }
       ],
-      "answer_key": { "correct": ["a"] },
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
       "explanation_md": "sqrt(72) = 6·sqrt(2), sqrt(8) = 2·sqrt(2). Сумма: 8·sqrt(2). Вариант sqrt(80) — ошибка «сложить под корнем».",
       "points": 1
     },
     {
       "code": "mock.ent.math.g8.sqrt.3",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g8.svoystva-kvadratnogo-kornya",
       "grade": 8,
       "difficulty": 4,
       "prompt_md": "Вычислите значение выражения sqrt(45) · sqrt(20).",
-      "options": null,
-      "answer_key": { "value": 30, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "15"
+        },
+        {
+          "id": "b",
+          "text_md": "25"
+        },
+        {
+          "id": "c",
+          "text_md": "30"
+        },
+        {
+          "id": "d",
+          "text_md": "65"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
       "explanation_md": "Произведение корней равно корню произведения: sqrt(45 · 20) = sqrt(900) = 30.",
       "points": 1
     },
@@ -168,24 +374,61 @@
       "difficulty": 3,
       "prompt_md": "Какое из чисел является иррациональным?",
       "options": [
-        { "id": "a", "text_md": "sqrt(16)" },
-        { "id": "b", "text_md": "0,75" },
-        { "id": "c", "text_md": "sqrt(7)" },
-        { "id": "d", "text_md": "22/7" }
+        {
+          "id": "a",
+          "text_md": "sqrt(16)"
+        },
+        {
+          "id": "b",
+          "text_md": "0,75"
+        },
+        {
+          "id": "c",
+          "text_md": "sqrt(7)"
+        },
+        {
+          "id": "d",
+          "text_md": "22/7"
+        }
       ],
-      "answer_key": { "correct": ["c"] },
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
       "explanation_md": "sqrt(16) = 4 — целое, 0,75 и 22/7 — обыкновенные дроби. Корень из семи не представим дробью, значит иррационален.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g8.quadratic.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g8.opredelenie-kvadratnogo-uravneniya",
       "grade": 8,
       "difficulty": 3,
       "prompt_md": "Найдите дискриминант уравнения 2x² − 7x + 3 = 0.",
-      "options": null,
-      "answer_key": { "value": 25, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "1"
+        },
+        {
+          "id": "b",
+          "text_md": "5"
+        },
+        {
+          "id": "c",
+          "text_md": "25"
+        },
+        {
+          "id": "d",
+          "text_md": "73"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
       "explanation_md": "D = b² − 4ac = 49 − 4 · 2 · 3 = 49 − 24 = 25.",
       "points": 1
     },
@@ -197,36 +440,94 @@
       "difficulty": 4,
       "prompt_md": "При каком значении k уравнение x² − 6x + k = 0 имеет ровно один корень?",
       "options": [
-        { "id": "a", "text_md": "k = 3" },
-        { "id": "b", "text_md": "k = 6" },
-        { "id": "c", "text_md": "k = 9" },
-        { "id": "d", "text_md": "k = 36" }
+        {
+          "id": "a",
+          "text_md": "k = 3"
+        },
+        {
+          "id": "b",
+          "text_md": "k = 6"
+        },
+        {
+          "id": "c",
+          "text_md": "k = 9"
+        },
+        {
+          "id": "d",
+          "text_md": "k = 36"
+        }
       ],
-      "answer_key": { "correct": ["c"] },
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
       "explanation_md": "Один корень означает D = 0: 36 − 4k = 0, откуда k = 9.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g8.viete.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g8.teorema-vieta",
       "grade": 8,
       "difficulty": 3,
       "prompt_md": "Корни уравнения x² − 11x + 24 = 0 равны x₁ и x₂. Найдите x₁ · x₂.",
-      "options": null,
-      "answer_key": { "value": 24, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "−24"
+        },
+        {
+          "id": "b",
+          "text_md": "−11"
+        },
+        {
+          "id": "c",
+          "text_md": "11"
+        },
+        {
+          "id": "d",
+          "text_md": "24"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "d"
+        ]
+      },
       "explanation_md": "По теореме Виета произведение корней приведённого уравнения равно свободному члену: 24. Сами корни — 3 и 8.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g8.viete.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g8.teorema-vieta",
       "grade": 8,
       "difficulty": 4,
       "prompt_md": "Сумма корней уравнения x² + px − 12 = 0 равна 4. Найдите p.",
-      "options": null,
-      "answer_key": { "value": -4, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "−12"
+        },
+        {
+          "id": "b",
+          "text_md": "−4"
+        },
+        {
+          "id": "c",
+          "text_md": "4"
+        },
+        {
+          "id": "d",
+          "text_md": "12"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "По теореме Виета сумма корней приведённого уравнения равна −p. Значит −p = 4 и p = −4.",
       "points": 1
     },
@@ -238,84 +539,226 @@
       "difficulty": 4,
       "prompt_md": "Что представляет собой множество точек, заданное уравнением x² + y² = 25?",
       "options": [
-        { "id": "a", "text_md": "Окружность радиуса 5 с центром в начале координат" },
-        { "id": "b", "text_md": "Окружность радиуса 25" },
-        { "id": "c", "text_md": "Прямая" },
-        { "id": "d", "text_md": "Парабола" }
+        {
+          "id": "a",
+          "text_md": "Окружность радиуса 5 с центром в начале координат"
+        },
+        {
+          "id": "b",
+          "text_md": "Окружность радиуса 25"
+        },
+        {
+          "id": "c",
+          "text_md": "Прямая"
+        },
+        {
+          "id": "d",
+          "text_md": "Парабола"
+        }
       ],
-      "answer_key": { "correct": ["a"] },
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
       "explanation_md": "Уравнение вида x² + y² = R² задаёт окружность с центром в начале координат и радиусом R. Здесь R = sqrt(25) = 5.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g9.combinatorics.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g9.osnovnye-ponyatiya-i-pravila-kombinatoriki",
       "grade": 9,
       "difficulty": 3,
       "prompt_md": "В меню 4 первых блюда и 5 вторых. Сколькими способами можно выбрать обед из первого и второго?",
-      "options": null,
-      "answer_key": { "value": 20, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "9 способами"
+        },
+        {
+          "id": "b",
+          "text_md": "20 способами"
+        },
+        {
+          "id": "c",
+          "text_md": "45 способами"
+        },
+        {
+          "id": "d",
+          "text_md": "120 способами"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "По правилу произведения: 4 · 5 = 20 способов.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g9.factorial.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g9.faktorial-chisla-perestanovki-i-razmescheniya",
       "grade": 9,
       "difficulty": 3,
       "prompt_md": "Вычислите значение выражения 6! : 4!.",
-      "options": null,
-      "answer_key": { "value": 30, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2"
+        },
+        {
+          "id": "b",
+          "text_md": "24"
+        },
+        {
+          "id": "c",
+          "text_md": "30"
+        },
+        {
+          "id": "d",
+          "text_md": "360"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
       "explanation_md": "6! : 4! = 6 · 5 = 30. Расписывать факториалы целиком не нужно: общие множители сокращаются.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g9.factorial.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g9.faktorial-chisla-perestanovki-i-razmescheniya",
       "grade": 9,
       "difficulty": 4,
       "prompt_md": "Сколькими способами можно рассадить 5 человек на 5 стульев?",
-      "options": null,
-      "answer_key": { "value": 120, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "25 способами"
+        },
+        {
+          "id": "b",
+          "text_md": "60 способами"
+        },
+        {
+          "id": "c",
+          "text_md": "120 способами"
+        },
+        {
+          "id": "d",
+          "text_md": "720 способами"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
       "explanation_md": "Это перестановки: P(5) = 5! = 120.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g9.sequence.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g9.chislovaya-posledovatelnost",
       "grade": 9,
       "difficulty": 3,
       "prompt_md": "Последовательность задана формулой a_n = n² − 2n. Найдите a_5.",
-      "options": null,
-      "answer_key": { "value": 15, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "10"
+        },
+        {
+          "id": "b",
+          "text_md": "15"
+        },
+        {
+          "id": "c",
+          "text_md": "20"
+        },
+        {
+          "id": "d",
+          "text_md": "35"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "a_5 = 25 − 10 = 15.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g9.progression.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g9.arifmeticheskaya-progressiya",
       "grade": 9,
       "difficulty": 4,
       "prompt_md": "В арифметической прогрессии a₁ = 7, d = 4. Найдите сумму первых 12 членов.",
-      "options": null,
-      "answer_key": { "value": 348, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "174"
+        },
+        {
+          "id": "b",
+          "text_md": "300"
+        },
+        {
+          "id": "c",
+          "text_md": "348"
+        },
+        {
+          "id": "d",
+          "text_md": "636"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
       "explanation_md": "S_n = n · (2a₁ + (n − 1)d) / 2 = 12 · (14 + 44) / 2 = 12 · 29 = 348.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g9.progression.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g9.arifmeticheskaya-progressiya",
       "grade": 9,
       "difficulty": 4,
       "prompt_md": "В арифметической прогрессии a₃ = 11 и a₇ = 27. Найдите разность прогрессии.",
-      "options": null,
-      "answer_key": { "value": 4, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2"
+        },
+        {
+          "id": "b",
+          "text_md": "4"
+        },
+        {
+          "id": "c",
+          "text_md": "8"
+        },
+        {
+          "id": "d",
+          "text_md": "16"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "a₇ − a₃ = 4d, значит 27 − 11 = 16 = 4d и d = 4.",
       "points": 1
     },
@@ -327,24 +770,61 @@
       "difficulty": 3,
       "prompt_md": "Чему равен период функции y = cos(2x)?",
       "options": [
-        { "id": "a", "text_md": "pi/2" },
-        { "id": "b", "text_md": "pi" },
-        { "id": "c", "text_md": "2·pi" },
-        { "id": "d", "text_md": "4·pi" }
+        {
+          "id": "a",
+          "text_md": "pi/2"
+        },
+        {
+          "id": "b",
+          "text_md": "pi"
+        },
+        {
+          "id": "c",
+          "text_md": "2·pi"
+        },
+        {
+          "id": "d",
+          "text_md": "4·pi"
+        }
       ],
-      "answer_key": { "correct": ["b"] },
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "Период косинуса равен 2·pi; при аргументе kx он сжимается в k раз: 2·pi / 2 = pi.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g10.trig.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g10.issledovanie-svoystv-osnovnyh",
       "grade": 10,
       "difficulty": 4,
       "prompt_md": "Известно, что sin(a) = 0,6 и угол a лежит в первой четверти. Найдите cos(a).",
-      "options": null,
-      "answer_key": { "value": 0.8, "tolerance": 0.01 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "0,4"
+        },
+        {
+          "id": "b",
+          "text_md": "0,6"
+        },
+        {
+          "id": "c",
+          "text_md": "0,64"
+        },
+        {
+          "id": "d",
+          "text_md": "0,8"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "d"
+        ]
+      },
       "explanation_md": "Из основного тождества cos²(a) = 1 − 0,36 = 0,64. В первой четверти косинус положителен, значит cos(a) = 0,8.",
       "points": 1
     },
@@ -356,36 +836,94 @@
       "difficulty": 4,
       "prompt_md": "Решите уравнение cos x = 0. Запишите общий вид корней.",
       "options": [
-        { "id": "a", "text_md": "x = pi·n" },
-        { "id": "b", "text_md": "x = pi/2 + pi·n" },
-        { "id": "c", "text_md": "x = pi/2 + 2·pi·n" },
-        { "id": "d", "text_md": "x = 2·pi·n" }
+        {
+          "id": "a",
+          "text_md": "x = pi·n"
+        },
+        {
+          "id": "b",
+          "text_md": "x = pi/2 + pi·n"
+        },
+        {
+          "id": "c",
+          "text_md": "x = pi/2 + 2·pi·n"
+        },
+        {
+          "id": "d",
+          "text_md": "x = 2·pi·n"
+        }
       ],
-      "answer_key": { "correct": ["b"] },
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "Косинус обращается в ноль в точках pi/2 и 3·pi/2, то есть через каждые pi. Общий вид: pi/2 + pi·n.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g10.polynomial.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g10.mnogochleny-s-neskolkimi-peremennymi",
       "grade": 10,
       "difficulty": 4,
       "prompt_md": "Найдите значение выражения x³ + y³ при x + y = 4 и xy = 3.",
-      "options": null,
-      "answer_key": { "value": 28, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "16"
+        },
+        {
+          "id": "b",
+          "text_md": "28"
+        },
+        {
+          "id": "c",
+          "text_md": "36"
+        },
+        {
+          "id": "d",
+          "text_md": "64"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "x³ + y³ = (x + y)³ − 3xy(x + y) = 64 − 3 · 3 · 4 = 64 − 36 = 28.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g10.limit.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g10.predel-funkcii-v-tochke",
       "grade": 10,
       "difficulty": 4,
       "prompt_md": "Вычислите предел функции (x² − 4)/(x − 2) при x, стремящемся к 2.",
-      "options": null,
-      "answer_key": { "value": 4, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "0"
+        },
+        {
+          "id": "b",
+          "text_md": "2"
+        },
+        {
+          "id": "c",
+          "text_md": "4"
+        },
+        {
+          "id": "d",
+          "text_md": "8"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
       "explanation_md": "Числитель раскладывается: (x − 2)(x + 2). После сокращения остаётся x + 2, и при x → 2 предел равен 4.",
       "points": 1
     },
@@ -397,24 +935,61 @@
       "difficulty": 3,
       "prompt_md": "Найдите производную функции f(x) = x³ − 4x + 7.",
       "options": [
-        { "id": "a", "text_md": "3x² − 4" },
-        { "id": "b", "text_md": "3x² − 4x" },
-        { "id": "c", "text_md": "x² − 4" },
-        { "id": "d", "text_md": "3x² − 4 + 7" }
+        {
+          "id": "a",
+          "text_md": "3x² − 4"
+        },
+        {
+          "id": "b",
+          "text_md": "3x² − 4x"
+        },
+        {
+          "id": "c",
+          "text_md": "x² − 4"
+        },
+        {
+          "id": "d",
+          "text_md": "3x² − 4 + 7"
+        }
       ],
-      "answer_key": { "correct": ["a"] },
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
       "explanation_md": "(x^n)' = n·x^(n−1), производная константы равна нулю: f'(x) = 3x² − 4.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g10.derivative.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g10.proizvodnaya-i-differencial-funkcii",
       "grade": 10,
       "difficulty": 4,
       "prompt_md": "Найдите значение производной функции f(x) = x² − 6x в точке x = 4.",
-      "options": null,
-      "answer_key": { "value": 2, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "−6"
+        },
+        {
+          "id": "b",
+          "text_md": "2"
+        },
+        {
+          "id": "c",
+          "text_md": "8"
+        },
+        {
+          "id": "d",
+          "text_md": "14"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "f'(x) = 2x − 6; при x = 4 получаем 8 − 6 = 2.",
       "points": 1
     },
@@ -426,48 +1001,127 @@
       "difficulty": 3,
       "prompt_md": "Найдите первообразную функции f(x) = 3x².",
       "options": [
-        { "id": "a", "text_md": "6x + C" },
-        { "id": "b", "text_md": "x³ + C" },
-        { "id": "c", "text_md": "3x³ + C" },
-        { "id": "d", "text_md": "x³/3 + C" }
+        {
+          "id": "a",
+          "text_md": "6x + C"
+        },
+        {
+          "id": "b",
+          "text_md": "x³ + C"
+        },
+        {
+          "id": "c",
+          "text_md": "3x³ + C"
+        },
+        {
+          "id": "d",
+          "text_md": "x³/3 + C"
+        }
       ],
-      "answer_key": { "correct": ["b"] },
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "Первообразная для x^n — это x^(n+1)/(n+1). Для 3x² получаем 3 · x³/3 = x³, и обязательна постоянная C.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g11.integral.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g11.pervoobraznaya-i-neopredelennyy-integral",
       "grade": 11,
       "difficulty": 4,
       "prompt_md": "Вычислите определённый интеграл от функции 2x на отрезке от 1 до 3.",
-      "options": null,
-      "answer_key": { "value": 8, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "4"
+        },
+        {
+          "id": "b",
+          "text_md": "8"
+        },
+        {
+          "id": "c",
+          "text_md": "9"
+        },
+        {
+          "id": "d",
+          "text_md": "10"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "Первообразная равна x². По формуле Ньютона — Лейбница: 3² − 1² = 9 − 1 = 8.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g11.stats.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g11.generalnaya-i-vyborochnaya-sovokupnosti",
       "grade": 11,
       "difficulty": 3,
       "prompt_md": "Найдите среднее арифметическое выборки: 4, 8, 6, 10, 2.",
-      "options": null,
-      "answer_key": { "value": 6, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "5"
+        },
+        {
+          "id": "b",
+          "text_md": "6"
+        },
+        {
+          "id": "c",
+          "text_md": "7"
+        },
+        {
+          "id": "d",
+          "text_md": "30"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "Сумма равна 30, элементов пять: 30 / 5 = 6.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g11.root.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g11.koren-n-y-stepeni-i-ego-svoystva",
       "grade": 11,
       "difficulty": 3,
       "prompt_md": "Вычислите значение выражения 64^(1/3).",
-      "options": null,
-      "answer_key": { "value": 4, "tolerance": 0 },
+      "options": [
+        {
+          "id": "a",
+          "text_md": "4"
+        },
+        {
+          "id": "b",
+          "text_md": "8"
+        },
+        {
+          "id": "c",
+          "text_md": "16"
+        },
+        {
+          "id": "d",
+          "text_md": "21"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
       "explanation_md": "Кубический корень из 64 равен 4, поскольку 4³ = 64.",
       "points": 1
     },
@@ -479,36 +1133,94 @@
       "difficulty": 4,
       "prompt_md": "Вычислите значение выражения 16^(3/4).",
       "options": [
-        { "id": "a", "text_md": "8" },
-        { "id": "b", "text_md": "12" },
-        { "id": "c", "text_md": "4" },
-        { "id": "d", "text_md": "64" }
+        {
+          "id": "a",
+          "text_md": "8"
+        },
+        {
+          "id": "b",
+          "text_md": "12"
+        },
+        {
+          "id": "c",
+          "text_md": "4"
+        },
+        {
+          "id": "d",
+          "text_md": "64"
+        }
       ],
-      "answer_key": { "correct": ["a"] },
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
       "explanation_md": "16^(3/4) = (16^(1/4))³ = 2³ = 8.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g11.irrational.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g11.irracionalnye-uravneniya-i-ih-sistemy",
       "grade": 11,
       "difficulty": 4,
-      "prompt_md": "Решите уравнение sqrt(2x + 3) = 5. В ответ запишите значение x.",
-      "options": null,
-      "answer_key": { "value": 11, "tolerance": 0 },
+      "prompt_md": "Решите уравнение sqrt(2x + 3) = 5. Чему равен x?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "8"
+        },
+        {
+          "id": "b",
+          "text_md": "11"
+        },
+        {
+          "id": "c",
+          "text_md": "14"
+        },
+        {
+          "id": "d",
+          "text_md": "22"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "Возводим обе части в квадрат: 2x + 3 = 25, значит 2x = 22 и x = 11. Проверка: sqrt(25) = 5 — верно.",
       "points": 1
     },
     {
       "code": "mock.ent.math.g11.irrational.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "math.g11.irracionalnye-uravneniya-i-ih-sistemy",
       "grade": 11,
       "difficulty": 5,
-      "prompt_md": "Сколько корней имеет уравнение sqrt(x + 2) = x − 4? Ответ дайте числом.",
-      "options": null,
-      "answer_key": { "value": 1, "tolerance": 0 },
+      "prompt_md": "Сколько корней имеет уравнение sqrt(x + 2) = x − 4?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "ни одного"
+        },
+        {
+          "id": "b",
+          "text_md": "один корень"
+        },
+        {
+          "id": "c",
+          "text_md": "два корня"
+        },
+        {
+          "id": "d",
+          "text_md": "три корня"
+        }
+      ],
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "После возведения в квадрат: x + 2 = x² − 8x + 16, то есть x² − 9x + 14 = 0 с корнями 2 и 7. Проверка отбрасывает x = 2 (правая часть отрицательна), остаётся один корень x = 7.",
       "points": 1
     },
@@ -520,12 +1232,28 @@
       "difficulty": 3,
       "prompt_md": "Чему равно значение i², где i — мнимая единица?",
       "options": [
-        { "id": "a", "text_md": "1" },
-        { "id": "b", "text_md": "−1" },
-        { "id": "c", "text_md": "i" },
-        { "id": "d", "text_md": "0" }
+        {
+          "id": "a",
+          "text_md": "1"
+        },
+        {
+          "id": "b",
+          "text_md": "−1"
+        },
+        {
+          "id": "c",
+          "text_md": "i"
+        },
+        {
+          "id": "d",
+          "text_md": "0"
+        }
       ],
-      "answer_key": { "correct": ["b"] },
+      "answer_key": {
+        "correct": [
+          "b"
+        ]
+      },
       "explanation_md": "Мнимая единица определяется равенством i² = −1 — именно ради него её и вводят.",
       "points": 1
     },
@@ -537,12 +1265,28 @@
       "difficulty": 4,
       "prompt_md": "Вычислите (2 + 3i) + (5 − i).",
       "options": [
-        { "id": "a", "text_md": "7 + 2i" },
-        { "id": "b", "text_md": "7 + 4i" },
-        { "id": "c", "text_md": "3 + 2i" },
-        { "id": "d", "text_md": "10 − 3i" }
+        {
+          "id": "a",
+          "text_md": "7 + 2i"
+        },
+        {
+          "id": "b",
+          "text_md": "7 + 4i"
+        },
+        {
+          "id": "c",
+          "text_md": "3 + 2i"
+        },
+        {
+          "id": "d",
+          "text_md": "10 − 3i"
+        }
       ],
-      "answer_key": { "correct": ["a"] },
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
       "explanation_md": "Складываем отдельно действительные и мнимые части: (2 + 5) + (3 − 1)i = 7 + 2i.",
       "points": 1
     },
@@ -554,12 +1298,28 @@
       "difficulty": 4,
       "prompt_md": "Чем выборочная совокупность отличается от генеральной?",
       "options": [
-        { "id": "a", "text_md": "Выборка — часть генеральной совокупности, отобранная для исследования" },
-        { "id": "b", "text_md": "Выборка всегда больше генеральной совокупности" },
-        { "id": "c", "text_md": "Это одно и то же" },
-        { "id": "d", "text_md": "Выборка не связана с генеральной совокупностью" }
+        {
+          "id": "a",
+          "text_md": "Выборка — часть генеральной совокупности, отобранная для исследования"
+        },
+        {
+          "id": "b",
+          "text_md": "Выборка всегда больше генеральной совокупности"
+        },
+        {
+          "id": "c",
+          "text_md": "Это одно и то же"
+        },
+        {
+          "id": "d",
+          "text_md": "Выборка не связана с генеральной совокупностью"
+        }
       ],
-      "answer_key": { "correct": ["a"] },
+      "answer_key": {
+        "correct": [
+          "a"
+        ]
+      },
       "explanation_md": "Генеральная совокупность — все объекты, о которых делается вывод. Выборка — отобранная из неё часть; по ней судят о целом, поэтому важна её представительность.",
       "points": 1
     },
@@ -571,12 +1331,28 @@
       "difficulty": 4,
       "prompt_md": "Последовательность задана рекуррентно: a₁ = 3, a_(n+1) = 2·a_n − 1. Чему равен a₄?",
       "options": [
-        { "id": "a", "text_md": "9" },
-        { "id": "b", "text_md": "15" },
-        { "id": "c", "text_md": "17" },
-        { "id": "d", "text_md": "23" }
+        {
+          "id": "a",
+          "text_md": "9"
+        },
+        {
+          "id": "b",
+          "text_md": "15"
+        },
+        {
+          "id": "c",
+          "text_md": "17"
+        },
+        {
+          "id": "d",
+          "text_md": "23"
+        }
       ],
-      "answer_key": { "correct": ["c"] },
+      "answer_key": {
+        "correct": [
+          "c"
+        ]
+      },
       "explanation_md": "a₂ = 2 · 3 − 1 = 5; a₃ = 2 · 5 − 1 = 9; a₄ = 2 · 9 − 1 = 17.",
       "points": 1
     }

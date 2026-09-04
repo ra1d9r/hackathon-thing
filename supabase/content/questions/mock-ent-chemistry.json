@@ -104,15 +104,33 @@
     },
     {
       "code": "mock.ent.chem.g7.atoms.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "chem.g7.atomy-i-molekuly-prostye-i-slozhnye-veschestva",
       "grade": 7,
       "difficulty": 3,
       "prompt_md": "Сколько всего атомов содержится в одной молекуле серной кислоты H₂SO₄?",
-      "options": null,
+      "options": [
+        {
+          "id": "a",
+          "text_md": "5 атомов"
+        },
+        {
+          "id": "b",
+          "text_md": "6 атомов"
+        },
+        {
+          "id": "c",
+          "text_md": "7 атомов"
+        },
+        {
+          "id": "d",
+          "text_md": "8 атомов"
+        }
+      ],
       "answer_key": {
-        "value": 7,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "2 атома водорода, 1 атом серы и 4 атома кислорода: 2 + 1 + 4 = 7.",
       "points": 1
@@ -218,30 +236,66 @@
     },
     {
       "code": "mock.ent.chem.g7.classify.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "chem.g7.klassifikaciya-himicheskih-elementov",
       "grade": 7,
       "difficulty": 4,
-      "prompt_md": "Сколько протонов содержится в ядре атома кальция? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Сколько протонов содержится в ядре атома кальция?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "18 протонов"
+        },
+        {
+          "id": "b",
+          "text_md": "20 протонов"
+        },
+        {
+          "id": "c",
+          "text_md": "21 протон"
+        },
+        {
+          "id": "d",
+          "text_md": "40 протонов"
+        }
+      ],
       "answer_key": {
-        "value": 20,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Число протонов равно порядковому номеру элемента. У кальция он равен 20.",
       "points": 1
     },
     {
       "code": "mock.ent.chem.g8.electrons.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "chem.g8.raspredelenie-elektronov-v-atomah",
       "grade": 8,
       "difficulty": 4,
-      "prompt_md": "Сколько электронов находится на внешнем энергетическом уровне атома азота? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Сколько электронов находится на внешнем энергетическом уровне атома азота?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2 электрона"
+        },
+        {
+          "id": "b",
+          "text_md": "3 электрона"
+        },
+        {
+          "id": "c",
+          "text_md": "5 электронов"
+        },
+        {
+          "id": "d",
+          "text_md": "7 электронов"
+        }
+      ],
       "answer_key": {
-        "value": 5,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "У азота 7 электронов: 2 на первом уровне и 5 на втором. Число электронов внешнего уровня совпадает с номером группы — пятой.",
       "points": 1
@@ -347,30 +401,66 @@
     },
     {
       "code": "mock.ent.chem.g8.mole.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "chem.g8.kolichestvo-veschestva-mol-chislo-avogadro",
       "grade": 8,
       "difficulty": 4,
-      "prompt_md": "Чему равна масса 2 моль воды? Молярная масса воды 18 г/моль. Ответ дайте в граммах.",
-      "options": null,
+      "prompt_md": "Чему равна масса 2 моль воды? Молярная масса воды 18 г/моль.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "9 граммов"
+        },
+        {
+          "id": "b",
+          "text_md": "18 граммов"
+        },
+        {
+          "id": "c",
+          "text_md": "36 граммов"
+        },
+        {
+          "id": "d",
+          "text_md": "40 граммов"
+        }
+      ],
       "answer_key": {
-        "value": 36,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "m = n · M = 2 · 18 = 36 г.",
       "points": 1
     },
     {
       "code": "mock.ent.chem.g8.mole.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "chem.g8.kolichestvo-veschestva-mol-chislo-avogadro",
       "grade": 8,
       "difficulty": 4,
-      "prompt_md": "Какой объём при нормальных условиях занимает 0,5 моль любого газа? Ответ дайте в литрах.",
-      "options": null,
+      "prompt_md": "Какой объём при нормальных условиях занимает 0,5 моль любого газа?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "5,6 литра"
+        },
+        {
+          "id": "b",
+          "text_md": "11,2 литра"
+        },
+        {
+          "id": "c",
+          "text_md": "22,4 литра"
+        },
+        {
+          "id": "d",
+          "text_md": "44,8 литра"
+        }
+      ],
       "answer_key": {
-        "value": 11.2,
-        "tolerance": 0.05
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Молярный объём газа при нормальных условиях равен 22,4 л/моль: 0,5 · 22,4 = 11,2 л.",
       "points": 1
@@ -443,15 +533,33 @@
     },
     {
       "code": "mock.ent.chem.g9.dissociation.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "chem.g9.suschnost-teorii-elektroliticheskoy-dissociacii",
       "grade": 9,
       "difficulty": 4,
-      "prompt_md": "Сколько ионов образуется при полной диссоциации одной формульной единицы Al₂(SO₄)₃? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Сколько ионов образуется при полной диссоциации одной формульной единицы Al₂(SO₄)₃?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2 иона"
+        },
+        {
+          "id": "b",
+          "text_md": "3 иона"
+        },
+        {
+          "id": "c",
+          "text_md": "5 ионов"
+        },
+        {
+          "id": "d",
+          "text_md": "6 ионов"
+        }
+      ],
       "answer_key": {
-        "value": 5,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "Al₂(SO₄)₃ → 2Al³⁺ + 3SO₄²⁻. Всего 2 + 3 = 5 ионов.",
       "points": 1
@@ -524,30 +632,66 @@
     },
     {
       "code": "mock.ent.chem.g9.oxidation.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "chem.g9.stepen-okisleniya",
       "grade": 9,
       "difficulty": 4,
-      "prompt_md": "Определите степень окисления серы в соединении H₂SO₄. Ответ дайте числом со знаком.",
-      "options": null,
+      "prompt_md": "Определите степень окисления серы в соединении H₂SO₄.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "−2"
+        },
+        {
+          "id": "b",
+          "text_md": "+2"
+        },
+        {
+          "id": "c",
+          "text_md": "+4"
+        },
+        {
+          "id": "d",
+          "text_md": "+6"
+        }
+      ],
       "answer_key": {
-        "value": 6,
-        "tolerance": 0
+        "correct": [
+          "d"
+        ]
       },
       "explanation_md": "У водорода +1, у кислорода −2. Сумма степеней окисления равна нулю: 2·(+1) + x + 4·(−2) = 0, откуда x = +6.",
       "points": 1
     },
     {
       "code": "mock.ent.chem.g9.oxidation.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "chem.g9.stepen-okisleniya",
       "grade": 9,
       "difficulty": 5,
-      "prompt_md": "Определите степень окисления хрома в дихромате калия K₂Cr₂O₇. Ответ дайте числом со знаком.",
-      "options": null,
+      "prompt_md": "Определите степень окисления хрома в дихромате калия K₂Cr₂O₇.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "+3"
+        },
+        {
+          "id": "b",
+          "text_md": "+6"
+        },
+        {
+          "id": "c",
+          "text_md": "+7"
+        },
+        {
+          "id": "d",
+          "text_md": "+12"
+        }
+      ],
       "answer_key": {
-        "value": 6,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "2·(+1) + 2x + 7·(−2) = 0, то есть 2 + 2x − 14 = 0 и 2x = 12, откуда x = +6.",
       "points": 1
@@ -884,15 +1028,33 @@
     },
     {
       "code": "mock.ent.chem.g11.alkanes.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "chem.g11.alkany",
       "grade": 11,
       "difficulty": 4,
-      "prompt_md": "Сколько атомов водорода содержится в молекуле алкана с пятью атомами углерода? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Сколько атомов водорода содержится в молекуле алкана с пятью атомами углерода?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "10 атомов"
+        },
+        {
+          "id": "b",
+          "text_md": "11 атомов"
+        },
+        {
+          "id": "c",
+          "text_md": "12 атомов"
+        },
+        {
+          "id": "d",
+          "text_md": "14 атомов"
+        }
+      ],
       "answer_key": {
-        "value": 12,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "По формуле CₙH₂ₙ₊₂ при n = 5 получаем 2 · 5 + 2 = 12 атомов водорода. Это пентан C₅H₁₂.",
       "points": 1

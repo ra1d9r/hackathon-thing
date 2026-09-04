@@ -5,8 +5,6 @@ import { roundTo, type QuestionKind } from '../../contracts/domain.js';
 import { AppError } from '../../contracts/errors.js';
 import { isJsonObject } from '../../contracts/json.js';
 
-
-
 export const answerKeySchema = z.union([
   z.object({ correct: z.array(z.string()).min(1) }),
   z.object({ value: z.number(), tolerance: z.number().min(0).default(0) }),
@@ -14,7 +12,6 @@ export const answerKeySchema = z.union([
 ]);
 
 export type AnswerKey = z.infer<typeof answerKeySchema>;
-
 
 export function parseAnswerKey(raw: unknown): AnswerKey | null {
   if (!isJsonObject(raw)) {
@@ -39,8 +36,9 @@ export interface GradeOutcome {
 
 const PENDING: GradeOutcome = { grader: 'pending', isCorrect: null, pointsAwarded: null };
 
-
 const NUMERIC_EPSILON = 1e-9;
+
+export const MAX_MULTI_CHOICE = 3;
 
 function gradeChoice(
   question: GradableQuestion,
@@ -53,9 +51,6 @@ function gradeChoice(
     return { grader: 'deterministic', isCorrect: false, pointsAwarded: 0 };
   }
 
-  
-  
-  
   const expected = new Set(key.correct);
   const given = new Set(selected);
   const isCorrect =
@@ -87,7 +82,6 @@ function gradeNumeric(
   };
 }
 
-
 function numericValue(answer: AnswerPayload): number | null {
   if (answer.value !== undefined) {
     return answer.value;
@@ -102,7 +96,6 @@ function numericValue(answer: AnswerPayload): number | null {
   return Number.isFinite(parsed) ? parsed : null;
 }
 
-
 export function gradeAnswer(question: GradableQuestion, answer: AnswerPayload): GradeOutcome {
   if (question.kind === 'free_text') {
     return PENDING;
@@ -110,8 +103,6 @@ export function gradeAnswer(question: GradableQuestion, answer: AnswerPayload): 
 
   const key = question.answerKey;
   if (key === null) {
-    
-    
     return PENDING;
   }
 
@@ -132,13 +123,11 @@ export function gradeAnswer(question: GradableQuestion, answer: AnswerPayload): 
   return PENDING;
 }
 
-
 export const SKIPPED: GradeOutcome = {
   grader: 'deterministic',
   isCorrect: false,
   pointsAwarded: 0,
 };
-
 
 export function assertAnswerShape(kind: QuestionKind, answer: AnswerPayload): void {
   const fail = (message: string): never => {
@@ -154,6 +143,9 @@ export function assertAnswerShape(kind: QuestionKind, answer: AnswerPayload): vo
     case 'mcq_multi':
       if ((answer.selected?.length ?? 0) === 0) {
         fail('вопрос с несколькими ответами ожидает список выбранных вариантов');
+      }
+      if ((answer.selected?.length ?? 0) > MAX_MULTI_CHOICE) {
+        fail(`можно выбрать не больше ${MAX_MULTI_CHOICE} вариантов`);
       }
       return;
     case 'numeric':

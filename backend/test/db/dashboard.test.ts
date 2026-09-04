@@ -233,6 +233,7 @@ describe.skipIf(!hasDatabase())('дашборд и статистика', () => 
       expect(score).not.toBeNull();
       expect(score?.scale).toBe('points');
       expect(score?.max).toBe(140);
+
       expect(score?.baseline_value).toBe(score?.value);
       expect(score?.source).toBe('baseline');
 
@@ -467,7 +468,9 @@ describe.skipIf(!hasDatabase())('дашборд и статистика', () => 
       for (const [index, row] of after.entries()) {
         const was = before[index];
         expect(row.topic_id).toBe(was?.topic_id);
+
         expect(Number(row.priority)).toBeGreaterThan(Number(was?.priority ?? 0));
+
         expect(Number(row.mastery_pct)).toBe(Number(was?.mastery_pct ?? -1));
       }
     });
@@ -487,6 +490,7 @@ describe.skipIf(!hasDatabase())('дашборд и статистика', () => 
         select count(*)::int as n from public.student_topic_mastery
          where student_id = ${user.id} and updated_at < now() - interval '1 hour'
       `;
+
       expect(touched[0]?.n).toBe(0);
 
       const priorities = await sql<{ topic_id: string; priority: string }[]>`

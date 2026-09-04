@@ -23,7 +23,6 @@ import { buildTestApp } from '../helpers/app.js';
 import { createTestSql, hasDatabase, TEST_EMAIL_PREFIX } from '../helpers/db.js';
 import { drainJobs } from '../helpers/queue.js';
 
-
 const PASSWORD = 'tlek-live-test-2026';
 
 let sql: Sql;
@@ -248,6 +247,7 @@ describe.skipIf(!canRun)('аутентификация настоящим ток
 
     expect(response.statusCode).toBe(200);
   });
+
   describe('прохождение диагностики по HTTP', () => {
     let attemptId = '';
     let jobId = '';
@@ -428,6 +428,7 @@ describe.skipIf(!canRun)('аутентификация настоящим ток
 
       expect(repeated.statusCode).toBe(304);
       expect(repeated.body).toBe('');
+
       expect(repeated.headers.etag).toBe(etag);
     });
 
@@ -476,6 +477,7 @@ describe.skipIf(!canRun)('аутентификация настоящим ток
       expect(body.job.applied).toBe(true);
       expect(body.result_ref?.attempt_id).toBe(attemptId);
       expect(body.retry_after_ms).toBeNull();
+
       expect(Date.now() - startedAt).toBeLessThan(5_000);
     });
 

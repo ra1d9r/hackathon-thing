@@ -5,30 +5,66 @@
   "questions": [
     {
       "code": "mock.ent.inf.g7.units.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g7.edinicy-izmereniya-informacii",
       "grade": 7,
       "difficulty": 2,
-      "prompt_md": "Сколько килобайт содержится в 3 мегабайтах? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Сколько килобайт содержится в 3 мегабайтах?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "1536 килобайт"
+        },
+        {
+          "id": "b",
+          "text_md": "3000 килобайт"
+        },
+        {
+          "id": "c",
+          "text_md": "3072 килобайта"
+        },
+        {
+          "id": "d",
+          "text_md": "24 576 килобайт"
+        }
+      ],
       "answer_key": {
-        "value": 3072,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "1 мегабайт равен 1024 килобайтам, значит 3 · 1024 = 3072 килобайта.",
       "points": 1
     },
     {
       "code": "mock.ent.inf.g7.units.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g7.edinicy-izmereniya-informacii",
       "grade": 7,
       "difficulty": 3,
-      "prompt_md": "Текст состоит из 512 символов, каждый занимает 1 байт. Сколько бит занимает весь текст? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Текст состоит из 512 символов, каждый занимает 1 байт. Сколько бит занимает весь текст?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "512 бит"
+        },
+        {
+          "id": "b",
+          "text_md": "1024 бита"
+        },
+        {
+          "id": "c",
+          "text_md": "4096 бит"
+        },
+        {
+          "id": "d",
+          "text_md": "8192 бита"
+        }
+      ],
       "answer_key": {
-        "value": 4096,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "512 байт · 8 бит = 4096 бит.",
       "points": 1
@@ -233,30 +269,66 @@
     },
     {
       "code": "mock.ent.inf.g8.alphabet.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g8.izmerenie-informacii-alfavitnyy-podhod",
       "grade": 8,
       "difficulty": 4,
-      "prompt_md": "Алфавит содержит 64 символа. Сколько бит несёт один символ? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Алфавит содержит 64 символа. Сколько бит несёт один символ?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "5 бит"
+        },
+        {
+          "id": "b",
+          "text_md": "6 бит"
+        },
+        {
+          "id": "c",
+          "text_md": "7 бит"
+        },
+        {
+          "id": "d",
+          "text_md": "8 бит"
+        }
+      ],
       "answer_key": {
-        "value": 6,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Число символов N и вес i связаны как N = 2^i. Здесь 64 = 2^6, значит i = 6 бит.",
       "points": 1
     },
     {
       "code": "mock.ent.inf.g8.alphabet.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g8.izmerenie-informacii-alfavitnyy-podhod",
       "grade": 8,
       "difficulty": 5,
-      "prompt_md": "Сообщение из 100 символов записано алфавитом из 16 символов. Сколько байт занимает сообщение? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Сообщение из 100 символов записано алфавитом из 16 символов. Сколько байт занимает сообщение?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "25 байт"
+        },
+        {
+          "id": "b",
+          "text_md": "50 байт"
+        },
+        {
+          "id": "c",
+          "text_md": "100 байт"
+        },
+        {
+          "id": "d",
+          "text_md": "400 байт"
+        }
+      ],
       "answer_key": {
-        "value": 50,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "16 = 2^4, значит символ несёт 4 бита. Всего 100 · 4 = 400 бит, то есть 400 / 8 = 50 байт.",
       "points": 1
@@ -296,75 +368,165 @@
     },
     {
       "code": "mock.ent.inf.g8.functions.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g8.vstroennye-funkcii",
       "grade": 8,
       "difficulty": 3,
-      "prompt_md": "Каким будет результат выражения len('информатика') в Python? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Каким будет результат выражения len('информатика') в Python?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "10"
+        },
+        {
+          "id": "b",
+          "text_md": "11"
+        },
+        {
+          "id": "c",
+          "text_md": "12"
+        },
+        {
+          "id": "d",
+          "text_md": "13"
+        }
+      ],
       "answer_key": {
-        "value": 11,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Функция len возвращает число символов в строке. В слове «информатика» их 11.",
       "points": 1
     },
     {
       "code": "mock.ent.inf.g8.functions.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g8.vstroennye-funkcii",
       "grade": 8,
       "difficulty": 4,
-      "prompt_md": "Каким будет результат выражения abs(-7) + max(3, 9) в Python? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Каким будет результат выражения abs(-7) + max(3, 9) в Python?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2"
+        },
+        {
+          "id": "b",
+          "text_md": "10"
+        },
+        {
+          "id": "c",
+          "text_md": "12"
+        },
+        {
+          "id": "d",
+          "text_md": "16"
+        }
+      ],
       "answer_key": {
-        "value": 16,
-        "tolerance": 0
+        "correct": [
+          "d"
+        ]
       },
       "explanation_md": "abs(-7) = 7, max(3, 9) = 9. Сумма равна 16.",
       "points": 1
     },
     {
       "code": "mock.ent.inf.g8.loop.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g8.cikl-for",
       "grade": 8,
       "difficulty": 4,
-      "prompt_md": "Сколько раз выполнится тело цикла `for i in range(2, 10, 3)`? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Сколько раз выполнится тело цикла `for i in range(2, 10, 3)`?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2 раза"
+        },
+        {
+          "id": "b",
+          "text_md": "3 раза"
+        },
+        {
+          "id": "c",
+          "text_md": "4 раза"
+        },
+        {
+          "id": "d",
+          "text_md": "8 раз"
+        }
+      ],
       "answer_key": {
-        "value": 3,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Переменная примет значения 2, 5, 8 — три итерации. Значение 11 уже выходит за верхнюю границу, а сама граница 10 не включается.",
       "points": 1
     },
     {
       "code": "mock.ent.inf.g8.loop.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g8.cikl-for",
       "grade": 8,
       "difficulty": 4,
       "prompt_md": "Какое значение выведет программа?\n\n```\ns = 0\nfor i in range(1, 5):\n    s = s + i\nprint(s)\n```",
-      "options": null,
+      "options": [
+        {
+          "id": "a",
+          "text_md": "6"
+        },
+        {
+          "id": "b",
+          "text_md": "10"
+        },
+        {
+          "id": "c",
+          "text_md": "15"
+        },
+        {
+          "id": "d",
+          "text_md": "20"
+        }
+      ],
       "answer_key": {
-        "value": 10,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Цикл проходит значения 1, 2, 3, 4 — верхняя граница не включается. Сумма равна 10.",
       "points": 1
     },
     {
       "code": "mock.ent.inf.g8.trace.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g8.trassirovka-algoritma",
       "grade": 8,
       "difficulty": 5,
       "prompt_md": "Какое значение переменной a будет выведено?\n\n```\na = 5\nb = 3\na = a + b\nb = a - b\na = a - b\nprint(a)\n```",
-      "options": null,
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2"
+        },
+        {
+          "id": "b",
+          "text_md": "3"
+        },
+        {
+          "id": "c",
+          "text_md": "5"
+        },
+        {
+          "id": "d",
+          "text_md": "8"
+        }
+      ],
       "answer_key": {
-        "value": 3,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Это обмен значений без третьей переменной: a = 8, затем b = 5, затем a = 3. Переменные поменялись местами.",
       "points": 1
@@ -503,30 +665,66 @@
     },
     {
       "code": "mock.ent.inf.g9.array.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g9.odnomernyy-massiv",
       "grade": 9,
       "difficulty": 4,
-      "prompt_md": "Массив задан как a = [4, 8, 15, 16, 23, 42]. Какое значение вернёт a[2] в Python? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Массив задан как a = [4, 8, 15, 16, 23, 42]. Какое значение вернёт a[2] в Python?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "4"
+        },
+        {
+          "id": "b",
+          "text_md": "8"
+        },
+        {
+          "id": "c",
+          "text_md": "15"
+        },
+        {
+          "id": "d",
+          "text_md": "16"
+        }
+      ],
       "answer_key": {
-        "value": 15,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "Индексация начинается с нуля: a[0] = 4, a[1] = 8, a[2] = 15.",
       "points": 1
     },
     {
       "code": "mock.ent.inf.g9.array.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g9.odnomernyy-massiv",
       "grade": 9,
       "difficulty": 5,
       "prompt_md": "Какое значение выведет программа?\n\n```\na = [3, 7, 2, 9, 5]\nm = a[0]\nfor x in a:\n    if x > m:\n        m = x\nprint(m)\n```",
-      "options": null,
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2"
+        },
+        {
+          "id": "b",
+          "text_md": "3"
+        },
+        {
+          "id": "c",
+          "text_md": "7"
+        },
+        {
+          "id": "d",
+          "text_md": "9"
+        }
+      ],
       "answer_key": {
-        "value": 9,
-        "tolerance": 0
+        "correct": [
+          "d"
+        ]
       },
       "explanation_md": "Алгоритм ищет наибольший элемент массива. Это 9.",
       "points": 1
@@ -599,60 +797,132 @@
     },
     {
       "code": "mock.ent.inf.g10.numeral.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g10.sistemy-schisleniya",
       "grade": 10,
       "difficulty": 3,
-      "prompt_md": "Переведите двоичное число 1011 в десятичную систему счисления. Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Переведите двоичное число 1011 в десятичную систему счисления.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "9"
+        },
+        {
+          "id": "b",
+          "text_md": "11"
+        },
+        {
+          "id": "c",
+          "text_md": "13"
+        },
+        {
+          "id": "d",
+          "text_md": "15"
+        }
+      ],
       "answer_key": {
-        "value": 11,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "1·8 + 0·4 + 1·2 + 1·1 = 11.",
       "points": 1
     },
     {
       "code": "mock.ent.inf.g10.numeral.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g10.sistemy-schisleniya",
       "grade": 10,
       "difficulty": 4,
-      "prompt_md": "Переведите десятичное число 25 в двоичную систему счисления. Ответ запишите как число из нулей и единиц.",
-      "options": null,
+      "prompt_md": "Переведите десятичное число 25 в двоичную систему счисления.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "10011"
+        },
+        {
+          "id": "b",
+          "text_md": "10101"
+        },
+        {
+          "id": "c",
+          "text_md": "11001"
+        },
+        {
+          "id": "d",
+          "text_md": "11010"
+        }
+      ],
       "answer_key": {
-        "value": 11001,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "25 = 16 + 8 + 1, то есть 11001 в двоичной системе.",
       "points": 1
     },
     {
       "code": "mock.ent.inf.g10.numeral.3",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g10.sistemy-schisleniya",
       "grade": 10,
       "difficulty": 5,
-      "prompt_md": "Переведите шестнадцатеричное число 2F в десятичную систему счисления. Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Переведите шестнадцатеричное число 2F в десятичную систему счисления.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "31"
+        },
+        {
+          "id": "b",
+          "text_md": "44"
+        },
+        {
+          "id": "c",
+          "text_md": "47"
+        },
+        {
+          "id": "d",
+          "text_md": "62"
+        }
+      ],
       "answer_key": {
-        "value": 47,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "2 · 16 + F, где F = 15: 32 + 15 = 47.",
       "points": 1
     },
     {
       "code": "mock.ent.inf.g10.functions.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g10.polzovatelskie-funkcii-i-procedury",
       "grade": 10,
       "difficulty": 4,
       "prompt_md": "Какое значение выведет программа?\n\n```\ndef f(x):\n    return x * 2 + 1\nprint(f(f(2)))\n```",
-      "options": null,
+      "options": [
+        {
+          "id": "a",
+          "text_md": "5"
+        },
+        {
+          "id": "b",
+          "text_md": "9"
+        },
+        {
+          "id": "c",
+          "text_md": "11"
+        },
+        {
+          "id": "d",
+          "text_md": "21"
+        }
+      ],
       "answer_key": {
-        "value": 11,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "f(2) = 5, затем f(5) = 11.",
       "points": 1
@@ -1055,15 +1325,33 @@
     },
     {
       "code": "mock.ent.inf.g8.trace.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "inf.g8.trassirovka-algoritma",
       "grade": 8,
       "difficulty": 5,
       "prompt_md": "Какое значение выведет программа?\n\n```\nn = 27\nk = 0\nwhile n > 1:\n    n = n // 3\n    k = k + 1\nprint(k)\n```",
-      "options": null,
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2"
+        },
+        {
+          "id": "b",
+          "text_md": "3"
+        },
+        {
+          "id": "c",
+          "text_md": "4"
+        },
+        {
+          "id": "d",
+          "text_md": "9"
+        }
+      ],
       "answer_key": {
-        "value": 3,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "27 → 9 → 3 → 1: три деления, значит k = 3. Цикл считает, сколько раз число делится на три до единицы.",
       "points": 1
