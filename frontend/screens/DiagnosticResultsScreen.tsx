@@ -64,7 +64,13 @@ export function DiagnosticResultsScreen() {
     if (isLeaving) return;
     setIsLeaving(true);
     await useAuthStore.getState().refreshMe().catch(() => undefined);
-    router.replace(routes.tabsRoot);
+    try {
+      router.replace(routes.tabsRoot);
+    } catch {
+      if (typeof window !== "undefined") {
+        window.location.assign(routes.tabsRoot as unknown as string);
+      }
+    }
   };
 
   useEffect(() => {
