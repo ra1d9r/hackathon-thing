@@ -19,6 +19,7 @@ import { Avatar } from "@/components/Avatar";
 import { LessonReader } from "@/components/LessonReader";
 import { apiGet, apiPost } from "@/services/api";
 import { errorText } from "@/services/errors";
+import { formatSentAt } from "@/services/datetime";
 import {
   ACCEPTED_HINT,
   ACCEPTED_MIME_TYPES,
@@ -301,6 +302,7 @@ export function TeacherMaterialsScreen() {
                     {material.summary ?? formatLabel(material.format)} ·{" "}
                     {material.status === "published" ? "опубликован" : material.status}
                   </Text>
+                  <Text style={styles.sentAt}>{formatSentAt(material.created_at)}</Text>
                   <Text style={styles.openHint}>Нажмите, чтобы открыть</Text>
                 </Pressable>
                 <Pressable
@@ -364,6 +366,7 @@ export function TeacherMaterialsScreen() {
                       {item.class_name ?? "Ученику"} · открыли {item.seen_count} из{" "}
                       {item.recipient_count}
                     </Text>
+                    <Text style={styles.sentAt}>{formatSentAt(item.created_at)}</Text>
                     {item.message_md === null ? null : (
                       <Text style={styles.distributionNote}>{item.message_md}</Text>
                     )}
@@ -614,6 +617,7 @@ const styles = StyleSheet.create({
   readerScroll: { marginTop: 12 },
   sectionTitle: { marginTop: 28, color: colors.text, fontSize: 20, fontWeight: "900" },
   distributionNote: { marginTop: 8, color: colors.muted, fontSize: 14, lineHeight: 20 },
+  sentAt: { marginTop: 4, color: colors.muted, fontSize: 12 },
   sheetLayer: { flex: 1, justifyContent: "flex-end" },
   sheetBackdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: "rgba(0,0,0,0.24)" },
   sheet: {

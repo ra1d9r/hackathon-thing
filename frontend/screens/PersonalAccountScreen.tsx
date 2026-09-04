@@ -28,6 +28,13 @@ import { errorText } from "@/services/errors";
 
 type AccountTab = "main" | "stats";
 
+function toChartPoint(item: unknown): { label: string; value: number } | null {
+  if (typeof item !== "object" || item === null) return null;
+  const point = item as { value?: unknown; label?: unknown };
+  if (typeof point.value !== "number") return null;
+  return { value: point.value, label: typeof point.label === "string" ? point.label : "" };
+}
+
 const goalLabels: Record<string, string> = {
   ent: "ЕНТ",
   nis: "НИШ",
@@ -38,9 +45,7 @@ export function PersonalAccountScreen() {
   const me = useAuthStore((state) => state.me);
   const logout = useAuthStore((state) => state.logout);
   const [activeTab, setActiveTab] = useState<AccountTab>("main");
-  // Хук читает роль из стора сам и не ходит в сеть для учителя — см. его же
-  // комментарий в hooks/useProfileStats.ts. Вызывается безусловно: у хуков
-  // React нет способа звать их по условию.
+
   const stats = useProfileStats();
 
   if (!me) {
@@ -479,6 +484,8 @@ function StatsTab({ stats }: { stats: Stats }) {
   const { overview, history, isLoading, error, reload } = stats;
   const chartWidth = Math.max(200, Math.min(width - 96, 300));
 
+  const [focusedPoint, setFocusedPoint] = useState<{ label: string; value: number } | null>(null);
+
   const chartData = (history?.points ?? []).slice(-8).map((point) => ({
     value: Math.round(point.value * 10) / 10,
     label: new Date(point.at).toLocaleDateString("ru-RU", { day: "2-digit", month: "2-digit" }),
@@ -563,7 +570,24 @@ function StatsTab({ stats }: { stats: Stats }) {
               yAxisColor="transparent"
               yAxisTextStyle={styles.axisText}
               xAxisLabelTextStyle={styles.axisText}
+              focusEnabled
+              showDataPointOnFocus
+              showStripOnFocus
+              stripColor="#c8d8f5"
+              focusedDataPointColor="#1d4ed8"
+              focusedDataPointRadius={7}
+              onFocus={(item: unknown) => setFocusedPoint(toChartPoint(item))}
             />
+          </View>
+
+          <View style={styles.chartReadout}>
+            {focusedPoint === null ? (
+              <Text style={styles.chartHint}>Нажмите на точку, чтобы увидеть точный балл</Text>
+            ) : (
+              <Text style={styles.chartValue}>
+                {focusedPoint.label}: {focusedPoint.value} из {history?.max ?? 10}
+              </Text>
+            )}
           </View>
         </StateBlock>
       </View>
@@ -858,6 +882,9 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     overflow: "hidden",
   },
+  chartReadout: { minHeight: 26, alignItems: "center", justifyContent: "center", marginTop: 6 },
+  chartHint: { color: colors.muted, fontSize: 12 },
+  chartValue: { color: colors.text, fontSize: 14, fontWeight: "800" },
   axisText: { color: colors.muted, fontSize: 10 },
 
   summaryList: { gap: 10 },

@@ -88,6 +88,7 @@ async function assertInScope(sql: SqlExecutor, studentId: string, lesson: Lesson
 
 interface ProgressRow {
   progress_pct: string;
+
   material_read_at: Date | null;
   best_check_pct: string | null;
   completed_at: Date | null;
@@ -129,6 +130,7 @@ function toMaterialView(row: LessonRow): LessonResponse['material'] {
   }
 
   const parsed = row.material_body_md === null ? null : sanitizeMarkdown(row.material_body_md);
+
   const viewKind = materialViewKindSchema.catch('markdown').parse(row.material_view_kind);
 
   return {
@@ -371,6 +373,31 @@ export async function markMaterialRead(
   };
 }
 
+async function shouldRegenerateCheck(
+  sql: Sql,
+  studentId: string,
+  lessonId: string,
+  assessmentId: string,
+): Promise<boolean> {
+  const [row] = await sql<{ completed: boolean; played: boolean }[]>`
+    select
+      exists (
+        select 1 from public.lesson_progress lp
+         where lp.student_id = ${studentId}
+           and lp.lesson_id = ${lessonId}
+           and lp.completed_at is not null
+      ) as completed,
+      exists (
+        select 1 from public.attempts a
+         where a.student_id = ${studentId}
+           and a.assessment_id = ${assessmentId}
+           and a.status in ('submitted', 'grading', 'graded', 'failed')
+      ) as played
+  `;
+
+  return row?.completed === true && row.played;
+}
+
 export async function openKnowledgeCheck(
   sql: Sql,
   user: AuthUser,
@@ -380,8 +407,16 @@ export async function openKnowledgeCheck(
   await assertInScope(sql, user.id, lesson);
 
   const existing = await loadActiveCheck(sql, user.id, lessonId);
-  if (existing !== null) {
+  if (existing !== null && !(await shouldRegenerateCheck(sql, user.id, lessonId, existing.id))) {
     return { assessment: existing, job: null };
+  }
+
+  if (existing !== null) {
+    await sql`
+      update public.assessments
+         set is_active = false
+       where id = ${existing.id} and student_id = ${user.id}
+    `;
   }
 
   if (lesson.material_id === null) {

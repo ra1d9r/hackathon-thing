@@ -61,17 +61,6 @@ interface InboxResponse {
   empty_reason: "no_items" | null;
 }
 
-interface ChatChannelDto {
-  id: string;
-  kind: "class_chat" | "ai_assistant";
-  title: string;
-  unread: number;
-}
-
-interface ChannelListResponse {
-  channels: ChatChannelDto[];
-}
-
 const INBOX_PAGE_SIZE = 5;
 
 const emptyMessages: Record<NonNullable<LessonLibraryResponse["empty_reason"]>, string> = {
@@ -87,7 +76,6 @@ export function LessonLibraryScreen() {
   const [error, setError] = useState<string | null>(null);
 
   const [inbox, setInbox] = useState<InboxItem[]>([]);
-  const [channels, setChannels] = useState<ChatChannelDto[]>([]);
   const [opened, setOpened] = useState<InboxItem | null>(null);
   const [inboxPage, setInboxPage] = useState(0);
 
@@ -101,11 +89,6 @@ export function LessonLibraryScreen() {
     apiGet<InboxResponse>("/v1/inbox")
       .then((response) => setInbox(response.items))
       .catch(() => setInbox([]));
-    apiGet<ChannelListResponse>("/v1/channels")
-      .then((response) =>
-        setChannels(response.channels.filter((channel) => channel.kind === "class_chat")),
-      )
-      .catch(() => setChannels([]));
   }, []);
 
   useFocusEffect(useCallback(() => load(), [load]));
@@ -144,10 +127,6 @@ export function LessonLibraryScreen() {
         <ScrollView style={styles.scroll} contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
           <View style={styles.titleBlock}>
             <Text style={styles.title}>Материалы</Text>
-            <Text style={styles.subtitle}>
-              Тема, а следом проверка знаний по ней. Проходить можно в любом порядке — от
-              дневных задач эта вкладка не зависит.
-            </Text>
           </View>
 
           {isLoading ? <ActivityIndicator color={colors.blue} style={styles.spinner} /> : null}
@@ -155,29 +134,6 @@ export function LessonLibraryScreen() {
           {!isLoading && !error && data?.empty_reason ? (
             <Text style={styles.emptyText}>{emptyMessages[data.empty_reason]}</Text>
           ) : null}
-
-          {channels.map((channel) => (
-            <Pressable
-              key={channel.id}
-              accessibilityRole="button"
-              onPress={() =>
-                router.push({
-                  pathname: "/chat-channel",
-                  params: { channelId: channel.id, title: channel.title },
-                })
-              }
-              style={({ pressed }) => [styles.inboxCard, pressed && styles.pressed]}
-            >
-              <Ionicons name="chatbubbles-outline" size={22} color={colors.navy} />
-              <View style={styles.inboxCopy}>
-                <Text style={styles.inboxTitle}>{channel.title}</Text>
-                <Text style={styles.inboxMeta}>
-                  Чат класса{channel.unread > 0 ? ` · новых: ${channel.unread}` : ""}
-                </Text>
-              </View>
-              <Ionicons name="chevron-forward" size={20} color={colors.muted} />
-            </Pressable>
-          ))}
 
           {inbox.length > 0 ? (
             <>
