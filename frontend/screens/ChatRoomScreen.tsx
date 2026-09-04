@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { apiGet, apiPost, randomUuid } from "@/services/api";
+import { apiDelete, apiGet, apiPost, randomUuid } from "@/services/api";
 import { errorText } from "@/services/errors";
 import { useAuthStore } from "@/store/useAuthStore";
 import { teacherStyles as shared, teacherColors as colors } from "@/screens/teacher/styles";
@@ -28,10 +28,12 @@ interface ChatMessage {
   sender: { id: string; display_name: string; role: "student" | "teacher" } | null;
   body_md: string;
   created_at: string;
+  pinned_at: string | null;
 }
 
 interface MessagesResponse {
   messages: ChatMessage[];
+  pinned: ChatMessage[];
   next_before: string | null;
   has_more: boolean;
   empty_reason: "no_messages" | null;
@@ -43,6 +45,8 @@ export function ChatRoomScreen() {
   const me = useAuthStore((state) => state.me);
 
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [pinned, setPinned] = useState<ChatMessage[]>([]);
+  const [pinBusyId, setPinBusyId] = useState<string | null>(null);
 
   const [older, setOlder] = useState<ChatMessage[]>([]);
   const [olderCursor, setOlderCursor] = useState<string | null>(null);
@@ -53,8 +57,22 @@ export function ChatRoomScreen() {
   const [isSending, setIsSending] = useState(false);
   const scrollRef = useRef<ScrollView>(null);
   const keepPositionRef = useRef(false);
+  const readMarkRef = useRef<string | null>(null);
 
   const visibleMessages = older.length === 0 ? messages : [...older, ...messages];
+
+  const markRead = useCallback(
+    (list: ChatMessage[]) => {
+      const newest = list[list.length - 1];
+      if (channelId === "" || newest === undefined || readMarkRef.current === newest.id) {
+        return;
+      }
+
+      readMarkRef.current = newest.id;
+      apiPost(`/v1/channels/${channelId}/read`).catch(() => undefined);
+    },
+    [channelId],
+  );
 
   const load = useCallback(
     (silent = false) => {
@@ -62,7 +80,9 @@ export function ChatRoomScreen() {
       apiGet<MessagesResponse>(`/v1/channels/${channelId}/messages`, { limit: PAGE_SIZE })
         .then((response) => {
           setMessages(response.messages);
+          setPinned(response.pinned);
           setOlderCursor(response.has_more ? response.next_before : null);
+          markRead(response.messages);
         })
         .catch((e: unknown) => {
           if (!silent) {
@@ -73,15 +93,12 @@ export function ChatRoomScreen() {
           if (!silent) setIsLoading(false);
         });
     },
-    [channelId],
+    [channelId, markRead],
   );
 
   useEffect(() => {
     load();
-    if (channelId !== "") {
-      apiPost(`/v1/channels/${channelId}/read`).catch(() => undefined);
-    }
-  }, [load, channelId]);
+  }, [load]);
 
   useFocusEffect(
     useCallback(() => {
@@ -109,6 +126,24 @@ export function ChatRoomScreen() {
         setError(errorText(e, "Не удалось загрузить прошлые сообщения")),
       )
       .finally(() => setIsLoadingOlder(false));
+  };
+
+  const isTeacher = me?.role === "teacher";
+  const topPinned = pinned[0] ?? null;
+
+  const togglePin = (message: ChatMessage) => {
+    if (pinBusyId !== null) return;
+
+    setPinBusyId(message.id);
+    setError(null);
+    const path = `/v1/channels/${channelId}/messages/${message.id}/pin`;
+    const request =
+      message.pinned_at === null ? apiPost(path) : apiDelete(path);
+
+    request
+      .then(() => load())
+      .catch((e: unknown) => setError(errorText(e, "Не удалось изменить закрепление")))
+      .finally(() => setPinBusyId(null));
   };
 
   const send = () => {
@@ -143,6 +178,31 @@ export function ChatRoomScreen() {
           </Text>
           <View style={styles.headerSpacer} />
         </View>
+
+        {topPinned === null ? null : (
+          <View style={styles.pinnedBar}>
+            <Ionicons name="pin" size={16} color={colors.navy} />
+            <View style={styles.pinnedCopy}>
+              <Text style={styles.pinnedLabel}>
+                Закреплено{pinned.length > 1 ? ` · ${pinned.length}` : ""}
+              </Text>
+              <Text style={styles.pinnedText} numberOfLines={2}>
+                {topPinned.body_md}
+              </Text>
+            </View>
+            {isTeacher ? (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Открепить"
+                disabled={pinBusyId !== null}
+                onPress={() => togglePin(topPinned)}
+                style={({ pressed }) => [pressed && shared.pressed]}
+              >
+                <Ionicons name="close" size={18} color={colors.muted} />
+              </Pressable>
+            ) : null}
+          </View>
+        )}
 
         <ScrollView
           ref={scrollRef}
@@ -192,6 +252,24 @@ export function ChatRoomScreen() {
                 <Text style={[styles.bubbleText, own && styles.bubbleTextOwn]}>
                   {message.body_md}
                 </Text>
+                {isTeacher ? (
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel={message.pinned_at === null ? "Закрепить" : "Открепить"}
+                    disabled={pinBusyId !== null}
+                    onPress={() => togglePin(message)}
+                    style={({ pressed }) => [styles.pinAction, pressed && shared.pressed]}
+                  >
+                    <Ionicons
+                      name={message.pinned_at === null ? "pin-outline" : "pin"}
+                      size={14}
+                      color={own ? "#dbe6ff" : colors.muted}
+                    />
+                    <Text style={[styles.pinActionText, own && styles.pinActionTextOwn]}>
+                      {message.pinned_at === null ? "Закрепить" : "Откреплено"}
+                    </Text>
+                  </Pressable>
+                ) : null}
               </View>
             );
           })}
@@ -228,6 +306,22 @@ const styles = StyleSheet.create({
   headerTitle: { flex: 1, textAlign: "center", color: colors.text, fontSize: 17, fontWeight: "900" },
   headerSpacer: { width: 26 },
   messages: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 16, gap: 10 },
+  pinnedBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    borderBottomColor: colors.border,
+    borderBottomWidth: 1,
+    backgroundColor: "#eef4ff",
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+  },
+  pinnedCopy: { flex: 1 },
+  pinnedLabel: { color: colors.navy, fontSize: 12, fontWeight: "800" },
+  pinnedText: { marginTop: 2, color: colors.text, fontSize: 13, lineHeight: 18 },
+  pinAction: { flexDirection: "row", alignItems: "center", gap: 4, marginTop: 6 },
+  pinActionText: { color: colors.muted, fontSize: 11, fontWeight: "700" },
+  pinActionTextOwn: { color: "#dbe6ff" },
   olderButton: { alignSelf: "center", paddingVertical: 8, paddingHorizontal: 14 },
   olderButtonText: { color: colors.blue, fontSize: 13, fontWeight: "800" },
   bubble: { maxWidth: "86%", borderRadius: 12, paddingHorizontal: 14, paddingVertical: 10 },

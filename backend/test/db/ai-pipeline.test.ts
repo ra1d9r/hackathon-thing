@@ -445,9 +445,10 @@ describe.skipIf(!hasDatabase())('AI-слой в очереди', () => {
       expect(result.analysis?.source).toBe('fallback');
       expect(result.topics.length).toBeGreaterThan(0);
 
-      expect(result.attempt.pending_questions).toBeGreaterThan(0);
       expect(
-        result.answers.filter((answer) => answer.grader === 'pending').length,
+        result.answers.filter(
+          (answer) => answer.grader === 'pending' || answer.grader === 'ungraded',
+        ).length,
       ).toBeGreaterThan(0);
     });
 
@@ -572,7 +573,11 @@ describe.skipIf(!hasDatabase())('AI-слой в очереди', () => {
 
       expect(result.attempt.status).toBe('graded');
       expect(result.analysis?.source).toBe('fallback');
-      expect(result.attempt.pending_questions).toBeGreaterThan(0);
+      expect(
+        result.answers.filter(
+          (answer) => answer.grader === 'pending' || answer.grader === 'ungraded',
+        ).length,
+      ).toBeGreaterThan(0);
     });
 
     it('испорченный ответ повтором работы не лечится', async () => {

@@ -169,7 +169,8 @@ describe.skipIf(!hasDatabase())('дашборд и статистика', () => 
       expect(dashboard.analytics.questions_answered).toBe(answers?.n ?? 0);
 
       expect(dashboard.analytics.attempts_graded).toBe(1);
-      expect(dashboard.daily_plan.empty_reason).toBe('not_generated_yet');
+      expect(dashboard.daily_plan.total).toBeGreaterThan(0);
+      expect(dashboard.daily_plan.empty_reason).toBeNull();
 
       const [jobs] = await sql<{ n: number }[]>`
         select count(*)::int as n from public.ai_jobs
