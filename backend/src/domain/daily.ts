@@ -10,10 +10,10 @@ export const MAX_DAILY_ITEMS = MAX_DAILY_ITEMS_LIMIT;
 
 export type DailyItemKind = 'task' | 'lesson' | 'review';
 
+
 export interface StreakState {
   readonly current: number;
   readonly longest: number;
-  
   readonly lastCompletedDate: string | null;
 }
 
@@ -23,14 +23,18 @@ export function previousDate(date: string): string {
   return shifted.toISOString().slice(0, 10);
 }
 
+export function liveStreak(state: StreakState, today: string): number {
+  const last = state.lastCompletedDate;
+  if (last === null) {
+    return 0;
+  }
+  return last === today || last === previousDate(today) ? state.current : 0;
+}
+
 export function advanceStreak(state: StreakState, planDate: string): StreakState {
   if (state.lastCompletedDate === planDate) {
     return state;
   }
-
-  
-  
-  
   const current = state.lastCompletedDate === previousDate(planDate) ? state.current + 1 : 1;
 
   return {
@@ -46,13 +50,9 @@ export interface DailyCandidate {
   readonly title: string;
   readonly masteryPct: number;
   readonly priority: number;
-  
   readonly lessonId: string | null;
-  
   readonly nodePosition: number | null;
-  
   readonly nodeAvailable: boolean;
-  
   readonly daysSincePractice: number | null;
 }
 
@@ -66,6 +66,7 @@ export interface PlannedItem {
   readonly estMinutes: number;
 }
 
+/** Сколько минут закладывать на пункт каждого вида. */
 export const ITEM_MINUTES: Record<DailyItemKind, number> = {
   task: 20,
   lesson: 30,
@@ -97,19 +98,16 @@ export function planDailyItems(
     }
   };
 
-  
   take('task', (pool) => {
     const problems = pool.filter((item) => isProblemTopic(item.masteryPct));
     return [...problems].sort(byPriority)[0];
   });
 
-  
   take('lesson', (pool) => {
     const inRoadmap = pool.filter((item) => item.nodeAvailable && item.nodePosition !== null);
     return [...inRoadmap].sort((a, b) => (a.nodePosition ?? 0) - (b.nodePosition ?? 0))[0];
   });
 
-  
   take('review', (pool) => {
     const strong = pool.filter((item) => {
       const status = masteryStatus(item.masteryPct);
@@ -118,8 +116,6 @@ export function planDailyItems(
     return [...strong].sort(byStaleness)[0];
   });
 
-  
-  
   while (picked.length < limit) {
     const rest = usable.filter((item) => !taken.has(item.topicId));
     const next = [...rest].sort(byPriority)[0];
