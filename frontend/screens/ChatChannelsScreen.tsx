@@ -70,10 +70,6 @@ export function ChatChannelsScreen() {
         >
           <View style={shared.titleBlock}>
             <Text style={shared.title}>Чаты классов</Text>
-            <Text style={shared.subtitle}>
-              Переписка с классом. Об отправленных материалах сюда приходит уведомление, а сами
-              они открываются в разделе «От учителя».
-            </Text>
           </View>
 
           {error ? <Text style={shared.errorText}>{error}</Text> : null}
