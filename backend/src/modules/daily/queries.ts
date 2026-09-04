@@ -206,7 +206,7 @@ export async function appendPlanItem(
     insert into public.daily_plan_items (
       plan_id, position, kind, topic_id, subject_id, title, meta, est_minutes, lesson_id
     ) values (
-      ${planId}, ${item.position}, ${item.kind}::public.daily_item_kind, ${item.topicId},
+      ${planId}, ${item.position}, ${item.kind}, ${item.topicId},
       ${item.subjectId}, ${item.title}, ${item.meta}, ${item.estMinutes}, ${item.lessonId}
     )
   `;

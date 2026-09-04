@@ -83,7 +83,12 @@ async function generatePlan(
     curriculum.scope.gradeMax,
   );
 
-  const planned = planDailyItems(candidates);
+  const finished = await completedLessonIds(sql, studentId);
+  const fresh = candidates.filter(
+    (candidate) => candidate.lessonId === null || !finished.has(candidate.lessonId),
+  );
+
+  const planned = planDailyItems(fresh.length === 0 ? candidates : fresh);
   if (planned.length === 0) {
     return null;
   }
