@@ -9,11 +9,17 @@ import { useOnboardingStore } from "@/store/useOnboardingStore";
 import { routes } from "@/types/navigation";
 import type { UserTarget } from "@/types/onboarding";
 
+interface GradeRange {
+  min: number;
+  max: number;
+}
+
 interface TargetOption {
   title: string;
   description: string;
   value: UserTarget;
   icon: keyof typeof Ionicons.glyphMap;
+  grades: GradeRange | null;
 }
 
 const targetOptions: TargetOption[] = [
@@ -21,21 +27,39 @@ const targetOptions: TargetOption[] = [
     title: "Подтянуть знания по выбранным предметам",
     description: "Сфокусируйтесь на улучшении оценок и понимания конкретных школьных дисциплин.",
     value: "SUBJECTS",
-    icon: "book-outline"
+    icon: "book-outline",
+    grades: null
   },
   {
     title: "Подготовка к ЕНТ",
     description: "Комплексная программа подготовки к Единому национальному тестированию.",
     value: "ENT",
-    icon: "school"
+    icon: "school",
+    grades: { min: 7, max: 11 }
   },
   {
     title: "Экзамен в НИШ",
     description: "Специализированная подготовка к вступительным экзаменам в Назарбаев Интеллектуальные школы.",
     value: "NIS",
-    icon: "business"
+    icon: "business",
+    grades: { min: 5, max: 6 }
   }
 ];
+
+function fitsGrade(option: TargetOption, grade: number | null | undefined): boolean {
+  if (option.grades === null) {
+    return true;
+  }
+
+  return grade !== null && grade !== undefined
+    && grade >= option.grades.min && grade <= option.grades.max;
+}
+
+function gradeHint(option: TargetOption): string | null {
+  return option.grades === null
+    ? null
+    : `Доступно ученикам ${option.grades.min}–${option.grades.max} класса`;
+}
 
 export function UsersTargetChooseScreen() {
   const me = useAuthStore((state) => state.me);
@@ -54,12 +78,10 @@ export function UsersTargetChooseScreen() {
     if (me?.grade) setGrade(me.grade);
   }, [me?.grade, setGrade]);
 
-  const isNisEligible = me?.grade === 5 || me?.grade === 6;
-
-  const handleSelectTarget = (target: UserTarget) => {
-    if (target === "NIS" && !isNisEligible) return;
-    setPendingTarget(target);
-    setTarget(target);
+  const handleSelectTarget = (option: TargetOption) => {
+    if (!fitsGrade(option, me?.grade)) return;
+    setPendingTarget(option.value);
+    setTarget(option.value);
   };
 
   const handleNext = async () => {
@@ -88,15 +110,15 @@ export function UsersTargetChooseScreen() {
 
           <View style={styles.cards}>
             {targetOptions.map((target) => {
-              const locked = target.value === "NIS" && !isNisEligible;
+              const locked = !fitsGrade(target, me?.grade);
               return (
                 <TargetCard
                   key={target.value}
                   option={target}
                   selected={pendingTarget === target.value}
                   disabled={isSaving || locked}
-                  hint={locked ? "Доступно ученикам 5–6 класса" : null}
-                  onPress={() => handleSelectTarget(target.value)}
+                  hint={locked ? gradeHint(target) : null}
+                  onPress={() => handleSelectTarget(target)}
                 />
               );
             })}
