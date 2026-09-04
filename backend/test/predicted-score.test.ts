@@ -13,7 +13,6 @@ import {
 } from '../src/domain/predicted-score.js';
 import { deterministicRandom, nextFatigue, pickFocus, type FocusCandidate } from '../src/domain/focus.js';
 
-
 const SECTION: ExamSection = {
   subjectId: 'math',
   slotKind: 'mandatory',

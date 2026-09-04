@@ -582,7 +582,7 @@ function TeacherLeadModal({ visible, onClose }: { visible: boolean; onClose: () 
                 <TextInput
                   value={displayName}
                   onChangeText={setDisplayName}
-                  placeholder="Айгуль Сериковна"
+                  placeholder="Айнара Рүстемқызы"
                   style={styles.teacherInput}
                 />
               </TeacherField>

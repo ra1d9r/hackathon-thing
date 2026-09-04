@@ -2,6 +2,8 @@ import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
 import type { AnswerPayload, QuestionView } from "@/hooks/useAttempt";
 
+export const MAX_MULTI_CHOICE = 3;
+
 interface QuestionCardProps {
   question: QuestionView;
   answer: AnswerPayload | undefined;
@@ -60,24 +62,36 @@ function SingleChoice({ question, answer, onChange }: QuestionCardProps) {
 
 function MultiChoice({ question, answer, onChange }: QuestionCardProps) {
   const selected = new Set(answer?.selected ?? []);
+  const atLimit = selected.size >= MAX_MULTI_CHOICE;
   const toggle = (optionId: string) => {
     const next = new Set(selected);
     if (next.has(optionId)) next.delete(optionId);
-    else next.add(optionId);
+    else if (next.size < MAX_MULTI_CHOICE) next.add(optionId);
+    else return;
     onChange({ selected: Array.from(next) });
   };
 
   return (
     <View style={styles.optionList}>
+      <Text style={styles.multiHint}>
+        Можно выбрать до {MAX_MULTI_CHOICE} вариантов ({selected.size} из {MAX_MULTI_CHOICE})
+      </Text>
       {(question.options ?? []).map((option) => {
         const isSelected = selected.has(option.id);
+        const isBlocked = atLimit && !isSelected;
         return (
           <Pressable
             key={option.id}
             accessibilityRole="checkbox"
-            accessibilityState={{ checked: isSelected }}
+            accessibilityState={{ checked: isSelected, disabled: isBlocked }}
+            disabled={isBlocked}
             onPress={() => toggle(option.id)}
-            style={({ pressed }) => [styles.option, isSelected && styles.optionSelected, pressed && styles.pressed]}
+            style={({ pressed }) => [
+              styles.option,
+              isSelected && styles.optionSelected,
+              isBlocked && styles.optionBlocked,
+              pressed && styles.pressed,
+            ]}
           >
             <View style={[styles.checkbox, isSelected && styles.checkboxSelected]}>
               {isSelected ? <Text style={styles.checkMark}>✓</Text> : null}
@@ -160,6 +174,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
   },
   optionSelected: { borderColor: colors.blue, backgroundColor: "#f6f9ff" },
+  optionBlocked: { opacity: 0.45 },
+  multiHint: { color: colors.muted, fontSize: 13, fontWeight: "700" },
   optionText: { flex: 1, color: colors.text, fontSize: 16, fontWeight: "600" },
   optionTextSelected: { color: colors.blue },
   radio: { width: 22, height: 22, borderRadius: 11, borderColor: colors.border, borderWidth: 2, alignItems: "center", justifyContent: "center" },

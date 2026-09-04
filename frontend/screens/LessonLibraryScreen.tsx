@@ -1,13 +1,15 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useMemo, useState } from "react";
-import { ActivityIndicator, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, Linking, Modal, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { Avatar } from "@/components/Avatar";
 import { LessonReader, type LessonBodyBlock } from "@/components/LessonReader";
 import { apiGet, apiPost } from "@/services/api";
 import { errorText } from "@/services/errors";
+import { formatSentAt } from "@/services/datetime";
+import { fetchFileUrl } from "@/services/materials";
 import { useAuthStore } from "@/store/useAuthStore";
 import { routes } from "@/types/navigation";
 
@@ -37,11 +39,19 @@ interface LessonLibraryResponse {
 
 interface InboxItem {
   distribution_id: string;
-  material: { id: string; title: string; body_blocks: LessonBodyBlock[] | null };
+  material: {
+    id: string;
+    title: string;
+    format: string;
+    body_blocks: LessonBodyBlock[] | null;
+    external_url: string | null;
+    file: { id: string; original_name: string; size_bytes: number } | null;
+  };
   teacher: { id: string; display_name: string };
   class_name: string | null;
   message_md: string | null;
   due_at: string | null;
+  created_at: string;
   seen_at: string | null;
 }
 
@@ -62,6 +72,8 @@ interface ChannelListResponse {
   channels: ChatChannelDto[];
 }
 
+const INBOX_PAGE_SIZE = 5;
+
 const emptyMessages: Record<NonNullable<LessonLibraryResponse["empty_reason"]>, string> = {
   no_subjects: "Сначала выберите предметы в профиле — тогда здесь появятся уроки.",
   no_lessons: "По вашим предметам и классу уроков пока нет. Загляните позже.",
@@ -77,6 +89,7 @@ export function LessonLibraryScreen() {
   const [inbox, setInbox] = useState<InboxItem[]>([]);
   const [channels, setChannels] = useState<ChatChannelDto[]>([]);
   const [opened, setOpened] = useState<InboxItem | null>(null);
+  const [inboxPage, setInboxPage] = useState(0);
 
   const load = useCallback(() => {
     setError(null);
@@ -105,6 +118,13 @@ export function LessonLibraryScreen() {
 
   const done = current?.lessons.filter((lesson) => lesson.completed).length ?? 0;
   const total = current?.lessons.length ?? 0;
+
+  const inboxPages = Math.max(1, Math.ceil(inbox.length / INBOX_PAGE_SIZE));
+  const currentInboxPage = Math.min(inboxPage, inboxPages - 1);
+  const inboxSlice = inbox.slice(
+    currentInboxPage * INBOX_PAGE_SIZE,
+    currentInboxPage * INBOX_PAGE_SIZE + INBOX_PAGE_SIZE,
+  );
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
@@ -163,7 +183,7 @@ export function LessonLibraryScreen() {
             <>
               <Text style={styles.sectionTitle}>От учителя</Text>
               <View style={styles.inboxList}>
-                {inbox.map((item) => (
+                {inboxSlice.map((item) => (
                   <Pressable
                     key={item.distribution_id}
                     accessibilityRole="button"
@@ -187,11 +207,46 @@ export function LessonLibraryScreen() {
                         {item.teacher.display_name}
                         {item.class_name === null ? "" : ` · ${item.class_name}`}
                       </Text>
+                      <Text style={styles.inboxDate}>{formatSentAt(item.created_at)}</Text>
                     </View>
                     <Ionicons name="chevron-forward" size={20} color={colors.muted} />
                   </Pressable>
                 ))}
               </View>
+
+              {inboxPages > 1 ? (
+                <View style={styles.pager}>
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel="Предыдущая страница"
+                    disabled={currentInboxPage === 0}
+                    onPress={() => setInboxPage(currentInboxPage - 1)}
+                    style={({ pressed }) => [
+                      styles.pagerButton,
+                      currentInboxPage === 0 && styles.pagerButtonOff,
+                      pressed && styles.pressed,
+                    ]}
+                  >
+                    <Ionicons name="chevron-back" size={18} color={colors.navy} />
+                  </Pressable>
+                  <Text style={styles.pagerText}>
+                    {currentInboxPage + 1} из {inboxPages}
+                  </Text>
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel="Следующая страница"
+                    disabled={currentInboxPage >= inboxPages - 1}
+                    onPress={() => setInboxPage(currentInboxPage + 1)}
+                    style={({ pressed }) => [
+                      styles.pagerButton,
+                      currentInboxPage >= inboxPages - 1 && styles.pagerButtonOff,
+                      pressed && styles.pressed,
+                    ]}
+                  >
+                    <Ionicons name="chevron-forward" size={18} color={colors.navy} />
+                  </Pressable>
+                </View>
+              ) : null}
             </>
           ) : null}
 
@@ -256,13 +311,84 @@ export function LessonLibraryScreen() {
               {opened?.message_md ? (
                 <Text style={styles.inboxNote}>{opened.message_md}</Text>
               ) : null}
-              <LessonReader blocks={opened?.material.body_blocks ?? []} />
+              {opened ? <InboxMaterialBody item={opened} /> : null}
             </ScrollView>
           </SafeAreaView>
         </Modal>
       </View>
     </SafeAreaView>
   );
+}
+
+function InboxMaterialBody({ item }: { item: InboxItem }) {
+  const [isOpening, setIsOpening] = useState(false);
+  const [fileError, setFileError] = useState<string | null>(null);
+  const file = item.material.file;
+  const link = item.material.external_url;
+  const blocks = item.material.body_blocks;
+
+  const openFile = () => {
+    if (file === null || isOpening) return;
+    setIsOpening(true);
+    setFileError(null);
+    fetchFileUrl(file.id)
+      .then((url) => Linking.openURL(url))
+      .catch((e: unknown) => setFileError(errorText(e, "Не удалось открыть файл")))
+      .finally(() => setIsOpening(false));
+  };
+
+  if (file !== null) {
+    return (
+      <View style={styles.attachmentBox}>
+        <Ionicons name="document-attach-outline" size={22} color={colors.blue} />
+        <View style={styles.inboxCopy}>
+          <Text style={styles.inboxTitle}>{file.original_name}</Text>
+          <Text style={styles.inboxMeta}>
+            {Math.max(1, Math.round(file.size_bytes / 1024))} КБ
+          </Text>
+          {fileError ? <Text style={styles.inboxMeta}>{fileError}</Text> : null}
+        </View>
+        <Pressable
+          accessibilityRole="button"
+          disabled={isOpening}
+          onPress={openFile}
+          style={({ pressed }) => [styles.openFileButton, pressed && styles.pressed]}
+        >
+          {isOpening ? (
+            <ActivityIndicator color="#ffffff" size="small" />
+          ) : (
+            <Text style={styles.openFileText}>Открыть</Text>
+          )}
+        </Pressable>
+      </View>
+    );
+  }
+
+  if (link !== null) {
+    return (
+      <Pressable
+        accessibilityRole="link"
+        onPress={() => void Linking.openURL(link)}
+        style={({ pressed }) => [styles.attachmentBox, pressed && styles.pressed]}
+      >
+        <Ionicons name="link-outline" size={22} color={colors.blue} />
+        <Text style={[styles.inboxTitle, styles.linkText]} numberOfLines={2}>
+          {link}
+        </Text>
+      </Pressable>
+    );
+  }
+
+  if (blocks === null || blocks.length === 0) {
+    return (
+      <View style={styles.preparingRow}>
+        <ActivityIndicator color={colors.blue} size="small" />
+        <Text style={styles.inboxMeta}>Материал ещё готовится</Text>
+      </View>
+    );
+  }
+
+  return <LessonReader blocks={blocks} />;
 }
 
 function LessonCard({ lesson }: { lesson: LessonDto }) {
@@ -384,7 +510,48 @@ const styles = StyleSheet.create({
   summaryLabel: { color: colors.muted, fontSize: 12, fontWeight: "900", letterSpacing: 0.4 },
   summaryValue: { marginTop: 4, marginBottom: 12, color: colors.text, fontSize: 19, fontWeight: "900" },
   sectionTitle: { marginTop: 6, marginBottom: 12, color: colors.text, fontSize: 20, fontWeight: "900" },
-  inboxList: { gap: 12, marginBottom: 20 },
+  inboxList: { gap: 12, marginBottom: 12 },
+  pager: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 16,
+    marginBottom: 20,
+  },
+  pagerButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 8,
+    borderColor: colors.border,
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  inboxDate: { marginTop: 2, color: colors.muted, fontSize: 12 },
+  pagerButtonOff: { opacity: 0.4 },
+  pagerText: { color: colors.muted, fontSize: 13, fontWeight: "800" },
+  attachmentBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    borderRadius: 10,
+    borderColor: colors.border,
+    borderWidth: 1,
+    backgroundColor: "#ffffff",
+    padding: 14,
+  },
+  openFileButton: {
+    minWidth: 92,
+    minHeight: 38,
+    borderRadius: 8,
+    backgroundColor: colors.navy,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 14,
+  },
+  openFileText: { color: "#ffffff", fontSize: 13, fontWeight: "800" },
+  linkText: { flex: 1, color: colors.blue },
+  preparingRow: { flexDirection: "row", alignItems: "center", gap: 10, paddingVertical: 12 },
   inboxCard: {
     flexDirection: "row",
     alignItems: "center",

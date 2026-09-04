@@ -10,6 +10,11 @@ import {
   wrapUntrusted,
 } from '../src/ai/guard.js';
 import { CircuitBreaker } from '../src/ai/limits.js';
+import {
+  limitAnalysisTopics,
+  MAX_ANALYSIS_TOPICS,
+  type AnalysisTopicInput,
+} from '../src/ai/ops/analysis.js';
 import { promptHash, schemaBlock, systemCoreBlock } from '../src/ai/prompt.js';
 import { callAndValidate } from '../src/ai/validate.js';
 import { ModelError, type ModelCaller, type ModelRequest, type ModelResponse } from '../src/ai/types.js';
@@ -68,6 +73,7 @@ describe('оболочка ответа и схема для провайдер�
 
     expect(built.name).toBe('grading_result');
     expect(built.schema['type']).toBe('object');
+
     expect(built.schema['additionalProperties']).toBe(false);
   });
 
@@ -170,7 +176,9 @@ describe('ступени валидации', () => {
 
     expect(outcome.ok).toBe(true);
     expect(stub.calls).toHaveLength(2);
+
     expect(stub.calls[1]?.repairHint).toContain('JSON');
+
     expect(outcome.calls).toHaveLength(2);
   });
 
@@ -217,6 +225,7 @@ describe('ступени валидации', () => {
     if (!outcome.ok) {
       expect(outcome.reason).toBe('unavailable');
     }
+
     expect(stub.calls).toHaveLength(1);
   });
 
@@ -369,6 +378,7 @@ describe('структурные барьеры вокруг чисел', () => 
     const total = capped.reduce((sum, delta) => sum + delta.deltaPct, 0);
 
     expect(total).toBeCloseTo(20, 2);
+
     expect(capped[0]?.deltaPct).toBe(capped[1]?.deltaPct);
   });
 
@@ -456,7 +466,6 @@ describe('оболочка операции', () => {
   });
 });
 
-
 describe('форма ответа в промпте', () => {
   const block = schemaBlock(toResponseSchema(gradingResultSchema, 'grading_result'));
 
@@ -506,6 +515,7 @@ describe('обрезанный ответ', () => {
 
     expect(outcome.ok).toBe(true);
     expect(budgets).toEqual([1000, 2000]);
+
     expect(stub.calls[1]?.repairHint).toBeUndefined();
   });
 });
@@ -578,5 +588,57 @@ describe('метаданные оболочки', () => {
 
     expect(outcome.ok).toBe(true);
     expect(stub.calls).toHaveLength(1);
+  });
+});
+
+describe('предел тем в разборе', () => {
+  function topic(id: string, pointsPossible: number, delta = 0): AnalysisTopicInput {
+    return {
+      topicId: id,
+      subjectId: 'subject',
+      title: id,
+      pointsEarned: 0,
+      pointsPossible,
+      observedPct: 0,
+      currentMasteryPct: null,
+      deterministicDeltaPct: delta,
+    };
+  }
+
+  it('короткую попытку не трогает', () => {
+    const topics = [topic('a', 1), topic('b', 2)];
+
+    expect(limitAnalysisTopics(topics)).toHaveLength(2);
+  });
+
+  it('обрезает длинную попытку до предела', () => {
+    const topics = Array.from({ length: MAX_ANALYSIS_TOPICS + 20 }, (_, index) =>
+      topic(`t${index}`, 1),
+    );
+
+    expect(limitAnalysisTopics(topics)).toHaveLength(MAX_ANALYSIS_TOPICS);
+  });
+
+  it('оставляет темы с наибольшим числом баллов', () => {
+    const topics = [topic('слабая', 1), topic('весомая', 10), topic('средняя', 5)];
+
+    expect(limitAnalysisTopics(topics, 2).map((item) => item.topicId)).toEqual([
+      'весомая',
+      'средняя',
+    ]);
+  });
+
+  it('при равных баллах предпочитает большее изменение', () => {
+    const topics = [topic('ровная', 4, 1), topic('резкая', 4, 20)];
+
+    expect(limitAnalysisTopics(topics, 1)[0]?.topicId).toBe('резкая');
+  });
+
+  it('даёт один и тот же отбор на одних и тех же данных', () => {
+    const topics = [topic('a', 3), topic('b', 3), topic('c', 3)];
+
+    expect(limitAnalysisTopics(topics, 2).map((item) => item.topicId)).toEqual(
+      limitAnalysisTopics([...topics].reverse(), 2).map((item) => item.topicId),
+    );
   });
 });

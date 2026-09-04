@@ -157,14 +157,17 @@ describe.skipIf(!hasDatabase())('попытки, оценивание и оче�
       expect(serialized).not.toContain('explanation_md');
 
       const questions = await questionsOf(assessmentId);
-      const [firstQuestion] = questions;
+
+      const firstQuestion = questions.find(
+        (question) => question.kind !== 'free_text' && parseAnswerKey(question.answer_key) !== null,
+      );
       if (firstQuestion === undefined) {
-        throw new Error('в диагностике нет вопросов');
+        throw new Error('в диагностике нет вопросов с детерминированной проверкой');
       }
 
       const payload = questions
-        .map((question, index) => {
-          const answer = answerFor(question, index !== 0);
+        .map((question) => {
+          const answer = answerFor(question, question.id !== firstQuestion.id);
           return answer === null ? null : { question_id: question.id, answer, time_spent_sec: 30 };
         })
         .filter((item): item is NonNullable<typeof item> => item !== null);
@@ -191,6 +194,7 @@ describe.skipIf(!hasDatabase())('попытки, оценивание и оче�
       expect(result.attempt.status).toBe('graded');
       expect(result.attempt.score_pct).not.toBeNull();
       expect(result.topics.length).toBeGreaterThan(0);
+
       const subjectCodes = result.subjects.map((subject) => subject.code);
       expect(subjectCodes).toContain('math');
       expect(subjectCodes).toContain('physics');
@@ -250,6 +254,7 @@ describe.skipIf(!hasDatabase())('попытки, оценивание и оче�
         if (value < 100) {
           thinEvidenceSeen = true;
         }
+
         expect(Number(row.confidence)).toBeLessThan(1);
       }
 
@@ -507,7 +512,46 @@ describe.skipIf(!hasDatabase())('попытки, оценивание и оче�
   });
 
   describe('сторож дедлайнов', () => {
-    it('отправляет попытку с истёкшим временем', async () => {
+    it('отправляет попытку с истёкшим временем, если на неё есть хоть один ответ', async () => {
+      const { user, assessmentId } = await newStudentWithDiagnostic();
+      const view = await startAttempt(
+        sql,
+        user,
+        { assessment_id: assessmentId, client_attempt_id: null },
+        'test-request',
+      );
+
+      const questions = await questionsOf(assessmentId);
+      const first = questions[0];
+      if (first === undefined) throw new Error('в диагностике нет вопросов');
+      const answer = answerFor(first, true);
+      if (answer === null) throw new Error('не удалось построить ответ');
+
+      await saveAnswers(sql, user, view.attempt.id, {
+        answers: [{ question_id: first.id, answer, time_spent_sec: 10 }],
+      });
+
+      await sql`
+        update public.attempts set deadline_at = now() - interval '1 minute'
+         where id = ${view.attempt.id}
+      `;
+
+      const report = await runMaintenance(sql, app.log);
+      expect(report.autoSubmitted).toBeGreaterThan(0);
+
+      const after = await getAttempt(sql, user, view.attempt.id);
+      expect(after.attempt.status).not.toBe('in_progress');
+
+      const [audit] = await sql<{ action: string; actor_id: string | null }[]>`
+        select action, actor_id from public.audit_log
+         where entity_id = ${view.attempt.id} and action = 'attempt.autosubmit'
+      `;
+
+      expect(audit?.action).toBe('attempt.autosubmit');
+      expect(audit?.actor_id).toBeNull();
+    });
+
+    it('бросает попытку с истёкшим временем без единого ответа, не тратя ИИ и не сжигая единственную попытку', async () => {
       const { user, assessmentId } = await newStudentWithDiagnostic();
       const view = await startAttempt(
         sql,
@@ -525,14 +569,29 @@ describe.skipIf(!hasDatabase())('попытки, оценивание и оче�
       expect(report.autoSubmitted).toBeGreaterThan(0);
 
       const after = await getAttempt(sql, user, view.attempt.id);
-      expect(after.attempt.status).not.toBe('in_progress');
+      expect(after.attempt.status).toBe('abandoned');
 
-      const [audit] = await sql<{ action: string; actor_id: string | null }[]>`
-        select action, actor_id from public.audit_log
+      const [autosubmitAudit] = await sql<{ action: string }[]>`
+        select action from public.audit_log
          where entity_id = ${view.attempt.id} and action = 'attempt.autosubmit'
       `;
-      expect(audit?.action).toBe('attempt.autosubmit');
-      expect(audit?.actor_id).toBeNull();
+      expect(autosubmitAudit).toBeUndefined();
+
+      const [abandonAudit] = await sql<{ action: string; actor_id: string | null }[]>`
+        select action, actor_id from public.audit_log
+         where entity_id = ${view.attempt.id} and action = 'attempt.autoabandon'
+      `;
+      expect(abandonAudit?.action).toBe('attempt.autoabandon');
+      expect(abandonAudit?.actor_id).toBeNull();
+
+      const retry = await startAttempt(
+        sql,
+        user,
+        { assessment_id: assessmentId, client_attempt_id: null },
+        'test-request',
+      );
+      expect(retry.attempt.id).not.toBe(view.attempt.id);
+      expect(retry.attempt.status).toBe('in_progress');
     });
   });
 

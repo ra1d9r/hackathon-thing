@@ -5,15 +5,33 @@
   "questions": [
     {
       "code": "mock.ent.phys.g7.motion.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g7.mehanicheskoe-dvizhenie-i-ego-harakteristiki",
       "grade": 7,
       "difficulty": 2,
-      "prompt_md": "Велосипедист проехал 4,5 км за 15 минут. Чему равна его средняя скорость? Ответ дайте в км/ч.",
-      "options": null,
+      "prompt_md": "Велосипедист проехал 4,5 км за 15 минут. Чему равна его средняя скорость?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "4,5 км/ч"
+        },
+        {
+          "id": "b",
+          "text_md": "18 км/ч"
+        },
+        {
+          "id": "c",
+          "text_md": "27 км/ч"
+        },
+        {
+          "id": "d",
+          "text_md": "30 км/ч"
+        }
+      ],
       "answer_key": {
-        "value": 18,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "15 минут — это 0,25 часа. Скорость: 4,5 / 0,25 = 18 км/ч.",
       "points": 1
@@ -53,30 +71,66 @@
     },
     {
       "code": "mock.ent.phys.g7.mass.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g7.massa-i-izmerenie-massy-tela",
       "grade": 7,
       "difficulty": 3,
-      "prompt_md": "Плотность вещества 800 кг/м³, объём тела 0,5 м³. Чему равна масса тела? Ответ дайте в килограммах.",
-      "options": null,
+      "prompt_md": "Плотность вещества 800 кг/м³, объём тела 0,5 м³. Чему равна масса тела?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "160 кг"
+        },
+        {
+          "id": "b",
+          "text_md": "400 кг"
+        },
+        {
+          "id": "c",
+          "text_md": "800 кг"
+        },
+        {
+          "id": "d",
+          "text_md": "1600 кг"
+        }
+      ],
       "answer_key": {
-        "value": 400,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "m = ρ · V = 800 · 0,5 = 400 кг.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g7.hooke.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g7.sila-uprugosti-zakon-guka",
       "grade": 7,
       "difficulty": 3,
-      "prompt_md": "Под действием силы 15 Н пружина растянулась на 6 см. Чему равна её жёсткость? Ответ дайте в Н/м.",
-      "options": null,
+      "prompt_md": "Под действием силы 15 Н пружина растянулась на 6 см. Чему равна её жёсткость?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2,5 Н/м"
+        },
+        {
+          "id": "b",
+          "text_md": "25 Н/м"
+        },
+        {
+          "id": "c",
+          "text_md": "250 Н/м"
+        },
+        {
+          "id": "d",
+          "text_md": "2500 Н/м"
+        }
+      ],
       "answer_key": {
-        "value": 250,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "k = F / x, где x в метрах: 15 / 0,06 = 250 Н/м.",
       "points": 1
@@ -116,30 +170,66 @@
     },
     {
       "code": "mock.ent.phys.g7.work.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g7.mehanicheskaya-rabota-moschnost",
       "grade": 7,
       "difficulty": 3,
-      "prompt_md": "Двигатель совершает работу 3600 Дж за 30 секунд. Чему равна его мощность? Ответ дайте в ваттах.",
-      "options": null,
+      "prompt_md": "Двигатель совершает работу 3600 Дж за 30 секунд. Чему равна его мощность?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "12 Вт"
+        },
+        {
+          "id": "b",
+          "text_md": "120 Вт"
+        },
+        {
+          "id": "c",
+          "text_md": "1200 Вт"
+        },
+        {
+          "id": "d",
+          "text_md": "3600 Вт"
+        }
+      ],
       "answer_key": {
-        "value": 120,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "N = A / t = 3600 / 30 = 120 Вт.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g7.energy.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g7.kineticheskaya-i-potencialnaya-energiya",
       "grade": 7,
       "difficulty": 4,
-      "prompt_md": "Тело массой 2 кг движется со скоростью 6 м/с. Чему равна его кинетическая энергия? Ответ дайте в джоулях.",
-      "options": null,
+      "prompt_md": "Тело массой 2 кг движется со скоростью 6 м/с. Чему равна его кинетическая энергия?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "6 Дж"
+        },
+        {
+          "id": "b",
+          "text_md": "12 Дж"
+        },
+        {
+          "id": "c",
+          "text_md": "36 Дж"
+        },
+        {
+          "id": "d",
+          "text_md": "72 Дж"
+        }
+      ],
       "answer_key": {
-        "value": 36,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "E = m·v²/2 = 2 · 36 / 2 = 36 Дж.",
       "points": 1
@@ -245,15 +335,33 @@
     },
     {
       "code": "mock.ent.phys.g8.melting.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g8.plavlenie-i-kristallizaciya-tverdyh-tel",
       "grade": 8,
       "difficulty": 4,
-      "prompt_md": "Удельная теплота плавления льда 340 000 Дж/кг. Сколько энергии нужно, чтобы расплавить 0,2 кг льда при температуре плавления? Ответ дайте в килоджоулях.",
-      "options": null,
+      "prompt_md": "Удельная теплота плавления льда 340 000 Дж/кг. Сколько энергии нужно, чтобы расплавить 0,2 кг льда при температуре плавления?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "6,8 кДж"
+        },
+        {
+          "id": "b",
+          "text_md": "68 кДж"
+        },
+        {
+          "id": "c",
+          "text_md": "680 кДж"
+        },
+        {
+          "id": "d",
+          "text_md": "1700 кДж"
+        }
+      ],
       "answer_key": {
-        "value": 68,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Q = λ · m = 340 000 · 0,2 = 68 000 Дж = 68 кДж.",
       "points": 1
@@ -326,45 +434,99 @@
     },
     {
       "code": "mock.ent.phys.g8.current.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g8.postoyannyy-elektricheskiy-tok",
       "grade": 8,
       "difficulty": 3,
-      "prompt_md": "К участку цепи сопротивлением 25 Ом приложено напряжение 100 В. Найдите силу тока в амперах.",
-      "options": null,
+      "prompt_md": "К участку цепи сопротивлением 25 Ом приложено напряжение 100 В. Найдите силу тока.",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "0,25 А"
+        },
+        {
+          "id": "b",
+          "text_md": "4 А"
+        },
+        {
+          "id": "c",
+          "text_md": "25 А"
+        },
+        {
+          "id": "d",
+          "text_md": "125 А"
+        }
+      ],
       "answer_key": {
-        "value": 4,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Закон Ома для участка цепи: I = U / R = 100 / 25 = 4 А.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g8.current.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g8.postoyannyy-elektricheskiy-tok",
       "grade": 8,
       "difficulty": 4,
-      "prompt_md": "Два резистора по 6 Ом соединены параллельно. Чему равно общее сопротивление участка? Ответ дайте в омах.",
-      "options": null,
+      "prompt_md": "Два резистора по 6 Ом соединены параллельно. Чему равно общее сопротивление участка?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "1,5 Ом"
+        },
+        {
+          "id": "b",
+          "text_md": "3 Ом"
+        },
+        {
+          "id": "c",
+          "text_md": "6 Ом"
+        },
+        {
+          "id": "d",
+          "text_md": "12 Ом"
+        }
+      ],
       "answer_key": {
-        "value": 3,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "При параллельном соединении двух одинаковых резисторов общее сопротивление вдвое меньше: 6 / 2 = 3 Ом.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g8.current.3",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g8.postoyannyy-elektricheskiy-tok",
       "grade": 8,
       "difficulty": 4,
-      "prompt_md": "Через лампу течёт ток 0,5 А при напряжении 220 В. Какую мощность потребляет лампа? Ответ дайте в ваттах.",
-      "options": null,
+      "prompt_md": "Через лампу течёт ток 0,5 А при напряжении 220 В. Какую мощность потребляет лампа?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "44 Вт"
+        },
+        {
+          "id": "b",
+          "text_md": "110 Вт"
+        },
+        {
+          "id": "c",
+          "text_md": "220 Вт"
+        },
+        {
+          "id": "d",
+          "text_md": "440 Вт"
+        }
+      ],
       "answer_key": {
-        "value": 110,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "P = U · I = 220 · 0,5 = 110 Вт.",
       "points": 1
@@ -437,45 +599,99 @@
     },
     {
       "code": "mock.ent.phys.g9.impulse.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g9.impuls-tela-i-impuls-sily-zakon-sohraneniya",
       "grade": 9,
       "difficulty": 3,
-      "prompt_md": "Тело массой 6 кг движется со скоростью 4 м/с. Чему равен импульс тела? Ответ дайте в кг·м/с.",
-      "options": null,
+      "prompt_md": "Тело массой 6 кг движется со скоростью 4 м/с. Чему равен импульс тела?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "10 кг·м/с"
+        },
+        {
+          "id": "b",
+          "text_md": "24 кг·м/с"
+        },
+        {
+          "id": "c",
+          "text_md": "48 кг·м/с"
+        },
+        {
+          "id": "d",
+          "text_md": "96 кг·м/с"
+        }
+      ],
       "answer_key": {
-        "value": 24,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "p = m · v = 6 · 4 = 24 кг·м/с.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g9.impulse.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g9.impuls-tela-i-impuls-sily-zakon-sohraneniya",
       "grade": 9,
       "difficulty": 5,
-      "prompt_md": "Тележка массой 2 кг движется со скоростью 3 м/с и сцепляется с неподвижной тележкой массой 4 кг. С какой скоростью поедет сцепка? Ответ дайте в м/с.",
-      "options": null,
+      "prompt_md": "Тележка массой 2 кг движется со скоростью 3 м/с и сцепляется с неподвижной тележкой массой 4 кг. С какой скоростью поедет сцепка?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "0,5 м/с"
+        },
+        {
+          "id": "b",
+          "text_md": "1 м/с"
+        },
+        {
+          "id": "c",
+          "text_md": "1,5 м/с"
+        },
+        {
+          "id": "d",
+          "text_md": "3 м/с"
+        }
+      ],
       "answer_key": {
-        "value": 1,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Импульс сохраняется: 2 · 3 = (2 + 4) · v, откуда 6 = 6v и v = 1 м/с.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g9.oscillation.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g9.kolebatelnoe-dvizhenie",
       "grade": 9,
       "difficulty": 3,
-      "prompt_md": "Маятник совершает 30 колебаний за 60 секунд. Чему равен период колебаний? Ответ дайте в секундах.",
-      "options": null,
+      "prompt_md": "Маятник совершает 30 колебаний за 60 секунд. Чему равен период колебаний?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "0,5 с"
+        },
+        {
+          "id": "b",
+          "text_md": "2 с"
+        },
+        {
+          "id": "c",
+          "text_md": "15 с"
+        },
+        {
+          "id": "d",
+          "text_md": "30 с"
+        }
+      ],
       "answer_key": {
-        "value": 2,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Период — время одного колебания: T = 60 / 30 = 2 с. Частота при этом равна 0,5 Гц.",
       "points": 1
@@ -515,105 +731,231 @@
     },
     {
       "code": "mock.ent.phys.g9.motion.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g9.mehanicheskoe-dvizhenie",
       "grade": 9,
       "difficulty": 4,
-      "prompt_md": "Тело свободно падает без начальной скорости. Какой путь оно пройдёт за 3 с? Ускорение свободного падения примите равным 10 м/с². Ответ дайте в метрах.",
-      "options": null,
+      "prompt_md": "Тело свободно падает без начальной скорости. Какой путь оно пройдёт за 3 с? Ускорение свободного падения примите равным 10 м/с².",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "15 м"
+        },
+        {
+          "id": "b",
+          "text_md": "30 м"
+        },
+        {
+          "id": "c",
+          "text_md": "45 м"
+        },
+        {
+          "id": "d",
+          "text_md": "90 м"
+        }
+      ],
       "answer_key": {
-        "value": 45,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "h = g·t²/2 = 10 · 9 / 2 = 45 м.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g10.kinematics.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g10.osnovnye-ponyatiya-i-uravneniya-kinematiki",
       "grade": 10,
       "difficulty": 3,
-      "prompt_md": "Автомобиль разгоняется из состояния покоя с ускорением 3 м/с². Какую скорость он наберёт через 8 с? Ответ дайте в м/с.",
-      "options": null,
+      "prompt_md": "Автомобиль разгоняется из состояния покоя с ускорением 3 м/с². Какую скорость он наберёт через 8 с?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "11 м/с"
+        },
+        {
+          "id": "b",
+          "text_md": "24 м/с"
+        },
+        {
+          "id": "c",
+          "text_md": "27 м/с"
+        },
+        {
+          "id": "d",
+          "text_md": "48 м/с"
+        }
+      ],
       "answer_key": {
-        "value": 24,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "v = a · t = 3 · 8 = 24 м/с.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g10.kinematics.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g10.osnovnye-ponyatiya-i-uravneniya-kinematiki",
       "grade": 10,
       "difficulty": 4,
-      "prompt_md": "Тело начинает движение из состояния покоя с ускорением 2 м/с². Какой путь оно пройдёт за 5 с? Ответ дайте в метрах.",
-      "options": null,
+      "prompt_md": "Тело начинает движение из состояния покоя с ускорением 2 м/с². Какой путь оно пройдёт за 5 с?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "10 м"
+        },
+        {
+          "id": "b",
+          "text_md": "20 м"
+        },
+        {
+          "id": "c",
+          "text_md": "25 м"
+        },
+        {
+          "id": "d",
+          "text_md": "50 м"
+        }
+      ],
       "answer_key": {
-        "value": 25,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "s = a·t²/2 = 2 · 25 / 2 = 25 м.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g10.kinematics.3",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g10.osnovnye-ponyatiya-i-uravneniya-kinematiki",
       "grade": 10,
       "difficulty": 5,
-      "prompt_md": "Автомобиль, двигавшийся со скоростью 20 м/с, тормозит с ускорением 4 м/с². Какой тормозной путь он пройдёт до полной остановки? Ответ дайте в метрах.",
-      "options": null,
+      "prompt_md": "Автомобиль, двигавшийся со скоростью 20 м/с, тормозит с ускорением 4 м/с². Какой тормозной путь он пройдёт до полной остановки?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "5 м"
+        },
+        {
+          "id": "b",
+          "text_md": "25 м"
+        },
+        {
+          "id": "c",
+          "text_md": "50 м"
+        },
+        {
+          "id": "d",
+          "text_md": "100 м"
+        }
+      ],
       "answer_key": {
-        "value": 50,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "s = v²/(2a) = 400 / 8 = 50 м.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g10.newton.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g10.pervyy-zakon-nyutona-inercialnye-sistemy",
       "grade": 10,
       "difficulty": 3,
-      "prompt_md": "На тело массой 5 кг действует равнодействующая сила 20 Н. Чему равно ускорение тела? Ответ дайте в м/с².",
-      "options": null,
+      "prompt_md": "На тело массой 5 кг действует равнодействующая сила 20 Н. Чему равно ускорение тела?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "0,25 м/с²"
+        },
+        {
+          "id": "b",
+          "text_md": "4 м/с²"
+        },
+        {
+          "id": "c",
+          "text_md": "15 м/с²"
+        },
+        {
+          "id": "d",
+          "text_md": "100 м/с²"
+        }
+      ],
       "answer_key": {
-        "value": 4,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "По второму закону Ньютона a = F / m = 20 / 5 = 4 м/с².",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g10.equilibrium.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g10.ravnovesie-tel-uslovie-ravnovesiya-tel-centr",
       "grade": 10,
       "difficulty": 4,
-      "prompt_md": "На левом плече рычага длиной 0,4 м действует сила 30 Н. Какую силу нужно приложить к правому плечу длиной 0,6 м для равновесия? Ответ дайте в ньютонах.",
-      "options": null,
+      "prompt_md": "На левом плече рычага длиной 0,4 м действует сила 30 Н. Какую силу нужно приложить к правому плечу длиной 0,6 м для равновесия?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "12 Н"
+        },
+        {
+          "id": "b",
+          "text_md": "20 Н"
+        },
+        {
+          "id": "c",
+          "text_md": "45 Н"
+        },
+        {
+          "id": "d",
+          "text_md": "50 Н"
+        }
+      ],
       "answer_key": {
-        "value": 20,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Условие равновесия рычага: моменты равны. 30 · 0,4 = F · 0,6, откуда F = 12 / 0,6 = 20 Н.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g10.impulse.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g10.impuls-tela-i-impuls-sily-zakon-sohraneniya",
       "grade": 10,
       "difficulty": 4,
-      "prompt_md": "Сила 50 Н действует на тело в течение 0,4 с. Чему равен импульс силы? Ответ дайте в Н·с.",
-      "options": null,
+      "prompt_md": "Сила 50 Н действует на тело в течение 0,4 с. Чему равен импульс силы?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "12,5 Н·с"
+        },
+        {
+          "id": "b",
+          "text_md": "20 Н·с"
+        },
+        {
+          "id": "c",
+          "text_md": "125 Н·с"
+        },
+        {
+          "id": "d",
+          "text_md": "200 Н·с"
+        }
+      ],
       "answer_key": {
-        "value": 20,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Импульс силы равен произведению силы на время: 50 · 0,4 = 20 Н·с. Он равен изменению импульса тела.",
       "points": 1
@@ -785,45 +1127,99 @@
     },
     {
       "code": "mock.ent.phys.g11.ac.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g11.peremennyy-tok",
       "grade": 11,
       "difficulty": 4,
-      "prompt_md": "Амплитудное значение переменного тока равно 4,24 А. Чему примерно равно его действующее значение? Ответ дайте в амперах.",
-      "options": null,
+      "prompt_md": "Амплитудное значение переменного тока равно 4,24 А. Чему примерно равно его действующее значение?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2,12 А"
+        },
+        {
+          "id": "b",
+          "text_md": "3 А"
+        },
+        {
+          "id": "c",
+          "text_md": "4,24 А"
+        },
+        {
+          "id": "d",
+          "text_md": "6 А"
+        }
+      ],
       "answer_key": {
-        "value": 3,
-        "tolerance": 0.05
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Действующее значение меньше амплитудного в sqrt(2) раз: 4,24 / 1,41 ≈ 3 А. Именно действующее значение показывают амперметры.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g11.ac.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g11.peremennyy-tok",
       "grade": 11,
       "difficulty": 4,
-      "prompt_md": "Частота переменного тока в бытовой сети 50 Гц. Чему равен период колебаний? Ответ дайте в секундах.",
-      "options": null,
+      "prompt_md": "Частота переменного тока в бытовой сети 50 Гц. Чему равен период колебаний?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "0,002 с"
+        },
+        {
+          "id": "b",
+          "text_md": "0,02 с"
+        },
+        {
+          "id": "c",
+          "text_md": "0,05 с"
+        },
+        {
+          "id": "d",
+          "text_md": "2 с"
+        }
+      ],
       "answer_key": {
-        "value": 0.02,
-        "tolerance": 0.001
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "T = 1 / f = 1 / 50 = 0,02 с.",
       "points": 1
     },
     {
       "code": "mock.ent.phys.g11.wave.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g11.volnovoe-dvizhenie",
       "grade": 11,
       "difficulty": 4,
-      "prompt_md": "Волна распространяется со скоростью 340 м/с при частоте 170 Гц. Чему равна длина волны? Ответ дайте в метрах.",
-      "options": null,
+      "prompt_md": "Волна распространяется со скоростью 340 м/с при частоте 170 Гц. Чему равна длина волны?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "0,5 м"
+        },
+        {
+          "id": "b",
+          "text_md": "2 м"
+        },
+        {
+          "id": "c",
+          "text_md": "170 м"
+        },
+        {
+          "id": "d",
+          "text_md": "510 м"
+        }
+      ],
       "answer_key": {
-        "value": 2,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "λ = v / f = 340 / 170 = 2 м.",
       "points": 1
@@ -929,15 +1325,33 @@
     },
     {
       "code": "mock.ent.phys.g8.charge.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "phys.g8.elektricheskiy-zaryad",
       "grade": 8,
       "difficulty": 4,
-      "prompt_md": "Через поперечное сечение проводника за 20 с прошёл заряд 10 Кл. Чему равна сила тока? Ответ дайте в амперах.",
-      "options": null,
+      "prompt_md": "Через поперечное сечение проводника за 20 с прошёл заряд 10 Кл. Чему равна сила тока?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "0,2 А"
+        },
+        {
+          "id": "b",
+          "text_md": "0,5 А"
+        },
+        {
+          "id": "c",
+          "text_md": "2 А"
+        },
+        {
+          "id": "d",
+          "text_md": "200 А"
+        }
+      ],
       "answer_key": {
-        "value": 0.5,
-        "tolerance": 0.01
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "I = q / t = 10 / 20 = 0,5 А.",
       "points": 1

@@ -107,6 +107,8 @@ export function TaskExecutionWorkspaceScreen() {
   const [bodyBlocks, setBodyBlocks] = useState<LessonBodyBlock[]>([]);
   const [retryToken, setRetryToken] = useState(0);
   const [review, setReview] = useState<AttemptReview | null>(null);
+  const [hasMaterial, setHasMaterial] = useState(false);
+  const [isAdvancing, setIsAdvancing] = useState(false);
   const lessonIdRef = useRef<string | null>(null);
   const topicIdRef = useRef<string | null>(null);
 
@@ -119,6 +121,7 @@ export function TaskExecutionWorkspaceScreen() {
     let cancelled = false;
     setStage("loading");
     setError(null);
+    setHasMaterial(false);
 
     async function resolveQuiz(assessmentId: string | null, attemptId: string | null) {
       if (attemptId) {
@@ -138,6 +141,7 @@ export function TaskExecutionWorkspaceScreen() {
       setLessonTitle(lesson.lesson.title);
       topicIdRef.current = lesson.lesson.topic.id;
       setBodyBlocks(lesson.material?.body_blocks ?? []);
+      setHasMaterial(true);
       setStage("material");
     }
 
@@ -223,6 +227,21 @@ export function TaskExecutionWorkspaceScreen() {
   const question = attempt.currentQuestion;
   const isLast = attempt.questions.length > 0 && attempt.index === attempt.questions.length - 1;
   const hasAnswer = question ? Boolean(attempt.answers[question.id]) : false;
+  const isBusy = isAdvancing || attempt.isSubmitting;
+
+  const advance = async () => {
+    if (isBusy) return;
+    setIsAdvancing(true);
+    try {
+      if (isLast) {
+        await completeTask();
+      } else {
+        await attempt.goNext();
+      }
+    } finally {
+      setIsAdvancing(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safeArea} edges={["top"]}>
@@ -258,7 +277,7 @@ export function TaskExecutionWorkspaceScreen() {
             </View>
           ) : null}
 
-          {stage === "material" || stage === "quiz" ? (
+          {hasMaterial && (stage === "material" || stage === "quiz") ? (
             <View style={styles.stepper}>
               <View style={[styles.stepBadge, stage === "material" && styles.stepBadgeActive]}>
                 <Text style={[styles.stepText, stage === "material" && styles.stepTextActive]}>1. Материалы</Text>
@@ -317,11 +336,11 @@ export function TaskExecutionWorkspaceScreen() {
               {attempt.error ? <Text style={styles.emptyText}>{attempt.error}</Text> : null}
               <Pressable
                 accessibilityRole="button"
-                onPress={isLast ? completeTask : attempt.goNext}
-                disabled={!hasAnswer || attempt.isSubmitting}
-                style={({ pressed }) => [styles.nextButton, (!hasAnswer || attempt.isSubmitting) && styles.disabled, pressed && styles.pressed]}
+                onPress={() => void advance()}
+                disabled={!hasAnswer || isBusy}
+                style={({ pressed }) => [styles.nextButton, (!hasAnswer || isBusy) && styles.disabled, pressed && styles.pressed]}
               >
-                {attempt.isSubmitting ? (
+                {isBusy ? (
                   <ActivityIndicator color="#ffffff" />
                 ) : (
                   <>
@@ -330,6 +349,12 @@ export function TaskExecutionWorkspaceScreen() {
                   </>
                 )}
               </Pressable>
+
+              {isBusy ? (
+                <View style={styles.answerLock}>
+                  <ActivityIndicator color={colors.blue} size="large" />
+                </View>
+              ) : null}
             </View>
           ) : null}
 
@@ -490,6 +515,13 @@ const styles = StyleSheet.create({
   aiTitle: { color: colors.text, fontSize: 17, fontWeight: "900" },
   aiText: { marginTop: 3, color: colors.muted, fontSize: 14, lineHeight: 19 },
   quizCard: { borderRadius: 10, borderColor: colors.border, borderWidth: 1, backgroundColor: colors.card, padding: 18, gap: 14 },
+  answerLock: {
+    ...StyleSheet.absoluteFillObject,
+    borderRadius: 10,
+    backgroundColor: "rgba(251,250,249,0.72)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   nextButton: { minHeight: 52, borderRadius: 8, backgroundColor: colors.navy, flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8 },
   nextButtonText: { color: "#ffffff", fontSize: 16, fontWeight: "900" },
   emptyText: { color: colors.muted, fontSize: 15, lineHeight: 21, textAlign: "center" },

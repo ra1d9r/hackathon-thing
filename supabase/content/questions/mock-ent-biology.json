@@ -500,15 +500,33 @@
     },
     {
       "code": "mock.ent.bio.g9.respiration.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "bio.g9.anaerobnoe-i-aerobnoe-dyhanie",
       "grade": 9,
       "difficulty": 4,
-      "prompt_md": "Сколько молекул АТФ образуется при полном аэробном окислении одной молекулы глюкозы? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Сколько молекул АТФ образуется при полном аэробном окислении одной молекулы глюкозы?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "2 молекулы АТФ"
+        },
+        {
+          "id": "b",
+          "text_md": "24 молекулы АТФ"
+        },
+        {
+          "id": "c",
+          "text_md": "36 молекул АТФ"
+        },
+        {
+          "id": "d",
+          "text_md": "38 молекул АТФ"
+        }
+      ],
       "answer_key": {
-        "value": 38,
-        "tolerance": 0
+        "correct": [
+          "d"
+        ]
       },
       "explanation_md": "По школьной схеме полное окисление даёт 38 молекул АТФ: 2 при гликолизе и 36 в митохондриях. Анаэробный путь даёт всего 2.",
       "points": 1
@@ -1076,15 +1094,33 @@
     },
     {
       "code": "mock.ent.bio.g11.transport.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "bio.g11.mehanizm-aktivnogo-transporta-na-primere-natriy",
       "grade": 11,
       "difficulty": 5,
-      "prompt_md": "За один цикл натрий-калиевый насос выводит из клетки 3 иона натрия. Сколько ионов калия он при этом вводит внутрь? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "За один цикл натрий-калиевый насос выводит из клетки 3 иона натрия. Сколько ионов калия он при этом вводит внутрь?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "1 ион калия"
+        },
+        {
+          "id": "b",
+          "text_md": "2 иона калия"
+        },
+        {
+          "id": "c",
+          "text_md": "3 иона калия"
+        },
+        {
+          "id": "d",
+          "text_md": "4 иона калия"
+        }
+      ],
       "answer_key": {
-        "value": 2,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Насос обменивает 3 иона натрия наружу на 2 иона калия внутрь. Неравный обмен и создаёт разность потенциалов на мембране.",
       "points": 1
@@ -1124,15 +1160,33 @@
     },
     {
       "code": "mock.ent.bio.g11.gametogenesis.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "bio.g11.gametogenez-stadii-gametogeneza-cheloveka",
       "grade": 11,
       "difficulty": 4,
-      "prompt_md": "Сколько хромосом содержится в гамете человека? Ответ дайте числом.",
-      "options": null,
+      "prompt_md": "Сколько хромосом содержится в гамете здорового человека?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "22 хромосомы"
+        },
+        {
+          "id": "b",
+          "text_md": "23 хромосомы"
+        },
+        {
+          "id": "c",
+          "text_md": "24 хромосомы"
+        },
+        {
+          "id": "d",
+          "text_md": "46 хромосом"
+        }
+      ],
       "answer_key": {
-        "value": 23,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Соматические клетки человека содержат 46 хромосом, гаметы — гаплоидный набор, то есть 23.",
       "points": 1

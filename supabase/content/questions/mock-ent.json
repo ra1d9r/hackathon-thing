@@ -176,30 +176,66 @@
     },
     {
       "code": "mock.ent.mlit.1",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "mlit.motion-work",
       "grade": 11,
       "difficulty": 3,
-      "prompt_md": "Автобус проходит 180 км за 3 часа. С какой средней скоростью он движется? Ответ дайте в км/ч.",
-      "options": null,
+      "prompt_md": "Автобус проходит 180 км за 3 часа. С какой средней скоростью он движется?",
+      "options": [
+        {
+          "id": "a",
+          "text_md": "45 км/ч"
+        },
+        {
+          "id": "b",
+          "text_md": "54 км/ч"
+        },
+        {
+          "id": "c",
+          "text_md": "60 км/ч"
+        },
+        {
+          "id": "d",
+          "text_md": "90 км/ч"
+        }
+      ],
       "answer_key": {
-        "value": 60,
-        "tolerance": 0
+        "correct": [
+          "c"
+        ]
       },
       "explanation_md": "v = s / t = 180 / 3 = 60 км/ч.",
       "points": 1
     },
     {
       "code": "mock.ent.mlit.2",
-      "kind": "numeric",
+      "kind": "mcq_single",
       "topic_code": "mlit.geometry-practical",
       "grade": 11,
       "difficulty": 3,
       "prompt_md": "Комнату 4 м × 5 м застилают ламинатом. В упаковке 2 м². Сколько упаковок потребуется, если запас не нужен?",
-      "options": null,
+      "options": [
+        {
+          "id": "a",
+          "text_md": "9 упаковок"
+        },
+        {
+          "id": "b",
+          "text_md": "10 упаковок"
+        },
+        {
+          "id": "c",
+          "text_md": "18 упаковок"
+        },
+        {
+          "id": "d",
+          "text_md": "20 упаковок"
+        }
+      ],
       "answer_key": {
-        "value": 10,
-        "tolerance": 0
+        "correct": [
+          "b"
+        ]
       },
       "explanation_md": "Площадь 4 · 5 = 20 м²; 20 / 2 = 10 упаковок.",
       "points": 1

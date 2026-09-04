@@ -210,11 +210,10 @@ export async function assembleDiagnostic(
     };
   }
 
-  const diagnosticScope: CurriculumScope = {
-    ...scope,
-    gradeMin: MIN_GRADE,
-    gradeMax: Math.max(scope.gradeMax, MIN_GRADE),
-  };
+  const diagnosticScope: CurriculumScope =
+    scope.gradeMin === scope.gradeMax
+      ? { ...scope, gradeMin: MIN_GRADE }
+      : scope;
 
   const candidates = await fetchCandidates(sql, studentId, diagnosticScope, subjectIds);
   const picked = pickQuestions(candidates);

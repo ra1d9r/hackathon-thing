@@ -228,6 +228,7 @@ function newWorker(runtime: AiRuntime | null, retryBudget = 0): QueueWorker {
     workerId: `worker-ai-${Math.random().toString(36).slice(2, 8)}`,
     maintenance: false,
     ai: runtime,
+
     aiRetryBudget: retryBudget,
   });
 }
@@ -283,6 +284,7 @@ describe.skipIf(!hasDatabase())('AI-слой в очереди', () => {
       expect(result.attempt.pending_questions).toBe(0);
       expect(result.analysis?.source).toBe('ai');
       expect(result.analysis?.summary_md).toContain('подставной модели');
+
       expect(result.attempt.raw_score ?? 0).toBeGreaterThan(0);
     });
 
@@ -310,6 +312,7 @@ describe.skipIf(!hasDatabase())('AI-слой в очереди', () => {
       for (const log of logs) {
         expect(log.ok).toBe(true);
         expect(log.tokens_cache_read).toBe(900);
+
         expect(log.prompt_hash).toMatch(/^[0-9a-f]{64}$/u);
       }
     });
@@ -338,6 +341,7 @@ describe.skipIf(!hasDatabase())('AI-слой в очереди', () => {
       for (const event of events) {
         const delta = Number(event.delta_pct);
         total += delta;
+
         expect(delta).toBeLessThanOrEqual(AI_DELTA_TOLERANCE_PCT);
       }
 
@@ -420,6 +424,7 @@ describe.skipIf(!hasDatabase())('AI-слой в очереди', () => {
       expect(
         events.some((event) => event.topic_id === '99999999-9999-4999-8999-999999999999'),
       ).toBe(false);
+
       expect(events.length).toBeGreaterThan(0);
     });
   });
@@ -439,6 +444,7 @@ describe.skipIf(!hasDatabase())('AI-слой в очереди', () => {
       expect(result.attempt.status).toBe('graded');
       expect(result.analysis?.source).toBe('fallback');
       expect(result.topics.length).toBeGreaterThan(0);
+
       expect(result.attempt.pending_questions).toBeGreaterThan(0);
       expect(
         result.answers.filter((answer) => answer.grader === 'pending').length,
@@ -501,6 +507,7 @@ describe.skipIf(!hasDatabase())('AI-слой в очереди', () => {
         log: app.log,
         workerId: 'worker-ai-quota',
         maintenance: false,
+
         ai: { caller: stub.runtime.caller, dailyQuota: 0 },
       });
 

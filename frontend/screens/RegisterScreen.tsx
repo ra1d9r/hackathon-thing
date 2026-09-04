@@ -65,7 +65,12 @@ export function RegisterScreen() {
 
           <View style={styles.form}>
             <Field label="Имя">
-              <TextInput value={displayName} onChangeText={setDisplayName} placeholder="Айгерим" style={styles.input} />
+              <TextInput
+                value={displayName}
+                onChangeText={setDisplayName}
+                placeholder={isTeacher ? "Айнара Рүстемқызы" : "Аманжан"}
+                style={styles.input}
+              />
             </Field>
             <Field label="Email">
               <TextInput
