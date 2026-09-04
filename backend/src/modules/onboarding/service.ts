@@ -17,7 +17,6 @@ export interface ResolvedSelection {
   readonly examId: string | null;
   readonly examCode: string | null;
   readonly subjects: { id: string; code: string; name: string; isProfile: boolean }[];
-  /** Программа выбранного экзамена — из неё выводится охват контекста. */
   readonly examScope: ExamScope | null;
 }
 
@@ -64,6 +63,12 @@ export async function resolveSelection(
     if (examCode !== null) {
       throw new AppError('VALIDATION_FAILED', {
         message: 'У цели «подтянуть предметы» экзамена нет',
+      });
+    }
+
+    if (unique.length === 0) {
+      throw new AppError('VALIDATION_FAILED', {
+        message: 'Выберите хотя бы один предмет',
       });
     }
 
@@ -120,8 +125,6 @@ export async function resolveSelection(
     });
   }
 
-  // На ЕНТ профильные предметы сдаются утверждённой парой. Пустой список пар
-  // означает, что у экзамена такого ограничения нет (олимпиада).
   if (options.profilePairs.length > 0) {
     const chosen = [...unique].sort().join('+');
     const known = options.profilePairs.some(
