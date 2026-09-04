@@ -10,10 +10,8 @@ export const examSummarySchema = z.object({
   scale: scaleKindSchema,
   max_score: z.number(),
   profile_slot_count: z.number().int(),
-  
   grade_min: z.number().int().nullable(),
   grade_max: z.number().int().nullable(),
-  
   time_limit_sec: z.number().int().nullable(),
 });
 
@@ -23,7 +21,6 @@ export const goalsResponseSchema = z.object({
       goal: learningGoalSchema,
       title: z.string(),
       description: z.string(),
-      
       exams: z.array(examSummarySchema),
     }),
   ),
@@ -37,11 +34,8 @@ export const subjectOptionsQuerySchema = z.object({
 export const subjectOptionsResponseSchema = z.object({
   goal: learningGoalSchema,
   exam: examSummarySchema.nullable(),
-  
   mandatory: z.array(z.object({ code: z.string(), name: z.string() })),
-  
   profile: z.array(z.object({ code: z.string(), name: z.string() })),
-  
   profile_pairs: z.array(
     z.object({
       codes: z.tuple([z.string(), z.string()]),
@@ -74,9 +68,7 @@ export const completeOnboardingSchema = z.object({
   exam_code: z.string().trim().min(2).max(64).nullable().default(null),
   grade: gradeSchema,
   target_date: z.iso.date().nullable().default(null),
-  
-  subject_codes: z.array(subjectCode).min(1).max(10),
-  
+  subject_codes: z.array(subjectCode).max(10),
   answers: z.record(z.string(), z.unknown()).nullable().default(null),
 });
 
@@ -94,7 +86,6 @@ export const completeOnboardingResponseSchema = z.object({
   exam_code: z.string().nullable(),
   subjects: z.array(z.object({ code: z.string(), name: z.string(), is_profile: z.boolean() })),
   diagnostic: diagnosticSummarySchema.nullable(),
-  
   diagnostic_unavailable_reason: z.enum(['not_enough_questions']).nullable().default(null),
 });
 
@@ -102,7 +93,7 @@ export const updateLearningProfileSchema = z.object({
   goal: learningGoalSchema.optional(),
   exam_code: z.string().trim().min(2).max(64).nullable().optional(),
   target_date: z.iso.date().nullable().optional(),
-  subject_codes: z.array(subjectCode).min(1).max(10).optional(),
+  subject_codes: z.array(subjectCode).max(10).optional(),
 });
 
 export type CompleteOnboardingRequest = z.infer<typeof completeOnboardingSchema>;
